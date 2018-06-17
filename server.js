@@ -42,8 +42,6 @@ app.get("/game", authenticationMiddleware, (req,res) => {
   //converting hex to dec
   var firstHalfOfId = req.session.user._id.toString().substring(0,12);
   var secondtHalfOfId = req.session.user._id.toString().substring(12);
-
-  console.log("HEREEE");
   var decIDofPlayerFIRSTHALF = parseInt(firstHalfOfId, 16);
   var decIDofPlayerSECONDHALF = parseInt(secondtHalfOfId, 16);
   res.render("game",{id1 : decIDofPlayerFIRSTHALF, id2 : decIDofPlayerSECONDHALF});
