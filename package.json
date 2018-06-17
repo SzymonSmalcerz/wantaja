@@ -1,0 +1,30 @@
+{
+  "name": "wantaja",
+  "version": "1.0.0",
+  "description": "cross-platform multiplayer 2D game ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start-watch": "nodemon server.js"
+  },
+  "engines": {
+    "node": "8.11.2"
+  },
+  "author": "Szymon Smalcerz, Konrad Wieczorek",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "client-sessions": "^0.8.0",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "method-override": "^2.3.10",
+    "mongodb": "^3.0.10",
+    "mongoose": "^5.1.5",
+    "socket.io": "^2.1.1",
+    "validator": "^10.3.0"
+  }
+}

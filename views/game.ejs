@@ -1,0 +1,50 @@
+
+  <%- include("./partials/header") %>
+  <body>
+    <h1>gameee</h1>
+    <script src="/socket.io/socket.io.js"></script>
+      <script>
+        var socket = io(); //socket and Game our global objects
+        var ide1 = <%= id1 %>;
+        var ide2 = <%= id2 %>;
+
+        //while loops in order to get rid of egde cases (for example:)
+        //ide1 = 0000001
+        //ide2 = 1111111
+        //so ide1 + ide2 = 11111111 not 0000000111111111 so we must guard this value to be length = 12
+        ide1 = ide1.toString(16);
+        while(ide1.length<12){
+          ide1 = "0" + ide1;
+        }
+
+        ide2 = ide2.toString(16);
+        while(ide2.length<12){
+          ide2 = "0" + ide2;
+        }
+
+        var playerID = ide1 + ide2;
+
+      </script>
+
+      <!-- not dependent files -->
+      <!-- <script src="dbgame/js/ENTITIES/Entity.js"></script>
+      <script src="dbgame/js/ENTITIES/Mob.js"></script>
+      <script src="dbgame/js/ENTITIES/StaticEntity.js"></script>
+      <script src="dbgame/js/ENTITIES/OtherPlayer.js"></script>
+      <script src="dbgame/js/ENTITIES/Enemy.js"></script>
+      <script src="dbgame/js/ENTITIES/MainCharacter.js"></script>
+      <script src="dbgame/js/MAPS/Map.js"></script>
+      <script src="dbgame/js/HELPERS/Drawer.js"></script>
+      <script src="dbgame/js/HELPERS/Helper.js"></script>
+      <script src="dbgame/js/HELPERS/ShortestPath.js"></script>
+      <script src="dbgame/js/HANDLERS/canvasesHandler.js"></script>
+      <script src="dbgame/js/HANDLERS/socketsHandler.js"></script>
+      <script src="dbgame/js/HANDLERS/CameraHandler.js"></script>
+      <script src="dbgame/js/HANDLERS/FightHandler.js"></script>
+      <script src="dbgame/js/TILES/Tiles.js"></script>
+      <script src="dbgame/js/SKILLS/Skill.js"></script>
+
+      <script src="dbgame/js/index.js"></script> -->
+
+  </body>
+</html>

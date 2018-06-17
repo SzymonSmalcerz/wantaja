@@ -1,0 +1,17 @@
+<%- include("./partials/header") %>
+<br>
+<%var message = message || " Welcome to our page !" %>
+<%var logged = logged || false %>
+<%= message  %>
+<br>
+
+<%if(logged){%>
+  <a href="/dashboard">dashboard<a><br>
+  <a href="/logout">logout<a><br>
+<%}else {%>
+  <a href="/login">Login page<a> <br>
+  <a href="/register">Registration page<a><br>
+<%}%>
+
+
+<%- include("./partials/footer") %>
