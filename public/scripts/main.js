@@ -8,7 +8,7 @@ function initializeConnection(){
   window.onload = function(){
 
     socket.on('connect', function () {
-      console.log('Connected to server');
+      console.log('Connected to server, waiting for data ..');
       socket.emit("getGameData",{
         id : playerID
       });

@@ -1,7 +1,6 @@
 
   <%- include("./partials/header") %>
   <body>
-    <h1>gameee</h1>
     <script src="/socket.io/socket.io.js"></script>
       <script>
         var socket = io(); //socket and Game our global objects
@@ -25,26 +24,15 @@
         var playerID = ide1 + ide2;
 
       </script>
-      <script src="scripts/main.js" type="text/javascript"></script>
-      <!-- not dependent files -->
-      <!-- <script src="dbgame/js/ENTITIES/Entity.js"></script>
-      <script src="dbgame/js/ENTITIES/Mob.js"></script>
-      <script src="dbgame/js/ENTITIES/StaticEntity.js"></script>
-      <script src="dbgame/js/ENTITIES/OtherPlayer.js"></script>
-      <script src="dbgame/js/ENTITIES/Enemy.js"></script>
-      <script src="dbgame/js/ENTITIES/MainCharacter.js"></script>
-      <script src="dbgame/js/MAPS/Map.js"></script>
-      <script src="dbgame/js/HELPERS/Drawer.js"></script>
-      <script src="dbgame/js/HELPERS/Helper.js"></script>
-      <script src="dbgame/js/HELPERS/ShortestPath.js"></script>
-      <script src="dbgame/js/HANDLERS/canvasesHandler.js"></script>
-      <script src="dbgame/js/HANDLERS/socketsHandler.js"></script>
-      <script src="dbgame/js/HANDLERS/CameraHandler.js"></script>
-      <script src="dbgame/js/HANDLERS/FightHandler.js"></script>
-      <script src="dbgame/js/TILES/Tiles.js"></script>
-      <script src="dbgame/js/SKILLS/Skill.js"></script>
+      <script src="scripts/game/phaser.min.js" type="text/javascript"></script>
 
-      <script src="dbgame/js/index.js"></script> -->
+      <script src="scripts/game/states/GameState.js" type="text/javascript"></script>
+      <script src="scripts/game/states/HomeState.js" type="text/javascript"></script>
+      <script src="scripts/game/states/LoadState.js" type="text/javascript"></script>
+      <script src="scripts/game/states/PreState.js" type="text/javascript"></script>
+      <script src="scripts/game/game.js" type="text/javascript"></script>
+
+      <script src="scripts/main.js" type="text/javascript"></script>
 
   </body>
 </html>
