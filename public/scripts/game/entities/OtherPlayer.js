@@ -6,7 +6,6 @@ let OtherPlayer = function(game,x,y, id){
   game.add.existing(this);
   this.anchor.setTo(0.5);
   game.physics.enable(this);
-  this.speed = 150;
   this.id = id;
 
   this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], 10);

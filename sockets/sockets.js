@@ -66,6 +66,8 @@ let socketHandler = (socket, io) => {
         socket.emit("initialData",{
           characterData : characterData
         });
+
+        socket.emit("XDDD",{});
       }
 
     } catch(error) {
@@ -102,8 +104,6 @@ let socketHandler = (socket, io) => {
                 var user = await User.findById(playerID);
                 user.x = player.x;
                 user.y = player.y;
-                console.log(player.x + " X");
-                console.log(player.y + " Y");
                 user.level = player.level;
                 user.experience = player.experience;
                 user.currentMapName = dm.findMapNameByPlayerId[player.id];
@@ -123,7 +123,6 @@ let socketHandler = (socket, io) => {
   };
 
   socket.on("checkedConnection", (playerData) => {
-    console.log("connecttion checked for player with id : " + playerData.id);
     if(dm.allLoggedPlayersData[playerData.id])
       dm.allLoggedPlayersData[playerData.id].active = true;
   });

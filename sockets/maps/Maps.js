@@ -5,6 +5,7 @@ class Map {
     this.currentNumberOfMobs = 0;
     this.respTime = respTime;
     this.players = {};
+    this.dataToSend = {};
   }
 
   respMobs() {
@@ -16,14 +17,42 @@ class Map {
   }
 
   addPlayer(playerData, playerSocket) {
+
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        this.players[playerID].socket.emit("addPlayer", {
+          x : playerData.x,
+          y : playerData.y,
+          id : playerData.id
+        });
+      }
+    };
+
     this.players[playerData.id] = {
       socket : playerSocket,
       data : playerData
     };
+    // TODO send to this player all data about this particular map (all players and mobs)
   }
-  
-  removePlayer(playerID) {
-    delete this.players[playerID];
+
+  removePlayer(idOfRemovedPlayer) {
+    delete this.players[idOfRemovedPlayer];
+
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        this.players[playerID].socket.emit("removePlayer", {
+          id : idOfRemovedPlayer
+        });
+      }
+    };
+  }
+
+  tick() {
+    for(playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        // TODO add data to dataToSend and then send this information to all players
+      }
+    }
   }
 };
 

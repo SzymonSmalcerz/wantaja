@@ -1,8 +1,6 @@
 initializeConnection();
 
 
-
-
 function initializeConnection(){
   var socket = socket || io();
   window.onload = function(){
@@ -15,12 +13,12 @@ function initializeConnection(){
     });
 
     socket.on('initialData',function(data){
-      handler.startGame(data);
+      handler.startGame(data,socket);
     });
 
     socket.on('alreadyLoggedIn', function(data){
       console.log(data);
-      handler.startGame(data);
+      handler.startGame(data,socket);
     });
   };
 };
