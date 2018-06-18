@@ -4,6 +4,7 @@ let GameState = {
     this.createMap();
     this.createPlayer();
     this.setCamera();
+    this.initOtherPlayers();
   },
   update : function(){
     this.physics.arcade.collide(this.walls, this.player);
@@ -20,6 +21,10 @@ let GameState = {
     this.player = new Player(this.game,100,100);
   },
   setCamera() {
-    this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN,1,1);
+    this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON,1,1);
+  },
+  initOtherPlayers() {
+    this.otherPlayers = this.add.group();
+    this.otherPlayers.objects = {};
   }
 };

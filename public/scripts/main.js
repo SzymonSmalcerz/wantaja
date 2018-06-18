@@ -15,20 +15,12 @@ function initializeConnection(){
     });
 
     socket.on('initialData',function(data){
-      startGame(data);
+      handler.startGame(data);
     });
 
     socket.on('alreadyLoggedIn', function(data){
       console.log(data);
+      handler.startGame(data);
     });
   };
-};
-
-
-
-function startGame(data){
-  console.log("starting game");
-  console.log("player id : " + playerID);
-  console.log("received data : ");
-  console.log(data);
 };
