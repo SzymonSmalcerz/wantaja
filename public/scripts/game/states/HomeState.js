@@ -18,5 +18,6 @@ let HomeState = {
   },
   startGame(){
     console.log("clicked");
+    this.game.state.start("GameState");
   }
 }
