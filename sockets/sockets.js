@@ -61,13 +61,11 @@ let socketHandler = (socket, io) => {
         dm.findMapNameByPlayerId[object.id] = user.currentMapName;
         dm.socketsOfPlayers[object.id] = socket;
         dm.allLoggedPlayersData[object.id] = characterData;
-        dm.allMaps[user.currentMapName].addPlayer(characterData, socket);
 
         socket.emit("initialData",{
           characterData : characterData
         });
 
-        socket.emit("XDDD",{});
       }
 
     } catch(error) {
@@ -76,6 +74,35 @@ let socketHandler = (socket, io) => {
     }
   });
 
+
+  socket.on("initialized", function(data){
+    console.log(data);
+    console.log(dm.findMapNameByPlayerId[data.id]);
+    dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
+  });
+
+  socket.on("playerData", function(data) {
+    // console.log("before : " + dm.allLoggedPlayersData[data.id].x);
+    dm.allLoggedPlayersData[data.id].x = data.x;
+    // console.log("after : " + dm.allLoggedPlayersData[data.id].x);
+    dm.allLoggedPlayersData[data.id].y = data.y;
+
+    dm.allLoggedPlayersData[data.id].frame = data.frame;
+  })
+
+  // main game loop
+
+  //BEGINNING OF DATA EXCHANGE SERVER -> CLIENT
+  var sendToUserData = (time) => {
+    requestAnimationFrame(sendToUserData);
+    if(time - dm.keepAliveProtocol.lastTime > 1000/10){
+      dm.keepAliveProtocol.lastTime = time;
+      for(var mapID in dm.allMaps){
+        if(!dm.allMaps.hasOwnProperty(mapID)) continue;
+        dm.allMaps[mapID].tick();
+      }
+    }
+  };
 
   // keep alive protocol below
 
@@ -128,7 +155,7 @@ let socketHandler = (socket, io) => {
   });
 
   if(!dm.serverStarted){
-    // sendToUserData();
+    sendToUserData();
     checkForConnection();
     dm.serverStarted = true;
   };

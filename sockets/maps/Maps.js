@@ -6,6 +6,7 @@ class Map {
     this.respTime = respTime;
     this.players = {};
     this.dataToSend = {};
+    this.mobsDataToSend = {};
   }
 
   respMobs() {
@@ -28,14 +29,39 @@ class Map {
       }
     };
 
+    let self = this;
+    let data = {
+      players : {},
+      mobs : self.mobsDataToSend
+    };
+
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        data.players[playerID] = {
+          x : this.players[playerID].data.x,
+          y : this.players[playerID].data.y,
+          id : playerID
+        }
+      }
+    };
+
+
+    playerSocket.emit("initialMapData", data);
+
     this.players[playerData.id] = {
       socket : playerSocket,
       data : playerData
     };
-    // TODO send to this player all data about this particular map (all players and mobs)
+
+    this.dataToSend[playerData.id] = {
+      x : playerData.x,
+      y : playerData.y,
+      id : playerData.id
+    };
   }
 
   removePlayer(idOfRemovedPlayer) {
+    delete this.dataToSend[idOfRemovedPlayer];
     delete this.players[idOfRemovedPlayer];
 
     for(let playerID in this.players) {
@@ -48,11 +74,27 @@ class Map {
   }
 
   tick() {
-    for(playerID in this.players) {
+    let newDataToSend = {};
+    for(let playerID in this.players) {
       if(this.players.hasOwnProperty(playerID)){
-        // TODO add data to dataToSend and then send this information to all players
+        // console.log(this.players[playerID].data.x);
+        if(this.dataToSend[playerID].x != this.players[playerID].data.x || this.dataToSend[playerID].y != this.players[playerID].data.y) {
+          newDataToSend[playerID] = {
+            x : this.players[playerID].data.x,
+            y : this.players[playerID].data.y,
+            frame : this.players[playerID].data.frame || 1
+          };
+          this.dataToSend[playerID].x = this.players[playerID].data.x;
+          this.dataToSend[playerID].y = this.players[playerID].data.y;
+        }
       }
-    }
+    };
+
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        this.players[playerID].socket.emit("gameData", newDataToSend);
+      }
+    };
   }
 };
 
