@@ -1,8 +1,10 @@
 
 let GameState = {
   create : function(){
+    console.log(this.player);
     this.allEntities = this.add.group();
     this.allEntities.objects = {};
+    this.allEntities.enemies = {};
     this.createMap();
     this.createPlayer();
     this.setCamera();
@@ -26,12 +28,7 @@ let GameState = {
     }
   },
   emitData(){
-    handler.socket.emit("playerData", {
-      x : this.player.x,
-      y : this.player.y,
-      id : handler.playerID,
-      frame : this.player.frame
-    })
+    this.player.emitData(handler);
   },
   createMap() {
     this.map = this.add.tilemap("firstMap",16,16);
@@ -80,17 +77,43 @@ let GameState = {
       newPlayer = new OtherPlayer(self.game,data.x,data.y,data.id);
       self.allEntities.add(newPlayer);
       self.allEntities.objects[data.id] = newPlayer;
-      self.allEntities.add(newPlayer);
     } else {
       newPlayer.reset(data.x,data.y);
+    }
+  },
+  startFight(enemy){
+    console.log(enemy);
+    this.player.isFighting = true;
+    this.game.state.start("FightState");
+  },
+  addNewEnemy(data){
+    let self = this;
+    let newEnemy = null;
+    if(!newEnemy){
+      newEnemy = new Enemy(self.game,data.x,data.y,data.id,data.key);
+      self.allEntities.add(newEnemy);
+      self.allEntities.enemies[data.id] = newEnemy;
+      newEnemy.inputEnabled = true;
+      newEnemy.input.pixelPerfectClick = true;
+      newEnemy.events.onInputDown.add(function(){
+        self.startFight(newEnemy);
+      }, this);
+    } else {
+      newEnemy.reset(data.x,data.y);
     }
   },
   initSockets() {
     let self = this;
 
     handler.socket.emit("initialized", {id : handler.playerID});
+
     handler.socket.on("addPlayer", function(data){
       self.addNewPlayer(data);
+    });
+
+    handler.socket.on("addEnemy", function(data){
+      console.log("new enemy!");
+      self.addNewEnemy(data);
     });
 
     handler.socket.on("removePlayer", function(data){
@@ -104,6 +127,14 @@ let GameState = {
       for(let playerID in data.players) {
         if(data.players.hasOwnProperty(playerID)){
           self.addNewPlayer(data.players[playerID]);
+        }
+      };
+
+      for(let enemyID in data.mobs) {
+        if(data.mobs.hasOwnProperty(enemyID)){
+          if(!self.allEntities[enemyID]){
+            self.addNewEnemy(data.mobs[enemyID]);
+          };
         }
       };
     });

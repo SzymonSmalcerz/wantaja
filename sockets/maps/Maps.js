@@ -1,3 +1,5 @@
+const {Spider} = require("../enemies/enemy");
+
 class Map {
   constructor(name,maxNumberOfMobs = 15,respTime = 1000){
     this.name = name;
@@ -7,14 +9,30 @@ class Map {
     this.players = {};
     this.dataToSend = {};
     this.mobsDataToSend = {};
+    this.respMobs();
   }
 
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
-      //create mob
+
+    let newSpider = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 100, this);
+    this.currentNumberOfMobs += 1;
+    this.mobsDataToSend[newSpider.id] = {
+      x : newSpider.x,
+      y : newSpider.y,
+      id : newSpider.id,
+      key : newSpider.key
+    };
+      for(let playerID in this.players) {
+        if(this.players.hasOwnProperty(playerID)){
+          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newSpider.id]);
+        }
+      };
     }
 
-    setTimeout(this.respMobs, this.respTime);
+    setTimeout(() => {
+      this.respMobs();
+    }, this.respTime);
   }
 
   addPlayer(playerData, playerSocket) {

@@ -14,6 +14,7 @@ handler.startGame = function(data,socket){
   this.game.state.add("LoadState", LoadState);
   this.game.state.add("HomeState", HomeState);
   this.game.state.add("GameState", GameState);
+  this.game.state.add("FightState", FightState);
   this.game.state.start("PreState");
   window.addEventListener("resize", () => {
     this.game.scale.refresh();
