@@ -7,7 +7,10 @@ let Player = function(game,x,y){
   game.physics.enable(this);
   this.speed = 50;
   this.cursors = game.input.keyboard.createCursorKeys();
-
+  this.body.width = 20;
+  this.body.offset.x = 22;
+  this.body.height = 20;
+  this.body.offset.y = 44;
   this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], 10);
   this.animations.add("goRight", [27,28,29,30,31,32,33,34,35], 10);
   this.animations.add("goUp", [0,1,2,3,4,5,6,7,8], 10);
@@ -35,6 +38,7 @@ Player.prototype.update = function() {
     this.body.velocity.x = this.speed;
     this.animations.play("goRight");
   } else {
+    this.frame = 19;
     this.animations.stop();
   }
 }

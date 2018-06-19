@@ -8,6 +8,7 @@ let LoadState = {
     this.load.spritesheet("character", "assets/character.png",64 ,64);
     this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("tileset16", "assets/tileset16.png");
+    this.load.image("house1", "assets/house1.png");
   },
   create(){
     this.game.state.start("HomeState");

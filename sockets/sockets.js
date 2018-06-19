@@ -82,6 +82,7 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("playerData", function(data) {
+    if(!dm.allLoggedPlayersData[data.id]){return}
     // console.log("before : " + dm.allLoggedPlayersData[data.id].x);
     dm.allLoggedPlayersData[data.id].x = data.x;
     // console.log("after : " + dm.allLoggedPlayersData[data.id].x);
