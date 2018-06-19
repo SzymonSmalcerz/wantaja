@@ -3,11 +3,13 @@ let handler = {
   enemies : {},
   entities : {},
   playerID : undefined, // set in startGame function
-  socket : undefined
+  socket : undefined,
+  startPlayerData : undefined
 };
 
 handler.startGame = function(data,socket){
   this.socket = socket;
+  this.startPlayerData = data;
   this.playerID = data.characterData.id;
   this.game = new Phaser.Game(360,640, Phaser.CANVAS);
   this.game.state.add("PreState", PreState);

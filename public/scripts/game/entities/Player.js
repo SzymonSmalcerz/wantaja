@@ -1,11 +1,23 @@
 console.log("XD");
 
-let Player = function(game,x,y){
-  Phaser.Sprite.call(this,game,x,y,"character");
-  game.add.existing(this);
+let Player = function(game,data){
+
+  Phaser.Sprite.call(this,game,data.x,data.y,"character");
+
+
+  this.health = data.health;
+  this.maxHealth = data.maxHealth;
+  this.experience = data.experience;
+  this.requiredExperience = data.requiredExperience;
+  this.level = data.level;
+  this.id = data.id;
+  this.speed = 100;
+
+
   this.anchor.setTo(0.5);
   game.physics.enable(this);
-  this.speed = 100;
+  game.add.existing(this);
+
   this.cursors = game.input.keyboard.createCursorKeys();
   this.body.width = 20;
   this.body.offset.x = 22;

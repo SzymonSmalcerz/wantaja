@@ -11,6 +11,12 @@ let LoadState = {
     this.load.image("tileset16", "assets/tileset16.png");
     this.load.image("house1", "assets/house1.png");
     this.load.image("fightSprite", "assets/fightSprite.png");
+
+
+    //UI
+    // bars [health bar/ experience bar etc]
+    this.load.image("healthBar", "assets/UI/bars/healthBar.png");
+    this.load.image("healthBarDark", "assets/UI/bars/healthBarDark.png");
   },
   create(){
     this.game.state.start("HomeState");

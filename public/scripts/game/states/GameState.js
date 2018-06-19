@@ -9,13 +9,30 @@ let GameState = {
     this.createPlayer();
     this.setCamera();
     this.initSockets();
-    this.game.world.bringToTop(this.allEntities);
+    this.initUI();
+    this.setRenderingOrder();
   },
   update : function(){
     this.physics.arcade.collide(this.walls, this.player);
     this.physics.arcade.collide(this.entities, this.player);
     this.emitData();
     this.sortEntities();
+    this.handleBars();
+  },
+  handleBars(){
+    this.fullHpBar.width = this.fullHpBar.width * 0.99;
+  },
+  setRenderingOrder(){
+    this.game.world.bringToTop(this.allEntities);
+    this.game.world.bringToTop(this.bars);
+  },
+  initUI(){
+    this.bars = this.add.group();
+    this.emtyHpBar = this.game.add.sprite(16,16,"healthBarDark");
+    this.fullHpBar = this.game.add.sprite(16,16,"healthBar");
+    this.bars.add(this.emtyHpBar);
+    this.bars.add(this.fullHpBar);
+    this.bars.setAll("fixedToCamera",true);
   },
   sortEntities(){
     let entities = this.allEntities.children;
@@ -63,7 +80,9 @@ let GameState = {
     }
   },
   createPlayer() {
-    this.player = new Player(this.game,100,100);
+    let receivedDataFromServer = handler.startPlayerData.characterData;
+    console.log(receivedDataFromServer);
+    this.player = new Player(this.game,receivedDataFromServer);
     this.allEntities.add(this.player);
   },
   setCamera() {
@@ -104,7 +123,8 @@ let GameState = {
   },
   initSockets() {
     let self = this;
-
+    console.log("IDDD" + handler.playerID);
+    console.log("IDDD" + this.player.id);
     handler.socket.emit("initialized", {id : handler.playerID});
 
     handler.socket.on("addPlayer", function(data){

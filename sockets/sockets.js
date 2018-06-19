@@ -49,13 +49,8 @@ let socketHandler = (socket, io) => {
         characterData.level = user.level;
         characterData.maxHealth = 10000;
         characterData.health = 5000;
-        characterData.maxMana = 1000;
-        characterData.mana = 500;
         characterData.attack = 50;
         characterData.id = object.id;
-        characterData.active = true;
-        characterData.width = 32;
-        characterData.height = 32;
         characterData.currentMapName = user.currentMapName;
 
         dm.findMapNameByPlayerId[object.id] = user.currentMapName;
