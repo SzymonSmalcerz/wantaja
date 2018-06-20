@@ -70,19 +70,14 @@ let socketHandler = (socket, io) => {
   });
 
 
-  socket.on("initialized", function(data){
-    console.log(data);
-    console.log(dm.findMapNameByPlayerId[data.id]);
+  socket.on("initialized", function(data) {
     dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
   });
 
   socket.on("playerData", function(data) {
     if(!dm.allLoggedPlayersData[data.id]){return}
-    // console.log("before : " + dm.allLoggedPlayersData[data.id].x);
     dm.allLoggedPlayersData[data.id].x = data.x;
-    // console.log("after : " + dm.allLoggedPlayersData[data.id].x);
     dm.allLoggedPlayersData[data.id].y = data.y;
-
     dm.allLoggedPlayersData[data.id].frame = data.frame;
   })
 

@@ -58,6 +58,11 @@ Player.prototype.update = function() {
   }
 };
 
+Player.prototype.updateData = function(data) {
+  this.experience = data.experience;
+  this.health = data.health;
+  this.level = data.level;
+}
 
 Player.prototype.emitData = function(handler){
   if (!this.isFighting) {

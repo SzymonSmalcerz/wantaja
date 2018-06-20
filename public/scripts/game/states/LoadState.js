@@ -12,11 +12,19 @@ let LoadState = {
     this.load.image("house1", "assets/house1.png");
     this.load.image("fightSprite", "assets/fightSprite.png");
 
+    //Entities
+    //trees
+    this.load.image("tree1", "assets/trees/tree1.png");
+    this.load.image("tree2", "assets/trees/tree2.png");
+    this.load.image("tree3", "assets/trees/tree3.png");
+    this.load.image("tree4", "assets/trees/tree4.png");
 
     //UI
     // bars [health bar/ experience bar etc]
     this.load.image("healthBar", "assets/UI/bars/healthBar.png");
     this.load.image("healthBarDark", "assets/UI/bars/healthBarDark.png");
+    this.load.image("experienceBar", "assets/UI/bars/experienceBar.png");
+    this.load.image("experienceBarDark", "assets/UI/bars/experienceBarDark.png");
   },
   create(){
     this.game.state.start("HomeState");

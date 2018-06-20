@@ -110,7 +110,14 @@ class Map {
 
     for(let playerID in this.players) {
       if(this.players.hasOwnProperty(playerID)){
-        this.players[playerID].socket.emit("gameData", newDataToSend);
+        this.players[playerID].socket.emit("gameData", {
+          otherPlayersData : newDataToSend,
+          playerData : {
+            health : this.players[playerID].data.health,
+            experience : this.players[playerID].data.experience,
+            level : this.players[playerID].data.level
+          }
+        });
       }
     };
   }

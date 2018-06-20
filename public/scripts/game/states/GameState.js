@@ -1,7 +1,6 @@
 
 let GameState = {
   create : function(){
-    console.log(this.player);
     this.allEntities = this.add.group();
     this.allEntities.objects = {};
     this.allEntities.enemies = {};
@@ -20,7 +19,8 @@ let GameState = {
     this.handleBars();
   },
   handleBars(){
-    this.fullHpBar.width = this.fullHpBar.width * 0.99;
+    this.fullHpBar.width = this.player.health/this.player.maxHealth * this.emptyHpBar.width;
+    this.fullExpBar.width = this.player.experience/this.player.requiredExperience * this.emptyExpBar.width;
   },
   setRenderingOrder(){
     this.game.world.bringToTop(this.allEntities);
@@ -28,10 +28,17 @@ let GameState = {
   },
   initUI(){
     this.bars = this.add.group();
-    this.emtyHpBar = this.game.add.sprite(16,16,"healthBarDark");
-    this.fullHpBar = this.game.add.sprite(16,16,"healthBar");
-    this.bars.add(this.emtyHpBar);
+    // health
+    this.emptyHpBar = this.game.add.sprite(8,this.game.height - 50,"healthBarDark");
+    this.fullHpBar = this.game.add.sprite(8,this.game.height - 50,"healthBar");
+    this.bars.add(this.emptyHpBar);
     this.bars.add(this.fullHpBar);
+    //experience
+    this.emptyExpBar = this.game.add.sprite(8,this.game.height - 26,"experienceBarDark");
+    this.fullExpBar = this.game.add.sprite(8,this.game.height - 26,"experienceBar");
+    this.bars.add(this.emptyExpBar);
+    this.bars.add(this.fullExpBar);
+
     this.bars.setAll("fixedToCamera",true);
   },
   sortEntities(){
@@ -56,7 +63,6 @@ let GameState = {
     this.map.setCollisionBetween(11,33,true,"Walls");
     this.map.setCollisionBetween(197,229,true,"Walls");
 
-
     this.entities = [];
     // this.map.createFromObjects("Entities",197,"tileset16",15,true,false,this.entities,null,true,false);
     for(let i=0;i<this.map.objects["Entities"].length;i++){
@@ -64,10 +70,8 @@ let GameState = {
       this.map.objects["Entities"][i].properties.forEach(property => {
         newObjData[property.name] = property.value;
       });
-      console.log(newObjData);
       let newObj = this.game.add.sprite(this.map.objects["Entities"][i].x, this.map.objects["Entities"][i].y,newObjData["name"]);
       newObj.anchor.setTo(0,1);
-      console.log(newObj.position);
       this.game.physics.enable(newObj);
       newObj.body.immovable = true;
       newObj.body.offset.x = parseInt(newObjData["offsetX"]);
@@ -81,7 +85,6 @@ let GameState = {
   },
   createPlayer() {
     let receivedDataFromServer = handler.startPlayerData.characterData;
-    console.log(receivedDataFromServer);
     this.player = new Player(this.game,receivedDataFromServer);
     this.allEntities.add(this.player);
   },
@@ -101,7 +104,6 @@ let GameState = {
     }
   },
   startFight(enemy){
-    console.log(enemy);
     this.player.isFighting = true;
     this.game.state.start("FightState");
   },
@@ -123,8 +125,6 @@ let GameState = {
   },
   initSockets() {
     let self = this;
-    console.log("IDDD" + handler.playerID);
-    console.log("IDDD" + this.player.id);
     handler.socket.emit("initialized", {id : handler.playerID});
 
     handler.socket.on("addPlayer", function(data){
@@ -132,7 +132,6 @@ let GameState = {
     });
 
     handler.socket.on("addEnemy", function(data){
-      console.log("new enemy!");
       self.addNewEnemy(data);
     });
 
@@ -143,7 +142,6 @@ let GameState = {
     });
 
     handler.socket.on("initialMapData", function(data) {
-      console.log("in")
       for(let playerID in data.players) {
         if(data.players.hasOwnProperty(playerID)){
           self.addNewPlayer(data.players[playerID]);
@@ -160,11 +158,14 @@ let GameState = {
     });
 
     handler.socket.on("gameData", function(data){
-      for(let playerID in data) {
-        if(data.hasOwnProperty(playerID) && self.allEntities.objects[playerID] && playerID != handler.playerID){
-          self.allEntities.objects[playerID].x = data[playerID].x;
-          self.allEntities.objects[playerID].y = data[playerID].y;
-          self.allEntities.objects[playerID].frame = data[playerID].frame || 1;
+      let playerData = data.playerData;
+      self.player.updateData(playerData);
+      let otherPlayersData = data.otherPlayersData;
+      for(let playerID in otherPlayersData) {
+        if(otherPlayersData.hasOwnProperty(playerID) && self.allEntities.objects[playerID] && playerID != handler.playerID){
+          self.allEntities.objects[playerID].x = otherPlayersData[playerID].x;
+          self.allEntities.objects[playerID].y = otherPlayersData[playerID].y;
+          self.allEntities.objects[playerID].frame = otherPlayersData[playerID].frame || 1;
         };
       };
     });
