@@ -27,7 +27,7 @@ class SocketsManager {
           self.handler.currentState.addNewPlayer(data.players[playerID]);
         }
       };
-      
+
       for(let enemyID in data.mobs) {
         if(data.mobs.hasOwnProperty(enemyID)){
           if(!self.handler.currentState.allEntities[enemyID]){
@@ -71,5 +71,10 @@ class SocketsManager {
   sendToServerInitializedInfo(){
     let self = this;
     this.handler.socket.emit("initialized", {id : self.handler.playerID});
+  };
+
+
+  emit(messageName,messageData){
+    this.handler.socket.emit(messageName,messageData);
   }
 }

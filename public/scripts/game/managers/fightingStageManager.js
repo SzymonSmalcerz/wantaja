@@ -46,8 +46,7 @@ class FightingStageManager {
 
   damageEnemy(typeOfDamage){
     let self = this;
-
-    handler.socket.emit("damageEnemy",{
+    handler.socketsManager.emit("damageEnemy",{
       playerID : self.state.player.id,
       enemyID : self.currentEnemy.id
     });
@@ -77,5 +76,24 @@ class FightingStageManager {
     enemy.bringToTop();
     state.fightingStage.add(player);
     state.fightingStage.add(enemy);
+  };
+
+  startFight(enemy){
+    let player = this.handler.currentState.player;
+    if(player.isFighting){return};
+    this.handler.socketsManager.emit("initFight",{
+      playerID : player.id,
+      enemyID : enemy.id
+    })
+  };
+
+  handleWinFight(data){
+    let player = this.handler.currentState.player;
+    player.x = player.oldCoords.x;
+    player.y = player.oldCoords.y;
+    if (this.handler.currentState.allEntities.enemies[data.enemyID]) {
+      this.handler.currentState.allEntities.enemies[data.enemyID].kill();
+    };
+    player.isFighting = false;
   };
 }

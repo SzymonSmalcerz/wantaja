@@ -92,7 +92,6 @@ let GameState = {
   },
   addNewPlayer(data){
     let self = this;
-    // let newPlayer = self.allEntities.getFirstExists(false,true);
     let newPlayer = null;
     if(!newPlayer){
       newPlayer = new OtherPlayer(self.game,data.x,data.y,data.id);
@@ -101,21 +100,6 @@ let GameState = {
     } else {
       newPlayer.reset(data.x,data.y);
     }
-  },
-  startFight(enemy){
-    if(this.player.isFighting){return};
-    handler.socket.emit("initFight",{
-      playerID : this.player.id,
-      enemyID : enemy.id
-    })
-  },
-  handleWinFight(data){
-    this.player.x = this.player.oldCoords.x;
-    this.player.y = this.player.oldCoords.y;
-    if(this.allEntities.enemies[data.enemyID]){
-      this.allEntities.enemies[data.enemyID].kill();
-    }
-    this.player.isFighting = false;
   },
   addNewEnemy(data){
     let self = this;
@@ -127,20 +111,10 @@ let GameState = {
       newEnemy.inputEnabled = true;
       newEnemy.input.pixelPerfectClick = true;
       newEnemy.events.onInputDown.add(function(){
-        self.startFight(newEnemy);
-      }, this);
+        self.fightingStageManager.startFight(newEnemy);
+      },this);
     } else {
       newEnemy.reset(data.x,data.y);
     }
-  },
-  initSockets() {
-    this.socketsManager = new SocketsManager(this);
-    this.socketsManager.initialize();
-    let self = this;
-    console.log(handler);
-    handler.socket.on("addEnemy", function(data){
-      self.addNewEnemy(data);
-      console.log("added new enemy");
-    });
   }
 };
