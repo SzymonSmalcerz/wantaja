@@ -9,6 +9,7 @@ class Map {
     this.players = {};
     this.dataToSend = {};
     this.mobsDataToSend = {};
+    this.mobs = {};
     this.respMobs();
   }
 
@@ -17,6 +18,7 @@ class Map {
 
     let newSpider = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 100, this);
     this.currentNumberOfMobs += 1;
+    this.mobs[newSpider.id] = newSpider;
     this.mobsDataToSend[newSpider.id] = {
       x : newSpider.x,
       y : newSpider.y,

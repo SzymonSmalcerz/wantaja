@@ -26,12 +26,12 @@ let socketHandler = (socket, io) => {
   socket.on("getGameData", async (object) => {
 
     console.log("got request to get game data from player with id: " + object.id);
-    // if(dm.allLoggedPlayersData[object.id]){
-    //   socket.emit("alreadyLoggedIn", {
-    //     message : "user already logged in"
-    //   });
-    //   return;
-    // }
+    if(dm.allLoggedPlayersData[object.id]){
+      socket.emit("alreadyLoggedIn", {
+        message : "user already logged in"
+      });
+      return;
+    }
     try {
       if (!object.id.match(/^[0-9a-fA-F]{24}$/)) {
         throw "id is not valid, doesn't mach ObjectID from monbodb";
@@ -67,6 +67,19 @@ let socketHandler = (socket, io) => {
       console.log("SHIIIIT HAPPEND ! : " + error);
       socket.emit("error", {error});
     }
+  });
+
+  socket.on("initFight", function(data){
+    console.log(data);
+    let mapName = dm.findMapNameByPlayerId[data.playerID];
+    if(mapName && dm.allMaps[mapName].mobs[data.enemyID] && !dm.allMaps[mapName].mobs[data.enemyID].isFighting){
+      dm.allMaps[mapName].mobs[data.enemyID].isFighting = true;
+      console.log("aa");
+      dm.socketsOfPlayers[data.playerID].emit("fightInit",{
+        enemyID : data.enemyID
+      });
+    };
+
   });
 
 

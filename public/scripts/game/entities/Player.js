@@ -64,7 +64,7 @@ Player.prototype.updateData = function(data) {
   this.experience = data.experience;
   this.health = data.health;
   this.level = data.level;
-}
+};
 
 Player.prototype.emitData = function(handler){
   if (!this.isFighting) {
@@ -74,5 +74,11 @@ Player.prototype.emitData = function(handler){
       id : handler.playerID,
       frame : this.frame
     })
+  }
+};
+
+Player.prototype.damage = function(way) {
+  if(way == "punch"){
+    console.log("punching");
   }
 }

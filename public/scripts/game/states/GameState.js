@@ -31,10 +31,16 @@ let GameState = {
     this.emptyHpBarEnemy = this.game.add.sprite(this.game.width - 210,15,"healthBarDark");
     this.fullHpBarEnemy = this.game.add.sprite(this.game.width - 210,15,"healthBar");
 
+    let self = this;
+    this.fightingButtonPunch = this.game.add.button(8,500,"fightingButtonPunch",function(){
+      self.player.damage("punch");
+    });
+
     this.fightingStage.add(this.fightingStageBackground);
     this.fightingStage.add(this.enemyLogo);
     this.fightingStage.add(this.emptyHpBarEnemy);
     this.fightingStage.add(this.fullHpBarEnemy);
+    this.fightingStage.add(this.fightingButtonPunch);
 
     this.fightingStage.visible = false;
     this.fightingStage.fixedToCamera = true;
@@ -134,26 +140,11 @@ let GameState = {
     }
   },
   startFight(enemy){
-    this.player.isFighting = true; // player wont send any data about his position to the server while fighting
-    this.player.frame = 1;
-    this.fightingStage.add(this.player);
-    this.fightingStage.add(enemy);
-    enemy.oldCoords = {
-      x : enemy.x,
-      y : enemy.y
-    };
-    this.player.oldCoords = {
-      x : this.player.x,
-      y : this.player.y
-    }
-    enemy.x = this.game.width/2 + 50;
-    enemy.y = this.game.height/2 - 45;
-
-    this.player.x = this.game.width/2 - 50;
-    this.player.y = this.game.height/2 + 70;
-    this.player.bringToTop();
-    enemy.bringToTop();
-    this.fightingStage.visible = true;
+    if(this.player.isFighting){return};
+    handler.socket.emit("initFight",{
+      playerID : this.player.id,
+      enemyID : enemy.id
+    })
   },
   handleWinFight(data){
     this.player.x = this.player.oldCoords.x;
@@ -228,5 +219,34 @@ let GameState = {
         };
       };
     });
+
+    handler.socket.on("fightInit",function(data){
+      let enemy = self.allEntities.enemies[data.enemyID];
+      if(!enemy){
+        console.log("??????????????");
+        return;
+      }
+      self.player.isFighting = true; // player wont send any data about his position to the server while fighting
+      self.player.frame = 1;
+      self.fightingStage.visible = true;
+      enemy.oldCoords = {
+        x : enemy.x,
+        y : enemy.y
+      };
+      self.player.oldCoords = {
+        x : self.player.x,
+        y : self.player.y
+      }
+      enemy.x = self.game.width/2 + 50;
+      enemy.y = self.game.height/2 - 45;
+
+      self.player.x = self.game.width/2 - 50;
+      self.player.y = self.game.height/2 + 70;
+      self.player.bringToTop();
+      enemy.bringToTop();
+      self.fightingStage.add(self.player);
+      self.fightingStage.add(enemy);
+
+    })
   }
 };

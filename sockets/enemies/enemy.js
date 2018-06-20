@@ -9,11 +9,13 @@ class Enemy {
     this.maxHealth = hp;
     this.damage = damage || 10;
     this.exp = exp || 100;
+    this.isFighting = false;
   }
 
   onDie(){
     this.map.currentNumberOfMobs -= 1;
     delete this.map.mobsDataToSend[this.id];
+    delete this.map.mobs[this.id];
   }
 };
 

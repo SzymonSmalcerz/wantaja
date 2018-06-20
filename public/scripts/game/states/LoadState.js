@@ -14,6 +14,7 @@ let LoadState = {
     //Fight sprites
     this.load.image("fightBackground", "assets/fight/fightSprite.png");
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
+    this.load.image("fightingButtonPunch","assets/fight/fightingButtonPunch.png");
 
     //Entities
     //trees
@@ -37,8 +38,7 @@ let LoadState = {
     this.load.image("experienceBar", "assets/UI/bars/experienceBar.png");
     this.load.image("experienceBarDark", "assets/UI/bars/experienceBarDark.png");
 
-    //player enemyLogo
-
+    //player logo
     this.load.image("playerlogo", "assets/player/playerlogo.png");
   },
   create(){
