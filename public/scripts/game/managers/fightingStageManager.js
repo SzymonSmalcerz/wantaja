@@ -79,9 +79,9 @@ class FightingStageManager {
   };
 
   startFight(enemy){
-    let player = this.handler.currentState.player;
+    let player = this.state.player;
     if(player.isFighting){return};
-    this.handler.socketsManager.emit("initFight",{
+    handler.socketsManager.emit("initFight",{
       playerID : player.id,
       enemyID : enemy.id
     })

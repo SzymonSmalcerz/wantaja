@@ -5,6 +5,7 @@ class GameHandler {
     this.entities = {};
     this.game = undefined;
     this.playerID = undefined; // set in startGame function
+    this.player = undefined;
     this.socket = undefined;
     this.startPlayerData = undefined;
     this.currentState = undefined;

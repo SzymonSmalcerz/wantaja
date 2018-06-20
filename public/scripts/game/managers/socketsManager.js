@@ -10,10 +10,10 @@ class SocketsManager {
 
     });
     this.handler.socket.on("addPlayer", function(data){
-      self.handler.currentState.addNewPlayer(data);
+      self.handler.currentState.mapManager.addNewPlayer(data);
     });
     this.handler.socket.on("addEnemy", function(data){
-      self.handler.currentState.addNewEnemy(data);
+      self.handler.currentState.mapManager.addNewEnemy(data);
     });
     this.handler.socket.on("removePlayer", function(data){
       let playerToRemove = self.handler.currentState.allEntities.objects[data.id];
@@ -24,14 +24,14 @@ class SocketsManager {
     this.handler.socket.on("initialMapData", function(data) {
       for(let playerID in data.players) {
         if(data.players.hasOwnProperty(playerID)){
-          self.handler.currentState.addNewPlayer(data.players[playerID]);
+          self.handler.currentState.mapManager.addNewPlayer(data.players[playerID]);
         }
       };
 
       for(let enemyID in data.mobs) {
         if(data.mobs.hasOwnProperty(enemyID)){
           if(!self.handler.currentState.allEntities[enemyID]){
-            self.handler.currentState.addNewEnemy(data.mobs[enemyID]);
+            self.handler.currentState.mapManager.addNewEnemy(data.mobs[enemyID]);
           };
         }
       };
