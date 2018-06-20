@@ -30,7 +30,7 @@ let socketHandler = (socket, io) => {
       socket.emit("alreadyLoggedIn", {
         message : "user already logged in"
       });
-      return;
+      return; 
     }
     try {
       if (!object.id.match(/^[0-9a-fA-F]{24}$/)) {
