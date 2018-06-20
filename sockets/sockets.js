@@ -30,7 +30,7 @@ let socketHandler = (socket, io) => {
       socket.emit("alreadyLoggedIn", {
         message : "user already logged in"
       });
-      return; 
+      return;
     }
     try {
       if (!object.id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -84,6 +84,7 @@ let socketHandler = (socket, io) => {
 
 
   socket.on("initialized", function(data) {
+    dm.allLoggedPlayersData[data.id].initialized = true;
     dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
   });
 
@@ -129,7 +130,7 @@ let socketHandler = (socket, io) => {
 
             if(!dm.allLoggedPlayersData[playerID]) continue;
             var player = dm.allLoggedPlayersData[playerID];
-            if(!dm.allLoggedPlayersData[playerID].active){
+            if(dm.allLoggedPlayersData[playerID].initialized && !dm.allLoggedPlayersData[playerID].active){
               try {
                 var player = dm.allLoggedPlayersData[playerID];
                 var user = await User.findById(playerID);
