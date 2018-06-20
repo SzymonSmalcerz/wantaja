@@ -2,7 +2,7 @@ console.log("XD");
 
 let Player = function(game,data){
 
-  Phaser.Sprite.call(this,game,data.x,data.y,"character");
+  Phaser.Sprite.call(this,game,data.x,data.y,"player");
 
 
   this.health = data.health;
@@ -39,22 +39,24 @@ Player.prototype.constructor = Player;
 Player.prototype.update = function() {
 
 
-    this.body.velocity.setTo(0);
-  if(this.cursors.up.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.W)){
-    this.body.velocity.y = -this.speed;
-    this.animations.play("goUp");
-  } else if(this.cursors.down.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.S)){
-    this.body.velocity.y = this.speed;
-    this.animations.play("goDown");
-  }  else if(this.cursors.left.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.A)){
-    this.body.velocity.x = -this.speed;
-    this.animations.play("goLeft");
-  }  else if(this.cursors.right.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.D)){
-    this.body.velocity.x = this.speed;
-    this.animations.play("goRight");
-  } else {
-    this.frame = 19;
-    this.animations.stop();
+  this.body.velocity.setTo(0);
+  if(!this.isFighting){
+    if(this.cursors.up.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.W)){
+      this.body.velocity.y = -this.speed;
+      this.animations.play("goUp");
+    } else if(this.cursors.down.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.S)){
+      this.body.velocity.y = this.speed;
+      this.animations.play("goDown");
+    }  else if(this.cursors.left.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.A)){
+      this.body.velocity.x = -this.speed;
+      this.animations.play("goLeft");
+    }  else if(this.cursors.right.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.D)){
+      this.body.velocity.x = this.speed;
+      this.animations.play("goRight");
+    } else {
+      this.frame = 19;
+      this.animations.stop();
+    }
   }
 };
 

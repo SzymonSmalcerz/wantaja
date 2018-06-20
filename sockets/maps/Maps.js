@@ -21,7 +21,9 @@ class Map {
       x : newSpider.x,
       y : newSpider.y,
       id : newSpider.id,
-      key : newSpider.key
+      key : newSpider.key,
+      health : newSpider.health,
+      maxHealth : newSpider.maxHealth
     };
       for(let playerID in this.players) {
         if(this.players.hasOwnProperty(playerID)){

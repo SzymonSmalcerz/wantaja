@@ -8,7 +8,7 @@ let HomeState = {
       fill : "#fff"
     };
 
-    this.background = this.game.add.sprite(0,0,"character");
+    this.background = this.game.add.sprite(0,0,"player");
     this.background.inputEnabled = true;
     this.background.events.onInputDown.add(this.startGame, this);
 

@@ -9,6 +9,7 @@ let GameState = {
     this.setCamera();
     this.initSockets();
     this.initUI();
+    this.initFightingStage();
     this.setRenderingOrder();
   },
   update : function(){
@@ -17,6 +18,26 @@ let GameState = {
     this.emitData();
     this.sortEntities();
     this.handleBars();
+    // if(this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
+    //   this.fightingStage.visible = !this.fightingStage.visible;
+    // }
+  },
+  initFightingStage(){
+    this.fightingStage = this.add.group();
+
+
+    this.fightingStageBackground = this.add.sprite(0,0,"fightingBackgroungFirstMap");
+    this.enemyLogo = this.game.add.sprite(this.game.width - 78,8,"spiderlogo");
+    this.emptyHpBarEnemy = this.game.add.sprite(this.game.width - 210,15,"healthBarDark");
+    this.fullHpBarEnemy = this.game.add.sprite(this.game.width - 210,15,"healthBar");
+
+    this.fightingStage.add(this.fightingStageBackground);
+    this.fightingStage.add(this.enemyLogo);
+    this.fightingStage.add(this.emptyHpBarEnemy);
+    this.fightingStage.add(this.fullHpBarEnemy);
+
+    this.fightingStage.visible = false;
+    this.fightingStage.fixedToCamera = true;
   },
   handleBars(){
     this.fullHpBar.width = this.player.health/this.player.maxHealth * this.emptyHpBar.width;
@@ -24,22 +45,31 @@ let GameState = {
   },
   setRenderingOrder(){
     this.game.world.bringToTop(this.allEntities);
-    this.game.world.bringToTop(this.bars);
+    this.game.world.bringToTop(this.fightingStage);
+    this.game.world.bringToTop(this.ui);
   },
   initUI(){
-    this.bars = this.add.group();
-    // health
-    this.emptyHpBar = this.game.add.sprite(8,this.game.height - 50,"healthBarDark");
-    this.fullHpBar = this.game.add.sprite(8,this.game.height - 50,"healthBar");
-    this.bars.add(this.emptyHpBar);
-    this.bars.add(this.fullHpBar);
-    //experience
-    this.emptyExpBar = this.game.add.sprite(8,this.game.height - 26,"experienceBarDark");
-    this.fullExpBar = this.game.add.sprite(8,this.game.height - 26,"experienceBar");
-    this.bars.add(this.emptyExpBar);
-    this.bars.add(this.fullExpBar);
+    // health bars
+    this.emptyHpBar = this.game.add.sprite(70,this.game.height - 60,"healthBarDark");
+    this.fullHpBar = this.game.add.sprite(70,this.game.height - 60,"healthBar");
 
-    this.bars.setAll("fixedToCamera",true);
+    //experience bars
+    this.emptyExpBar = this.game.add.sprite(70,this.game.height - 36,"experienceBarDark");
+    this.fullExpBar = this.game.add.sprite(70,this.game.height - 36,"experienceBar");
+
+    //player logo
+    this.playerlogo = this.game.add.sprite(2,this.game.height - 72,"playerlogo");
+
+
+    //adding everything to one group
+    this.ui = this.add.group();
+    this.ui.add(this.playerlogo);
+    this.ui.add(this.emptyHpBar);
+    this.ui.add(this.fullHpBar);
+    this.ui.add(this.emptyExpBar);
+    this.ui.add(this.fullExpBar);
+
+    this.ui.setAll("fixedToCamera",true);
   },
   sortEntities(){
     let entities = this.allEntities.children;
@@ -104,14 +134,40 @@ let GameState = {
     }
   },
   startFight(enemy){
-    this.player.isFighting = true;
-    this.game.state.start("FightState");
+    this.player.isFighting = true; // player wont send any data about his position to the server while fighting
+    this.player.frame = 1;
+    this.fightingStage.add(this.player);
+    this.fightingStage.add(enemy);
+    enemy.oldCoords = {
+      x : enemy.x,
+      y : enemy.y
+    };
+    this.player.oldCoords = {
+      x : this.player.x,
+      y : this.player.y
+    }
+    enemy.x = this.game.width/2 + 50;
+    enemy.y = this.game.height/2 - 45;
+
+    this.player.x = this.game.width/2 - 50;
+    this.player.y = this.game.height/2 + 70;
+    this.player.bringToTop();
+    enemy.bringToTop();
+    this.fightingStage.visible = true;
+  },
+  handleWinFight(data){
+    this.player.x = this.player.oldCoords.x;
+    this.player.y = this.player.oldCoords.y;
+    if(this.allEntities.enemies[data.enemyID]){
+      this.allEntities.enemies[data.enemyID].kill();
+    }
+    this.player.isFighting = false;
   },
   addNewEnemy(data){
     let self = this;
     let newEnemy = null;
     if(!newEnemy){
-      newEnemy = new Enemy(self.game,data.x,data.y,data.id,data.key);
+      newEnemy = new Enemy(self.game,data.x,data.y,data.id,data.key,data.health,data.maxHealth);
       self.allEntities.add(newEnemy);
       self.allEntities.enemies[data.id] = newEnemy;
       newEnemy.inputEnabled = true;
@@ -127,6 +183,9 @@ let GameState = {
     let self = this;
     handler.socket.emit("initialized", {id : handler.playerID});
 
+    handler.socket.on("fightData", (data) => {
+
+    });
     handler.socket.on("addPlayer", function(data){
       self.addNewPlayer(data);
     });

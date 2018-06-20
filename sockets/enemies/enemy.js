@@ -5,7 +5,8 @@ class Enemy {
     this.y = y;
     this.id = id;
     this.key = key;
-    this.hp = hp || 100;
+    this.health = hp || 100;
+    this.maxHealth = hp;
     this.damage = damage || 10;
     this.exp = exp || 100;
   }
