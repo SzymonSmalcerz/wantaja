@@ -14,8 +14,7 @@ class MapManager {
     this.state.floor = this.state.map.createLayer("Ground");
     this.state.walls = this.state.map.createLayer("Walls");
     this.state.floor.resizeWorld();
-    this.state.map.setCollisionBetween(11,33,true,"Walls");
-    this.state.map.setCollisionBetween(197,229,true,"Walls");
+    this.state.map.setCollisionBetween(0,64,true,"Walls");
 
     this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Entities"].length;i++){
@@ -25,6 +24,7 @@ class MapManager {
       });
       let newObj = this.state.game.add.sprite(this.state.map.objects["Entities"][i].x, this.state.map.objects["Entities"][i].y,newObjData["name"]);
       newObj.anchor.setTo(0,1);
+      newObj.y += newObj.height;
       this.state.game.physics.enable(newObj);
       newObj.body.immovable = true;
       newObj.body.offset.x = parseInt(newObjData["offsetX"]);

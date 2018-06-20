@@ -14,6 +14,7 @@ class GameHandler {
   startGame(data,socket){
     this.socket = socket;
     this.startPlayerData = data;
+    console.log(data);
     this.playerID = data.characterData.id;
     this.game = new Phaser.Game(360,640, Phaser.CANVAS);
     this.game.state.add("PreState", PreState);

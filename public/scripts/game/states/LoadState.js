@@ -7,24 +7,29 @@ let LoadState = {
 
 
     this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);
-    this.load.image("tileset16", "assets/tileset16.png");
+    this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
     this.load.image("house1", "assets/house1.png");
 
 
-    //Fight sprites
+    /* Fight sprites */
     this.load.image("fightBackground", "assets/fight/fightSprite.png");
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("fightingButtonPunch","assets/fight/fightingButtonPunch.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
 
-    //Entities
-    //trees
+    /* Entities */
+    // trees
     this.load.image("tree1", "assets/trees/tree1.png");
     this.load.image("tree2", "assets/trees/tree2.png");
     this.load.image("tree3", "assets/trees/tree3.png");
     this.load.image("tree4", "assets/trees/tree4.png");
-
-    //enemies
+    // others
+    this.load.image("barell", "assets/entities/barell.png");
+    this.load.image("wood", "assets/entities/wood.png");
+    this.load.image("wheat", "assets/entities/wheat.png");
+    this.load.image("well", "assets/entities/well.png");
+    this.load.image("house2", "assets/entities/house2.png");
+    // enemies
     this.load.spritesheet("spider", "assets/enemies/spider.png",32 ,32);
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");
 
@@ -32,14 +37,14 @@ let LoadState = {
     this.load.spritesheet("player", "assets/player/player.png",64 ,64);
 
 
-    //UI
+    /* UI */
     // bars [health bar/ experience bar etc]
     this.load.image("healthBar", "assets/UI/bars/healthBar.png");
     this.load.image("healthBarDark", "assets/UI/bars/healthBarDark.png");
     this.load.image("experienceBar", "assets/UI/bars/experienceBar.png");
     this.load.image("experienceBarDark", "assets/UI/bars/experienceBarDark.png");
 
-    //player logo
+    // player logo
     this.load.image("playerlogo", "assets/player/playerlogo.png");
   },
   create(){

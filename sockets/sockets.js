@@ -26,7 +26,7 @@ let socketHandler = (socket, io) => {
   socket.on("getGameData", async (object) => {
 
     console.log("got request to get game data from player with id: " + object.id);
-    if(dm.allLoggedPlayersData[object.id]){
+    if(dm.allLoggedPlayersData[object.id] && dm.allLoggedPlayersData[object.id].initialized){
       socket.emit("alreadyLoggedIn", {
         message : "user already logged in"
       });
@@ -53,10 +53,8 @@ let socketHandler = (socket, io) => {
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;
 
-        dm.findMapNameByPlayerId[object.id] = user.currentMapName;
-        dm.socketsOfPlayers[object.id] = socket;
-        dm.allLoggedPlayersData[object.id] = characterData;
 
+        dm.socketsOfPlayers[object.id] = socket;
         socket.emit("initialData",{
           characterData : characterData
         });
@@ -67,6 +65,17 @@ let socketHandler = (socket, io) => {
       console.log("SHIIIIT HAPPEND ! : " + error);
       socket.emit("error", {error});
     }
+  });
+
+  socket.on("initialized", function(data) {
+    if(!dm.allLoggedPlayersData[data.id]){
+      dm.allLoggedPlayersData[data.id] = data.characterData;
+      dm.findMapNameByPlayerId[data.id] = data.characterData.currentMapName;
+      console.log(data);
+      console.log("initialized player with id : " + data.id);
+      dm.allLoggedPlayersData[data.id].initialized = true;
+      dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
+    };
   });
 
   socket.on("initFight", function(data){
@@ -86,11 +95,7 @@ let socketHandler = (socket, io) => {
   });
 
 
-  socket.on("initialized", function(data) {
-    console.log("initialized player with id : " + data.id);
-    dm.allLoggedPlayersData[data.id].initialized = true;
-    dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
-  });
+
 
   socket.on("playerData", function(data) {
     if(!dm.allLoggedPlayersData[data.id]){return}

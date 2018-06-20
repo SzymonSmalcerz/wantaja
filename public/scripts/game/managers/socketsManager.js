@@ -61,6 +61,7 @@ class SocketsManager {
     });
 
     this.handler.socket.on('checkForConnection', function () {
+      console.log("XDDD");
       self.handler.socket.emit("checkedConnection",{
         id : self.playerID
       });
@@ -70,7 +71,10 @@ class SocketsManager {
 
   sendToServerInitializedInfo(){
     let self = this;
-    this.handler.socket.emit("initialized", {id : self.handler.playerID});
+    this.handler.socket.emit("initialized", {
+      id : self.handler.playerID,
+      characterData : handler.startPlayerData.characterData
+    });
   };
 
 
