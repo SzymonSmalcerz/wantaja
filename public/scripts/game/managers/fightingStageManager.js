@@ -4,15 +4,15 @@
 */
 
 class FightingStageManager {
-  constructor(handler){
-    this.handler = handler;
+  constructor(state){
+    this.state = state;
   }
 
-  initialize(state){
+  initialize(){
+    let state = this.state;
     state.fightingStage = state.add.group();
 
 
-    console.log(state);
     state.fightingStageBackground = state.add.sprite(0,0,"fightingBackgroungFirstMap");
     state.enemyLogo = state.game.add.sprite(state.game.width - 78,8,"spiderlogo");
     state.emptyHpBarEnemy = state.game.add.sprite(state.game.width - 210,15,"healthBarDark");
@@ -46,17 +46,19 @@ class FightingStageManager {
 
   damageEnemy(typeOfDamage){
     let self = this;
-    self.handler.socket.emit("damageEnemy",{
-      playerID : self.handler.playerID,
+
+    handler.socket.emit("damageEnemy",{
+      playerID : self.state.player.id,
       enemyID : self.currentEnemy.id
     });
   };
 
-  initFight(enemy,player,state){
+  initFight(enemy){
+    let player = this.state.player;
+    let state = this.state;
     this.currentEnemy = enemy;
     player.isFighting = true; // player wont send any data about his position to the server while fighting
     player.frame = 1;
-    console.log(state);
     state.fightingStage.visible = true;
     enemy.oldCoords = {
       x : enemy.x,

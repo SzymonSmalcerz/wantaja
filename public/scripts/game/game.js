@@ -7,9 +7,7 @@ class GameHandler {
     this.playerID = undefined; // set in startGame function
     this.socket = undefined;
     this.startPlayerData = undefined;
-    this.uiManager = new UIManager(this);
-    this.fightingStageManager = new FightingStageManager(this);
-    this.socketsManager = new SocketsManager(this);
+    this.currentState = undefined;
   }
 
   startGame(data,socket){
@@ -22,19 +20,10 @@ class GameHandler {
     this.game.state.add("HomeState", HomeState);
     this.game.state.add("GameState", GameState);
     this.game.state.start("PreState");
+    this.socketsManager = new SocketsManager(this);
+    this.socketsManager.initialize();
     window.addEventListener("resize", () => {
       this.game.scale.refresh();
-    });
-
-    this.setSockets();
-  }
-
-  setSockets(){
-    let self = this;
-    this.socket.on('checkForConnection', function () {
-      self.socket.emit("checkedConnection",{
-        id : self.playerID
-      });
     });
   }
 };

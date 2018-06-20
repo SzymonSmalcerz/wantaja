@@ -1,23 +1,25 @@
 
 let GameState = {
   create : function(){
+    handler.currentState = this;
     this.allEntities = this.add.group();
     this.allEntities.objects = {};
     this.allEntities.enemies = {};
     this.createMap();
     this.createPlayer();
     this.setCamera();
-    this.initSockets();
     this.initUI();
     this.initFightingStage();
     this.setRenderingOrder();
+    handler.socketsManager.sendToServerInitializedInfo();
+
   },
   update : function(){
     this.physics.arcade.collide(this.walls, this.player);
     this.physics.arcade.collide(this.entities, this.player);
     this.emitData();
     this.sortEntities();
-    this.handleBars();
+    this.uiManager.update();
     // if (this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
     //   console.log(this.emitter);
     //   this.emitter.position.x = 200;
@@ -26,10 +28,8 @@ let GameState = {
     // };
   },
   initFightingStage(){
-    handler.fightingStageManager.initialize(this);
-  },
-  handleBars(){
-    handler.uiManager.handleBars(this);
+    this.fightingStageManager = new FightingStageManager(this);
+    this.fightingStageManager.initialize();
   },
   setRenderingOrder(){
     this.game.world.bringToTop(this.allEntities);
@@ -37,7 +37,8 @@ let GameState = {
     this.game.world.bringToTop(this.ui);
   },
   initUI(){
-    handler.uiManager.initialize(this);
+    this.uiManager = new UIManager(this);
+    this.uiManager.initialize();
   },
   sortEntities(){
     let entities = this.allEntities.children;
@@ -133,7 +134,8 @@ let GameState = {
     }
   },
   initSockets() {
-    handler.socketsManager.initialize(this);
+    this.socketsManager = new SocketsManager(this);
+    this.socketsManager.initialize();
     let self = this;
     console.log(handler);
     handler.socket.on("addEnemy", function(data){

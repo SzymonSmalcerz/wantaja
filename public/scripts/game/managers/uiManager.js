@@ -1,10 +1,10 @@
 class UIManager {
-  constructor(handler){
-    this.handler = handler;
+  constructor(state){
+    this.state = state;
   }
 
-  initialize(state) {
-    console.log(state);
+  initialize() {
+    let state = this.state;
     // health bars
     state.emptyHpBar = state.game.add.sprite(70,state.game.height - 60,"healthBarDark");
     state.fullHpBar = state.game.add.sprite(70,state.game.height - 60,"healthBar");
@@ -29,7 +29,8 @@ class UIManager {
     state.ui.setAll("fixedToCamera",true);
   }
 
-  handleBars(state){
+  update(){
+    let state = this.state;
     state.fullHpBar.width = state.player.health/state.player.maxHealth * state.emptyHpBar.width;
     state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;
   }
