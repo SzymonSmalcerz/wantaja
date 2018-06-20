@@ -15,6 +15,7 @@ let LoadState = {
     this.load.image("fightBackground", "assets/fight/fightSprite.png");
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("fightingButtonPunch","assets/fight/fightingButtonPunch.png");
+    this.load.image("bloodParticle","assets/fight/bloodParticle.png");
 
     //Entities
     //trees

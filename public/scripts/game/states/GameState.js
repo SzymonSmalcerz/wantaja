@@ -18,36 +18,18 @@ let GameState = {
     this.emitData();
     this.sortEntities();
     this.handleBars();
-    // if(this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
-    //   this.fightingStage.visible = !this.fightingStage.visible;
-    // }
+    // if (this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
+    //   console.log(this.emitter);
+    //   this.emitter.position.x = 200;
+    //   this.emitter.position.y = 200;
+    //   this.emitter.start(true,450,null,100);
+    // };
   },
   initFightingStage(){
-    this.fightingStage = this.add.group();
-
-
-    this.fightingStageBackground = this.add.sprite(0,0,"fightingBackgroungFirstMap");
-    this.enemyLogo = this.game.add.sprite(this.game.width - 78,8,"spiderlogo");
-    this.emptyHpBarEnemy = this.game.add.sprite(this.game.width - 210,15,"healthBarDark");
-    this.fullHpBarEnemy = this.game.add.sprite(this.game.width - 210,15,"healthBar");
-
-    let self = this;
-    this.fightingButtonPunch = this.game.add.button(8,500,"fightingButtonPunch",function(){
-      self.player.damage("punch");
-    });
-
-    this.fightingStage.add(this.fightingStageBackground);
-    this.fightingStage.add(this.enemyLogo);
-    this.fightingStage.add(this.emptyHpBarEnemy);
-    this.fightingStage.add(this.fullHpBarEnemy);
-    this.fightingStage.add(this.fightingButtonPunch);
-
-    this.fightingStage.visible = false;
-    this.fightingStage.fixedToCamera = true;
+    handler.fightingStageManager.initialize(this);
   },
   handleBars(){
-    this.fullHpBar.width = this.player.health/this.player.maxHealth * this.emptyHpBar.width;
-    this.fullExpBar.width = this.player.experience/this.player.requiredExperience * this.emptyExpBar.width;
+    handler.uiManager.handleBars(this);
   },
   setRenderingOrder(){
     this.game.world.bringToTop(this.allEntities);
@@ -55,27 +37,7 @@ let GameState = {
     this.game.world.bringToTop(this.ui);
   },
   initUI(){
-    // health bars
-    this.emptyHpBar = this.game.add.sprite(70,this.game.height - 60,"healthBarDark");
-    this.fullHpBar = this.game.add.sprite(70,this.game.height - 60,"healthBar");
-
-    //experience bars
-    this.emptyExpBar = this.game.add.sprite(70,this.game.height - 36,"experienceBarDark");
-    this.fullExpBar = this.game.add.sprite(70,this.game.height - 36,"experienceBar");
-
-    //player logo
-    this.playerlogo = this.game.add.sprite(2,this.game.height - 72,"playerlogo");
-
-
-    //adding everything to one group
-    this.ui = this.add.group();
-    this.ui.add(this.playerlogo);
-    this.ui.add(this.emptyHpBar);
-    this.ui.add(this.fullHpBar);
-    this.ui.add(this.emptyExpBar);
-    this.ui.add(this.fullExpBar);
-
-    this.ui.setAll("fixedToCamera",true);
+    handler.uiManager.initialize(this);
   },
   sortEntities(){
     let entities = this.allEntities.children;
@@ -171,82 +133,12 @@ let GameState = {
     }
   },
   initSockets() {
+    handler.socketsManager.initialize(this);
     let self = this;
-    handler.socket.emit("initialized", {id : handler.playerID});
-
-    handler.socket.on("fightData", (data) => {
-
-    });
-    handler.socket.on("addPlayer", function(data){
-      self.addNewPlayer(data);
-    });
-
+    console.log(handler);
     handler.socket.on("addEnemy", function(data){
       self.addNewEnemy(data);
+      console.log("added new enemy");
     });
-
-    handler.socket.on("removePlayer", function(data){
-      let playerToRemove = self.allEntities.objects[data.id];
-      self.allEntities.remove(playerToRemove);
-      delete self.allEntities.objects[data.id];
-    });
-
-    handler.socket.on("initialMapData", function(data) {
-      for(let playerID in data.players) {
-        if(data.players.hasOwnProperty(playerID)){
-          self.addNewPlayer(data.players[playerID]);
-        }
-      };
-
-      for(let enemyID in data.mobs) {
-        if(data.mobs.hasOwnProperty(enemyID)){
-          if(!self.allEntities[enemyID]){
-            self.addNewEnemy(data.mobs[enemyID]);
-          };
-        }
-      };
-    });
-
-    handler.socket.on("gameData", function(data){
-      let playerData = data.playerData;
-      self.player.updateData(playerData);
-      let otherPlayersData = data.otherPlayersData;
-      for(let playerID in otherPlayersData) {
-        if(otherPlayersData.hasOwnProperty(playerID) && self.allEntities.objects[playerID] && playerID != handler.playerID){
-          self.allEntities.objects[playerID].x = otherPlayersData[playerID].x;
-          self.allEntities.objects[playerID].y = otherPlayersData[playerID].y;
-          self.allEntities.objects[playerID].frame = otherPlayersData[playerID].frame || 1;
-        };
-      };
-    });
-
-    handler.socket.on("fightInit",function(data){
-      let enemy = self.allEntities.enemies[data.enemyID];
-      if(!enemy){
-        console.log("??????????????");
-        return;
-      }
-      self.player.isFighting = true; // player wont send any data about his position to the server while fighting
-      self.player.frame = 1;
-      self.fightingStage.visible = true;
-      enemy.oldCoords = {
-        x : enemy.x,
-        y : enemy.y
-      };
-      self.player.oldCoords = {
-        x : self.player.x,
-        y : self.player.y
-      }
-      enemy.x = self.game.width/2 + 50;
-      enemy.y = self.game.height/2 - 45;
-
-      self.player.x = self.game.width/2 - 50;
-      self.player.y = self.game.height/2 + 70;
-      self.player.bringToTop();
-      enemy.bringToTop();
-      self.fightingStage.add(self.player);
-      self.fightingStage.add(enemy);
-
-    })
   }
 };

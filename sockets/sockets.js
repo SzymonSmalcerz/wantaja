@@ -26,12 +26,12 @@ let socketHandler = (socket, io) => {
   socket.on("getGameData", async (object) => {
 
     console.log("got request to get game data from player with id: " + object.id);
-    if(dm.allLoggedPlayersData[object.id]){
-      socket.emit("alreadyLoggedIn", {
-        message : "user already logged in"
-      });
-      return;
-    }
+    // if(dm.allLoggedPlayersData[object.id]){
+    //   socket.emit("alreadyLoggedIn", {
+    //     message : "user already logged in"
+    //   });
+    //   return;
+    // }
     try {
       if (!object.id.match(/^[0-9a-fA-F]{24}$/)) {
         throw "id is not valid, doesn't mach ObjectID from monbodb";
@@ -79,17 +79,22 @@ let socketHandler = (socket, io) => {
         enemyID : data.enemyID
       });
     };
+  });
 
+  socket.on("damageEnemy",function(data){
+    console.log(data);
   });
 
 
   socket.on("initialized", function(data) {
+    console.log("initialized player with id : " + data.id);
     dm.allLoggedPlayersData[data.id].initialized = true;
     dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
   });
 
   socket.on("playerData", function(data) {
     if(!dm.allLoggedPlayersData[data.id]){return}
+    dm.allLoggedPlayersData[data.id].active = true;
     dm.allLoggedPlayersData[data.id].x = data.x;
     dm.allLoggedPlayersData[data.id].y = data.y;
     dm.allLoggedPlayersData[data.id].frame = data.frame;
