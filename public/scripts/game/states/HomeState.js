@@ -3,6 +3,10 @@ let HomeState = {
     this.game.stage.backgroundColor = "#000";
   },
   create(){
+    this.game.state.start("GameState");
+    // this state MAY be used in the future if
+    // we will want to make some screen to choose
+    // concrete hero
     this.textStyle = {
       font : "40pt bold",
       fill : "#fff"
