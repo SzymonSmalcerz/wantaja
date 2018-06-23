@@ -139,7 +139,7 @@ class PlayerMoveManager {
       successor = new ASearchPoint(firstElement.x,firstElement.y + playerSpeed,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x, y:firstElement.y + playerSpeed}),firstElement);
     };
 
-    if(checkCollisionAtPoint(successor)){
+    if(this.checkCollisionAtPoint(successor)){
       return;
     } else if(this.nearGoal(successor,playerSpeed)) {
       return successor;
