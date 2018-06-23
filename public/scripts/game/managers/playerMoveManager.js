@@ -1,7 +1,6 @@
 class PlayerMoveManager {
   constructor(state){
     this.state = state;
-    this.pointer = this.state.game.input.activePointer;
     this.state.playerShadow = new Player(this.state.game,{
       x : 0,
       y : 0
@@ -13,10 +12,10 @@ class PlayerMoveManager {
   }
 
   update(){
-    if(this.pointer.isDown){
+    if(this.state.game.input.activePointer.isDown) {
       let goal = {
-        x : this.pointer.worldX,
-        y : this.pointer.worldY
+        x : this.state.game.input.activePointer.worldX,
+        y : this.state.game.input.activePointer.worldY
       };
 
       let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
