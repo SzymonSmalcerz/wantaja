@@ -18,7 +18,8 @@ function initializeConnection(){
 
     socket.on('alreadyLoggedIn', function(data){
       console.log(data);
-      handler.startGame(data,socket);
+      // handler.startGame(data,socket);
+      alert(data.message + "\nwait 10 seconds\nand try again");
     });
   };
 };

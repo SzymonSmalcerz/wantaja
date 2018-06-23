@@ -13,6 +13,24 @@ class MapManager {
     this.state.map.addTilesetImage("tileset16");
     this.state.floor = this.state.map.createLayer("Ground");
     this.state.walls = this.state.map.createLayer("Walls");
+    this.state.walls.layer.data = this.state.walls.layer.data.map((row,i) => {
+      return row.map((val,index) => {
+        if(i == 0 && index == 0){
+          console.log(val);
+        }
+        if(val.index < 0){
+          val.alpha = 0;
+          val.visible = false;
+          val.width = 0;
+          val.height = 0;
+          val.x = 0;
+          val.y = 0;
+          val.worldX = 0;
+          val.worldY = 0;
+        };
+        return val;
+      });
+    });
     this.state.floor.resizeWorld();
     this.state.map.setCollisionBetween(0,64,true,"Walls");
 

@@ -5,20 +5,20 @@ let Player = function(game,data){
   Phaser.Sprite.call(this,game,data.x,data.y,"player");
 
 
-  this.health = data.health;
-  this.maxHealth = data.maxHealth;
-  this.experience = data.experience;
-  this.requiredExperience = data.requiredExperience;
-  this.level = data.level;
-  this.id = data.id;
+  this.health = data.health || 10;
+  this.maxHealth = data.maxHealth || 19;
+  this.experience = data.experience || 10;
+  this.requiredExperience = data.requiredExperience || 10;
+  this.level = data.level || 10;
+  this.id = data.id || 10;
   this.speed = 100;
+  this.realSpeed = 100/game.time.desiredFps;
 
 
   this.anchor.setTo(0.5);
   game.physics.enable(this);
   game.add.existing(this);
 
-  this.cursors = game.input.keyboard.createCursorKeys();
   this.body.width = 20;
   this.body.offset.x = 22;
   this.body.height = 20;
@@ -36,28 +36,29 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 
-Player.prototype.update = function() {
 
-
+Player.prototype.goUp = function(){
   this.body.velocity.setTo(0);
-  if(!this.isFighting){
-    if(this.cursors.up.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.W)){
-      this.body.velocity.y = -this.speed;
-      this.animations.play("goUp");
-    } else if(this.cursors.down.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.S)){
-      this.body.velocity.y = this.speed;
-      this.animations.play("goDown");
-    }  else if(this.cursors.left.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.A)){
-      this.body.velocity.x = -this.speed;
-      this.animations.play("goLeft");
-    }  else if(this.cursors.right.isDown || this.game.input.keyboard.isDown(Phaser.Keyboard.D)){
-      this.body.velocity.x = this.speed;
-      this.animations.play("goRight");
-    } else {
-      this.frame = 19;
-      this.animations.stop();
-    }
-  }
+  this.body.velocity.y = -this.speed;
+  this.animations.play("goUp");
+};
+
+Player.prototype.goDown = function(){
+  this.body.velocity.setTo(0);
+  this.body.velocity.y = this.speed;
+  this.animations.play("goDown");
+};
+
+Player.prototype.goRight = function(){
+  this.body.velocity.setTo(0);
+  this.body.velocity.x = this.speed;
+  this.animations.play("goRight");
+};
+
+Player.prototype.goLeft = function(){
+  this.body.velocity.setTo(0);
+  this.body.velocity.x = -this.speed;
+  this.animations.play("goLeft");
 };
 
 Player.prototype.updateData = function(data) {

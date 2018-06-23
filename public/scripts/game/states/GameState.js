@@ -6,6 +6,7 @@ let GameState = {
     this.setCamera();
     this.initUI();
     this.initFightingStage();
+    this.initMoveManager();
     this.setRenderingOrder();
     handler.socketsManager.sendToServerInitializedInfo();
 
@@ -13,15 +14,24 @@ let GameState = {
   update : function(){
     this.physics.arcade.collide(this.walls, this.player);
     this.physics.arcade.collide(this.entities, this.player);
+    if(this.physics.arcade.overlap(this.player, this.walls)){
+      console.log("xd");
+    }
     this.emitData();
     this.sortEntities();
     this.uiManager.update();
+    this.playerMoveManager.update();
     // if (this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
     //   console.log(this.emitter);
     //   this.emitter.position.x = 200;
     //   this.emitter.position.y = 200;
     //   this.emitter.start(true,450,null,100);
     // };
+
+
+  },
+  initMoveManager(){
+    this.playerMoveManager = new PlayerMoveManager(this);
   },
   initFightingStage(){
     this.fightingStageManager = new FightingStageManager(this);
