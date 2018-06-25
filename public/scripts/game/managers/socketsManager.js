@@ -38,6 +38,7 @@ class SocketsManager {
     });
 
     this.handler.socket.on("gameData", function(data){
+      console.log("got game data");
       let playerData = data.playerData;
       self.handler.currentState.player.updateData(playerData);
       let otherPlayersData = data.otherPlayersData;

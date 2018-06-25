@@ -14,8 +14,8 @@ let GameState = {
 
   },
   update : function(){
-    // this.physics.arcade.collide(this.walls, this.player);
-    // this.physics.arcade.collide(this.entities, this.player);
+    this.physics.arcade.collide(this.walls, this.player);
+    this.physics.arcade.collide(this.entities, this.player);
     this.emitData();
     this.sortEntities();
     this.uiManager.update();
@@ -46,14 +46,14 @@ let GameState = {
     this.uiManager.initialize();
   },
   sortEntities(){
-    let entities = this.allEntities.children;
-    for(let i=0;i<entities.length;i++){
-      for(let j=0;j<entities.length;j++){
-        if(entities[i].bottom > entities[j].bottom){
-          entities[i].moveUp();
-        };
-      };
-    };
+    // let entities = this.allEntities.children;
+    // for(let i=0;i<entities.length;i++){
+    //   for(let j=0;j<entities.length;j++){
+    //     if(entities[i].bottom > entities[j].bottom){
+    //       entities[i].moveUp();
+    //     };
+    //   };
+    // };
   },
   emitData(){
     this.player.emitData(handler);

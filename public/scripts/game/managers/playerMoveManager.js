@@ -114,14 +114,14 @@ class PlayerMoveManager {
   };
 
   checkCollisionAtPoint(aSearchPoint){
-    // this.state.playerShadow.reset(aSearchPoint.x, aSearchPoint.y);
-    // if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
-    //   return true;
-    // } else if(this.state.physics.arcade.overlap(this.state.walls, this.state.playerShadow)) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+    this.state.playerShadow.reset(aSearchPoint.x, aSearchPoint.y);
+    if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
+      return true;
+    } else if(this.state.physics.arcade.overlap(this.state.walls, this.state.playerShadow)) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
 
