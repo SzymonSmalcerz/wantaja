@@ -17,13 +17,7 @@ class PlayerMoveManager {
         x : this.state.game.input.activePointer.worldX,
         y : this.state.game.input.activePointer.worldY
       };
-      this.state.player.body.velocity.x = 0;
-      if(goal.x > this.state.player.x){
-        this.state.player.body.velocity.x = 100;
-      } else if(goal.x < this.state.player.x){
-        this.state.player.body.velocity.x = -100;
-      }
-      return;
+
       let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
       if(this.checkCollisionAtPoint(goalPoint)){
         return;
@@ -120,14 +114,14 @@ class PlayerMoveManager {
   };
 
   checkCollisionAtPoint(aSearchPoint){
-    this.state.playerShadow.reset(aSearchPoint.x, aSearchPoint.y);
-    if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
-      return true;
-    } else if(this.state.physics.arcade.overlap(this.state.walls, this.state.playerShadow)) {
-      return true;
-    } else {
-      return false;
-    }
+    // this.state.playerShadow.reset(aSearchPoint.x, aSearchPoint.y);
+    // if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
+    //   return true;
+    // } else if(this.state.physics.arcade.overlap(this.state.walls, this.state.playerShadow)) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   };
 
 
