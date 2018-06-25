@@ -6,7 +6,7 @@ let PreState = {
     this.scale.pageAlignVertically = true;
     this.scale.refresh();
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.time.desiredFps = 10;
+    this.game.time.desiredFps = 15;
   },
   preload(){
     this.load.image("progressBar","assets/progresBar.png");
