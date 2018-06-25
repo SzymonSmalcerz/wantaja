@@ -70,6 +70,7 @@ class MapManager {
   };
 
   addNewPlayer(data){
+    console.log("adding new player!");
     let self = this.state;
     let newPlayer = null;
     if(!newPlayer){
