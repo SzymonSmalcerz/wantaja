@@ -15,8 +15,12 @@ class GameHandler {
     this.socket = socket;
     this.startPlayerData = data;
     console.log(data);
+    let gameWidth = Math.min(window.innerWidth, 500);
+    let gameHeight = Math.min(window.innerHeight, 700);
+    console.log(gameWidth);
+    console.log(gameHeight);
     this.playerID = data.characterData.id;
-    this.game = new Phaser.Game(360,640, Phaser.CANVAS);
+    this.game = new Phaser.Game(gameWidth,gameHeight, Phaser.CANVAS);
     this.game.state.add("PreState", PreState);
     this.game.state.add("LoadState", LoadState);
     this.game.state.add("HomeState", HomeState);
@@ -25,7 +29,18 @@ class GameHandler {
     this.socketsManager = new SocketsManager(this);
     this.socketsManager.initialize();
     window.addEventListener("resize", () => {
+      let width = 400;
+      let height = 700;
+      this.game.scale.setGameSize(width, height);
+      this.game.camera.setBoundsToWorld();
+      this.game.camera.setSize(width, height);
+      this.game.scale.setShowAll();
+      this.game.stage.width = width;
+      this.game.stage.height = height
       this.game.scale.refresh();
+      if(this.game.state.getCurrentState().mapManager){
+        this.game.state.getCurrentState().mapManager.onResize(width,height);
+      };
     });
   }
 };

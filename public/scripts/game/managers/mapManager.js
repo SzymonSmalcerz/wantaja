@@ -5,6 +5,7 @@ class MapManager {
 
   initialize() {
 
+
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.objects = {};
     this.state.allEntities.enemies = {};
@@ -33,7 +34,6 @@ class MapManager {
     });
     this.state.floor.resizeWorld();
     this.state.map.setCollisionBetween(0,64,true,"Walls");
-
     this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Entities"].length;i++){
       let newObjData = {};
@@ -58,6 +58,15 @@ class MapManager {
     this.createPlayer();
   };
 
+  onResize(width, height){
+    this.state.floor.resize(width,height);
+    this.state.walls.resize(width,height);
+    // this.state.floor.width = width;
+    // this.state.floor.height = height;
+    // this.state.walls.width = width;
+    // this.state.walls.height = height;
+  };
+
   createPlayer() {
     if(!handler.player){
       let receivedDataFromServer = handler.startPlayerData.characterData;
@@ -77,10 +86,13 @@ class MapManager {
       newPlayer = new OtherPlayer(self.game,data.x,data.y,data.id);
       self.allEntities.add(newPlayer);
       self.allEntities.objects[data.id] = newPlayer;
+      self.setRenderOrder(newPlayer);
     } else {
       newPlayer.reset(data.x,data.y);
     }
   };
+
+
 
   addNewEnemy(data){
     let self = this.state;
@@ -94,6 +106,7 @@ class MapManager {
       newEnemy.events.onInputDown.add(function(){
         self.fightingStageManager.startFight(newEnemy);
       });
+      self.setRenderOrder(newEnemy);
     } else {
       newEnemy.reset(data.x,data.y);
     }

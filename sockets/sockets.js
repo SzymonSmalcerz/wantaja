@@ -9,7 +9,8 @@ let dm = { // data manager, created to hold values for game purpose
   keepAliveProtocol : {
     lastTime : 0,
     lastTimeForCheckingIfPlayersAreActive : 0
-  }
+  },
+  fps : 10
 };
 dm.removePlayer = function(playerID) {
   this.allMaps[this.findMapNameByPlayerId[playerID]].removePlayer(playerID);
@@ -109,7 +110,7 @@ let socketHandler = (socket, io) => {
 
   var sendToUserData = (time) => {
     requestAnimationFrame(sendToUserData);
-    if(time - dm.keepAliveProtocol.lastTime > 1000/5){
+    if(time - dm.keepAliveProtocol.lastTime > 1000/dm.fps){
       dm.keepAliveProtocol.lastTime = time;
       for(var mapID in dm.allMaps){
         if(!dm.allMaps.hasOwnProperty(mapID)) continue;

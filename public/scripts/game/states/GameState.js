@@ -1,6 +1,7 @@
 
 let GameState = {
   create : function(){
+    this.smoothed = false;
     handler.currentState = this;
     this.initializeMap();
     this.setCamera();
@@ -8,26 +9,16 @@ let GameState = {
     this.initFightingStage();
     this.initMoveManager();
     this.setRenderingOrder();
+    this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
-    // this.allEntities.setAll("renderable", false);
-    // this.player.renderable = true;
 
   },
   update : function(){
     this.physics.arcade.collide(this.walls, this.player);
     this.physics.arcade.collide(this.entities, this.player);
     this.emitData();
-    this.sortEntities();
     this.uiManager.update();
     this.playerMoveManager.update();
-    // if (this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
-    //   console.log(this.emitter);
-    //   this.emitter.position.x = 200;
-    //   this.emitter.position.y = 200;
-    //   this.emitter.start(true,450,null,100);
-    // };
-
-
   },
   initMoveManager(){
     this.playerMoveManager = new PlayerMoveManager(this);
@@ -37,6 +28,7 @@ let GameState = {
     this.fightingStageManager.initialize();
   },
   setRenderingOrder(){
+    this.game.world.bringToTop(this.map);
     this.game.world.bringToTop(this.allEntities);
     this.game.world.bringToTop(this.fightingStage);
     this.game.world.bringToTop(this.ui);
@@ -46,14 +38,32 @@ let GameState = {
     this.uiManager.initialize();
   },
   sortEntities(){
-    // let entities = this.allEntities.children;
-    // for(let i=0;i<entities.length;i++){
-    //   for(let j=0;j<entities.length;j++){
-    //     if(entities[i].bottom > entities[j].bottom){
-    //       entities[i].moveUp();
-    //     };
-    //   };
-    // };
+    this.allEntities.children = this.allEntities.children.sort((a,b) => {
+      return a.bottom - b.bottom;
+    });
+  },
+  setRenderOrder(entity) {
+    entity.bringToTop();
+    let indexOfentity = this.allEntities.children.indexOf(entity);
+    while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {
+      entity.moveDown();
+      indexOfentity-=1;
+    };
+  },
+  changeRenderOrder(entity) {
+    let indexOfentity = this.allEntities.children.indexOf(entity);
+    if(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
+      while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {
+        entity.moveDown();
+        indexOfentity-=1;
+      };
+    } else {
+      while(indexOfentity < this.allEntities.children.length && this.allEntities.children[indexOfentity+1].bottom < entity.bottom) {
+        entity.moveUp();
+        indexOfentity+=1;
+      };
+    }
+
   },
   emitData(){
     this.player.emitData(handler);
