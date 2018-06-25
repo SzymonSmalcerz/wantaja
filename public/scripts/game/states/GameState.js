@@ -14,8 +14,8 @@ let GameState = {
 
   },
   update : function(){
-    // this.physics.arcade.collide(this.walls, this.player);
-    // this.physics.arcade.collide(this.entities, this.player);
+    this.physics.arcade.collide(this.walls, this.player);
+    this.physics.arcade.collide(this.entities, this.player);
     this.emitData();
     this.sortEntities();
     this.uiManager.update();

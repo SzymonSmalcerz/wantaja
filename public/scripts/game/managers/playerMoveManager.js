@@ -17,7 +17,13 @@ class PlayerMoveManager {
         x : this.state.game.input.activePointer.worldX,
         y : this.state.game.input.activePointer.worldY
       };
-
+      this.state.player.body.velocity.x = 0;
+      if(goal.x > this.state.player.x){
+        this.state.player.body.velocity.x = 100;
+      } else if(goal.x < this.state.player.x){
+        this.state.player.body.velocity.x = -100;
+      }
+      return;
       let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
       if(this.checkCollisionAtPoint(goalPoint)){
         return;

@@ -14,6 +14,7 @@ let dm = { // data manager, created to hold values for game purpose
 dm.removePlayer = function(playerID) {
   this.allMaps[this.findMapNameByPlayerId[playerID]].removePlayer(playerID);
   delete this.allLoggedPlayersData[playerID];
+  this.socketsOfPlayers[playerID].disconnect();
   delete this.socketsOfPlayers[playerID];
   delete this.findMapNameByPlayerId[playerID];
 };
@@ -105,9 +106,7 @@ let socketHandler = (socket, io) => {
     dm.allLoggedPlayersData[data.id].frame = data.frame;
   })
 
-  // main game loop
 
-  //BEGINNING OF DATA EXCHANGE SERVER -> CLIENT
   var sendToUserData = (time) => {
     requestAnimationFrame(sendToUserData);
     if(time - dm.keepAliveProtocol.lastTime > 1000/10){
@@ -150,6 +149,7 @@ let socketHandler = (socket, io) => {
                 user.experience = player.experience;
                 user.currentMapName = dm.findMapNameByPlayerId[player.id];
                 await user.save();
+
                 console.log("saved statis of :", user._id);
               }catch(e){
                 console.log(e);
@@ -165,8 +165,9 @@ let socketHandler = (socket, io) => {
   };
 
   socket.on("checkedConnection", (playerData) => {
-    if(dm.allLoggedPlayersData[playerData.id])
-      dm.allLoggedPlayersData[playerData.id].active = true;
+    if(dm.allLoggedPlayersData[playerData.id]){
+        dm.allLoggedPlayersData[playerData.id].active = true;
+    };
   });
 
   if(!dm.serverStarted){
@@ -176,8 +177,6 @@ let socketHandler = (socket, io) => {
   };
 };
 
-
-//polyfill to requestAnimationFrame
 (function() {
     var lastTime = 0;
 
