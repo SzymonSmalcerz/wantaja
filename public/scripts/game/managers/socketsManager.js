@@ -63,7 +63,7 @@ class SocketsManager {
     this.handler.socket.on('checkForConnection', function () {
       console.log("XDDD");
       self.handler.socket.emit("checkedConnection",{
-        // id : self.handler.playerID
+        id : self.handler.playerID
       });
     });
 
