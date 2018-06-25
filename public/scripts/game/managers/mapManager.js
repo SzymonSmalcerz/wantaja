@@ -23,10 +23,10 @@ class MapManager {
           val.visible = false;
           val.width = 0;
           val.height = 0;
-          val.x = 0;
-          val.y = 0;
-          val.worldX = 0;
-          val.worldY = 0;
+          val.x = -500;
+          val.y = -500;
+          val.worldX = -500;
+          val.worldY = -500;
         };
         return val;
       });

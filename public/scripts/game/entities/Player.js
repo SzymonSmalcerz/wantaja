@@ -14,6 +14,8 @@ let Player = function(game,data){
   this.speed = 100;
   this.realSpeed = 100/game.time.desiredFps;
 
+  this.frame = 25;
+  this.previousFrame = 25;
 
   this.anchor.setTo(0.5);
   game.physics.enable(this);
@@ -65,21 +67,24 @@ Player.prototype.updateData = function(data) {
   this.experience = data.experience;
   this.health = data.health;
   this.level = data.level;
+
 };
 
 Player.prototype.emitData = function(handler){
-  if (!this.isFighting) {
+  if (!this.isFighting && (this.previousPosition.x != this.x || this.previousPosition.y != this.y || this.previousFrame != this.frame)) {
     handler.socket.emit("playerData", {
       x : this.x,
       y : this.y,
       id : handler.playerID,
       frame : this.frame
-    })
-  }
+    });
+  };
+
+  this.previousFrame = this.frame;
 };
 
 Player.prototype.damage = function(way) {
   if(way == "punch"){
     console.log("punching");
-  }
+  };
 }

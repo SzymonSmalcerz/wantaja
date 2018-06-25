@@ -9,14 +9,13 @@ let GameState = {
     this.initMoveManager();
     this.setRenderingOrder();
     handler.socketsManager.sendToServerInitializedInfo();
+    this.allEntities.setAll("renderable", false);
+    this.player.renderable = true;
 
   },
   update : function(){
     this.physics.arcade.collide(this.walls, this.player);
     this.physics.arcade.collide(this.entities, this.player);
-    if(this.physics.arcade.overlap(this.player, this.walls)){
-      console.log("xd");
-    }
     this.emitData();
     this.sortEntities();
     this.uiManager.update();
