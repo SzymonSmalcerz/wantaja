@@ -13,7 +13,8 @@ class FightingStageManager {
     state.fightingStage = state.add.group();
 
 
-    state.fightingStageBackground = state.add.sprite(0,0,"fightingBackgroungFirstMap");
+    state.fightingStageBackground = state.add.sprite(state.game.width/2,state.game.width/2,"fightingBackgroungFirstMap");
+    state.fightingStageBackground.anchor.setTo(0.5);
     state.enemyLogo = state.game.add.sprite(state.game.width - 78,8,"spiderlogo");
     state.emptyHpBarEnemy = state.game.add.sprite(state.game.width - 210,15,"healthBarDark");
     state.fullHpBarEnemy = state.game.add.sprite(state.game.width - 210,15,"healthBar");
