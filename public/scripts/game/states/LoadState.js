@@ -19,6 +19,14 @@ let LoadState = {
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("fightingButtonPunch","assets/fight/fightingButtonPunch.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
+    this.load.image("fightInitButton","assets/fight/fightInitButton.png");
+    this.load.image("fightInitButton","assets/fight/fightInitButton.png");
+    this.load.image("fightAbortButton","assets/fight/fightAbortButton.png");
+    this.load.image("skill_health","assets/fight/skills/skill_health.png");
+    this.load.image("skill_mana","assets/fight/skills/skill_mana.png");
+    this.load.image("skill_poison","assets/fight/skills/skill_poison.png");
+    this.load.image("skill_punch","assets/fight/skills/skill_punch.png");
+    this.load.image("skill_sword","assets/fight/skills/skill_sword.png");
 
     /* Entities */
     // trees

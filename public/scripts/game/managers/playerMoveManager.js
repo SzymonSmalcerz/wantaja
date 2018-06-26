@@ -25,6 +25,11 @@ class PlayerMoveManager {
 
   update(){
 
+    if(this.state.player.isFighting){
+      this.playerMoveList = [];
+      return;
+    }
+
     if((Date.now() - this.lastTimeInputRead > this.xTimeout)){
       this.state.xGreen.visible = false;
       this.state.xRed.visible = false;

@@ -25,11 +25,22 @@ class UIManager {
     state.ui.add(state.fullHpBar);
     state.ui.add(state.emptyExpBar);
     state.ui.add(state.fullExpBar);
+    // state.ui.callAll("anchor.setTo","anchor", 0.5);
 
-    state.ui.setAll("fixedToCamera",true);
+    state.ui.fixedToCamera = true;
+    this.onResize();
   }
 
-  update(){
+  onResize() {
+    let state = this.state;
+    state.emptyHpBar.reset(70,state.game.height - 60);
+    state.fullHpBar.reset(70,state.game.height - 60);
+    state.emptyExpBar.reset(70,state.game.height - 36);
+    state.fullExpBar.reset(70,state.game.height - 36);
+    state.playerlogo.reset(2,state.game.height - 72);
+  };
+
+  update() {
     let state = this.state;
     state.fullHpBar.width = state.player.health/state.player.maxHealth * state.emptyHpBar.width;
     state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;

@@ -38,9 +38,10 @@ class GameHandler {
       this.game.stage.width = width;
       this.game.stage.height = height
       this.game.scale.refresh();
-      if(this.game.state.getCurrentState().mapManager){
-        this.game.state.getCurrentState().mapManager.onResize(width,height);
+      if(this.game.state.getCurrentState()){
+        this.game.state.getCurrentState().onResize(width,height);
       };
+      this.game.scale.refresh();
     });
   }
 };

@@ -13,24 +13,25 @@ let GameState = {
     handler.socketsManager.sendToServerInitializedInfo();
 
   },
-  update : function(){
+  update : function() {
     this.physics.arcade.collide(this.walls, this.player);
     this.physics.arcade.collide(this.entities, this.player);
     this.emitData();
     this.uiManager.update();
     this.playerMoveManager.update();
   },
-  initMoveManager(){
+  initMoveManager() {
     this.playerMoveManager = new PlayerMoveManager(this);
   },
-  initFightingStage(){
+  initFightingStage() {
     this.fightingStageManager = new FightingStageManager(this);
     this.fightingStageManager.initialize();
   },
-  setRenderingOrder(){
+  setRenderingOrder() {
     this.game.world.bringToTop(this.map);
     this.game.world.bringToTop(this.allEntities);
     this.game.world.bringToTop(this.fightingStage);
+    this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.ui);
   },
   initUI(){
@@ -74,5 +75,11 @@ let GameState = {
   },
   setCamera() {
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON,1,1);
+  },
+  onResize(width, height) {
+    this.uiManager.onResize();
+    this.fightingStageManager.onResize();
+    this.mapManager.onResize(width,height);
+    this.setRenderingOrder();
   }
 };
