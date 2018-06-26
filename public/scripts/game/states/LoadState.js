@@ -15,18 +15,15 @@ let LoadState = {
     this.load.image("xRed", "assets/shortestPath/xRed.png");
 
     /* Fight sprites */
-    this.load.image("fightBackground", "assets/fight/fightSprite.png");
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
-    this.load.image("fightingButtonPunch","assets/fight/fightingButtonPunch.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
-    this.load.image("fightInitButton","assets/fight/fightInitButton.png");
-    this.load.image("fightInitButton","assets/fight/fightInitButton.png");
-    this.load.image("fightAbortButton","assets/fight/fightAbortButton.png");
-    this.load.image("skill_health","assets/fight/skills/skill_health.png");
-    this.load.image("skill_mana","assets/fight/skills/skill_mana.png");
-    this.load.image("skill_poison","assets/fight/skills/skill_poison.png");
-    this.load.image("skill_punch","assets/fight/skills/skill_punch.png");
-    this.load.image("skill_sword","assets/fight/skills/skill_sword.png");
+    this.load.spritesheet("fightInitButton","assets/fight/fightInitButton.png",48,48);
+    this.load.spritesheet("fightAbortButton","assets/fight/fightAbortButton.png",48,48);
+    this.load.spritesheet("skill_health","assets/fight/skills/skill_health.png",48,48);
+    this.load.spritesheet("skill_mana","assets/fight/skills/skill_mana.png",48,48);
+    this.load.spritesheet("skill_poison","assets/fight/skills/skill_poison.png",48,48);
+    this.load.spritesheet("skill_punch","assets/fight/skills/skill_punch.png",48,48);
+    this.load.spritesheet("skill_sword","assets/fight/skills/skill_sword.png",48,48);
 
     /* Entities */
     // trees
@@ -41,7 +38,7 @@ let LoadState = {
     this.load.image("well", "assets/entities/well.png");
     this.load.image("house2", "assets/entities/house2.png");
     // enemies
-    this.load.spritesheet("spider", "assets/enemies/spider.png",32 ,32);
+    this.load.spritesheet("spider", "assets/enemies/spider.png",64 ,64);
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");
 
     //player

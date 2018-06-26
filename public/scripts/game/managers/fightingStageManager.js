@@ -51,9 +51,9 @@ class FightingStageManager {
 
     state.fightingOptionsMenu = state.add.group();
 
-    state.fightInitButton = state.add.button(-100,-100,"fightInitButton");
+    state.fightInitButton = state.add.button(-100,-100,"fightInitButton",null,null,1,0,2);
     state.fightInitButton.anchor.setTo(0.5);
-    state.fightAbortButton = state.add.button(-100,-100,"fightAbortButton");
+    state.fightAbortButton = state.add.button(-100,-100,"fightAbortButton",null,null,1,0,2);
     state.fightAbortButton.anchor.setTo(0.5);
     state.fightingOptionsMenu.add(state.fightInitButton);
     state.fightingOptionsMenu.add(state.fightAbortButton);
@@ -174,23 +174,23 @@ class FightingStageManager {
     this.skillsCss.left = this.getLeftSkillMargin(5);
     state.skill_punch = state.game.add.button(this.skillsCss.left,state.game.height - this.skillsCss.h,"skill_punch",function(){
       self.damageEnemy("punch");
-    });
+    },2,1,0,2);
     state.skill_punch.anchor.setTo(0.5);
     state.skill_health = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff),state.game.height - this.skillsCss.h,"skill_health",function(){
       self.damageEnemy("health");
-    });
+    },2,1,0,2);
     state.skill_health.anchor.setTo(0.5);
     state.skill_poison = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 2,state.game.height - this.skillsCss.h,"skill_poison",function(){
       self.damageEnemy("poison");
-    });
+    },2,1,0,2);
     state.skill_poison.anchor.setTo(0.5);
     state.skill_mana = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 3,state.game.height - this.skillsCss.h,"skill_mana",function(){
       self.damageEnemy("mana");
-    });
+    },2,1,0,2);
     state.skill_mana.anchor.setTo(0.5);
     state.skill_sword = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 4,state.game.height - this.skillsCss.h,"skill_sword",function(){
       self.damageEnemy("sword");
-    });
+    },2,1,0,2);
     state.skill_sword.anchor.setTo(0.5);
   }
 }

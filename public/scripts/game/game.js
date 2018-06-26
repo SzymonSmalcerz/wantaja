@@ -15,8 +15,8 @@ class GameHandler {
     this.socket = socket;
     this.startPlayerData = data;
     console.log(data);
-    let gameWidth = Math.min(window.innerWidth, 500);
-    let gameHeight = Math.min(window.innerHeight, 700);
+    let gameWidth = Math.min(window.innerWidth, 400);
+    let gameHeight = Math.min(window.innerHeight, 500);
     console.log(gameWidth);
     console.log(gameHeight);
     this.playerID = data.characterData.id;
@@ -29,8 +29,10 @@ class GameHandler {
     this.socketsManager = new SocketsManager(this);
     this.socketsManager.initialize();
     window.addEventListener("resize", () => {
-      let width = 400;
-      let height = 700;
+      let width = Math.min(window.innerWidth, 400);
+      let height = Math.min(window.innerHeight, 500);
+      console.log(width);
+      console.log(height);
       this.game.scale.setGameSize(width, height);
       this.game.camera.setBoundsToWorld();
       this.game.camera.setSize(width, height);

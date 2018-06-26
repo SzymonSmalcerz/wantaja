@@ -25,10 +25,7 @@ class PlayerMoveManager {
 
   update(){
 
-    if(this.state.player.isFighting){
-      this.playerMoveList = [];
-      return;
-    }
+
 
     if((Date.now() - this.lastTimeInputRead > this.xTimeout)){
       this.state.xGreen.visible = false;
@@ -36,7 +33,12 @@ class PlayerMoveManager {
     } else {
       this.state.xGreen.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
       this.state.xRed.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
-    }
+    };
+
+    if(this.state.player.isFighting){
+      this.playerMoveList = [];
+      return;
+    };
 
     if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250)) {
 

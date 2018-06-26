@@ -20,6 +20,9 @@ let GameState = {
     this.uiManager.update();
     this.playerMoveManager.update();
   },
+  render(){
+    this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, 40, "#00ff00");
+  },
   initMoveManager() {
     this.playerMoveManager = new PlayerMoveManager(this);
   },
@@ -52,6 +55,8 @@ let GameState = {
     };
   },
   changeRenderOrder(entity) {
+
+    return;
     let indexOfentity = this.allEntities.children.indexOf(entity);
     if(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
       while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {
