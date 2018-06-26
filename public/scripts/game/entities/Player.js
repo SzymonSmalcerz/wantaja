@@ -19,16 +19,18 @@ let Player = function(game,data){
 
   this.anchor.setTo(0.5);
   game.physics.enable(this);
+  this.body.collideWorldBounds = true;
   game.add.existing(this);
 
   this.body.width = 20;
   this.body.offset.x = 22;
   this.body.height = 20;
   this.body.offset.y = 44;
-  this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], 5);
-  this.animations.add("goRight", [27,28,29,30,31,32,33,34,35], 5);
-  this.animations.add("goUp", [0,1,2,3,4,5,6,7,8], 5);
-  this.animations.add("goDown", [18,19,20,21,22,23,24,25,26], 5);
+  let howManyAnimationsPerSec = 10;
+  this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], howManyAnimationsPerSec);
+  this.animations.add("goRight", [27,28,29,30,31,32,33,34,35], howManyAnimationsPerSec);
+  this.animations.add("goUp", [0,1,2,3,4,5,6,7,8], howManyAnimationsPerSec);
+  this.animations.add("goDown", [18,19,20,21,22,23,24,25,26], howManyAnimationsPerSec);
 
 
   this.isFighting = false;

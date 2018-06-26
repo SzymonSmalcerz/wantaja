@@ -61,10 +61,6 @@ class MapManager {
   onResize(width, height){
     this.state.floor.resize(width,height);
     this.state.walls.resize(width,height);
-    // this.state.floor.width = width;
-    // this.state.floor.height = height;
-    // this.state.walls.width = width;
-    // this.state.walls.height = height;
   };
 
   createPlayer() {

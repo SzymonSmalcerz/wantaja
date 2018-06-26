@@ -5,37 +5,62 @@ class PlayerMoveManager {
       x : 0,
       y : 0
     });
-    // this.state.playerShadow.visible = false;
+    this.state.playerShadow.anchor.setTo(0.5,0.5);
     this.playerMoveList = [];
     this.state.playerShadow.alpha = 0;
     this.cursors = this.state.game.input.keyboard.createCursorKeys();
+
+    this.lastTimeInputRead = 0;
+
+    this.state.xGreen = this.state.game.add.sprite(100,100,"xGreen");
+    this.state.xGreen.anchor.setTo(0.5);
+    this.state.xGreen.visible = false;
+    this.state.xRed = this.state.game.add.sprite(100,200,"xRed");
+    this.state.xRed.anchor.setTo(0.5);
+    this.state.xRed.visible = false;
+
+    this.playerBodyOffset = 20;
+    this.xTimeout = 1500;
   }
 
   update(){
-    if(this.state.game.input.activePointer.isDown) {
+
+    if((Date.now() - this.lastTimeInputRead > this.xTimeout)){
+      this.state.xGreen.visible = false;
+      this.state.xRed.visible = false;
+    } else {
+      this.state.xGreen.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
+      this.state.xRed.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
+    }
+
+    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250)) {
+
+
+      this.lastTimeInputRead = Date.now();
       let goal = {
         x : this.state.game.input.activePointer.worldX,
-        y : this.state.game.input.activePointer.worldY
+        y : this.state.game.input.activePointer.worldY - this.playerBodyOffset
       };
 
       let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
       if(this.checkCollisionAtPoint(goalPoint)){
+        this.renderX("red", goal);
         return;
-      }
+      } else {
+        this.renderX("green", goal);
+      };
+
       let openList = new ASearchList();
       let closedList = new ASearchList();
       let playerSpeed = this.state.player.realSpeed;
-      this.state.playerShadow.x = this.state.player.x;
-      this.state.playerShadow.y = this.state.player.y;
+      this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
       openList.push(new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y})));
 
 
       while(openList.length > 0){
-        // openList = openList.sort((a,b) => a.f - b.f);
 
         let firstElement = openList.getSmallestFElement();
         if (firstElement == null) {
-          console.log("WUTWUTWUT");
           return;
         };
 
@@ -56,22 +81,23 @@ class PlayerMoveManager {
         closedList.push(firstElement);
 
       };
+      this.lastTimeInputRead = Date.now();
     };
 
     if(!this.state.player.isFighting){
-      if(this.cursors.up.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.W)){
+      if(this.cursors.up.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.W)) {
         this.playerMoveList = [];
         this.state.player.goUp();
         this.state.changeRenderOrder(this.state.player);
-      } else if(this.cursors.down.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.S)){
+      } else if(this.cursors.down.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
         this.playerMoveList = [];
         this.state.player.goDown();
         this.state.changeRenderOrder(this.state.player);
-      }  else if(this.cursors.left.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.A)){
+      }  else if(this.cursors.left.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.A)) {
         this.playerMoveList = [];
         this.state.player.goLeft();
         this.state.changeRenderOrder(this.state.player);
-      }  else if(this.cursors.right.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.D)){
+      }  else if(this.cursors.right.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
         this.playerMoveList = [];
         this.state.player.goRight();
         this.state.changeRenderOrder(this.state.player);
@@ -122,7 +148,9 @@ class PlayerMoveManager {
 
   checkCollisionAtPoint(aSearchPoint){
     this.state.playerShadow.reset(aSearchPoint.x, aSearchPoint.y);
-    if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
+    if(aSearchPoint.x < 0 || aSearchPoint.y < 0 || aSearchPoint.x > this.state.world.width || aSearchPoint.y > this.state.world.height){
+      return true;
+    } else if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
       return true;
     } else if(this.state.physics.arcade.overlap(this.state.walls, this.state.playerShadow)) {
       return true;
@@ -131,6 +159,19 @@ class PlayerMoveManager {
     }
   };
 
+  renderX(color, coords) {
+    if(color == "red") {
+      this.state.xRed.reset(coords.x, coords.y + this.playerBodyOffset);
+      this.state.xRed.visible = true;
+      this.state.game.world.bringToTop(this.state.xRed);
+      this.state.xGreen.visible = false;
+    } else {
+      this.state.xGreen.reset(coords.x, coords.y + this.playerBodyOffset);
+      this.state.xGreen.visible = true;
+      this.state.game.world.bringToTop(this.state.xGreen);
+      this.state.xRed.visible = false;
+    };
+  }
 
   handleSuccesor(firstElement,direction,playerSpeed,openList,closedList,goal) {
 

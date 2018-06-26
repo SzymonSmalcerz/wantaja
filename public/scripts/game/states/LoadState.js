@@ -10,6 +10,9 @@ let LoadState = {
     this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
     this.load.image("house1", "assets/house1.png");
 
+    /* Shortest Path */
+    this.load.image("xGreen", "assets/shortestPath/xGreen.png");
+    this.load.image("xRed", "assets/shortestPath/xRed.png");
 
     /* Fight sprites */
     this.load.image("fightBackground", "assets/fight/fightSprite.png");
