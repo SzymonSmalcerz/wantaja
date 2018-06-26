@@ -3,11 +3,13 @@ let GameState = {
   create : function(){
     this.smoothed = false;
     handler.currentState = this;
+
     this.initializeMap();
     this.setCamera();
     this.initUI();
     this.initFightingStage();
     this.initMoveManager();
+
     this.setRenderingOrder();
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
@@ -36,6 +38,11 @@ let GameState = {
     this.game.world.bringToTop(this.fightingStage);
     this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.ui);
+    this.game.world.bringToTop(this.alerts);
+    this.alerts.children.forEach(alert => {
+      this.game.world.bringToTop(alert);
+    });
+    this.game.world.bringToTop(this.wonAlert);
   },
   initUI(){
     this.uiManager = new UIManager(this);
@@ -56,7 +63,6 @@ let GameState = {
   },
   changeRenderOrder(entity) {
 
-    return;
     let indexOfentity = this.allEntities.children.indexOf(entity);
     if(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
       while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {

@@ -12,7 +12,7 @@ class FightingStageManager {
       h : 120, // distance from bottom of the world of skill sprite
       left : 0 // distance from left edge of the game of first skill sprite
     };
-  }
+  };
 
   initialize(){
     let state = this.state;
@@ -59,7 +59,27 @@ class FightingStageManager {
     state.fightingOptionsMenu.add(state.fightAbortButton);
 
     state.fightingOptionsMenu.visible = false;
-  }
+
+
+    state.alerts = state.alerts || state.add.group();
+    state.alerts.fixedToCamera = true;
+    state.wonAlert = state.add.group();
+
+    state.wonInfo = state.game.add.sprite(state.game.width/2,state.game.height/2,"wonInfo");
+    state.wonInfo.anchor.setTo(0.5);
+    state.okButton = state.add.button(state.game.width/2,state.game.height/2 + 15,"okButton",null,null,1,2);
+    state.okButton.anchor.setTo(0.5);
+
+    state.wonAlert.add(state.wonInfo);
+    state.wonAlert.add(state.okButton);
+    state.wonAlert.fixedToCamera = true;
+    state.wonAlert.visible = false;
+  };
+
+  updateEnemyHealth() {
+    let state = this.state;
+    state.fullHpBarEnemy.width = state.player.opponent.health/state.player.opponent.maxHealth * state.emptyHpBarEnemy.width;
+  };
 
   setEnemy(enemy){
     this.enemy = enemy;
@@ -69,7 +89,7 @@ class FightingStageManager {
     let self = this;
     handler.socketsManager.emit("damageEnemy",{
       playerID : self.state.player.id,
-      enemyID : self.currentEnemy.id
+      attackName : typeOfDamage
     });
   };
 
@@ -82,10 +102,12 @@ class FightingStageManager {
     this.state.fightInitButton.onInputDown.addOnce(function(){
       this.startFight(enemy);
       this.state.fightingOptionsMenu.visible = false;
+      this.state.playerMoveManager.lastTimeInputRead = Date.now();
     },this);
     this.state.fightAbortButton.onInputDown.addOnce(function(){
       this.state.player.isFighting = false;
       this.state.fightingOptionsMenu.visible = false;
+      this.state.playerMoveManager.lastTimeInputRead = Date.now();
     },this);
     this.state.fightingOptionsMenu.visible = true;
   };
@@ -96,6 +118,7 @@ class FightingStageManager {
     this.currentEnemy = enemy;
     player.isFighting = true; // player wont send any data about his position to the server while fighting
     player.frame = 1;
+    player.opponent = enemy;
     state.fightingStage.visible = true;
     enemy.oldCoords = {
       x : enemy.x,
@@ -117,11 +140,11 @@ class FightingStageManager {
     player.bringToTop();
     enemy.bringToTop();
 
-    this.state.skill_punch.onInputDown.addOnce(function(){
-      this.handleWinFight({
-        enemyID : enemy.id
-      });
-    },this);
+    // this.state.skill_punch.onInputDown.addOnce(function(){
+    //   this.handleWinFight({
+    //     enemyID : enemy.id
+    //   });
+    // },this);
   };
 
   startFight(enemy){
@@ -132,15 +155,20 @@ class FightingStageManager {
     })
   };
 
-  handleWinFight(data){
+  handleWinFight(){
     let player = this.state.player;
-    player.reset(player.oldCoords.x, player.oldCoords.y);
-    if (this.state.allEntities.enemies[data.enemyID]) {
-      this.state.allEntities.enemies[data.enemyID].kill();
-    };
-    this.state.fightingStage.visible = false;
-    this.state.allEntities.add(player);
-    player.isFighting = false;
+    this.state.wonAlert.visible = true;
+    this.state.player.opponent.health = 0;
+    this.updateEnemyHealth();
+    this.state.okButton.onInputDown.addOnce(function(){
+      let player = this.state.player;
+      player.reset(player.oldCoords.x, player.oldCoords.y);
+      this.state.fightingStage.visible = false;
+      this.state.allEntities.add(player);
+      player.isFighting = false;
+      this.state.playerMoveManager.lastTimeInputRead = Date.now();
+      this.state.wonAlert.visible = false;
+    },this);
   };
 
   onResize(){
@@ -155,6 +183,9 @@ class FightingStageManager {
     state.enemyLogo.reset(state.game.width - 78,8);
     state.emptyHpBarEnemy.reset(state.game.width - 210,15);
     state.fullHpBarEnemy.reset(state.game.width - 210,15);
+
+    state.wonInfo.reset(state.game.width/2,state.game.height/2);
+    state.okButton.reset(state.game.width/2,state.game.height/2 + 15);
   };
 
 

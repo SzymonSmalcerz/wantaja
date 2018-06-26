@@ -17,9 +17,19 @@ class SocketsManager {
     });
     this.handler.socket.on("removePlayer", function(data){
       let playerToRemove = self.handler.currentState.allEntities.objects[data.id];
-      self.handler.currentState.allEntities.remove(playerToRemove);
+      playerToRemove.kill();
       delete self.handler.currentState.allEntities.objects[data.id];
     });
+    this.handler.socket.on("removeEnemy", function(data){
+      let enemyToRemove = self.handler.currentState.allEntities.enemies[data.id];
+      enemyToRemove.kill();
+      delete self.handler.currentState.allEntities.enemies[data.id];
+    });
+
+    this.handler.socket.on("fightEnemyAlreadyFighting", function(data){
+      self.handler.currentState.player.isFighting = false;
+      alert("enemy fight with someone else :C");
+    })
 
     this.handler.socket.on("initialMapData", function(data) {
       for(let playerID in data.players) {
@@ -53,12 +63,26 @@ class SocketsManager {
 
     this.handler.socket.on("fightInit",function(data){
       let enemy = self.handler.currentState.allEntities.enemies[data.enemyID];
+      enemy.health = data.enemyHealth;
+      enemy.maxHealth = data.enemyMaxHealth;
+      console.log(data);
       if (!enemy) {
         console.log("??????????????");
         return;
       };
 
       self.handler.currentState.fightingStageManager.initFight(enemy);
+    });
+
+    this.handler.socket.on("fightMove", function(data){
+      console.log("x?x?x?x?x")
+      let enemy = self.handler.currentState.player.opponent;
+      enemy.health = data.enemyHealth;
+      self.handler.currentState.fightingStageManager.updateEnemyHealth();
+    });
+
+    this.handler.socket.on("handleWinFight", function(data){
+      self.handler.currentState.fightingStageManager.handleWinFight();
     });
 
     this.handler.socket.on('checkForConnection', function () {

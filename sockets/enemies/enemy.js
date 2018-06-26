@@ -6,7 +6,7 @@ class Enemy {
     this.id = id;
     this.key = key;
     this.health = hp || 100;
-    this.maxHealth = hp;
+    this.maxHealth = hp || 100;
     this.damage = damage || 10;
     this.exp = exp || 100;
     this.isFighting = false;

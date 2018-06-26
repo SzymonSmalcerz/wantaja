@@ -93,7 +93,21 @@ class Map {
         });
       }
     };
-  }
+  };
+
+  removeEnemy(idOfRemovedMob) {
+
+    if(!this.mobs[idOfRemovedMob]){return};
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        this.players[playerID].socket.emit("removeEnemy", {
+          id : idOfRemovedMob
+        });
+      }
+    };
+
+    this.mobs[idOfRemovedMob].onDie();
+  };
 
   tick() {
     let newDataToSend = {};

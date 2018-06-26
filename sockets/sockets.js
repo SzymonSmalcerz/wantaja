@@ -10,10 +10,14 @@ let dm = { // data manager, created to hold values for game purpose
     lastTime : 0,
     lastTimeForCheckingIfPlayersAreActive : 0
   },
-  fps : 10
+  fps : 10,
+  fightingMobs : []
 };
 dm.removePlayer = function(playerID) {
   this.allMaps[this.findMapNameByPlayerId[playerID]].removePlayer(playerID);
+  if(this.allLoggedPlayersData[playerID].fightData && this.allLoggedPlayersData[playerID].fightData.opponent && this.allLoggedPlayersData[playerID].fightData.opponent.isFighting){
+    this.allLoggedPlayersData[playerID].fightData.opponent.isFighting = false;
+  };
   delete this.allLoggedPlayersData[playerID];
   this.socketsOfPlayers[playerID].disconnect();
   delete this.socketsOfPlayers[playerID];
@@ -81,19 +85,48 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("initFight", function(data){
-    console.log(data);
     let mapName = dm.findMapNameByPlayerId[data.playerID];
     if(mapName && dm.allMaps[mapName].mobs[data.enemyID] && !dm.allMaps[mapName].mobs[data.enemyID].isFighting){
       dm.allMaps[mapName].mobs[data.enemyID].isFighting = true;
-      console.log("aa");
+      dm.allLoggedPlayersData[data.playerID].fightData = {};
+      dm.allLoggedPlayersData[data.playerID].fightData.opponent = dm.allMaps[mapName].mobs[data.enemyID];
+      dm.allMaps[mapName].mobs[data.enemyID].fightData = {};
+      dm.allMaps[mapName].mobs[data.enemyID].fightData.opponent = dm.allLoggedPlayersData[data.playerID];
+      dm.allMaps[mapName].mobs[data.enemyID].fightData.fightTick = Date.now();
+      dm.fightingMobs.push(dm.allMaps[mapName].mobs[data.enemyID]);
+      console.log("enemy max health:");
+      console.log(dm.allMaps[mapName].mobs[data.enemyID].maxHealth);
       dm.socketsOfPlayers[data.playerID].emit("fightInit",{
-        enemyID : data.enemyID
+        enemyID : data.enemyID,
+        enemyHealth : dm.allMaps[mapName].mobs[data.enemyID].health,
+        enemyMaxHealth : dm.allMaps[mapName].mobs[data.enemyID].maxHealth
       });
-    };
+    } else {
+      dm.socketsOfPlayers[data.playerID].emit("fightEnemyAlreadyFighting");
+    }
   });
 
-  socket.on("damageEnemy",function(data){
-    console.log(data);
+  socket.on("damageEnemy",function(data) {
+    let player = dm.allLoggedPlayersData[data.playerID];
+    if(!player || !player.fightData || !player.fightData.opponent){return};
+    let enemy = dm.allLoggedPlayersData[data.playerID].fightData.opponent;
+    enemy.health -= player.attack;
+    if(enemy.health <= 0){
+      dm.socketsOfPlayers[data.playerID].emit("handleWinFight");
+      dm.allMaps[dm.findMapNameByPlayerId[data.playerID]].removeEnemy(enemy.id);
+    } else {
+      enemy.fightData.fightTick = Date.now();
+      player.health -= enemy.damage;
+      if(player.health <=0){
+        enemy.isFighting = false;
+        enemy.fightData = {};
+        // inform other s on map that player papa
+        // and handle his death TODO
+      };
+      dm.socketsOfPlayers[data.playerID].emit("fightMove", {
+        enemyHealth : enemy.health
+      });
+    };
   });
 
 

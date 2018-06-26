@@ -14,6 +14,10 @@ let LoadState = {
     this.load.image("xGreen", "assets/shortestPath/xGreen.png");
     this.load.image("xRed", "assets/shortestPath/xRed.png");
 
+    /* Info and dialog sprites */
+    this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
+    this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
+
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
