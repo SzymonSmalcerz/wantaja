@@ -49,31 +49,57 @@ class FightingStageManager {
     state.fightingStage.fixedToCamera = true;
 
 
-    state.fightingOptionsMenu = state.add.group();
-
-    state.fightInitButton = state.add.button(-100,-100,"fightInitButton",null,null,1,0,2);
-    state.fightInitButton.anchor.setTo(0.5);
-    state.fightAbortButton = state.add.button(-100,-100,"fightAbortButton",null,null,1,0,2);
-    state.fightAbortButton.anchor.setTo(0.5);
-    state.fightingOptionsMenu.add(state.fightInitButton);
-    state.fightingOptionsMenu.add(state.fightAbortButton);
-
-    state.fightingOptionsMenu.visible = false;
+    this.createFightingOptionsMenu();
+    this.createSkillDescriptionInfos();
+    this.createWonAlert();
 
 
-    state.alerts = state.alerts || state.add.group();
-    state.alerts.fixedToCamera = true;
+
+
+
+  };
+
+
+  createWonAlert(){
+    let state = this.state;
     state.wonAlert = state.add.group();
 
     state.wonInfo = state.game.add.sprite(state.game.width/2,state.game.height/2,"wonInfo");
     state.wonInfo.anchor.setTo(0.5);
-    state.okButton = state.add.button(state.game.width/2,state.game.height/2 + 15,"okButton",null,null,1,2);
+    state.okButton = state.add.button(state.game.width/2,state.game.height/2 + 15,"okButton",null,null,1,0,1,0);
     state.okButton.anchor.setTo(0.5);
 
     state.wonAlert.add(state.wonInfo);
     state.wonAlert.add(state.okButton);
     state.wonAlert.fixedToCamera = true;
     state.wonAlert.visible = false;
+  };
+
+  createFightingOptionsMenu(){
+    let state = this.state;
+    state.fightingOptionsMenu = state.add.group();
+
+    state.fightInitButton = state.add.button(-100,-100,"fightInitButton",null,null,1,0,1,0);
+    state.fightInitButton.anchor.setTo(0.5);
+    state.fightAbortButton = state.add.button(-100,-100,"fightAbortButton",null,null,1,0,1,0);
+    state.fightAbortButton.anchor.setTo(0.5);
+    state.fightingOptionsMenu.add(state.fightInitButton);
+    state.fightingOptionsMenu.add(state.fightAbortButton);
+
+    state.fightingOptionsMenu.visible = false;
+  };
+
+
+  createSkillDescriptionInfos() {
+    let state = this.state;
+    state.skillDescriptions = state.add.group();
+
+    state.skill_punch_description = state.game.add.sprite(state.game.width/2,state.game.height/2,"skill_punch_description");
+    state.skill_punch_description.anchor.setTo(0.5);
+
+    state.skillDescriptions.add(state.skill_punch_description);
+    state.skillDescriptions.setAll("visible",false);
+    state.skillDescriptions.fixedToCamera = true;
   };
 
   updateEnemyHealth() {
@@ -172,7 +198,6 @@ class FightingStageManager {
   };
 
   onResize(){
-    console.log("????");
     let state = this.state;
     this.skillsCss.left = this.getLeftSkillMargin(5);
     state.skill_punch.reset(this.skillsCss.left,state.game.height - this.skillsCss.h);
@@ -205,23 +230,29 @@ class FightingStageManager {
     this.skillsCss.left = this.getLeftSkillMargin(5);
     state.skill_punch = state.game.add.button(this.skillsCss.left,state.game.height - this.skillsCss.h,"skill_punch",function(){
       self.damageEnemy("punch");
-    },2,1,0,2);
+    },1,1,0,0);
+    state.skill_punch.onInputOver.add(function(){
+      this.state.skill_punch_description.visible = true;
+    },this);
+    state.skill_punch.onInputOut.add(function(){
+      this.state.skill_punch_description.visible = false;
+    },this);
     state.skill_punch.anchor.setTo(0.5);
     state.skill_health = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff),state.game.height - this.skillsCss.h,"skill_health",function(){
       self.damageEnemy("health");
-    },2,1,0,2);
+    },1,1,0,0);
     state.skill_health.anchor.setTo(0.5);
     state.skill_poison = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 2,state.game.height - this.skillsCss.h,"skill_poison",function(){
       self.damageEnemy("poison");
-    },2,1,0,2);
+    },1,1,0,0);
     state.skill_poison.anchor.setTo(0.5);
     state.skill_mana = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 3,state.game.height - this.skillsCss.h,"skill_mana",function(){
       self.damageEnemy("mana");
-    },2,1,0,2);
+    },1,1,0,0);
     state.skill_mana.anchor.setTo(0.5);
     state.skill_sword = state.game.add.button(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 4,state.game.height - this.skillsCss.h,"skill_sword",function(){
       self.damageEnemy("sword");
-    },2,1,0,2);
+    },1,1,0,0);
     state.skill_sword.anchor.setTo(0.5);
   }
 }

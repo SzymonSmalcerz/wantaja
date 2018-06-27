@@ -38,10 +38,8 @@ let GameState = {
     this.game.world.bringToTop(this.fightingStage);
     this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.ui);
-    this.game.world.bringToTop(this.alerts);
-    this.alerts.children.forEach(alert => {
-      this.game.world.bringToTop(alert);
-    });
+
+    this.game.world.bringToTop(this.skillDescriptions);
     this.game.world.bringToTop(this.wonAlert);
   },
   initUI(){

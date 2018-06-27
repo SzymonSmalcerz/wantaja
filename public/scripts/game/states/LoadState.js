@@ -17,6 +17,7 @@ let LoadState = {
     /* Info and dialog sprites */
     this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
     this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
+    this.load.image("skill_punch_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
 
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
@@ -55,6 +56,8 @@ let LoadState = {
     this.load.image("healthBarDark", "assets/UI/bars/healthBarDark.png");
     this.load.image("experienceBar", "assets/UI/bars/experienceBar.png");
     this.load.image("experienceBarDark", "assets/UI/bars/experienceBarDark.png");
+    this.load.image("manaBar", "assets/UI/bars/manaBar.png");
+    this.load.image("manaBarDark", "assets/UI/bars/manaBarDark.png");
 
     // player logo
     this.load.image("playerlogo", "assets/player/playerlogo.png");

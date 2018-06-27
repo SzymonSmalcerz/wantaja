@@ -55,6 +55,8 @@ let socketHandler = (socket, io) => {
         characterData.level = user.level;
         characterData.maxHealth = 10000;
         characterData.health = 5000;
+        characterData.mana = 50;
+        characterData.maxMana = 75;
         characterData.attack = 50;
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;
@@ -86,23 +88,26 @@ let socketHandler = (socket, io) => {
 
   socket.on("initFight", function(data){
     let mapName = dm.findMapNameByPlayerId[data.playerID];
-    if(mapName && dm.allMaps[mapName].mobs[data.enemyID] && !dm.allMaps[mapName].mobs[data.enemyID].isFighting){
-      dm.allMaps[mapName].mobs[data.enemyID].isFighting = true;
-      dm.allLoggedPlayersData[data.playerID].fightData = {};
-      dm.allLoggedPlayersData[data.playerID].fightData.opponent = dm.allMaps[mapName].mobs[data.enemyID];
-      dm.allMaps[mapName].mobs[data.enemyID].fightData = {};
-      dm.allMaps[mapName].mobs[data.enemyID].fightData.opponent = dm.allLoggedPlayersData[data.playerID];
-      dm.allMaps[mapName].mobs[data.enemyID].fightData.fightTick = Date.now();
-      dm.fightingMobs.push(dm.allMaps[mapName].mobs[data.enemyID]);
-      console.log("enemy max health:");
-      console.log(dm.allMaps[mapName].mobs[data.enemyID].maxHealth);
+    let opponent = dm.allMaps[mapName].mobs[data.enemyID];
+    let player = dm.allLoggedPlayersData[data.playerID];
+    if(mapName && opponent && !opponent.isFighting){
+      opponent.isFighting = true;
+      player.fightData = {};
+      player.fightData.opponent = opponent;
+      opponent.fightData = {};
+      opponent.fightData.opponent = player;
+      opponent.fightData.fightTick = Date.now();
+      dm.fightingMobs.push(opponent);
+      // TODO skoncz prace z fightTick !!!!!
       dm.socketsOfPlayers[data.playerID].emit("fightInit",{
         enemyID : data.enemyID,
-        enemyHealth : dm.allMaps[mapName].mobs[data.enemyID].health,
-        enemyMaxHealth : dm.allMaps[mapName].mobs[data.enemyID].maxHealth
+        enemyHealth : opponent.health,
+        enemyMaxHealth : opponent.maxHealth
       });
     } else {
-      dm.socketsOfPlayers[data.playerID].emit("fightEnemyAlreadyFighting");
+      if(dm.socketsOfPlayers[data.playerID] && !(player.fightData && player.fightData.opponent && player.fightData.opponent.isFighting)){
+        dm.socketsOfPlayers[data.playerID].emit("fightEnemyAlreadyFighting");
+      };
     }
   });
 

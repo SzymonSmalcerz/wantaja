@@ -7,6 +7,8 @@ let Player = function(game,data){
 
   this.health = data.health || 10;
   this.maxHealth = data.maxHealth || 19;
+  this.mana = data.mana || 10;
+  this.maxMana = data.maxMana || 19;
   this.experience = data.experience || 10;
   this.requiredExperience = data.requiredExperience || 10;
   this.level = data.level || 10;
