@@ -100,7 +100,7 @@ class MapManager {
       newEnemy.inputEnabled = true;
       newEnemy.input.pixelPerfectClick = true;
       newEnemy.events.onInputDown.add(function(){
-        self.fightingStageManager.showFightOptionsMenu(newEnemy);
+        self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
       });
       self.setRenderOrder(newEnemy);
     } else {

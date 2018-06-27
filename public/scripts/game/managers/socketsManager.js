@@ -71,18 +71,18 @@ class SocketsManager {
         return;
       };
 
-      self.handler.currentState.fightingStageManager.initFight(enemy);
+      self.handler.currentState.fightWithOpponentManager.initFight(enemy);
     });
 
     this.handler.socket.on("fightMove", function(data){
       console.log("x?x?x?x?x")
       let enemy = self.handler.currentState.player.opponent;
       enemy.health = data.enemyHealth;
-      self.handler.currentState.fightingStageManager.updateEnemyHealth();
+      self.handler.currentState.fightWithOpponentManager.updateEnemyHealth();
     });
 
     this.handler.socket.on("handleWinFight", function(data){
-      self.handler.currentState.fightingStageManager.handleWinFight();
+      self.handler.currentState.fightWithOpponentManager.handleWinFight();
     });
 
     this.handler.socket.on('checkForConnection', function () {

@@ -7,12 +7,29 @@ let GameState = {
     this.initializeMap();
     this.setCamera();
     this.initUI();
-    this.initFightingStage();
+    this.initFightWithOpponentManager();
     this.initMoveManager();
 
     this.setRenderingOrder();
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
+
+    // this.test = this.game.add.sprite(100,100,"skill_punch");
+    // this.test.fixedToCamera = true;
+    // this.test.inputEnabled = true;
+    // this.game.world.bringToTop(this.test);
+    // this.test.events.onInputOver.add(function(){
+    //   alert("XD");
+    // },this);
+    // this.test.events.onInputOver.add(function(){
+    //   alert("XDDD");
+    // },this);
+    //
+    // this.test2 = new Button(this.game,100,200,"skill_punch",0,0,1,2);
+    // this.game.world.bringToTop(this.test2);
+    // this.test2.addOnInputOverFunction(function(){
+    //   alert("XDDD");
+    // });
 
   },
   update : function() {
@@ -28,9 +45,9 @@ let GameState = {
   initMoveManager() {
     this.playerMoveManager = new PlayerMoveManager(this);
   },
-  initFightingStage() {
-    this.fightingStageManager = new FightingStageManager(this);
-    this.fightingStageManager.initialize();
+  initFightWithOpponentManager() {
+    this.fightWithOpponentManager = new FightWithOpponentManager(this);
+    this.fightWithOpponentManager.initialize();
   },
   setRenderingOrder() {
     this.game.world.bringToTop(this.map);
@@ -87,7 +104,7 @@ let GameState = {
   },
   onResize(width, height) {
     this.uiManager.onResize();
-    this.fightingStageManager.onResize();
+    this.fightWithOpponentManager.onResize();
     this.mapManager.onResize(width,height);
     this.setRenderingOrder();
   }

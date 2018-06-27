@@ -18,7 +18,12 @@ let LoadState = {
     this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
     this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
     this.load.image("skill_punch_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
-
+    this.load.image("skill_health_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
+    this.load.image("skill_poison_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
+    this.load.image("skill_mana_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
+    this.load.image("skill_sword_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
+    this.load.image("questionMark","assets/infoTables/questionMark.png");
+    
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
