@@ -5,10 +5,6 @@ class SocketsManager {
 
   initialize() {
     let self = this;
-
-    this.handler.socket.on("fightData", function(data){
-
-    });
     this.handler.socket.on("addPlayer", function(data){
       self.handler.currentState.mapManager.addNewPlayer(data);
     });

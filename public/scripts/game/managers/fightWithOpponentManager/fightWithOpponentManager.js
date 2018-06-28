@@ -14,6 +14,7 @@ class FightWithOpponentManager {
   initialize(){
     this.fightingStageUIManager.initialize();
     this.preFightMenu.initialize();
+    this.onResize();
   };
 
   updateEnemyHealth() {

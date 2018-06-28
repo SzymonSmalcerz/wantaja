@@ -4,7 +4,7 @@ let Player = function(game,data){
 
   Phaser.Sprite.call(this,game,data.x,data.y,"player");
 
-
+  this.skillsDictionary = data.skillsDictionary || ["punch","poison","mana","sword","health"];
   this.health = data.health || 10;
   this.maxHealth = data.maxHealth || 19;
   this.mana = data.mana || 10;

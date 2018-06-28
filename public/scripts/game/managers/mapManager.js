@@ -100,11 +100,27 @@ class MapManager {
       newEnemy.inputEnabled = true;
       newEnemy.input.pixelPerfectClick = true;
       newEnemy.events.onInputDown.add(function(){
-        self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
-      });
+        console.log(this.getDistanceBetweenEntityAndPlayer(newEnemy));
+        if(this.getDistanceBetweenEntityAndPlayer(newEnemy) <= 50){
+          self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
+        };
+      }, this);
       self.setRenderOrder(newEnemy);
     } else {
       newEnemy.reset(data.x,data.y);
     }
+  };
+
+
+  getDistanceBetweenEntityAndPlayer(entity){
+    let entityCoords = {
+      x : entity.left + entity.width/2,
+      y : entity.bottom - entity.height/2
+    };
+    let playerCoords = {
+      x : this.state.player.left + this.state.player.width/2,
+      y : this.state.player.bottom - this.state.player.height/2
+    };
+    return Math.sqrt(Math.pow(entityCoords.x - playerCoords.x,2) + Math.pow(entityCoords.y - playerCoords.y,2));
   };
 }

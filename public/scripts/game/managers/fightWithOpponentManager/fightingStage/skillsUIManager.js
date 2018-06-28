@@ -5,15 +5,15 @@ class SkillsUIManager {
     this.skillsCss = {
       diff : 4, // how much space each skill will take
       skillSpriteWidth : 48,
-      h : 120, // distance from bottom of the world of skill sprite
-      left : 0 // distance from left edge of the game of first skill sprite
+      h : 100, // distance from bottom of the world of skill sprite
+      left : 0, // distance from left edge of the game of first skill sprite
+      verticalDistanceToQuestionMark : 40
     };
-    this.skillsDictionary = ["punch","poison","mana","sword","health"];
+    this.skillsDictionary = this.state.player.skillsDictionary;
   };
 
   initialize(){
     this.setSkillsUI();
-    this.createSkillDescriptionInfos();
   };
 
   getLeftSkillMargin(howManySkills){
@@ -26,25 +26,30 @@ class SkillsUIManager {
     let state = this.state;
     this.skillsCss.left = this.getLeftSkillMargin(this.skillsDictionary.length);
 
+
+    state.skillDescriptions = state.add.group();
     for(let i=0;i<this.skillsDictionary.length;i++){
-      state["skill_" + this.skillsDictionary[i]] = new Button(this.state.game,this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * i,state.game.height - this.skillsCss.h,"skill_" + this.skillsDictionary[i],0,0,1,2);
-      state["skill_" + this.skillsDictionary[i]].addOnInputOverFunction(function(){
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"] = this.state.game.add.sprite(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * i,state.game.height - this.skillsCss.h - this.skillsCss.verticalDistanceToQuestionMark,"questionMark");
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"].anchor.setTo(0.5);
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"].inputEnabled = true;
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"].events.onInputOver.add(function(){
         this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = true;
       },this);
-      state["skill_" + this.skillsDictionary[i]].addOnInputOutFunction(function(){
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"].events.onInputDown.add(function(){
+        this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = true;
+      },this);
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"].events.onInputOut.add(function(){
         this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = false;
       },this);
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"].events.onInputUp.add(function(){
+        this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = false;
+      },this);
+      state["skill_" + this.skillsDictionary[i]] = new Button(this.state.game,this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * i,state.game.height - this.skillsCss.h,"skill_" + this.skillsDictionary[i],0,0,1,2);
       state["skill_" + this.skillsDictionary[i]].addOnInputDownFunction(function(){
         this.mainFightManager.damageEnemy(this.skillsDictionary[i]);
       },this);
       state["skill_" + this.skillsDictionary[i]].anchor.setTo(0.5);
-    };
-  };
 
-  createSkillDescriptionInfos() {
-    let state = this.state;
-    state.skillDescriptions = state.add.group();
-    for(let i=0;i<this.skillsDictionary.length;i++){
       state["skill_" + this.skillsDictionary[i] + "_description"] = state.game.add.sprite(state.game.width/2,state.game.height/2,"skill_" + this.skillsDictionary[i] + "_description");
       state["skill_" + this.skillsDictionary[i] + "_description"].anchor.setTo(0.5);
       state.skillDescriptions.add(state["skill_" + this.skillsDictionary[i] + "_description"]);
@@ -53,16 +58,20 @@ class SkillsUIManager {
     state.skillDescriptions.fixedToCamera = true;
   };
 
+
+
   showSkillButtons(){
     for(let i=0;i<this.skillsDictionary.length;i++){
       this.state["skill_" + this.skillsDictionary[i]].visible = true;
-      // this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = true;
+      this.state["skill_" + this.skillsDictionary[i] + "_questionMark"].visible = true;
+      this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = false;
     }
   };
 
   hideSkillButtons(){
     for(let i=0;i<this.skillsDictionary.length;i++){
       this.state["skill_" + this.skillsDictionary[i]].visible = false;
+      this.state["skill_" + this.skillsDictionary[i] + "_questionMark"].visible = false;
       this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = false;
     }
   };
@@ -70,20 +79,18 @@ class SkillsUIManager {
   addSkillButtonsToStageGroup(fightingStage){
     for(let i=0;i<this.skillsDictionary.length;i++){
       fightingStage.add(this.state["skill_" + this.skillsDictionary[i]]);
+      fightingStage.add(this.state["skill_" + this.skillsDictionary[i] + "_questionMark"]);
     }
   };
 
   onResize(){
     let state = this.state;
     this.skillsCss.left = this.getLeftSkillMargin(this.skillsDictionary.length);
-    state.skill_punch.reset(this.skillsCss.left,state.game.height - this.skillsCss.h);
-    state.skill_health.reset(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff),state.game.height - this.skillsCss.h);
-    state.skill_poison.reset(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 2,state.game.height - this.skillsCss.h)
-    state.skill_mana.reset(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 3,state.game.height - this.skillsCss.h)
-    state.skill_sword.reset(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * 4,state.game.height - this.skillsCss.h);
-
-    for(let i=0;i<this.skillsDictionary.length;i++){
+    for(let i=0;i<this.skillsDictionary.length;i++) {
       state["skill_" + this.skillsDictionary[i]].reset(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * i,state.game.height - this.skillsCss.h);
+      state["skill_" + this.skillsDictionary[i] + "_questionMark"].reset(this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * i,state.game.height - this.skillsCss.h - this.skillsCss.verticalDistanceToQuestionMark);
+      state["skill_" + this.skillsDictionary[i] + "_description"].reset(state.game.width/2,state.game.height - this.skillsCss.h - state["skill_" + this.skillsDictionary[i] + "_description"].height/4 * 3);
+      state["skill_" + this.skillsDictionary[i] + "_description"].visible = false;
     };
   };
 }

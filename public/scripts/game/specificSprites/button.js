@@ -84,4 +84,9 @@ Button.prototype.initializeFrames = function(){
       this.frame = this.downFrame;
     };
   },this);
+  this.addOnInputUpFunction(function(){
+    if(!this.disabled){
+      this.frame = this.normalFrame;
+    };
+  },this);
 };
