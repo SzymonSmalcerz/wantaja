@@ -10,10 +10,12 @@ class SkillsUIManager {
       verticalDistanceToQuestionMark : 40
     };
     this.skillsDictionary = this.state.player.skillsDictionary;
+    this.fightAnimationsManager = new FightAnimationsManager(mainFightManager);
   };
 
   initialize(){
     this.setSkillsUI();
+    this.fightAnimationsManager.initialize();
   };
 
   getLeftSkillMargin(howManySkills){
@@ -45,8 +47,9 @@ class SkillsUIManager {
         this.state["skill_" + this.skillsDictionary[i] + "_description"].visible = false;
       },this);
       state["skill_" + this.skillsDictionary[i]] = new Button(this.state.game,this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * i,state.game.height - this.skillsCss.h,"skill_" + this.skillsDictionary[i],0,0,1,2);
-      state["skill_" + this.skillsDictionary[i]].addOnInputDownFunction(function(){
+      state["skill_" + this.skillsDictionary[i]].addOnInputUpFunction(function(){
         this.mainFightManager.damageEnemy(this.skillsDictionary[i]);
+        this.fightAnimationsManager.playAnimation(this.skillsDictionary[i]);
       },this);
       state["skill_" + this.skillsDictionary[i]].anchor.setTo(0.5);
 
@@ -80,7 +83,8 @@ class SkillsUIManager {
     for(let i=0;i<this.skillsDictionary.length;i++){
       fightingStage.add(this.state["skill_" + this.skillsDictionary[i]]);
       fightingStage.add(this.state["skill_" + this.skillsDictionary[i] + "_questionMark"]);
-    }
+      fightingStage.add(this.state["skill_" + this.skillsDictionary[i] + "_animation"]);
+    };
   };
 
   onResize(){
