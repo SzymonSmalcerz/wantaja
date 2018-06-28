@@ -24,7 +24,6 @@ class SocketsManager {
 
     this.handler.socket.on("fightEnemyAlreadyFighting", function(data){
       self.handler.currentState.player.isFighting = false;
-      alert("enemy fight with someone else :C");
     })
 
     this.handler.socket.on("initialMapData", function(data) {
@@ -74,6 +73,8 @@ class SocketsManager {
       console.log("x?x?x?x?x")
       let enemy = self.handler.currentState.player.opponent;
       enemy.health = data.enemyHealth;
+      self.handler.currentState.player.health = data.playerHealth;
+      self.handler.currentState.fightWithOpponentManager.animateEnemySkill(data.enemySkillName);
       self.handler.currentState.fightWithOpponentManager.updateEnemyHealth();
     });
 

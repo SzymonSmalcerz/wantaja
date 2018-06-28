@@ -37,7 +37,7 @@ let LoadState = {
     this.load.spritesheet("skill_punch_animation","assets/fight/skills/skill_punch_animation.png",128,128);
     this.load.spritesheet("skill_health_animation","assets/fight/skills/skill_punch_animation.png",128,128);
     this.load.spritesheet("skill_mana_animation","assets/fight/skills/skill_punch_animation.png",128,128);
-    this.load.spritesheet("skill_poison_animation","assets/fight/skills/skill_punch_animation.png",128,128);
+    this.load.spritesheet("skill_poison_animation","assets/fight/skills/skill_poison_animation.png",128,128);
     this.load.spritesheet("skill_sword_animation","assets/fight/skills/skill_punch_animation.png",128,128);
 
     /* Entities */

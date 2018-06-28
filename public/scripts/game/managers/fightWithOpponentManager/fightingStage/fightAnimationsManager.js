@@ -3,6 +3,7 @@ class FightAnimationsManager {
     this.mainFightManager = mainFightManager;
     this.state = mainFightManager.state;
     this.skillsDictionary = this.state.player.skillsDictionary;
+    this.playingAnimation = false;
   };
 
   initialize(){
@@ -15,23 +16,41 @@ class FightAnimationsManager {
     };
   };
 
-  playAnimation(animationName){
+  playAnimation(skillName,isThisEnemySkillAnimation){
     if(!this.state.player.opponent){
       console.log("opponent not found ! :C");
       return;
     };
 
-    this.state.game.world.bringToTop(this.state["skill_" + animationName + "_animation"]);
-    this.state["skill_" + animationName + "_animation"].reset(this.state.player.opponent.x,this.state.player.opponent.y);
-    this.state["skill_" + animationName + "_animation"].visible = true;
-    this.state["skill_" + animationName + "_animation"].play("skill");
-    this.state["skill_" + animationName + "_animation"].howManyTimesPushedButton += 1;
-    this.state["skill_" + animationName + "_animation"].skillAnimation.onComplete.add(function(){
-      this.state["skill_" + animationName + "_animation"].howManyTimesPushedButton -= 1;
-      if(this.state["skill_" + animationName + "_animation"].howManyTimesPushedButton <= 0){
-        this.state["skill_" + animationName + "_animation"].visible = false;
-      };
-    },this);
+    if(this.playingAnimation){
+      return;
+    };
+    this.playingAnimation = true;
 
+    let entity;
+    if(isThisEnemySkillAnimation){
+      entity = this.state.player;
+    } else {
+      entity = this.state.player.opponent;
+    };
+
+    this.state["skill_" + skillName + "_animation"].bringToTop();
+    this.state["skill_" + skillName + "_animation"].reset(entity.x,entity.y);
+    this.state["skill_" + skillName + "_animation"].visible = true;
+    this.state["skill_" + skillName + "_animation"].play("skill");
+    this.state["skill_" + skillName + "_animation"].howManyTimesPushedButton += 1;
+    console.log("inside animation");
+    this.state["skill_" + skillName + "_animation"].skillAnimation.onComplete.addOnce(function(){
+      this.state["skill_" + skillName + "_animation"].howManyTimesPushedButton -= 1;
+      if(this.state["skill_" + skillName + "_animation"].howManyTimesPushedButton <= 0){
+        this.state["skill_" + skillName + "_animation"].visible = false;
+      };
+      console.log(isThisEnemySkillAnimation);
+      if(!isThisEnemySkillAnimation && this.state.player.isFighting){
+        console.log("sendiiiing");
+        this.mainFightManager.damageEnemy(skillName);
+      };
+      this.playingAnimation = false;
+    },this);
   };
 }

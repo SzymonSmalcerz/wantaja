@@ -18,6 +18,10 @@ class SkillsUIManager {
     this.fightAnimationsManager.initialize();
   };
 
+  animateEnemySkill(skillName){
+    this.fightAnimationsManager.playAnimation(skillName,true);
+  }
+
   getLeftSkillMargin(howManySkills){
     return (this.state.game.width - (howManySkills - 1) * (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) - this.skillsCss.skillSpriteWidth)/2 + this.skillsCss.skillSpriteWidth/2;
   };
@@ -48,7 +52,6 @@ class SkillsUIManager {
       },this);
       state["skill_" + this.skillsDictionary[i]] = new Button(this.state.game,this.skillsCss.left + (this.skillsCss.skillSpriteWidth + this.skillsCss.diff) * i,state.game.height - this.skillsCss.h,"skill_" + this.skillsDictionary[i],0,0,1,2);
       state["skill_" + this.skillsDictionary[i]].addOnInputUpFunction(function(){
-        this.mainFightManager.damageEnemy(this.skillsDictionary[i]);
         this.fightAnimationsManager.playAnimation(this.skillsDictionary[i]);
       },this);
       state["skill_" + this.skillsDictionary[i]].anchor.setTo(0.5);

@@ -47,6 +47,10 @@ class FightingStageUIManager {
     state.fightingStage.fixedToCamera = true;
   };
 
+  animateEnemySkill(skillName){
+    this.skillsUIManager.animateEnemySkill(skillName);
+  }
+
   onResize(){
     let state = this.state;
     state.enemyLogo.reset(state.game.width - 78,8);

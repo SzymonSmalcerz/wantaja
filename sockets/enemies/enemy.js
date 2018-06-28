@@ -1,5 +1,5 @@
 class Enemy {
-  constructor(x,y,map,id,key,hp,damage,exp) {
+  constructor(x,y,map,id,key,hp,damage,exp,skillName) {
     this.map = map;
     this.x = x;
     this.y = y;
@@ -10,7 +10,8 @@ class Enemy {
     this.damage = damage || 10;
     this.exp = exp || 100;
     this.isFighting = false;
-  }
+    this.skillName = skillName || "punch";
+  };
 
   onDie(){
     this.map.currentNumberOfMobs -= 1;
@@ -22,7 +23,7 @@ class Enemy {
 class Spider extends Enemy {
   constructor(x,y,map) {
     let id = Math.floor(Math.random() * 100000) + "spider";
-    super(x,y,map,id,"spider");
+    super(x,y,map,id,"spider",null,null,null,"poison");
   }
 };
 

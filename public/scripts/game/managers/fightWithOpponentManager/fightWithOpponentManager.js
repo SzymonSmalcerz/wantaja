@@ -34,6 +34,10 @@ class FightWithOpponentManager {
     });
   };
 
+  animateEnemySkill(skillName){
+    this.fightingStageUIManager.animateEnemySkill(skillName);
+  };
+
   showFightOptionsMenu(enemy){
     this.preFightMenu.showFightOptionsMenu(enemy);
   }

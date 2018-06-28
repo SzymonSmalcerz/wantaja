@@ -129,7 +129,9 @@ let socketHandler = (socket, io) => {
         // and handle his death TODO
       };
       dm.socketsOfPlayers[data.playerID].emit("fightMove", {
-        enemyHealth : enemy.health
+        enemyHealth : enemy.health,
+        enemySkillName : enemy.skillName,
+        playerHealth : player.health
       });
     };
   });
