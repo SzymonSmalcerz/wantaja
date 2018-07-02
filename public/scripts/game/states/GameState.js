@@ -79,13 +79,13 @@ let GameState = {
   changeRenderOrder(entity) {
 
     let indexOfentity = this.allEntities.children.indexOf(entity);
-    if(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
+    if(indexOfentity > 0 && indexOfentity < this.allEntities.children.length && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
       while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {
         entity.moveDown();
         indexOfentity-=1;
       };
     } else {
-      while(indexOfentity < this.allEntities.children.length && this.allEntities.children[indexOfentity+1].bottom < entity.bottom) {
+      while(indexOfentity < this.allEntities.children.length - 1 && this.allEntities.children[indexOfentity+1].bottom < entity.bottom) {
         entity.moveUp();
         indexOfentity+=1;
       };
