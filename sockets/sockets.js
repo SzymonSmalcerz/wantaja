@@ -1,5 +1,6 @@
 const User = require("../database/models/userModel");
 const {FirstMap} = require("./maps/Maps");
+const skills = require("./skills/skill");
 
 let dm = { // data manager, created to hold values for game purpose
   allLoggedPlayersData : {},
@@ -11,7 +12,11 @@ let dm = { // data manager, created to hold values for game purpose
     lastTimeForCheckingIfPlayersAreActive : 0
   },
   fps : 10,
-  fightingMobs : []
+  fightingMobs : [],
+  skills : {
+    "punch" : new skills.Punch,
+    "poison" : new skills.Poison
+  }
 };
 dm.removePlayer = function(playerID) {
   this.allMaps[this.findMapNameByPlayerId[playerID]].removePlayer(playerID);
@@ -47,17 +52,25 @@ let socketHandler = (socket, io) => {
         console.log("shouldn't happen but user not found in socket.on(getGameData) sockets.js");
       } else {
         let characterData = {};
+
+        characterData.health = user.health;
+        characterData.maxHealth = (user.vitality + user.level + user.weapon.vitality) * 15 + 70;
+        characterData.level = user.level;
         characterData.x = user.x;
         characterData.y = user.y;
         characterData.experience = user.experience;
-        characterData.requiredExperience = 1000;
-        characterData.speed = 10;
-        characterData.level = user.level;
-        characterData.maxHealth = 10000;
-        characterData.health = 5000;
-        characterData.mana = 50;
-        characterData.maxMana = 75;
-        characterData.attack = 50;
+        characterData.requiredExperience = user.level * 150;
+        characterData.mana = user.mana;
+        characterData.maxMana = (user.intelligence + user.level) * 5;
+        characterData.attack = (user.strength + user.level + user.weapon.strength) * 10 + user.weapon.attack;
+        characterData.weapon = user.weapon;
+
+        characterData.strength = user.strength;
+        characterData.vitality = user.vitality;
+        characterData.intelligence = user.intelligence;
+        characterData.agility = user.agility;
+
+
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;
 
@@ -112,12 +125,21 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("damageEnemy",function(data) {
+    let playerSkill = dm.skills[data.skillName];
     let player = dm.allLoggedPlayersData[data.playerID];
     if(!player || !player.fightData || !player.fightData.opponent){return};
     let enemy = dm.allLoggedPlayersData[data.playerID].fightData.opponent;
-    enemy.health -= player.attack;
+    if(player.mana >= playerSkill.manaCost){
+      enemy.health -= playerSkill.getDamage(player.attack);
+      player.mana -= playerSkill.manaCost;
+    };
     if(enemy.health <= 0){
-      dm.socketsOfPlayers[data.playerID].emit("handleWinFight");
+      player.experience += enemy.exp;
+      dm.socketsOfPlayers[data.playerID].emit("handleWinFight",{
+        playerExperience : player.experience,
+        playerHealth : player.health,
+        playerMana : player.mana
+      });
       dm.allMaps[dm.findMapNameByPlayerId[data.playerID]].removeEnemy(enemy.id);
     } else {
       enemy.fightData.fightTick = Date.now();
@@ -131,7 +153,8 @@ let socketHandler = (socket, io) => {
       dm.socketsOfPlayers[data.playerID].emit("fightMove", {
         enemyHealth : enemy.health,
         enemySkillName : enemy.skillName,
-        playerHealth : player.health
+        playerHealth : player.health,
+        playerMana : player.mana
       });
     };
   });
@@ -189,6 +212,12 @@ let socketHandler = (socket, io) => {
                 user.level = player.level;
                 user.experience = player.experience;
                 user.currentMapName = dm.findMapNameByPlayerId[player.id];
+                user.health = player.health;
+                user.mana = player.mana;
+                user.strength = player.strength;
+                user.vitality = player.vitality;
+                user.intelligence = player.intelligence;
+                user.agility = player.agility;
                 await user.save();
 
                 console.log("saved statis of :", user._id);

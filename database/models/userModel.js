@@ -41,6 +41,53 @@ var userSchema = new mongoose.Schema({
   currentMapName : {
     type : String,
     default : "firstMap"
+  },
+  health : {
+    type : Number,
+    default : 100
+  },
+  mana : {
+    type : Number,
+    default : 10
+  },
+  strength : {
+    type : Number,
+    default : 1
+  },
+  agility : {
+    type : Number,
+    default : 1
+  },
+  vitality : {
+    type : Number,
+    default : 1
+  },
+  intelligence : {
+    type : Number,
+    default : 1
+  },
+  //every weapon has its own attack + can have some other bonuses which increase power of player
+  weapon : {
+    attack : {
+      type : Number,
+      default : 1
+    },
+    strength : {
+      type : Number,
+      default : 0
+    },
+    intelligence : {
+      type : Number,
+      default : 0
+    },
+    vitality : {
+      type : Number,
+      default : 0
+    },
+    agility : {
+      type : Number,
+      default : 0
+    }
   }
 });
 

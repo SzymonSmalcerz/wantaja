@@ -30,7 +30,7 @@ class FightWithOpponentManager {
     let self = this;
     handler.socketsManager.emit("damageEnemy",{
       playerID : self.state.player.id,
-      attackName : typeOfDamage
+      skillName : typeOfDamage
     });
   };
 

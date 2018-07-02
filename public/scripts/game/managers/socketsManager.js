@@ -74,11 +74,15 @@ class SocketsManager {
       let enemy = self.handler.currentState.player.opponent;
       enemy.health = data.enemyHealth;
       self.handler.currentState.player.health = data.playerHealth;
+      self.handler.currentState.player.mana = data.playerMana;
       self.handler.currentState.fightWithOpponentManager.animateEnemySkill(data.enemySkillName);
       self.handler.currentState.fightWithOpponentManager.updateEnemyHealth();
     });
 
     this.handler.socket.on("handleWinFight", function(data){
+      self.handler.currentState.player.health = data.playerHealth;
+      self.handler.currentState.player.mana = data.playerMana;
+      self.handler.currentState.player.experience = data.playerExperience;
       self.handler.currentState.fightWithOpponentManager.handleWinFight();
     });
 

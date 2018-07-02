@@ -14,23 +14,6 @@ let GameState = {
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
 
-    // this.test = this.game.add.sprite(100,100,"skill_punch");
-    // this.test.fixedToCamera = true;
-    // this.test.inputEnabled = true;
-    // this.game.world.bringToTop(this.test);
-    // this.test.events.onInputOver.add(function(){
-    //   alert("XD");
-    // },this);
-    // this.test.events.onInputOver.add(function(){
-    //   alert("XDDD");
-    // },this);
-    //
-    // this.test2 = new Button(this.game,100,200,"skill_punch",0,0,1,2);
-    // this.game.world.bringToTop(this.test2);
-    // this.test2.addOnInputOverFunction(function(){
-    //   alert("XDDD");
-    // });
-
   },
   update : function() {
     this.physics.arcade.collide(this.walls, this.player);

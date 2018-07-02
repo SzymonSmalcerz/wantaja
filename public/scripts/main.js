@@ -6,7 +6,6 @@ function initializeConnection(){
   window.onload = function(){
 
     socket.on('connect', function () {
-      console.log('Connected to server, waiting for data ..');
       socket.emit("getGameData",{
         id : playerID
       });
@@ -17,7 +16,6 @@ function initializeConnection(){
     });
 
     socket.on('alreadyLoggedIn', function(data){
-      console.log(data);
       // handler.startGame(data,socket);
       alert(data.message + "\nwait 10 seconds\nand try again");
     });
