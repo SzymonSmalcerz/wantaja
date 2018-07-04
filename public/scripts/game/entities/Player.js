@@ -11,13 +11,16 @@ let Player = function(game,data) {
   this.maxMana = data.maxMana || 19;
   this.experience = data.experience || 10;
   this.requiredExperience = data.requiredExperience || 10;
+
   this.strength = data.strength || 1;
   this.agility = data.agility || 1;
   this.vitality = data.vitality || 1;
   this.intelligence = data.intelligence || 1;
+
   this.attack = data.attack || 1;
-  this.level = data.level || 10;
+  this.level = data.level || 1;
   this.id = data.id || 10;
+  this.leftStatusPoints = data.leftStatusPoints || 0;
   this.speed = 100;
   this.realSpeed = this.speed/game.time.desiredFps;
 

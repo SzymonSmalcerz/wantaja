@@ -1,6 +1,7 @@
 class UIManager {
   constructor(state){
     this.state = state;
+    this.statusPointsManager = new StatusPointsManager(state,this);
   }
 
   initialize() {
@@ -31,9 +32,10 @@ class UIManager {
     state.ui.add(state.fullManaBar);
     state.ui.add(state.emptyExpBar);
     state.ui.add(state.fullExpBar);
-    // state.ui.callAll("anchor.setTo","anchor", 0.5);
 
     state.ui.fixedToCamera = true;
+
+    this.statusPointsManager.initialize();
     this.onResize();
   }
 
@@ -46,6 +48,7 @@ class UIManager {
     state.emptyExpBar.reset(70,state.game.height - 31);
     state.fullExpBar.reset(70,state.game.height - 31);
     state.playerlogo.reset(2,state.game.height - 72);
+    this.statusPointsManager.onResize();
   };
 
   update() {

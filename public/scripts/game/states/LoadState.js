@@ -23,6 +23,7 @@ let LoadState = {
     this.load.image("skill_mana_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
     this.load.image("skill_sword_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
     this.load.image("questionMark","assets/infoTables/questionMark.png");
+    this.load.image("statusPoints", "assets/UI/statusPoints.png");
 
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");

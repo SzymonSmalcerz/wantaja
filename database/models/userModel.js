@@ -87,6 +87,10 @@ var userSchema = new mongoose.Schema({
     agility : {
       type : Number,
       default : 0
+    },
+    leftStatusPoints : {
+      type : Number,
+      default : 0
     }
   }
 });

@@ -93,6 +93,19 @@ class SocketsManager {
       });
     });
 
+
+    this.handler.socket.on("levelUp", function(data){
+      self.handler.currentState.player.maxHealth = data.maxHealth;
+      self.handler.currentState.player.health = data.maxHealth;
+      self.handler.currentState.player.maxMana = data.maxMana;
+      self.handler.currentState.player.mana = data.maxMana;
+      self.handler.currentState.player.level = data.level;
+      self.handler.currentState.player.attack = data.attack;
+      self.handler.currentState.player.leftStatusPoints = data.leftStatusPoints;
+      self.handler.currentState.player.experience = data.experience;
+      self.handler.currentState.player.requiredExperience = data.requiredExperience;
+    })
+
   }
 
   sendToServerInitializedInfo(){

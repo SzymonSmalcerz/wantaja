@@ -16,6 +16,41 @@ let dm = { // data manager, created to hold values for game purpose
   skills : {
     "punch" : new skills.Punch,
     "poison" : new skills.Poison
+  },
+  playerFunctions : {
+    calculateMaxHp : function(player){
+      return (player.vitality + player.level + player.weapon.vitality) * 15 + 70;
+    },
+    calculateMaxMana : function(player){
+      return (player.intelligence + player.level) * 5;
+    },
+    calculateAttack : function(player){
+      return (player.strength + player.level + player.weapon.strength) * 10 + player.weapon.attack;
+    },
+    calculateRequiredExperience : function(player){
+      return player.level * 150;;
+    },
+    levelUp : function(player) {
+      player.level += 1;
+      player.experience = 0;
+      player.requiredExperience = dm.playerFunctions.calculateRequiredExperience(player);
+      player.attack = dm.playerFunctions.calculateAttack(player);
+      player.maxMana = dm.playerFunctions.calculateMaxMana(player);
+      player.mana = player.maxMana;
+      player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
+      player.health = player.maxHealth;
+      player.leftStatusPoints += 5;
+
+      dm.socketsOfPlayers[player.id].emit("levelUp", {
+        level : player.level,
+        requiredExperience : player.requiredExperience,
+        experience : player.experience,
+        attack : player.attack,
+        maxMana : player.maxMana,
+        maxHealth : player.maxHealth,
+        leftStatusPoints : player.leftStatusPoints
+      })
+    }
   }
 };
 dm.removePlayer = function(playerID) {
@@ -54,16 +89,19 @@ let socketHandler = (socket, io) => {
         let characterData = {};
 
         characterData.health = user.health;
-        characterData.maxHealth = (user.vitality + user.level + user.weapon.vitality) * 15 + 70;
+
         characterData.level = user.level;
         characterData.x = user.x;
         characterData.y = user.y;
         characterData.experience = user.experience;
-        characterData.requiredExperience = user.level * 150;
-        characterData.mana = user.mana;
-        characterData.maxMana = (user.intelligence + user.level) * 5;
-        characterData.attack = (user.strength + user.level + user.weapon.strength) * 10 + user.weapon.attack;
+        characterData.mana = user.mana + 100;
         characterData.weapon = user.weapon;
+        characterData.leftStatusPoints = user.leftStatusPoints;
+
+        characterData.maxHealth = dm.playerFunctions.calculateMaxHp(user);
+        characterData.maxMana = dm.playerFunctions.calculateMaxMana(user);
+        characterData.attack = dm.playerFunctions.calculateAttack(user);
+        characterData.requiredExperience = dm.playerFunctions.calculateRequiredExperience(user);
 
         characterData.strength = user.strength;
         characterData.vitality = user.vitality;
@@ -135,6 +173,9 @@ let socketHandler = (socket, io) => {
     };
     if(enemy.health <= 0){
       player.experience += enemy.exp;
+      if(player.experience > player.requiredExperience){
+        dm.playerFunctions.levelUp(player);
+      };
       dm.socketsOfPlayers[data.playerID].emit("handleWinFight",{
         playerExperience : player.experience,
         playerHealth : player.health,
