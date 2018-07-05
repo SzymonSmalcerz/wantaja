@@ -23,7 +23,13 @@ let LoadState = {
     this.load.image("skill_mana_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
     this.load.image("skill_sword_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
     this.load.image("questionMark","assets/infoTables/questionMark.png");
+
+    /* status points */
     this.load.image("statusPoints", "assets/UI/statusPoints.png");
+    this.load.image("statusPoints_strength_description", "assets/UI/statusPoints_strength_description.png");
+    this.load.image("statusPoints_agility_description", "assets/UI/statusPoints_agility_description.png");
+    this.load.image("statusPoints_intelligence_description", "assets/UI/statusPoints_intelligence_description.png");
+    this.load.image("statusPoints_vitality_description", "assets/UI/statusPoints_vitality_description.png");
 
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
