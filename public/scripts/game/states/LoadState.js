@@ -23,6 +23,7 @@ let LoadState = {
     this.load.image("skill_mana_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
     this.load.image("skill_sword_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
     this.load.image("questionMark","assets/infoTables/questionMark.png");
+    this.load.spritesheet("plusButton","assets/UI/plusButton.png",50,50);
 
     /* status points */
     this.load.image("statusPoints", "assets/UI/statusPoints.png");
@@ -78,6 +79,9 @@ let LoadState = {
 
     // player logo
     this.load.image("playerlogo", "assets/player/playerlogo.png");
+
+    // other ui stuff
+    this.load.image("uiTile", "assets/UI/uiTile.png");
   },
   create(){
     this.game.state.start("HomeState");

@@ -6,6 +6,10 @@ class UIManager {
 
   initialize() {
     let state = this.state;
+
+    // uiTileSprite
+    state.uiTileSprite = state.add.tileSprite(-100,state.game.height-80,state.game.width + 200,80,"uiTile");
+
     // health bars
     state.emptyHpBar = state.game.add.sprite(70,state.game.height - 70,"healthBarDark");
     state.fullHpBar = state.game.add.sprite(70,state.game.height - 70,"healthBar");
@@ -25,6 +29,7 @@ class UIManager {
 
     //adding everything to one group
     state.ui = state.add.group();
+    state.ui.add(state.uiTileSprite);
     state.ui.add(state.playerlogo);
     state.ui.add(state.emptyHpBar);
     state.ui.add(state.fullHpBar);
@@ -48,6 +53,10 @@ class UIManager {
     state.emptyExpBar.reset(70,state.game.height - 31);
     state.fullExpBar.reset(70,state.game.height - 31);
     state.playerlogo.reset(2,state.game.height - 72);
+
+    state.uiTileSprite.reset(-100,state.game.height-80);
+    state.uiTileSprite.width = state.game.width + 200;
+    state.uiTileSprite.height = 80;
     this.statusPointsManager.onResize();
   };
 
@@ -57,5 +66,6 @@ class UIManager {
     state.fullHpBar.width = state.player.health/state.player.maxHealth * state.emptyHpBar.width;
     state.fullManaBar.width = state.player.mana/state.player.maxMana * state.emptyManaBar.width;
     state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;
+    this.statusPointsManager.update();
   }
 }

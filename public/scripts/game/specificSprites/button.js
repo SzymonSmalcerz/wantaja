@@ -68,6 +68,16 @@ Button.prototype.addOnInputUpFunction = function(specificFunction,context,addOnc
   };
 };
 
+Button.prototype.disableButton = function(){
+  this.inputEnabled = false;
+  this.frame = this.disabledFrame;
+};
+
+Button.prototype.enableButton = function(){
+  this.inputEnabled = true;
+  this.frame = this.normalFrame;
+};
+
 Button.prototype.initializeFrames = function(){
   this.addOnInputOverFunction(function(){
     if(!this.disabled){
@@ -85,8 +95,8 @@ Button.prototype.initializeFrames = function(){
     };
   },this);
   this.addOnInputUpFunction(function(){
-    if(!this.disabled){
-      this.frame = this.normalFrame;
-    };
+    // if(!this.disabled){
+    //   this.frame = this.normalFrame;
+    // };
   },this);
 };

@@ -10,8 +10,16 @@ class StatusPointsManager {
         x : this.posX - 37,
         y : this.posY - 53,
         difference : 60
+      },
+
+      plusButton : {
+        x : this.posX + 80,
+        y : this.posY - 65,
+        difference : 60
       }
-    }
+    };
+
+    this.lastTime = 0;
   }
 
   initialize() {
@@ -21,6 +29,20 @@ class StatusPointsManager {
     state.statusPointsBackground = state.game.add.sprite(this.posX,this.posY,"statusPoints");
     state.statusPointsBackground.anchor.setTo(0.5);
     state.statusPoints.add(state.statusPointsBackground);
+
+    state.statusPoints.plusButtons = [];
+
+    for(let i=0;i<this.statusPointsNames.length;i++){
+      state.statusPoints.plusButtons.push(new Button(this.state.game,this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference, "plusButton",0,1,2,3));
+      state.statusPoints.plusButtons[i].anchor.setTo(0.5);
+      state.statusPoints.add(state.statusPoints.plusButtons[i]);
+
+      state.statusPoints.plusButtons[i].addOnInputDownFunction(function(){
+        this.addStatus(this.statusPointsNames[i]);
+      },this);
+    };
+
+
     state.statusPoints.questionMarks = [];
 
     for(let i=0;i<this.statusPointsNames.length;i++){
@@ -52,9 +74,34 @@ class StatusPointsManager {
 
 
 
+
+
     state.statusPoints.fixedToCamera = true;
     this.onResize();
-    console.log("Xddd");
+    this.hideStatusPointWindow();
+  }
+
+  showStatusPointWindow(){
+    this.state.statusPoints.visible = true;
+  }
+
+  hideStatusPointWindow(){
+    this.state.statusPoints.visible = false;
+  }
+
+  toggleStatusPointWindow(){
+    this.state.statusPoints.visible = !this.state.statusPoints.visible;
+  }
+
+  update(){
+    if(this.state.game.input.keyboard.isDown(Phaser.Keyboard.C) && Date.now() - this.lastTime > 200){
+      this.lastTime = Date.now();
+      this.toggleStatusPointWindow();
+    }
+  }
+
+  addStatus(statusName){
+    console.log(statusName);
   }
 
   onResize() {
