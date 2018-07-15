@@ -46,7 +46,7 @@ class FightWithOpponentManager {
     let player = this.state.player;
     let state = this.state;
     this.currentEnemy = enemy;
-    player.isFighting = true; // player wont send any data about his position to the server while fighting
+    player.setFightingMode(); // player wont send any data about his position to the server while fighting
     player.frame = 1;
     player.opponent = enemy;
     state.fightingStage.visible = true;
@@ -91,7 +91,7 @@ class FightWithOpponentManager {
       player.reset(player.oldCoords.x, player.oldCoords.y);
       this.state.fightingStage.visible = false;
       this.state.allEntities.add(player);
-      player.isFighting = false;
+      player.quitFightingMode();
       this.state.playerMoveManager.lastTimeInputRead = Date.now();
       this.state.wonAlert.visible = false;
     },this,true);

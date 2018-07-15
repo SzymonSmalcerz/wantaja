@@ -95,8 +95,8 @@ Button.prototype.initializeFrames = function(){
     };
   },this);
   this.addOnInputUpFunction(function(){
-    // if(!this.disabled){
-    //   this.frame = this.normalFrame;
-    // };
+    if(!this.disabled){
+      this.frame = this.normalFrame;
+    };
   },this);
 };

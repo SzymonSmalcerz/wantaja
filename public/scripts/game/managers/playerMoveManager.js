@@ -25,8 +25,6 @@ class PlayerMoveManager {
 
   update(){
 
-
-
     if((Date.now() - this.lastTimeInputRead > this.xTimeout)){
       this.state.xGreen.visible = false;
       this.state.xRed.visible = false;
@@ -35,13 +33,15 @@ class PlayerMoveManager {
       this.state.xRed.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
     };
 
-    if(this.state.player.isFighting){
+    // player has bloced movement <=> is doing some action
+    if(!this.state.player.canMove){
       this.playerMoveList = [];
+      this.state.player.body.velocity.setTo(0);
+      console.log("?");
       return;
     };
 
-    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250)) {
-
+    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.state.uiManager.uiClickCounter < 0) {
 
       this.lastTimeInputRead = Date.now();
       let goal = {
@@ -91,7 +91,7 @@ class PlayerMoveManager {
       this.lastTimeInputRead = Date.now();
     };
 
-    if(!this.state.player.isFighting){
+    if(this.state.player.canMove){
       if(this.cursors.up.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.W)) {
         this.playerMoveList = [];
         this.state.player.goUp();

@@ -78,10 +78,18 @@ let LoadState = {
     this.load.image("manaBarDark", "assets/UI/bars/manaBarDark.png");
 
     // player logo
-    this.load.image("playerlogo", "assets/player/playerlogo.png");
+    this.load.image("playerlogo", "assets/UI/bottomUI/playerlogo.png");
 
     // other ui stuff
-    this.load.image("uiTile", "assets/UI/uiTile.png");
+    this.load.image("leftTile","assets/UI/bottomUI/tiles/leftTile.png");
+    this.load.image("rightTile","assets/UI/bottomUI/tiles/rightTile.png");
+    this.load.image("normalTile","assets/UI/bottomUI/tiles/normalTile.png");
+    this.load.image("middleTile","assets/UI/bottomUI/tiles/middleTile.png");
+    this.load.spritesheet("expandArrow","assets/UI/bottomUI/expansionMenu/expandArrow.png",50,50);
+    this.load.spritesheet("eqIcon","assets/UI/bottomUI/expansionMenu/eqIcon.png",50,50);
+    this.load.spritesheet("missionsIcon","assets/UI/bottomUI/expansionMenu/missionsIcon.png",50,50);
+    this.load.spritesheet("statusIcon","assets/UI/bottomUI/expansionMenu/statusIcon.png",50,50);
+    this.load.image("backgroundIcons","assets/UI/bottomUI/expansionMenu/background.png");
   },
   create(){
     this.game.state.start("HomeState");

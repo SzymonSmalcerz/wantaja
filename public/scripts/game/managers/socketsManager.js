@@ -23,7 +23,8 @@ class SocketsManager {
     });
 
     this.handler.socket.on("fightEnemyAlreadyFighting", function(data){
-      self.handler.currentState.player.isFighting = false;
+      console.log("enemy is already fighting with someone else :C");
+      self.handler.currentState.player.quitFightingMode();
     })
 
     this.handler.socket.on("initialMapData", function(data) {

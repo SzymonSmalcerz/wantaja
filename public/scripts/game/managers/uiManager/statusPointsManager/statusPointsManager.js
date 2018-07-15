@@ -76,6 +76,7 @@ class StatusPointsManager {
 
 
 
+
     state.statusPoints.fixedToCamera = true;
     this.onResize();
     this.hideStatusPointWindow();
@@ -83,14 +84,21 @@ class StatusPointsManager {
 
   showStatusPointWindow(){
     this.state.statusPoints.visible = true;
+    console.log("XDDD");
+    this.state.player.blockMovement();
   }
 
   hideStatusPointWindow(){
     this.state.statusPoints.visible = false;
+    this.state.player.unblockMovement();
   }
 
   toggleStatusPointWindow(){
-    this.state.statusPoints.visible = !this.state.statusPoints.visible;
+    if(this.state.statusPoints.visible){
+      this.hideStatusPointWindow();
+    } else {
+      this.showStatusPointWindow();
+    };
   }
 
   update(){

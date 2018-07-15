@@ -41,7 +41,7 @@ let GameState = {
 
     this.game.world.bringToTop(this.skillDescriptions);
     this.game.world.bringToTop(this.wonAlert);
-    
+
     this.game.world.bringToTop(this.statusPoints);
   },
   initUI(){

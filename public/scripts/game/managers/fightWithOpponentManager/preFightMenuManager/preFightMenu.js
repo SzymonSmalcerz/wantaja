@@ -24,7 +24,7 @@ class PreFightMenu {
 
   showFightOptionsMenu(enemy) {
     if(this.state.player.isFighting){return};
-    this.state.player.isFighting = true; // player wont send any data about his position to the server while fighting
+    this.state.player.setFightingMode(); // player wont send any data about his position to the server while fighting
     this.state.fightInitButton.reset(enemy.x, enemy.y - 25);
     this.state.fightAbortButton.reset(enemy.x, enemy.y + 25);
 
@@ -35,7 +35,7 @@ class PreFightMenu {
     },this,true);
 
     this.state.fightAbortButton.addOnInputDownFunction(function(){
-      this.state.player.isFighting = false;
+      this.state.player.quitFightingMode();
       this.state.fightingOptionsMenu.visible = false;
       this.state.playerMoveManager.lastTimeInputRead = Date.now();
     },this,true);

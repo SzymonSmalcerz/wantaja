@@ -43,6 +43,7 @@ let Player = function(game,data) {
   this.animations.add("goDown", [18,19,20,21,22,23,24,25,26], howManyAnimationsPerSec);
 
 
+  this.canMove = true;
   this.isFighting = false;
 }
 
@@ -82,8 +83,26 @@ Player.prototype.updateData = function(data) {
 
 };
 
+Player.prototype.blockMovement = function() {
+  this.canMove = false;
+}
+
+Player.prototype.unblockMovement = function() {
+  this.canMove = true;
+}
+
+Player.prototype.setFightingMode = function() {
+  this.isFighting = true;
+  this.blockMovement();
+}
+
+Player.prototype.quitFightingMode = function() {
+  this.isFighting = false;
+  this.unblockMovement();
+}
+
 Player.prototype.emitData = function(handler){
-  if (!this.isFighting && (this.previousPosition.x != this.x || this.previousPosition.y != this.y || this.previousFrame != this.frame)) {
+  if (this.canMove && (this.previousPosition.x != this.x || this.previousPosition.y != this.y || this.previousFrame != this.frame)) {
     handler.socket.emit("playerData", {
       x : this.x,
       y : this.y,
