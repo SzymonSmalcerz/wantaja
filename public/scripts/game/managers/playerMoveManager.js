@@ -41,7 +41,7 @@ class PlayerMoveManager {
       return;
     };
 
-    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.state.uiManager.uiClickCounter < 0) {
+    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && !this.state.uiManager.blockedMovement) {
 
       this.lastTimeInputRead = Date.now();
       let goal = {

@@ -28,7 +28,15 @@ class StatusPointsManager {
     // state.statusPointsBackground = state.game.add.sprite(state.game.world.width/2,state.game.world.height/2,"statusPoints");
     state.statusPointsBackground = state.game.add.sprite(this.posX,this.posY,"statusPoints");
     state.statusPointsBackground.anchor.setTo(0.5);
+    this.uiManager.blockPlayerMovementsWhenOver(state.statusPointsBackground);
     state.statusPoints.add(state.statusPointsBackground);
+
+    state.statusPointsCloseButton = new Button(this.state.game,this.posX + 83, this.posY - 128,"closeButton",0,1,2,3);
+    state.statusPoints.add(state.statusPointsCloseButton);
+    this.uiManager.blockPlayerMovementsWhenOver(state.statusPointsCloseButton,true);
+    state.statusPointsCloseButton.addOnInputDownFunction(function(){
+      this.toggleStatusPointWindow();
+    },this);
 
     state.statusPoints.plusButtons = [];
 
@@ -36,7 +44,7 @@ class StatusPointsManager {
       state.statusPoints.plusButtons.push(new Button(this.state.game,this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference, "plusButton",0,1,2,3));
       state.statusPoints.plusButtons[i].anchor.setTo(0.5);
       state.statusPoints.add(state.statusPoints.plusButtons[i]);
-
+      this.uiManager.blockPlayerMovementsWhenOver(state.statusPoints.plusButtons[i]);
       state.statusPoints.plusButtons[i].addOnInputDownFunction(function(){
         this.addStatus(this.statusPointsNames[i]);
       },this);
@@ -49,6 +57,7 @@ class StatusPointsManager {
       state.statusPoints.questionMarks.push(state.game.add.sprite(this.positions.questionMark.x,this.positions.questionMark.y  + i*this.positions.questionMark.difference, "questionMark"));
       state.statusPoints.questionMarks[i].anchor.setTo(0.5);
       state.statusPoints.add(state.statusPoints.questionMarks[i]);
+      this.uiManager.blockPlayerMovementsWhenOver(state.statusPoints.questionMarks[i]);
 
 
       state["statusPoints_" + this.statusPointsNames[i] + "_description"] = state.game.add.sprite(this.positions.questionMark.x,this.positions.questionMark.y  + i*this.positions.questionMark.difference,"statusPoints_" + this.statusPointsNames[i] + "_description");
@@ -84,13 +93,13 @@ class StatusPointsManager {
 
   showStatusPointWindow(){
     this.state.statusPoints.visible = true;
-    console.log("XDDD");
-    this.state.player.blockMovement();
+    // console.log("XDDD");
+    // this.state.player.blockMovement();
   }
 
   hideStatusPointWindow(){
     this.state.statusPoints.visible = false;
-    this.state.player.unblockMovement();
+    // this.state.player.unblockMovement();
   }
 
   toggleStatusPointWindow(){

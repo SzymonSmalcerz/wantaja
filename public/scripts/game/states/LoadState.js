@@ -24,6 +24,7 @@ let LoadState = {
     this.load.image("skill_sword_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
     this.load.image("questionMark","assets/infoTables/questionMark.png");
     this.load.spritesheet("plusButton","assets/UI/plusButton.png",50,50);
+    this.load.spritesheet("closeButton","assets/UI/closeButton.png",50,50);
 
     /* status points */
     this.load.image("statusPoints", "assets/UI/statusPoints.png");
