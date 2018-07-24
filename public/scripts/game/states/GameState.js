@@ -92,5 +92,11 @@ let GameState = {
     this.fightWithOpponentManager.onResize();
     this.mapManager.onResize(width,height);
     this.setRenderingOrder();
+  },
+  setFightingModeOn(){
+    this.uiManager.fightModeOn();
+  },
+  setFightingModeOff(){
+    this.uiManager.fightModeOff();
   }
 };

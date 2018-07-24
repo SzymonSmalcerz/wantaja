@@ -46,8 +46,8 @@ class FightWithOpponentManager {
     let player = this.state.player;
     let state = this.state;
     this.currentEnemy = enemy;
+    this.state.setFightingModeOn();
     player.setFightingMode(); // player wont send any data about his position to the server while fighting
-    player.frame = 1;
     player.opponent = enemy;
     state.fightingStage.visible = true;
     state.fightingStage.showSkillsButtons()
@@ -94,6 +94,7 @@ class FightWithOpponentManager {
       player.quitFightingMode();
       this.state.playerMoveManager.lastTimeInputRead = Date.now();
       this.state.wonAlert.visible = false;
+      this.state.setFightingModeOff();
     },this,true);
   };
 

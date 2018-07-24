@@ -43,6 +43,7 @@ class ExpandedMenuManager {
     state.ui.add(state.statusIcon);
     state.ui.add(state.missionsIcon);
 
+    this.onResize();
   }
 
   toggleExpandedMenu(){
@@ -60,7 +61,13 @@ class ExpandedMenuManager {
   }
 
   onResize(){
-
+    let state = this.state;
+    state.expandArrow.reset(state.game.width-60,state.game.height-60);
+    state.eqIcon.reset(state.game.width-205,state.game.height-147);
+    state.statusIcon.reset(state.game.width-150,state.game.height-147);
+    state.missionsIcon.reset(state.game.width-95,state.game.height-147);
+    state.backgroundIcons.reset(state.game.width-245,state.game.height-170);
+    this.toggleExpandedMenu();
   }
 
   update(){

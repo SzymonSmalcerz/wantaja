@@ -145,6 +145,7 @@ let socketHandler = (socket, io) => {
       opponent.isFighting = true;
       player.fightData = {};
       player.fightData.opponent = opponent;
+      player.mana = player.maxMana;
       opponent.fightData = {};
       opponent.fightData.opponent = player;
       opponent.fightData.fightTick = Date.now();

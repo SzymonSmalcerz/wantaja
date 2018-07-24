@@ -93,6 +93,8 @@ Player.prototype.unblockMovement = function() {
 
 Player.prototype.setFightingMode = function() {
   this.isFighting = true;
+  this.frame = 1;
+  this.mana = this.maxMana;
   this.blockMovement();
 }
 

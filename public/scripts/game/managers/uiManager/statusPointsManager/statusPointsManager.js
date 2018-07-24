@@ -5,6 +5,14 @@ class StatusPointsManager {
     this.posX = state.game.width/2;
     this.posY = state.game.height/2;
     this.statusPointsNames = ["strength","vitality","intelligence","agility"];
+    this.getPositionsCoords();
+
+    this.lastTime = 0;
+  }
+
+  getPositionsCoords() {
+    this.posX = this.state.game.width/2;
+    this.posY = this.state.game.height/2;
     this.positions = {
       questionMark : {
         x : this.posX - 37,
@@ -17,11 +25,8 @@ class StatusPointsManager {
         y : this.posY - 65,
         difference : 60
       }
-    };
-
-    this.lastTime = 0;
+    }
   }
-
   initialize() {
     let state = this.state;
     state.statusPoints = state.add.group();
@@ -81,11 +86,6 @@ class StatusPointsManager {
       },this);
     }
 
-
-
-
-
-
     state.statusPoints.fixedToCamera = true;
     this.onResize();
     this.hideStatusPointWindow();
@@ -122,7 +122,15 @@ class StatusPointsManager {
   }
 
   onResize() {
+    this.getPositionsCoords();
     let state = this.state;
-    console.log(":)");
+    for(let i=0;i<this.statusPointsNames.length;i++){
+      state.statusPoints.questionMarks[i].reset(this.positions.questionMark.x,this.positions.questionMark.y  + i*this.positions.questionMark.difference);
+    }
+    for(let i=0;i<this.statusPointsNames.length;i++){
+      state.statusPoints.plusButtons[i].reset(this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference);
+    };
+    state.statusPointsBackground.reset(this.posX,this.posY);
+    state.statusPointsCloseButton.reset(this.posX + 83, this.posY - 128);
   };
 }

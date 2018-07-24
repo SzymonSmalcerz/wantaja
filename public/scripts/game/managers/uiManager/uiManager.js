@@ -26,6 +26,8 @@ class UIManager {
     //experience bars
     state.emptyManaBar = state.game.add.sprite(70,state.game.height - 48,"manaBarDark");
     state.fullManaBar = state.game.add.sprite(70,state.game.height - 48,"manaBar");
+    state.emptyManaBar.visible = false;
+    state.fullManaBar.visible = false;
 
     //experience bars
     state.emptyExpBar = state.game.add.sprite(70,state.game.height - 35,"experienceBarDark");
@@ -34,11 +36,6 @@ class UIManager {
     //player logo
     state.playerlogo = state.game.add.sprite(2,state.game.height - 72,"playerlogo");
 
-
-
-
-
-    //adding everything to one group
     state.ui = state.ui || state.add.group();
 
     state.ui.add(state.uiTile_normal);
@@ -48,10 +45,10 @@ class UIManager {
     state.ui.add(state.playerlogo);
     state.ui.add(state.emptyHpBar);
     state.ui.add(state.fullHpBar);
-    // state.ui.add(state.emptyManaBar);
-    // state.ui.add(state.fullManaBar);
     state.ui.add(state.emptyExpBar);
     state.ui.add(state.fullExpBar);
+    state.ui.add(state.emptyManaBar);
+    state.ui.add(state.fullManaBar);
 
     state.ui.fixedToCamera = true;
 
@@ -91,12 +88,30 @@ class UIManager {
     this.blockedMovement = false;
   }
 
+  fightModeOn(){
+    this.showManaBar();
+  }
+
+  fightModeOff(){
+    this.hideManaBar();
+  }
+
+  showManaBar(){
+    this.state.emptyManaBar.visible = true;
+    this.state.fullManaBar.visible = true;
+  }
+
+  hideManaBar(){
+    this.state.emptyManaBar.visible = false;
+    this.state.fullManaBar.visible = false;
+  }
+
   onResize() {
     let state = this.state;
     state.emptyHpBar.reset(60,state.game.height - 55);
     state.fullHpBar.reset(60,state.game.height - 55);
-    state.emptyManaBar.reset(60,state.game.height - 48);
-    state.fullManaBar.reset(60,state.game.height - 48);
+    state.emptyManaBar.reset(60,state.game.height - 35);
+    state.fullManaBar.reset(60,state.game.height - 35);
     state.emptyExpBar.reset(60,state.game.height - 35);
     state.fullExpBar.reset(60,state.game.height - 35);
     state.playerlogo.reset(10,state.game.height - 60);
