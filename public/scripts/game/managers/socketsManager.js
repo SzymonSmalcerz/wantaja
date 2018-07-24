@@ -43,6 +43,14 @@ class SocketsManager {
       };
     });
 
+    this.handler.socket.on("statusUpdate", function(data){
+
+      console.log(self.handler.currentState.player.attack);
+      self.handler.currentState.player.maxMana = data.maxMana;
+      self.handler.currentState.player.maxHealth = data.maxHealth;
+      self.handler.currentState.player.attack = data.attack;
+      console.log(self.handler.currentState.player.attack);
+    });
     this.handler.socket.on("gameData", function(data){
       let playerData = data.playerData;
       self.handler.currentState.player.updateData(playerData);
@@ -61,9 +69,7 @@ class SocketsManager {
       let enemy = self.handler.currentState.allEntities.enemies[data.enemyID];
       enemy.health = data.enemyHealth;
       enemy.maxHealth = data.enemyMaxHealth;
-      console.log(data);
       if (!enemy) {
-        console.log("??????????????");
         return;
       };
 

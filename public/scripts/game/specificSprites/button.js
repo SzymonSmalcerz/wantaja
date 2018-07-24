@@ -31,11 +31,6 @@ Button.prototype.setDisabledFrame = function(){
   this.frame = this.disabledFrame;
 };
 
-Button.prototype.disableButton = function(){
-  this.disabled = true;
-  this.setDisabledFrame();
-}
-
 Button.prototype.addOnInputOverFunction = function(specificFunction,context,addOnce){
   if(addOnce) {
     this.events.onInputOver.addOnce(specificFunction,context || this);
@@ -71,11 +66,13 @@ Button.prototype.addOnInputUpFunction = function(specificFunction,context,addOnc
 Button.prototype.disableButton = function(){
   this.inputEnabled = false;
   this.frame = this.disabledFrame;
+  this.disabled = true;
 };
 
 Button.prototype.enableButton = function(){
   this.inputEnabled = true;
   this.frame = this.normalFrame;
+  this.disabled = false;
 };
 
 Button.prototype.initializeFrames = function(){

@@ -95,6 +95,7 @@ Player.prototype.setFightingMode = function() {
   this.isFighting = true;
   this.frame = 1;
   this.mana = this.maxMana;
+  this.health = this.maxHealth;
   this.blockMovement();
 }
 

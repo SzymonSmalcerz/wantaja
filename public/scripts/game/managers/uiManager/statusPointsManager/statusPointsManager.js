@@ -27,14 +27,62 @@ class StatusPointsManager {
       }
     }
   }
+
+  updateStatusText() {
+    let state = this.state;
+
+    state.strengthText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10);
+    state.strengthText.text = "points: " + this.state.player.strength;
+
+    state.vitalityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference);
+    state.vitalityText.text = "points: " + this.state.player.vitality;
+
+    state.itelligenceText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 2);
+    state.itelligenceText.text = "points: " + this.state.player.intelligence;
+
+    state.agilityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 3);
+    state.agilityText.text = "points: " + this.state.player.agility;
+
+    state.leftStatusPointsText.reset(this.posX,this.posY - 110);
+    state.leftStatusPointsText.text = "left points to add: " + this.state.player.leftStatusPoints;
+
+  }
   initialize() {
     let state = this.state;
+
     state.statusPoints = state.add.group();
     // state.statusPointsBackground = state.game.add.sprite(state.game.world.width/2,state.game.world.height/2,"statusPoints");
     state.statusPointsBackground = state.game.add.sprite(this.posX,this.posY,"statusPoints");
     state.statusPointsBackground.anchor.setTo(0.5);
     this.uiManager.blockPlayerMovementsWhenOver(state.statusPointsBackground);
     state.statusPoints.add(state.statusPointsBackground);
+
+    // texts
+    state.strengthText = state.add.text();
+    state.agilityText = state.add.text();
+    state.itelligenceText = state.add.text();
+    state.vitalityText = state.add.text();
+    state.leftStatusPointsText = state.add.text();
+    state.leftStatusPointsText.anchor.setTo(0.5);
+
+    let textCss = {
+      font : "18px bold",
+      fontWeight : "900"
+    }
+
+    state.strengthText.setStyle(textCss);
+    state.agilityText.setStyle(textCss);
+    state.itelligenceText.setStyle(textCss);
+    state.vitalityText.setStyle(textCss);
+    state.leftStatusPointsText.setStyle(textCss);
+
+    state.statusPoints.add(state.strengthText);
+    state.statusPoints.add(state.agilityText);
+    state.statusPoints.add(state.itelligenceText);
+    state.statusPoints.add(state.vitalityText);
+    state.statusPoints.add(state.leftStatusPointsText);
+
+    //end of text
 
     state.statusPointsCloseButton = new Button(this.state.game,this.posX + 83, this.posY - 128,"closeButton",0,1,2,3);
     state.statusPoints.add(state.statusPointsCloseButton);
@@ -52,6 +100,8 @@ class StatusPointsManager {
       this.uiManager.blockPlayerMovementsWhenOver(state.statusPoints.plusButtons[i]);
       state.statusPoints.plusButtons[i].addOnInputDownFunction(function(){
         this.addStatus(this.statusPointsNames[i]);
+        this.state.player.leftStatusPoints -= 1;
+        this.checkIfStatusPointsRemaining();
       },this);
     };
 
@@ -91,15 +141,34 @@ class StatusPointsManager {
     this.hideStatusPointWindow();
   }
 
+  disableButtons() {
+    for(let i=0;i<this.statusPointsNames.length;i++){
+      this.state.statusPoints.plusButtons[i].disableButton();
+    }
+  }
+
+  enableButtons() {
+    for(let i=0;i<this.statusPointsNames.length;i++){
+      this.state.statusPoints.plusButtons[i].enableButton();
+    }
+  }
+
   showStatusPointWindow(){
     this.state.statusPoints.visible = true;
-    // console.log("XDDD");
-    // this.state.player.blockMovement();
+    this.checkIfStatusPointsRemaining();
+    this.updateStatusText();
+  }
+
+  checkIfStatusPointsRemaining() {
+    if(this.state.player.leftStatusPoints < 0){
+      this.disableButtons();
+    } else {
+      this.enableButtons();
+    }
   }
 
   hideStatusPointWindow(){
     this.state.statusPoints.visible = false;
-    // this.state.player.unblockMovement();
   }
 
   toggleStatusPointWindow(){
@@ -118,11 +187,17 @@ class StatusPointsManager {
   }
 
   addStatus(statusName){
-    console.log(statusName);
+    this.state.player[statusName] += 1;
+    this.updateStatusText();
+    handler.socketsManager.emit("addStatusPoint",{
+      playerID : this.state.player.id,
+      statusName
+    })
   }
 
   onResize() {
     this.getPositionsCoords();
+    this.updateStatusText();
     let state = this.state;
     for(let i=0;i<this.statusPointsNames.length;i++){
       state.statusPoints.questionMarks[i].reset(this.positions.questionMark.x,this.positions.questionMark.y  + i*this.positions.questionMark.difference);
@@ -131,6 +206,6 @@ class StatusPointsManager {
       state.statusPoints.plusButtons[i].reset(this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference);
     };
     state.statusPointsBackground.reset(this.posX,this.posY);
-    state.statusPointsCloseButton.reset(this.posX + 83, this.posY - 128);
+    state.statusPointsCloseButton.reset(this.posX + 143, this.posY - 150);
   };
 }

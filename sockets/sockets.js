@@ -30,6 +30,9 @@ let dm = { // data manager, created to hold values for game purpose
     calculateRequiredExperience : function(player){
       return player.level * 150;;
     },
+    calculateLeftStatusPoints : function(player){
+      return player.level * 5 - (player.strength + player.vitality + player.intelligence + player.agility);
+    },
     levelUp : function(player) {
       player.level += 1;
       player.experience = 0;
@@ -87,16 +90,12 @@ let socketHandler = (socket, io) => {
         console.log("shouldn't happen but user not found in socket.on(getGameData) sockets.js");
       } else {
         let characterData = {};
-
-        characterData.health = user.health;
-
         characterData.level = user.level;
         characterData.x = user.x;
         characterData.y = user.y;
         characterData.experience = user.experience;
-        characterData.mana = user.mana + 100;
         characterData.weapon = user.weapon;
-        characterData.leftStatusPoints = user.leftStatusPoints;
+        characterData.leftStatusPoints = dm.playerFunctions.calculateLeftStatusPoints(user);
 
         characterData.maxHealth = dm.playerFunctions.calculateMaxHp(user);
         characterData.maxMana = dm.playerFunctions.calculateMaxMana(user);
@@ -130,7 +129,6 @@ let socketHandler = (socket, io) => {
     if(!dm.allLoggedPlayersData[data.id]){
       dm.allLoggedPlayersData[data.id] = data.characterData;
       dm.findMapNameByPlayerId[data.id] = data.characterData.currentMapName;
-      console.log(data);
       console.log("initialized player with id : " + data.id);
       dm.allLoggedPlayersData[data.id].initialized = true;
       dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
@@ -146,6 +144,7 @@ let socketHandler = (socket, io) => {
       player.fightData = {};
       player.fightData.opponent = opponent;
       player.mana = player.maxMana;
+      player.health = player.maxHealth;
       opponent.fightData = {};
       opponent.fightData.opponent = player;
       opponent.fightData.fightTick = Date.now();
@@ -254,8 +253,6 @@ let socketHandler = (socket, io) => {
                 user.level = player.level;
                 user.experience = player.experience;
                 user.currentMapName = dm.findMapNameByPlayerId[player.id];
-                user.health = player.health;
-                user.mana = player.mana;
                 user.strength = player.strength;
                 user.vitality = player.vitality;
                 user.intelligence = player.intelligence;
@@ -279,6 +276,23 @@ let socketHandler = (socket, io) => {
   socket.on("checkedConnection", (playerData) => {
     if(dm.allLoggedPlayersData[playerData.id]){
         dm.allLoggedPlayersData[playerData.id].active = true;
+    };
+  });
+
+  socket.on("addStatusPoint", (data) => {
+    let player = dm.allLoggedPlayersData[data.playerID];
+    if(player) {
+        player[data.statusName] += 1;
+        player.attack = dm.playerFunctions.calculateAttack(player);
+        player.maxMana = dm.playerFunctions.calculateMaxMana(player);
+        player.mana = player.maxMana;
+        player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
+        player.leftStatusPoints -= 1;
+        dm.socketsOfPlayers[data.playerID].emit("statusUpdate",{
+          attack : player.attack,
+          maxMana : player.maxMana,
+          maxHealth : player.maxHealth
+        });
     };
   });
 

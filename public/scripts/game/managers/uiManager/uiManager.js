@@ -4,6 +4,7 @@ class UIManager {
     this.statusPointsManager = new StatusPointsManager(state,this);
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.blockedMovement = false;
+    this.fightMode = false;
   }
 
   initialize() {
@@ -55,6 +56,8 @@ class UIManager {
     this.statusPointsManager.initialize();
     this.expandedMenuManager.initialize();
     this.onResize();
+    this.hideManaBar();
+    this.hideHealthBar();
   }
 
   blockPlayerMovementsWhenOver(sprite,releaseWhenInputUp){
@@ -90,10 +93,14 @@ class UIManager {
 
   fightModeOn(){
     this.showManaBar();
+    this.showHealthBar();
+    this.fightMode = true;
   }
 
   fightModeOff(){
     this.hideManaBar();
+    this.hideHealthBar();
+    this.fightMode = false;
   }
 
   showManaBar(){
@@ -106,6 +113,16 @@ class UIManager {
     this.state.fullManaBar.visible = false;
   }
 
+  showHealthBar(){
+    this.state.emptyHpBar.visible = true;
+    this.state.fullHpBar.visible = true;
+  }
+
+  hideHealthBar(){
+    this.state.emptyHpBar.visible = false;
+    this.state.fullHpBar.visible = false;
+  }
+
   onResize() {
     let state = this.state;
     state.emptyHpBar.reset(60,state.game.height - 55);
@@ -114,6 +131,11 @@ class UIManager {
     state.fullManaBar.reset(60,state.game.height - 35);
     state.emptyExpBar.reset(60,state.game.height - 35);
     state.fullExpBar.reset(60,state.game.height - 35);
+
+    if(!this.fightMode){
+      this.fightModeOff();
+    }
+
     state.playerlogo.reset(10,state.game.height - 60);
 
     state.uiTile_normal.reset(40,state.game.height-70);

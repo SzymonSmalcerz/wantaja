@@ -17,7 +17,7 @@ class Punch extends Skill {
   };
 
   getDamage(attack){
-    return attack * 30;
+    return attack * 2;
   };
 };
 
