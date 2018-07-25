@@ -282,17 +282,18 @@ let socketHandler = (socket, io) => {
   socket.on("addStatusPoint", (data) => {
     let player = dm.allLoggedPlayersData[data.playerID];
     if(player) {
-        player[data.statusName] += 1;
-        player.attack = dm.playerFunctions.calculateAttack(player);
-        player.maxMana = dm.playerFunctions.calculateMaxMana(player);
-        player.mana = player.maxMana;
-        player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
-        player.leftStatusPoints -= 1;
-        dm.socketsOfPlayers[data.playerID].emit("statusUpdate",{
-          attack : player.attack,
-          maxMana : player.maxMana,
-          maxHealth : player.maxHealth
-        });
+      if(player.leftStatusPoints < 0 ){return;}
+      player[data.statusName] += 1;
+      player.attack = dm.playerFunctions.calculateAttack(player);
+      player.maxMana = dm.playerFunctions.calculateMaxMana(player);
+      player.mana = player.maxMana;
+      player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
+      player.leftStatusPoints -= 1;
+      dm.socketsOfPlayers[data.playerID].emit("statusUpdate",{
+        attack : player.attack,
+        maxMana : player.maxMana,
+        maxHealth : player.maxHealth
+      });
     };
   });
 

@@ -33,6 +33,9 @@ let LoadState = {
     this.load.image("statusPoints_intelligence_description", "assets/UI/statusPoints_intelligence_description.png");
     this.load.image("statusPoints_vitality_description", "assets/UI/statusPoints_vitality_description.png");
 
+    /* character data */
+    this.load.image("characterDataFrame", "assets/UI/characterData/characterDataFrame.png");
+    
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");

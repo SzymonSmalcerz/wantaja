@@ -2,6 +2,7 @@ class UIManager {
   constructor(state){
     this.state = state;
     this.statusPointsManager = new StatusPointsManager(state,this);
+    this.characterDataManager = new CharacterDataManager(state,this);
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.blockedMovement = false;
     this.fightMode = false;
@@ -55,6 +56,7 @@ class UIManager {
 
     this.statusPointsManager.initialize();
     this.expandedMenuManager.initialize();
+    this.characterDataManager.initialize();
     this.onResize();
     this.hideManaBar();
     this.hideHealthBar();
@@ -147,7 +149,13 @@ class UIManager {
 
     this.expandedMenuManager.onResize();
     this.statusPointsManager.onResize();
+    this.characterDataManager.onResize();
   };
+
+  closeAllWindows() {
+    this.statusPointsManager.hideStatusPointWindow();
+    this.characterDataManager.hideCharacterDataWindow();
+  }
 
   update() {
     // TODO nie trzeba updatowac tego caly czas !!!! jedynie jak dostaniemy info od servera, ze hp/mana/exp playera sie zmienil !!!!
@@ -157,5 +165,6 @@ class UIManager {
     state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;
     this.statusPointsManager.update();
     this.expandedMenuManager.update();
+    this.characterDataManager.update();
   }
 }

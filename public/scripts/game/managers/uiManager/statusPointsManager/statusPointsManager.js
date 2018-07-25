@@ -154,6 +154,8 @@ class StatusPointsManager {
   }
 
   showStatusPointWindow(){
+    this.uiManager.closeAllWindows();
+    this.state.game.world.bringToTop(this.state.statusPoints);
     this.state.statusPoints.visible = true;
     this.checkIfStatusPointsRemaining();
     this.updateStatusText();
@@ -179,7 +181,7 @@ class StatusPointsManager {
     };
   }
 
-  update(){
+  update() {
     if(this.state.game.input.keyboard.isDown(Phaser.Keyboard.C) && Date.now() - this.lastTime > 200){
       this.lastTime = Date.now();
       this.toggleStatusPointWindow();
