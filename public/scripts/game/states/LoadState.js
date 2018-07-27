@@ -35,7 +35,7 @@ let LoadState = {
 
     /* character data */
     this.load.image("characterDataFrame", "assets/UI/characterData/characterDataFrame.png");
-    
+
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
@@ -47,10 +47,10 @@ let LoadState = {
     this.load.spritesheet("skill_punch","assets/fight/skills/skill_punch.png",48,48);
     this.load.spritesheet("skill_sword","assets/fight/skills/skill_sword.png",48,48);
     this.load.spritesheet("skill_punch_animation","assets/fight/skills/skill_punch_animation.png",128,128);
-    this.load.spritesheet("skill_health_animation","assets/fight/skills/skill_punch_animation.png",128,128);
-    this.load.spritesheet("skill_mana_animation","assets/fight/skills/skill_punch_animation.png",128,128);
+    this.load.spritesheet("skill_health_animation","assets/fight/skills/skill_health_animation.png",128,128);
+    this.load.spritesheet("skill_mana_animation","assets/fight/skills/skill_mana_animation.png",128,128);
     this.load.spritesheet("skill_poison_animation","assets/fight/skills/skill_poison_animation.png",128,128);
-    this.load.spritesheet("skill_sword_animation","assets/fight/skills/skill_punch_animation.png",128,128);
+    this.load.spritesheet("skill_sword_animation","assets/fight/skills/skill_sword_animation.png",128,128);
 
     /* Entities */
     // trees
