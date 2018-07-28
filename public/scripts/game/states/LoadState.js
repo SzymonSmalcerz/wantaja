@@ -17,11 +17,19 @@ let LoadState = {
     /* Info and dialog sprites */
     this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
     this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
+
     this.load.image("skill_punch_description","assets/fight/skills/skillDescriptions/skill_punch_description.png");
     this.load.image("skill_health_description","assets/fight/skills/skillDescriptions/skill_health_description.png");
     this.load.image("skill_poison_description","assets/fight/skills/skillDescriptions/skill_poison_description.png");
     this.load.image("skill_ignite_description","assets/fight/skills/skillDescriptions/skill_ignite_description.png");
     this.load.image("skill_entangle_description","assets/fight/skills/skillDescriptions/skill_entangle_description.png");
+
+    this.load.image("skill_punch_blocked_description","assets/fight/skills/skillDescriptions/skill_punch_blocked_description.png");
+    this.load.image("skill_health_blocked_description","assets/fight/skills/skillDescriptions/skill_health_blocked_description.png");
+    this.load.image("skill_poison_blocked_description","assets/fight/skills/skillDescriptions/skill_poison_blocked_description.png");
+    this.load.image("skill_ignite_blocked_description","assets/fight/skills/skillDescriptions/skill_ignite_blocked_description.png");
+    this.load.image("skill_entangle_blocked_description","assets/fight/skills/skillDescriptions/skill_entangle_blocked_description.png");
+
     this.load.image("questionMark","assets/infoTables/questionMark.png");
     this.load.spritesheet("plusButton","assets/UI/plusButton.png",50,50);
     this.load.spritesheet("closeButton","assets/UI/closeButton.png",50,50);

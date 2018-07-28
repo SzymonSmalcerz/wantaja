@@ -24,7 +24,7 @@ class Enemy {
 class Spider extends Enemy {
   constructor(x,y,map) {
     let id = Math.floor(Math.random() * 100000) + "spider";
-    super(x,y,map,id,"spider",1000,null,null,"poison");
+    super(x,y,map,id,"spider",100,null,null,"poison");
   }
 };
 

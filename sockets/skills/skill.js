@@ -1,7 +1,8 @@
 class Skill {
-  constructor(skillName,manaCost,baseDamage) {
+  constructor(skillName,manaCost,requiredLevel,baseDamage) {
     this.skillName = skillName;
     this.manaCost = manaCost;
+    this.requiredLevel = requiredLevel;
     this.baseDamage = baseDamage;
   };
 
@@ -13,7 +14,7 @@ class Skill {
 
 class Punch extends Skill {
   constructor() {
-    super("punch",1,5);
+    super("punch",0,0,5);
   };
 
   getDamage(player,enemy){
@@ -23,10 +24,15 @@ class Punch extends Skill {
 
 class Poison extends Skill {
   constructor() {
-    super("poison",10,10);
+    super("poison",10,1,10);
   };
 
   getDamage(player,enemy) {
+    if(player.level){
+      if(player.level < this.requiredLevel){
+        return;
+      }
+    }
     enemy.health -= player.attack * 2;
     player.mana -= this.manaCost;
   };
@@ -34,10 +40,15 @@ class Poison extends Skill {
 
 class Ignite extends Skill {
   constructor() {
-    super("ignite",15,15);
+    super("ignite",15,2,15);
   };
 
   getDamage(player,enemy) {
+    if(player.level){
+      if(player.level < this.requiredLevel){
+        return;
+      }
+    }
     enemy.health -= player.attack * 4;
     player.mana -= this.manaCost;
   };
@@ -45,10 +56,15 @@ class Ignite extends Skill {
 
 class Entangle extends Skill {
   constructor() {
-    super("entangle",20,20);
+    super("entangle",20,2,20);
   };
 
   getDamage(player,enemy) {
+    if(player.level){
+      if(player.level < this.requiredLevel){
+        return;
+      }
+    }
     enemy.health -= player.attack * 5;
     player.mana -= this.manaCost;
   };
@@ -56,10 +72,15 @@ class Entangle extends Skill {
 
 class Health extends Skill {
   constructor() {
-    super("health",10,10);
+    super("health",10,2,10);
   };
 
   getDamage(player,enemy) {
+    if(player.level){
+      if(player.level < this.requiredLevel){
+        return;
+      }
+    }
     player.health += player.maxHealth/10;
     player.health = Math.min(player.health,player.maxHealth);
     player.mana -= this.manaCost;

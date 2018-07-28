@@ -17,8 +17,13 @@ class FightWithOpponentManager {
     this.onResize();
   };
 
-  updateEnemyHealth() {
+  updateStageUI() {
+    this.fightingStageUIManager.updateStageUI();
+  }
+
+  updateEnemyHealth(enemyHealth) {
     let state = this.state;
+    state.player.opponent.health = enemyHealth;
     state.fullHpBarEnemy.width = state.player.opponent.health/state.player.opponent.maxHealth * state.emptyHpBarEnemy.width;
   };
 
@@ -47,6 +52,8 @@ class FightWithOpponentManager {
     let state = this.state;
     this.currentEnemy = enemy;
     this.state.setFightingModeOn();
+    player.health = player.maxHealth;
+    player.mana = player.maxMana;
     player.setFightingMode(); // player wont send any data about his position to the server while fighting
     player.opponent = enemy;
     state.fightingStage.visible = true;

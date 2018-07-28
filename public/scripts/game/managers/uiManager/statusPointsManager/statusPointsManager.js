@@ -32,16 +32,16 @@ class StatusPointsManager {
     let state = this.state;
 
     state.strengthText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10);
-    state.strengthText.text = "points: " + this.state.player.strength;
+    state.strengthText.text = "pts: " + this.state.player.strength;
 
     state.vitalityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference);
-    state.vitalityText.text = "points: " + this.state.player.vitality;
+    state.vitalityText.text = "pts: " + this.state.player.vitality;
 
     state.itelligenceText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 2);
-    state.itelligenceText.text = "points: " + this.state.player.intelligence;
+    state.itelligenceText.text = "pts: " + this.state.player.intelligence;
 
     state.agilityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 3);
-    state.agilityText.text = "points: " + this.state.player.agility;
+    state.agilityText.text = "pts: " + this.state.player.agility;
 
     state.leftStatusPointsText.reset(this.posX,this.posY - 110);
     state.leftStatusPointsText.text = "left points to add: " + this.state.player.leftStatusPoints;
@@ -99,8 +99,8 @@ class StatusPointsManager {
       state.statusPoints.add(state.statusPoints.plusButtons[i]);
       this.uiManager.blockPlayerMovementsWhenOver(state.statusPoints.plusButtons[i]);
       state.statusPoints.plusButtons[i].addOnInputDownFunction(function(){
-        this.addStatus(this.statusPointsNames[i]);
         this.state.player.leftStatusPoints -= 1;
+        this.addStatus(this.statusPointsNames[i]);
         this.checkIfStatusPointsRemaining();
       },this);
     };
@@ -162,7 +162,7 @@ class StatusPointsManager {
   }
 
   checkIfStatusPointsRemaining() {
-    if(this.state.player.leftStatusPoints < 0){
+    if(this.state.player.leftStatusPoints <= 0){
       this.disableButtons();
     } else {
       this.enableButtons();

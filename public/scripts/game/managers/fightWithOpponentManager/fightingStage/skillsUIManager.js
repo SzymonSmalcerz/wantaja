@@ -62,13 +62,34 @@ class SkillsUIManager {
     };
   };
 
+  updateStageUI() {
+    console.log("updateStageUI called");
+    this.updateButtonsVisibility();
+  }
 
+  updateButtonsVisibility(){
+    for(let i=0;i<this.skillsDictionary.length;i++){
+      let skillDescription = this.state["skill_" + this.skillsDictionary[i].skillName + "_description"];
+      if(skillDescription.isSkillDisabled()) {
+        this.state["skill_" + this.skillsDictionary[i].skillName].disableButton();
+      } else {
+        this.state["skill_" + this.skillsDictionary[i].skillName].enableButton();
+      }
+    }
+  }
 
   showSkillButtons(){
     for(let i=0;i<this.skillsDictionary.length;i++){
-      this.state["skill_" + this.skillsDictionary[i].skillName].visible = true;
+      let skillDescription = this.state["skill_" + this.skillsDictionary[i].skillName + "_description"];
+      if(skillDescription.isSkillDisabled()) {
+        this.state["skill_" + this.skillsDictionary[i].skillName].visible = true;
+        this.state["skill_" + this.skillsDictionary[i].skillName].disableButton();
+      } else {
+        this.state["skill_" + this.skillsDictionary[i].skillName].visible = true;
+        this.state["skill_" + this.skillsDictionary[i].skillName].enableButton();
+      }
       this.state["skill_" + this.skillsDictionary[i].skillName + "_questionMark"].visible = true;
-      this.state["skill_" + this.skillsDictionary[i].skillName + "_description"].visible = false;
+      this.state["skill_" + this.skillsDictionary[i].skillName + "_description"].hide();
     }
   };
 
@@ -76,7 +97,7 @@ class SkillsUIManager {
     for(let i=0;i<this.skillsDictionary.length;i++){
       this.state["skill_" + this.skillsDictionary[i].skillName].visible = false;
       this.state["skill_" + this.skillsDictionary[i].skillName + "_questionMark"].visible = false;
-      this.state["skill_" + this.skillsDictionary[i].skillName + "_description"].visible = false;
+      this.state["skill_" + this.skillsDictionary[i].skillName + "_description"].hide();
     }
   };
 

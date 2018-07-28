@@ -45,6 +45,10 @@ class FightingStageUIManager {
     state.fightingStage.fixedToCamera = true;
   };
 
+  updateStageUI() {
+    this.skillsUIManager.updateStageUI();
+  }
+
   animateEnemySkill(skillData){
     this.skillsUIManager.animateEnemySkill(skillData);
   }

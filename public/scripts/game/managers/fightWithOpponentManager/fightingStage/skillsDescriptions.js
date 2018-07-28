@@ -1,5 +1,5 @@
 class Skill {
-  constructor(entity,state,name, manaCost, base) {
+  constructor(entity,state,name, manaCost, requiredLevel, base) {
     this.name = name;
     this.manaCost = manaCost;
     this.base = base;
@@ -8,6 +8,11 @@ class Skill {
     this.groupName = this.name + "_skillDecription";
     this.posX = state.game.width/2;
     this.posY = state.game.height/2;
+    this.normalFrame = undefined;
+    this.blockedFrame = undefined;
+    this.effectText = undefined;
+    this.manaCostText = undefined;
+    this.requiredLevel = requiredLevel;
     this.initialize();
   }
 
@@ -16,8 +21,12 @@ class Skill {
     let state = this.state;
     state["skill_" + this.name + "_description"] = this;
     state[this.groupName] = state.add.group();
-    this.frame = state.game.add.sprite(this.posX,this.posY,"skill_" + this.name + "_description");
-    this.frame.anchor.setTo(0.5);
+
+    this.normalFrame = state.game.add.sprite(this.posX,this.posY,"skill_" + this.name + "_description");
+    this.normalFrame.anchor.setTo(0.5);
+    this.blockedFrame = state.game.add.sprite(this.posX,this.posY,"skill_" + this.name + "_blocked_description");
+    this.blockedFrame.anchor.setTo(0.5);
+
     this.effectText = state.add.text();
     this.manaCostText = state.add.text();
     let textCss = {
@@ -27,7 +36,8 @@ class Skill {
     }
     this.effectText.setStyle(textCss);
     this.manaCostText.setStyle(textCss);
-    state[this.groupName].add(this.frame);
+    state[this.groupName].add(this.normalFrame);
+    state[this.groupName].add(this.blockedFrame);
     state[this.groupName].add(this.effectText);
     state[this.groupName].add(this.manaCostText);
     state[this.groupName].fixedToCamera = true;
@@ -68,7 +78,22 @@ class Skill {
   show() {
     this.bringToTop();
     this.updateStatusText();
+    this.chooseFrame();
     this.state[this.groupName].visible = true;
+  }
+
+  isSkillDisabled() {
+    return this.requiredLevel > this.entity.level || this.manaCost > this.entity.mana;
+  }
+  // choose if show blocked or normal frame
+  chooseFrame() {
+    if(this.isSkillDisabled()){
+      this.blockedFrame.visible = true;
+      this.normalFrame.visible = false;
+    } else {
+      this.blockedFrame.visible = false;
+      this.normalFrame.visible = true;
+    }
   }
 
   hide() {
@@ -86,7 +111,7 @@ class Skill {
 
 class Poison extends Skill{
   constructor(entity,state) {
-    super(entity,state,"poison",10,0);
+    super(entity,state,"poison",10,1,0);
   }
 
   getEffect() {
@@ -96,7 +121,7 @@ class Poison extends Skill{
 
 class Punch extends Skill{
   constructor(entity,state) {
-    super(entity,state,"punch",0,0);
+    super(entity,state,"punch",0,0,0);
   }
 
   getEffect() {
@@ -106,7 +131,7 @@ class Punch extends Skill{
 
 class Ignite extends Skill{
   constructor(entity,state) {
-    super(entity,state,"ignite",15,0);
+    super(entity,state,"ignite",15,2,0);
   }
 
   getEffect() {
@@ -116,7 +141,7 @@ class Ignite extends Skill{
 
 class Entangle extends Skill{
   constructor(entity,state) {
-    super(entity,state,"entangle",20,0);
+    super(entity,state,"entangle",20,2,0);
   }
 
   getEffect() {
@@ -126,7 +151,7 @@ class Entangle extends Skill{
 
 class Health extends Skill{
   constructor(entity,state) {
-    super(entity,state,"health",10,0);
+    super(entity,state,"health",10,2,0);
   }
 
   getEffect() {
