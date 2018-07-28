@@ -52,8 +52,6 @@ class SocketsManager {
       console.log(self.handler.currentState.player.attack);
     });
     this.handler.socket.on("gameData", function(data){
-      let playerData = data.playerData;
-      self.handler.currentState.player.updateData(playerData);
       let otherPlayersData = data.otherPlayersData;
       for(let playerID in otherPlayersData) {
         if(otherPlayersData.hasOwnProperty(playerID) && self.handler.currentState.allEntities.objects[playerID] && playerID != self.handler.playerID){
@@ -80,15 +78,18 @@ class SocketsManager {
       console.log("x?x?x?x?x")
       let enemy = self.handler.currentState.player.opponent;
       enemy.health = data.enemyHealth;
-      self.handler.currentState.player.health = data.playerHealth;
+      // self.handler.currentState.player.health = data.playerHealth;
       self.handler.currentState.player.mana = data.playerMana;
-      self.handler.currentState.fightWithOpponentManager.animateEnemySkill(data.enemySkillName);
+      self.handler.currentState.fightWithOpponentManager.animateEnemySkill(data);
       self.handler.currentState.fightWithOpponentManager.updateEnemyHealth();
     });
 
+    this.handler.socket.on("playerUpdate", function(data){
+      console.log("playerUpdate");
+      self.handler.currentState.player.updateData(data);
+    });
+
     this.handler.socket.on("handleWinFight", function(data){
-      self.handler.currentState.player.health = data.playerHealth;
-      self.handler.currentState.player.mana = data.playerMana;
       self.handler.currentState.player.experience = data.playerExperience;
       self.handler.currentState.fightWithOpponentManager.handleWinFight();
     });

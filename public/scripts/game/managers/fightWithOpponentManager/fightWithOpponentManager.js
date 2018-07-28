@@ -30,12 +30,12 @@ class FightWithOpponentManager {
     let self = this;
     handler.socketsManager.emit("damageEnemy",{
       playerID : self.state.player.id,
-      skillName : "punch"
+      skillName : typeOfDamage
     });
   };
 
-  animateEnemySkill(skillName){
-    this.fightingStageUIManager.animateEnemySkill(skillName);
+  animateEnemySkill(skillData){
+    this.fightingStageUIManager.animateEnemySkill(skillData);
   };
 
   showFightOptionsMenu(enemy){

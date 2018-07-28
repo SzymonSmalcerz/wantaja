@@ -1,10 +1,23 @@
-console.log("XD");
-
 let Player = function(game,data) {
 
   Phaser.Sprite.call(this,game,data.x,data.y,"player");
 
-  this.skillsDictionary = data.skillsDictionary || ["punch","poison","mana","sword","health"];
+  this.skillsDictionary = data.skillsDictionary || [{
+    skillName : "punch",
+    onPlayer : false
+  },{
+    skillName : "poison",
+    onPlayer : false
+  },{
+    skillName : "ignite",
+    onPlayer : false
+  },{
+    skillName : "entangle",
+    onPlayer : false
+  },{
+    skillName : "health",
+    onPlayer : true
+  }];
   this.health = data.health || 10;
   this.maxHealth = data.maxHealth || 19;
   this.mana = data.mana || 10;
@@ -77,10 +90,12 @@ Player.prototype.goLeft = function(){
 };
 
 Player.prototype.updateData = function(data) {
-  this.experience = data.experience;
-  this.health = data.health;
-  this.level = data.level;
-
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) {
+        console.log(key + " -> " + data[key]);
+        this[key] = data[key];
+    }
+  }
 };
 
 Player.prototype.blockMovement = function() {

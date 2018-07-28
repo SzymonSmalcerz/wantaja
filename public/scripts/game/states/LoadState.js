@@ -17,11 +17,11 @@ let LoadState = {
     /* Info and dialog sprites */
     this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
     this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
-    this.load.image("skill_punch_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
-    this.load.image("skill_health_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
-    this.load.image("skill_poison_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
-    this.load.image("skill_mana_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
-    this.load.image("skill_sword_description","assets/infoTables/skillDescriptions/skill_punch_description.png");
+    this.load.image("skill_punch_description","assets/fight/skills/skillDescriptions/skill_punch_description.png");
+    this.load.image("skill_health_description","assets/fight/skills/skillDescriptions/skill_health_description.png");
+    this.load.image("skill_poison_description","assets/fight/skills/skillDescriptions/skill_poison_description.png");
+    this.load.image("skill_ignite_description","assets/fight/skills/skillDescriptions/skill_ignite_description.png");
+    this.load.image("skill_entangle_description","assets/fight/skills/skillDescriptions/skill_entangle_description.png");
     this.load.image("questionMark","assets/infoTables/questionMark.png");
     this.load.spritesheet("plusButton","assets/UI/plusButton.png",50,50);
     this.load.spritesheet("closeButton","assets/UI/closeButton.png",50,50);
@@ -42,15 +42,15 @@ let LoadState = {
     this.load.spritesheet("fightInitButton","assets/fight/fightInitButton.png",48,48);
     this.load.spritesheet("fightAbortButton","assets/fight/fightAbortButton.png",48,48);
     this.load.spritesheet("skill_health","assets/fight/skills/skill_health.png",48,48);
-    this.load.spritesheet("skill_mana","assets/fight/skills/skill_mana.png",48,48);
+    this.load.spritesheet("skill_ignite","assets/fight/skills/skill_ignite.png",48,48);
     this.load.spritesheet("skill_poison","assets/fight/skills/skill_poison.png",48,48);
     this.load.spritesheet("skill_punch","assets/fight/skills/skill_punch.png",48,48);
-    this.load.spritesheet("skill_sword","assets/fight/skills/skill_sword.png",48,48);
+    this.load.spritesheet("skill_entangle","assets/fight/skills/skill_entangle.png",48,48);
     this.load.spritesheet("skill_punch_animation","assets/fight/skills/skill_punch_animation.png",128,128);
     this.load.spritesheet("skill_health_animation","assets/fight/skills/skill_health_animation.png",128,128);
-    this.load.spritesheet("skill_mana_animation","assets/fight/skills/skill_mana_animation.png",128,128);
+    this.load.spritesheet("skill_ignite_animation","assets/fight/skills/skill_ignite_animation.png",128,128);
     this.load.spritesheet("skill_poison_animation","assets/fight/skills/skill_poison_animation.png",128,128);
-    this.load.spritesheet("skill_sword_animation","assets/fight/skills/skill_sword_animation.png",128,128);
+    this.load.spritesheet("skill_entangle_animation","assets/fight/skills/skill_entangle_animation.png",128,128);
 
     /* Entities */
     // trees

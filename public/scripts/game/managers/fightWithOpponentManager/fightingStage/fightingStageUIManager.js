@@ -9,8 +9,6 @@ class FightingStageUIManager {
   initialize(){
 
     let state = this.state;
-    console.log(this.state);
-    console.log(this.mainFightManager.state);
     state.fightingStage = state.add.group();
     this.skillsUIManager.initialize();
     this.winUIManager.initialize();
@@ -47,8 +45,8 @@ class FightingStageUIManager {
     state.fightingStage.fixedToCamera = true;
   };
 
-  animateEnemySkill(skillName){
-    this.skillsUIManager.animateEnemySkill(skillName);
+  animateEnemySkill(skillData){
+    this.skillsUIManager.animateEnemySkill(skillData);
   }
 
   onResize(){

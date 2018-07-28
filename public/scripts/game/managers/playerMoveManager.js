@@ -37,7 +37,6 @@ class PlayerMoveManager {
     if(!this.state.player.canMove){
       this.playerMoveList = [];
       this.state.player.body.velocity.setTo(0);
-      console.log("?");
       return;
     };
 

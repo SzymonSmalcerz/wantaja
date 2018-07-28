@@ -15,7 +15,10 @@ let dm = { // data manager, created to hold values for game purpose
   fightingMobs : [],
   skills : {
     "punch" : new skills.Punch,
-    "poison" : new skills.Poison
+    "poison" : new skills.Poison,
+    "ignite" : new skills.Ignite,
+    "entangle" : new skills.Entangle,
+    "health" : new skills.Health
   },
   playerFunctions : {
     calculateMaxHp : function(player){
@@ -98,7 +101,8 @@ let socketHandler = (socket, io) => {
         characterData.leftStatusPoints = dm.playerFunctions.calculateLeftStatusPoints(user);
 
         characterData.maxHealth = dm.playerFunctions.calculateMaxHp(user);
-        characterData.maxMana = dm.playerFunctions.calculateMaxMana(user);
+        // characterData.maxMana = dm.playerFunctions.calculateMaxMana(user);
+        characterData.maxMana = 200;
         characterData.attack = dm.playerFunctions.calculateAttack(user);
         characterData.requiredExperience = dm.playerFunctions.calculateRequiredExperience(user);
 
@@ -128,6 +132,7 @@ let socketHandler = (socket, io) => {
   socket.on("initialized", function(data) {
     if(!dm.allLoggedPlayersData[data.id]){
       dm.allLoggedPlayersData[data.id] = data.characterData;
+      dm.allLoggedPlayersData[data.id].socket = dm.socketsOfPlayers[data.id];
       dm.findMapNameByPlayerId[data.id] = data.characterData.currentMapName;
       console.log("initialized player with id : " + data.id);
       dm.allLoggedPlayersData[data.id].initialized = true;
@@ -164,12 +169,15 @@ let socketHandler = (socket, io) => {
 
   socket.on("damageEnemy",function(data) {
     let playerSkill = dm.skills[data.skillName];
+    if (!playerSkill) {
+      console.log(`skill : ${data.skillName} doesn't exists !!!!`)
+      return;
+    }
     let player = dm.allLoggedPlayersData[data.playerID];
     if(!player || !player.fightData || !player.fightData.opponent){return};
     let enemy = dm.allLoggedPlayersData[data.playerID].fightData.opponent;
     if(player.mana >= playerSkill.manaCost){
-      enemy.health -= playerSkill.getDamage(player.attack);
-      player.mana -= playerSkill.manaCost;
+      playerSkill.getDamage(player,enemy);
     };
     if(enemy.health <= 0){
       player.experience += enemy.exp;
@@ -184,7 +192,8 @@ let socketHandler = (socket, io) => {
       dm.allMaps[dm.findMapNameByPlayerId[data.playerID]].removeEnemy(enemy.id);
     } else {
       enemy.fightData.fightTick = Date.now();
-      player.health -= enemy.damage;
+      enemySkill = dm.skills[enemy.skillName];
+      enemySkill.getDamage(enemy,player);
       if(player.health <=0){
         enemy.isFighting = false;
         enemy.fightData = {};
