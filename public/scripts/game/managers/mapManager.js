@@ -94,7 +94,7 @@ class MapManager {
     let self = this.state;
     let newEnemy = null;
     if(!newEnemy){
-      newEnemy = new Enemy(self.game,data.x,data.y,data.id,data.key,data.health,data.maxHealth);
+      newEnemy = new Enemy(self,data.x,data.y,data.id,data.key,data.health,data.maxHealth);
       self.allEntities.add(newEnemy);
       self.allEntities.enemies[data.id] = newEnemy;
       newEnemy.inputEnabled = true;

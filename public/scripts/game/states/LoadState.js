@@ -17,6 +17,7 @@ let LoadState = {
     /* Info and dialog sprites */
     this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
     this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
+    this.load.image("mobDescriptionFrame", "assets/infoTables/mobDescriptionFrame.png");
 
     this.load.image("skill_punch_description","assets/fight/skills/skillDescriptions/skill_punch_description.png");
     this.load.image("skill_health_description","assets/fight/skills/skillDescriptions/skill_health_description.png");

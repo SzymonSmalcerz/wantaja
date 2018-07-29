@@ -101,8 +101,8 @@ let socketHandler = (socket, io) => {
         characterData.leftStatusPoints = dm.playerFunctions.calculateLeftStatusPoints(user);
 
         characterData.maxHealth = dm.playerFunctions.calculateMaxHp(user);
-        // characterData.maxMana = dm.playerFunctions.calculateMaxMana(user);
-        characterData.maxMana = 200;
+        characterData.maxMana = dm.playerFunctions.calculateMaxMana(user);
+        // characterData.maxMana = 200;
         characterData.attack = dm.playerFunctions.calculateAttack(user);
         characterData.requiredExperience = dm.playerFunctions.calculateRequiredExperience(user);
 

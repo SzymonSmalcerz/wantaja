@@ -12,6 +12,7 @@ class Skill {
     this.blockedFrame = undefined;
     this.effectText = undefined;
     this.manaCostText = undefined;
+    this.blockedText = undefined;
     this.requiredLevel = requiredLevel;
     this.initialize();
   }
@@ -29,17 +30,25 @@ class Skill {
 
     this.effectText = state.add.text();
     this.manaCostText = state.add.text();
+    this.blockedText = state.add.text();
     let textCss = {
       font : "22px bold",
       fontWeight : "900",
       fill : "#FFFFFF"
     }
+    let textCssBlocked = {
+      font : "18px bold",
+      fontWeight : "900",
+      fill : '#770000'
+    }
     this.effectText.setStyle(textCss);
     this.manaCostText.setStyle(textCss);
+    this.blockedText.setStyle(textCssBlocked);
     state[this.groupName].add(this.normalFrame);
     state[this.groupName].add(this.blockedFrame);
     state[this.groupName].add(this.effectText);
     state[this.groupName].add(this.manaCostText);
+    state[this.groupName].add(this.blockedText);
     state[this.groupName].fixedToCamera = true;
     state[this.groupName].visible = false;
   }
@@ -63,6 +72,10 @@ class Skill {
       manaCostText : {
         x : this.posX - 55,
         y : this.posY - 14
+      },
+      blockedText : {
+        x : this.posX - 75,
+        y : this.posY + 50
       }
     }
   }
@@ -89,8 +102,16 @@ class Skill {
   chooseFrame() {
     if(this.isSkillDisabled()){
       this.blockedFrame.visible = true;
+      this.blockedText.visible = true;
       this.normalFrame.visible = false;
+      this.blockedText.reset(this.positions.blockedText.x,this.positions.blockedText.y);
+      if(this.requiredLevel > this.entity.level ){
+        this.blockedText.text = "required level to use\nthis skill : " + this.requiredLevel;
+      } else {
+        this.blockedText.text = "not enough mana!";
+      }
     } else {
+      this.blockedText.visible = false;
       this.blockedFrame.visible = false;
       this.normalFrame.visible = true;
     }
