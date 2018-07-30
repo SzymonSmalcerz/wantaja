@@ -14,6 +14,17 @@ let GameState = {
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
 
+    this.checkBox = new CheckBox(this.game,100,100,false,0,1,2,3,4,5,6,7);
+    this.number = 0;
+    this.checkBox.addOnCheckFunction(function(){
+      console.log("check");
+      this.number += 1;
+    }, this)
+    this.checkBox.addOnUncheckFunction(function(){
+      console.log("uncheck");
+      this.number -= 1;
+    }, this)
+
   },
   update : function() {
     this.physics.arcade.collide(this.walls, this.player);

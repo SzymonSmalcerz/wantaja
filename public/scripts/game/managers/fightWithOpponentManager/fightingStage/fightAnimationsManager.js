@@ -42,14 +42,12 @@ class FightAnimationsManager {
     this.state["skill_" + skillName + "_animation"].visible = true;
     this.state["skill_" + skillName + "_animation"].play("skill");
     this.state["skill_" + skillName + "_animation"].howManyTimesPushedButton += 1;
-    console.log("inside animation");
     this.state["skill_" + skillName + "_animation"].skillAnimation.onComplete.addOnce(function(){
 
       if(playerDataToChange){
         for (var key in playerDataToChange) {
           if (playerDataToChange.hasOwnProperty(key)) {
               this.state.player[key] = playerDataToChange[key];
-              console.log(key + " | " + playerDataToChange[key]);
           }
         }
       };
@@ -58,9 +56,7 @@ class FightAnimationsManager {
       if(this.state["skill_" + skillName + "_animation"].howManyTimesPushedButton <= 0){
         this.state["skill_" + skillName + "_animation"].visible = false;
       };
-      console.log(isThisEnemySkillAnimation);
-      if(!isThisEnemySkillAnimation && this.state.player.isFighting){
-        console.log("sendiiiing");
+      if(!isThisEnemySkillAnimation && this.state.player.isFighting) {
         this.mainFightManager.damageEnemy(skillName);
       };
       this.playingAnimation = false;

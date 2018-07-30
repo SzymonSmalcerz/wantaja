@@ -10,29 +10,37 @@ let Enemy = function(state,x,y, id,key  = "spider",health,maxHealth) {
   this.maxHealth = maxHealth;
   this.inputEnabled = true;
   this.input.pixelPerfectOver = true;
-  this.descriptionFrame = state.add.sprite(x,y - 50,"mobDescriptionFrame");
-  this.descriptionFrame.alpha = 0.6;
-  this.descriptionFrame.anchor.setTo(0.5);
-  this.descriptionFrame.visible = false;
-  this.addOnInputOverFunction(function() {
-    this.descriptionFrame.visible = true;
-  },this)
-  this.addOnInputDownFunction(function() {
-    this.descriptionFrame.visible = false;
-  },this)
-  this.addOnInputUpFunction(function() {
-    this.descriptionFrame.visible = false;
-  },this)
-  this.addOnInputOutFunction(function() {
-    this.descriptionFrame.visible = false;
-  },this)
+  this.descriptionText = state.add.text(x,y - this.height/2);
+  this.descriptionText.anchor.setTo(0.5);
+  let textCss = {
+    font : "14px bold",
+    fontWeight : "900",
+    fill : "#FFFFFF"
+  }
+  this.descriptionText.setStyle(textCss);
+  this.descriptionText.text = key + " lvl. 1";
 }
 
-Enemy.prototype.reset = function(x,y,key) {
-  this.super.reset(x,y,key);
-  this.descriptionFrame.reset(x,y);
-  this.descriptionFrame.visible = false;
-}
 
 Enemy.prototype = Object.create(Button.prototype);
 Enemy.prototype.constructor = Enemy;
+
+Enemy.prototype.hideDescription = function() {
+  this.descriptionText.visible = false;
+}
+
+Enemy.prototype.showDescription = function() {
+  this.descriptionText.visible = true;
+}
+
+Enemy.prototype.toggleDescription = function() {
+  this.descriptionText.visible = !this.descriptionText.visible;
+}
+
+Enemy.prototype.reset = function(x,y,key) {
+  Button.prototype.reset.call(this,x,y,key);
+}
+
+Enemy.prototype.kill = function() {
+  Button.prototype.kill.call(this);
+}

@@ -16,9 +16,6 @@ class MapManager {
     this.state.walls = this.state.map.createLayer("Walls");
     this.state.walls.layer.data = this.state.walls.layer.data.map((row,i) => {
       return row.map((val,index) => {
-        if(i == 0 && index == 0){
-          console.log(val);
-        }
         if(val.index < 0){
           val.alpha = 0;
           val.visible = false;
@@ -100,7 +97,6 @@ class MapManager {
       newEnemy.inputEnabled = true;
       newEnemy.input.pixelPerfectClick = true;
       newEnemy.events.onInputDown.add(function(){
-        console.log(this.getDistanceBetweenEntityAndPlayer(newEnemy));
         if(this.getDistanceBetweenEntityAndPlayer(newEnemy) <= 50){
           self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
         };

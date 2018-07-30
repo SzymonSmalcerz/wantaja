@@ -6,7 +6,6 @@
 class FightWithOpponentManager {
   constructor(state){
     this.state = state;
-    console.log(state);
     this.fightingStageUIManager = new FightingStageUIManager(this);
     this.preFightMenu = new PreFightMenu(this);
   };
@@ -26,6 +25,10 @@ class FightWithOpponentManager {
     state.player.opponent.health = enemyHealth;
     state.fullHpBarEnemy.width = state.player.opponent.health/state.player.opponent.maxHealth * state.emptyHpBarEnemy.width;
   };
+
+  initEnemyHealth() {
+    this.state.fullHpBarEnemy.width = this.state.emptyHpBarEnemy.width;
+  }
 
   setEnemy(enemy){
     this.enemy = enemy;
@@ -54,6 +57,7 @@ class FightWithOpponentManager {
     this.state.setFightingModeOn();
     player.health = player.maxHealth;
     player.mana = player.maxMana;
+    this.initEnemyHealth();
     player.setFightingMode(); // player wont send any data about his position to the server while fighting
     player.opponent = enemy;
     state.fightingStage.visible = true;
@@ -90,8 +94,11 @@ class FightWithOpponentManager {
   handleWinFight(){
     let player = this.state.player;
     this.state.wonAlert.visible = true;
-    this.state.player.opponent.health = 0;
-    this.updateEnemyHealth();
+
+    console.log(this.state.player.opponent);
+    this.state.player.opponent.kill();
+    this.updateEnemyHealth(0);
+    console.log(this.state.player.opponent);
     this.state.fightingStage.hideSkillsButtons();
     this.state.okButton.addOnInputDownFunction(function(){
       let player = this.state.player;

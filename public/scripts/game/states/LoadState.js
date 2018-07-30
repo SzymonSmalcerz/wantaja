@@ -103,6 +103,7 @@ let LoadState = {
     this.load.spritesheet("missionsIcon","assets/UI/bottomUI/expansionMenu/missionsIcon.png",50,50);
     this.load.spritesheet("statusIcon","assets/UI/bottomUI/expansionMenu/statusIcon.png",50,50);
     this.load.image("backgroundIcons","assets/UI/bottomUI/expansionMenu/background.png");
+    this.load.spritesheet("checkBox","assets/UI/checkbox.png",50,50);
   },
   create(){
     this.game.state.start("HomeState");
