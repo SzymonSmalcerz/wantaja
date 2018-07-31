@@ -1,14 +1,21 @@
 class UIManager {
   constructor(state){
     this.state = state;
+
     this.statusPointsManager = new StatusPointsManager(state,this);
     this.characterDataManager = new CharacterDataManager(state,this);
+    this.settingsManager = new SettingsManager(state,this);
+
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.blockedMovement = false;
     this.fightMode = false;
   }
 
   initialize() {
+    this.framesManagers = [];
+    this.framesManagers.push(this.statusPointsManager);
+    this.framesManagers.push(this.characterDataManager);
+    this.framesManagers.push(this.settingsManager);
     let state = this.state;
 
     // uiTileSprite
@@ -38,7 +45,7 @@ class UIManager {
     //player logo
     state.playerlogo = state.game.add.sprite(2,state.game.height - 72,"playerlogo");
 
-    state.ui = state.ui || state.add.group();
+    state.ui = state.add.group();
 
     state.ui.add(state.uiTile_normal);
     state.ui.add(state.uiTile_right);
@@ -54,12 +61,17 @@ class UIManager {
 
     state.ui.fixedToCamera = true;
 
-    this.statusPointsManager.initialize();
+    this.framesManagers.forEach(frameManager => {
+      frameManager.initialize();
+    });
     this.expandedMenuManager.initialize();
-    this.characterDataManager.initialize();
     this.onResize();
     this.hideManaBar();
     this.hideHealthBar();
+  }
+
+  addToGroup(sprite) {
+    this.state.ui.add(sprite);
   }
 
   blockPlayerMovementsWhenOver(sprite,releaseWhenInputUp){
@@ -147,14 +159,15 @@ class UIManager {
     state.uiTile_right.reset(state.game.width-70,state.game.height-70);
     state.uiTile_middle.reset(state.game.width/2 - 50,state.game.height-100);
 
-    this.expandedMenuManager.onResize();
-    this.statusPointsManager.onResize();
-    this.characterDataManager.onResize();
+    this.framesManagers.forEach(frameManager => {
+      frameManager.onResize();
+    });
   };
 
   closeAllWindows() {
-    this.statusPointsManager.hideStatusPointWindow();
-    this.characterDataManager.hideCharacterDataWindow();
+    this.framesManagers.forEach(frameManager => {
+      frameManager.hideWindow();
+    });
   }
 
   update() {
@@ -163,8 +176,9 @@ class UIManager {
     state.fullHpBar.width = state.player.health/state.player.maxHealth * state.emptyHpBar.width;
     state.fullManaBar.width = state.player.mana/state.player.maxMana * state.emptyManaBar.width;
     state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;
-    this.statusPointsManager.update();
     this.expandedMenuManager.update();
-    this.characterDataManager.update();
+    this.framesManagers.forEach(frameManager => {
+      frameManager.update();
+    });
   }
 }

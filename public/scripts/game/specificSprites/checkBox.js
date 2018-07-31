@@ -10,7 +10,7 @@ let CheckBox = function(game,x,y,checked,
   this.inputEnabled = true;
   // current state of the checkBox (checked or unchecked);
   this.checked = checked || false;
-  
+
   this.unselectedNormalFrame = unselectedNormalFrame || 0;
   this.unselectedDownFrame = unselectedDownFrame || 0;
   this.unselectedOverFrame = unselectedOverFrame || 0;
@@ -21,7 +21,12 @@ let CheckBox = function(game,x,y,checked,
   this.selectedOverFrame = selectedOverFrame || 0;
   this.selectedDisabledFrame = selectedDisabledFrame || 0;
 
-
+  if(this.checked) {
+    this.frame = this.selectedNormalFrame;
+  } else {
+    this.frame = this.unselectedNormalFrame;
+  }
+  
   this.disabled = false;
 
   this.initializeFrames();
@@ -39,7 +44,6 @@ CheckBox.prototype.setNormalFrame = function(){
 };
 
 CheckBox.prototype.setOverFrame = function(){
-  console.log("overr");
   if(this.checked){
     this.frame = this.selectedOverFrame;
   } else {
@@ -73,7 +77,6 @@ CheckBox.prototype.setDownFrame = function(){
 
 CheckBox.prototype.toggleCheck = function(){
   this.checked = !this.checked;
-  console.log("toggle check, new value : " + this.checked);
 };
 
 CheckBox.prototype.addOnCheckFunction = function(specificFunction,context,addOnce){
@@ -82,14 +85,12 @@ CheckBox.prototype.addOnCheckFunction = function(specificFunction,context,addOnc
     this.events.onInputUp.addOnce(function(){
       if(self.checked) {
         specificFunction.call(context || self);
-        console.log("checked function called");
       }
     }, this);
   } else {
     this.events.onInputUp.add(function(){
       if(self.checked) {
         specificFunction.call(context || self);
-        console.log("checked function called");
       }
     }, this);
   };
@@ -101,14 +102,12 @@ CheckBox.prototype.addOnUncheckFunction = function(specificFunction,context,addO
     this.events.onInputUp.addOnce(function(){
       if(!self.checked) {
         specificFunction.call(context || self);
-        console.log("unchecked function called");
       }
     }, this);
   } else {
     this.events.onInputUp.add(function(){
       if(!self.checked) {
         specificFunction.call(context || self);
-        console.log("unchecked function called");
       }
     }, this);
   };

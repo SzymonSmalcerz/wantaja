@@ -35,13 +35,11 @@ class ExpandedMenuManager {
     this.uiManager.blockPlayerMovementsWhenOver(state.backgroundIcons);
 
     //adding everything to one group
-    state.ui = state.ui || state.add.group();
-
-    state.ui.add(state.backgroundIcons);
-    state.ui.add(state.expandArrow);
-    state.ui.add(state.eqIcon);
-    state.ui.add(state.statusIcon);
-    state.ui.add(state.missionsIcon);
+    this.uiManager.addToGroup(state.backgroundIcons);
+    this.uiManager.addToGroup(state.expandArrow);
+    this.uiManager.addToGroup(state.eqIcon);
+    this.uiManager.addToGroup(state.statusIcon);
+    this.uiManager.addToGroup(state.missionsIcon);
 
     this.onResize();
   }

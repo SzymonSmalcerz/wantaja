@@ -1,56 +1,15 @@
-class StatusPointsManager {
+class StatusPointsManager extends UIFrameManager {
   constructor(state,uiManager){
-    this.state = state;
-    this.uiManager = uiManager;
-    this.posX = state.game.width/2;
-    this.posY = state.game.height/2;
+    super(state,uiManager,Phaser.Keyboard.C);
     this.statusPointsNames = ["strength","vitality","intelligence","agility"];
-    this.getPositionsCoords();
-
-    this.lastTime = 0;
   }
 
-  getPositionsCoords() {
-    this.posX = this.state.game.width/2;
-    this.posY = this.state.game.height/2;
-    this.positions = {
-      questionMark : {
-        x : this.posX - 37,
-        y : this.posY - 53,
-        difference : 60
-      },
-
-      plusButton : {
-        x : this.posX + 80,
-        y : this.posY - 65,
-        difference : 60
-      }
-    }
-  }
-
-  updateStatusText() {
-    let state = this.state;
-
-    state.strengthText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10);
-    state.strengthText.text = "pts: " + this.state.player.strength;
-
-    state.vitalityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference);
-    state.vitalityText.text = "pts: " + this.state.player.vitality;
-
-    state.itelligenceText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 2);
-    state.itelligenceText.text = "pts: " + this.state.player.intelligence;
-
-    state.agilityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 3);
-    state.agilityText.text = "pts: " + this.state.player.agility;
-
-    state.leftStatusPointsText.reset(this.posX,this.posY - 110);
-    state.leftStatusPointsText.text = "left points to add: " + this.state.player.leftStatusPoints;
-
-  }
   initialize() {
+    this.getPositionsCoords();
     let state = this.state;
 
     state.statusPoints = state.add.group();
+    this.frameGroup = state.statusPoints;
     // state.statusPointsBackground = state.game.add.sprite(state.game.world.width/2,state.game.world.height/2,"statusPoints");
     state.statusPointsBackground = state.game.add.sprite(this.posX,this.posY,"statusPoints");
     state.statusPointsBackground.anchor.setTo(0.5);
@@ -88,7 +47,7 @@ class StatusPointsManager {
     state.statusPoints.add(state.statusPointsCloseButton);
     this.uiManager.blockPlayerMovementsWhenOver(state.statusPointsCloseButton,true);
     state.statusPointsCloseButton.addOnInputDownFunction(function(){
-      this.toggleStatusPointWindow();
+      this.toggleWindow();
     },this);
 
     state.statusPoints.plusButtons = [];
@@ -138,7 +97,44 @@ class StatusPointsManager {
 
     state.statusPoints.fixedToCamera = true;
     this.onResize();
-    this.hideStatusPointWindow();
+    this.hideWindow();
+  }
+
+  getPositionsCoords() {
+    super.getPositionsCoords();
+    this.positions = {
+      questionMark : {
+        x : this.posX - 37,
+        y : this.posY - 53,
+        difference : 60
+      },
+
+      plusButton : {
+        x : this.posX + 80,
+        y : this.posY - 65,
+        difference : 60
+      }
+    }
+  }
+
+  updateStatusText() {
+    let state = this.state;
+
+    state.strengthText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10);
+    state.strengthText.text = "pts: " + this.state.player.strength;
+
+    state.vitalityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference);
+    state.vitalityText.text = "pts: " + this.state.player.vitality;
+
+    state.itelligenceText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 2);
+    state.itelligenceText.text = "pts: " + this.state.player.intelligence;
+
+    state.agilityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 3);
+    state.agilityText.text = "pts: " + this.state.player.agility;
+
+    state.leftStatusPointsText.reset(this.posX,this.posY - 110);
+    state.leftStatusPointsText.text = "left points to add: " + this.state.player.leftStatusPoints;
+
   }
 
   disableButtons() {
@@ -153,10 +149,8 @@ class StatusPointsManager {
     }
   }
 
-  showStatusPointWindow(){
-    this.uiManager.closeAllWindows();
-    this.state.game.world.bringToTop(this.state.statusPoints);
-    this.state.statusPoints.visible = true;
+  showWindow(){
+    super.showWindow();
     this.checkIfStatusPointsRemaining();
     this.updateStatusText();
   }
@@ -166,25 +160,6 @@ class StatusPointsManager {
       this.disableButtons();
     } else {
       this.enableButtons();
-    }
-  }
-
-  hideStatusPointWindow(){
-    this.state.statusPoints.visible = false;
-  }
-
-  toggleStatusPointWindow(){
-    if(this.state.statusPoints.visible){
-      this.hideStatusPointWindow();
-    } else {
-      this.showStatusPointWindow();
-    };
-  }
-
-  update() {
-    if(this.state.game.input.keyboard.isDown(Phaser.Keyboard.C) && Date.now() - this.lastTime > 200){
-      this.lastTime = Date.now();
-      this.toggleStatusPointWindow();
     }
   }
 

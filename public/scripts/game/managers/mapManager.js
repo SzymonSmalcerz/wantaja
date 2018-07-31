@@ -1,6 +1,9 @@
 class MapManager {
   constructor(state) {
     this.state = state;
+    this.enemiesDescriptionRendered = true;
+    this.showPlayersDescription = true;
+
   }
 
   initialize() {
@@ -85,7 +88,23 @@ class MapManager {
     }
   };
 
+  hideEnemiesDescription() {
+    this.enemiesDescriptionRendered = false;
+    for (var key in this.state.allEntities.enemies) {
+      if (this.state.allEntities.enemies.hasOwnProperty(key)) {
+          this.state.allEntities.enemies[key].hideDescription();
+      }
+    }
+  }
 
+  showEnemiesDescription() {
+    this.enemiesDescriptionRendered = true;
+    for (var key in this.state.allEntities.enemies) {
+      if (this.state.allEntities.enemies.hasOwnProperty(key)) {
+          this.state.allEntities.enemies[key].showDescription();
+      }
+    }
+  }
 
   addNewEnemy(data){
     let self = this.state;
@@ -102,6 +121,9 @@ class MapManager {
         };
       }, this);
       self.setRenderOrder(newEnemy);
+      if(!this.enemiesDescriptionRendered){
+        newEnemy.hideDescription();
+      }
     } else {
       newEnemy.reset(data.x,data.y);
     }

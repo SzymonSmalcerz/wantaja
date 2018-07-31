@@ -45,6 +45,10 @@ let LoadState = {
     /* character data */
     this.load.image("characterDataFrame", "assets/UI/characterData/characterDataFrame.png");
 
+    /* settings */
+    this.load.image("settingsFrame", "assets/UI/settings/settingsFrame.png");
+    this.load.spritesheet("settingsButton", "assets/UI/settings/settingsButton.png",50,50);
+
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
