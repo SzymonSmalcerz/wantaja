@@ -11,6 +11,10 @@ class SocketsManager {
     this.handler.socket.on("addEnemy", function(data){
       self.handler.currentState.mapManager.addNewEnemy(data);
     });
+    // TODO do this dodge socket !!!!
+    this.handler.socket.on("dodge", function(){
+      console.log("DODGED!!!!");
+    });
     this.handler.socket.on("removePlayer", function(data){
       let playerToRemove = self.handler.currentState.allEntities.objects[data.id];
       playerToRemove.kill();

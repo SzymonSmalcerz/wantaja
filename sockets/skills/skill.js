@@ -7,7 +7,22 @@ class Skill {
   };
 
   getDamage(player,enemy) {
+    if(this.isSkillDodged(player,enemy)){
+      if(player.socket){
+        player.socket.emit("dodge",{});
+      }
+      return;
+    };
     enemy.health -= this.baseDamage;
+  }
+
+  isSkillDodged(player,enemy) {
+    if(player.dodge){
+      if(Math.random() * 100 <= player.dodge){
+        return true;
+      }
+    }
+    return false;
   }
 };
 
@@ -18,6 +33,13 @@ class Punch extends Skill {
   };
 
   getDamage(player,enemy){
+    if(this.isSkillDodged(player,enemy)){
+      if(player.socket){
+        player.socket.emit("dodge",{});
+      }
+      return;
+    };
+    if(this.isSkillDodged(player,enemy)){}
     enemy.health -= player.attack;
   };
 };
@@ -28,6 +50,12 @@ class Poison extends Skill {
   };
 
   getDamage(player,enemy) {
+    if(this.isSkillDodged(player,enemy)){
+      if(player.socket){
+        player.socket.emit("dodge",{});
+      }
+      return;
+    };
     if(player.level){
       if(player.level < this.requiredLevel){
         return;
@@ -44,6 +72,12 @@ class Ignite extends Skill {
   };
 
   getDamage(player,enemy) {
+    if(this.isSkillDodged(player,enemy)){
+      if(player.socket){
+        player.socket.emit("dodge",{});
+      }
+      return;
+    };
     if(player.level){
       if(player.level < this.requiredLevel){
         return;
@@ -60,6 +94,12 @@ class Entangle extends Skill {
   };
 
   getDamage(player,enemy) {
+    if(this.isSkillDodged(player,enemy)){
+      if(player.socket){
+        player.socket.emit("dodge",{});
+      }
+      return;
+    };
     if(player.level){
       if(player.level < this.requiredLevel){
         return;
@@ -76,6 +116,12 @@ class Health extends Skill {
   };
 
   getDamage(player,enemy) {
+    if(this.isSkillDodged(player,enemy)){
+      if(player.socket){
+        player.socket.emit("dodge",{});
+      }
+      return;
+    };
     if(player.level){
       if(player.level < this.requiredLevel){
         return;

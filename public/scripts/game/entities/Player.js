@@ -31,6 +31,7 @@ let Player = function(game,data) {
   this.intelligence = data.intelligence || 1;
 
   this.attack = data.attack || 1;
+  this.dodge = data.dodge || 0;
   this.level = data.level || 1;
   this.id = data.id || 10;
   this.leftStatusPoints = data.leftStatusPoints || 0;

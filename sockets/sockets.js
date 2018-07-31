@@ -30,6 +30,9 @@ let dm = { // data manager, created to hold values for game purpose
     calculateAttack : function(player){
       return (player.strength + player.level + player.weapon.strength) * 10 + player.weapon.attack;
     },
+    calculateDodge : function(player){
+      return (player.agility + player.weapon.agility)/player.level * 10;
+    },
     calculateRequiredExperience : function(player){
       return player.level * 150;;
     },
@@ -42,9 +45,9 @@ let dm = { // data manager, created to hold values for game purpose
       player.requiredExperience = dm.playerFunctions.calculateRequiredExperience(player);
       player.attack = dm.playerFunctions.calculateAttack(player);
       player.maxMana = dm.playerFunctions.calculateMaxMana(player);
-      player.mana = player.maxMana;
       player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
-      player.health = player.maxHealth;
+      player.dodge = dm.playerFunctions.calculateDodge(player);
+      // player.dodge = 100;
       player.leftStatusPoints += 5;
 
       dm.socketsOfPlayers[player.id].emit("levelUp", {
@@ -54,7 +57,8 @@ let dm = { // data manager, created to hold values for game purpose
         attack : player.attack,
         maxMana : player.maxMana,
         maxHealth : player.maxHealth,
-        leftStatusPoints : player.leftStatusPoints
+        leftStatusPoints : player.leftStatusPoints,
+        dodge : player.dodge
       })
     }
   }
@@ -120,7 +124,6 @@ let socketHandler = (socket, io) => {
         socket.emit("initialData",{
           characterData : characterData
         });
-
       }
 
     } catch(error) {
@@ -287,6 +290,7 @@ let socketHandler = (socket, io) => {
         dm.allLoggedPlayersData[playerData.id].active = true;
     };
   });
+
 
   socket.on("addStatusPoint", (data) => {
     let player = dm.allLoggedPlayersData[data.playerID];
