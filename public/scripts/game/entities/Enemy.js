@@ -42,5 +42,6 @@ Enemy.prototype.reset = function(x,y,key) {
 }
 
 Enemy.prototype.kill = function() {
+  this.descriptionText.kill();
   Button.prototype.kill.call(this);
 }

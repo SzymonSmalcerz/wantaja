@@ -85,9 +85,9 @@ let GameState = {
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON,1,1);
   },
   onResize(width, height) {
-    this.uiManager.onResize();
     this.fightWithOpponentManager.onResize();
     this.mapManager.onResize(width,height);
+    this.uiManager.onResize();
     this.setRenderingOrder();
   },
   setFightingModeOn(){

@@ -56,6 +56,7 @@ class SettingsManager extends UIFrameManager {
   }
 
   onResize() {
+    super.onResize();
     this.getPositionsCoords();
     this.background.reset(this.posX,this.posY);
     this.checkBox.reset(this.positions.enemiesCheckBox.x,this.positions.enemiesCheckBox.y);

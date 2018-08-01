@@ -188,9 +188,7 @@ let socketHandler = (socket, io) => {
         dm.playerFunctions.levelUp(player);
       };
       dm.socketsOfPlayers[data.playerID].emit("handleWinFight",{
-        playerExperience : player.experience,
-        playerHealth : player.health,
-        playerMana : player.mana
+        playerExperience : player.experience
       });
       dm.allMaps[dm.findMapNameByPlayerId[data.playerID]].removeEnemy(enemy.id);
     } else {
@@ -299,13 +297,14 @@ let socketHandler = (socket, io) => {
       player[data.statusName] += 1;
       player.attack = dm.playerFunctions.calculateAttack(player);
       player.maxMana = dm.playerFunctions.calculateMaxMana(player);
-      player.mana = player.maxMana;
       player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
+      player.dodge = dm.playerFunctions.calculateDodge(player);
       player.leftStatusPoints -= 1;
-      dm.socketsOfPlayers[data.playerID].emit("statusUpdate",{
+      dm.socketsOfPlayers[data.playerID].emit("playerUpdate",{
         attack : player.attack,
         maxMana : player.maxMana,
-        maxHealth : player.maxHealth
+        maxHealth : player.maxHealth,
+        dodge : player.dodge
       });
     };
   });

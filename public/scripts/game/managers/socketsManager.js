@@ -48,10 +48,10 @@ class SocketsManager {
     });
 
     this.handler.socket.on("statusUpdate", function(data){
-
-      self.handler.currentState.player.maxMana = data.maxMana;
-      self.handler.currentState.player.maxHealth = data.maxHealth;
-      self.handler.currentState.player.attack = data.attack;
+      alert("statusUpdate in sockets called !!!!");
+      // self.handler.currentState.player.maxMana = data.maxMana;
+      // self.handler.currentState.player.maxHealth = data.maxHealth;
+      // self.handler.currentState.player.attack = data.attack;
     });
     this.handler.socket.on("gameData", function(data){
       let otherPlayersData = data.otherPlayersData;

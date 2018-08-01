@@ -173,6 +173,7 @@ class StatusPointsManager extends UIFrameManager {
   }
 
   onResize() {
+    super.onResize();
     this.getPositionsCoords();
     this.updateStatusText();
     let state = this.state;

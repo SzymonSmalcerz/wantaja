@@ -17,7 +17,7 @@ class UIFrameManager {
   }
 
   onResize() {
-    throw new Error("inherited class MUST override this method!");
+    this.bringToTop();
   }
 
   update() {
@@ -30,6 +30,10 @@ class UIFrameManager {
   showWindow(){
     this.uiManager.closeAllWindows();
     this.frameGroup.visible = true;
+    this.bringToTop();
+  }
+
+  bringToTop(){
     this.state.game.world.bringToTop(this.frameGroup);
   }
 
