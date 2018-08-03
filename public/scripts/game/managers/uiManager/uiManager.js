@@ -94,7 +94,7 @@ class UIManager {
   }
 
   toggleStatusPointWindow(){
-    this.statusPointsManager.toggleStatusPointWindow();
+    this.statusPointsManager.toggleWindow();
   }
 
   blockPlayerMovement(){
@@ -137,6 +137,24 @@ class UIManager {
     this.state.fullHpBar.visible = false;
   }
 
+  closeAllWindows() {
+    this.framesManagers.forEach(frameManager => {
+      frameManager.hideWindow();
+    });
+  }
+
+  update() {
+    // TODO nie trzeba updatowac tego caly czas !!!! jedynie jak dostaniemy info od servera, ze hp/mana/exp playera sie zmienil !!!!
+    let state = this.state;
+    state.fullHpBar.width = state.player.health/state.player.maxHealth * state.emptyHpBar.width;
+    state.fullManaBar.width = state.player.mana/state.player.maxMana * state.emptyManaBar.width;
+    state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;
+    this.expandedMenuManager.update();
+    this.framesManagers.forEach(frameManager => {
+      frameManager.update();
+    });
+  }
+
   onResize() {
     let state = this.state;
     state.emptyHpBar.reset(60,state.game.height - 55);
@@ -162,23 +180,8 @@ class UIManager {
     this.framesManagers.forEach(frameManager => {
       frameManager.onResize();
     });
+    this.expandedMenuManager.onResize();
+
+    this.blockedMovement = false;
   };
-
-  closeAllWindows() {
-    this.framesManagers.forEach(frameManager => {
-      frameManager.hideWindow();
-    });
-  }
-
-  update() {
-    // TODO nie trzeba updatowac tego caly czas !!!! jedynie jak dostaniemy info od servera, ze hp/mana/exp playera sie zmienil !!!!
-    let state = this.state;
-    state.fullHpBar.width = state.player.health/state.player.maxHealth * state.emptyHpBar.width;
-    state.fullManaBar.width = state.player.mana/state.player.maxMana * state.emptyManaBar.width;
-    state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;
-    this.expandedMenuManager.update();
-    this.framesManagers.forEach(frameManager => {
-      frameManager.update();
-    });
-  }
 }

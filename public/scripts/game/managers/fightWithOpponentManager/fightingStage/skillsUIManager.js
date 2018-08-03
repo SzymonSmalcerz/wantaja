@@ -109,7 +109,7 @@ class SkillsUIManager {
     };
   };
 
-  onResize(){
+  onResize() {
     let state = this.state;
     this.skillsCss.left = this.getLeftSkillMargin(this.skillsDictionary.length);
     for(let i=0;i<this.skillsDictionary.length;i++) {

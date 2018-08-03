@@ -59,6 +59,8 @@ let Player = function(game,data) {
 
   this.canMove = true;
   this.isFighting = false;
+
+  this.smoothed = false;
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -104,7 +106,9 @@ Player.prototype.blockMovement = function() {
 }
 
 Player.prototype.unblockMovement = function() {
-  this.canMove = true;
+  if(!this.isFighting) {
+    this.canMove = true;
+  }
 }
 
 Player.prototype.setFightingMode = function() {

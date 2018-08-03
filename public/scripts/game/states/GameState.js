@@ -3,7 +3,6 @@ let GameState = {
   create : function(){
     this.smoothed = false;
     handler.currentState = this;
-
     this.initializeMap();
     this.setCamera();
     this.initUI();
@@ -89,6 +88,7 @@ let GameState = {
     this.mapManager.onResize(width,height);
     this.uiManager.onResize();
     this.setRenderingOrder();
+    this.player.unblockMovement();
   },
   setFightingModeOn(){
     this.uiManager.fightModeOn();
@@ -101,5 +101,17 @@ let GameState = {
   },
   showEnemiesDescription() {
     this.mapManager.showEnemiesDescription();
+  },
+  styleText(text) {
+    let textCss = {
+      font : "20px bold",
+      fontWeight : "900",
+      stroke : '#FFF',
+      strokeThickness : 2,
+      fill : '#000'
+    }
+    text.setStyle(textCss);
+    text.lineSpacing = -5;
+    text.smoothed = false;
   }
 };

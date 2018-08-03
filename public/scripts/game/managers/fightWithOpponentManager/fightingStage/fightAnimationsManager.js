@@ -40,6 +40,7 @@ class FightAnimationsManager {
     this.state["skill_" + skillName + "_animation"].bringToTop();
     this.state["skill_" + skillName + "_animation"].reset(entity.x,entity.y);
     this.state["skill_" + skillName + "_animation"].visible = true;
+    this.state["skill_" + skillName + "_animation"].smoothed = false;
     this.state["skill_" + skillName + "_animation"].play("skill");
     this.state["skill_" + skillName + "_animation"].howManyTimesPushedButton += 1;
     this.state["skill_" + skillName + "_animation"].skillAnimation.onComplete.addOnce(function(){

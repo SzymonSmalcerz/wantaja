@@ -26,9 +26,10 @@ let CheckBox = function(game,x,y,checked,
   } else {
     this.frame = this.unselectedNormalFrame;
   }
-  
+
   this.disabled = false;
 
+  this.smoothed = false;
   this.initializeFrames();
 };
 
@@ -42,6 +43,10 @@ CheckBox.prototype.setNormalFrame = function(){
     this.frame = this.unselectedNormalFrame;
   }
 };
+
+CheckBox.prototype.reset = function(x,y) {
+  Phaser.Sprite.prototype.reset.call(this,x,y);
+}
 
 CheckBox.prototype.setOverFrame = function(){
   if(this.checked){
@@ -74,6 +79,11 @@ CheckBox.prototype.setDownFrame = function(){
     this.frame = this.unselectedDownFrame;
   }
 };
+
+CheckBox.prototype.uncheck = function() {
+  this.checked = false;
+  this.setNormalFrame();
+}
 
 CheckBox.prototype.toggleCheck = function(){
   this.checked = !this.checked;

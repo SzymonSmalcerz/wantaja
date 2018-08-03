@@ -44,7 +44,7 @@ let LoadState = {
 
     /* character data */
     this.load.image("characterDataFrame", "assets/UI/characterData/characterDataFrame.png");
-    this.load.image("characterData_lvl_description", "assets/UI/characterData/characterData_lvl_description.png");
+    this.load.image("characterData_level_description", "assets/UI/characterData/characterData_lvl_description.png");
     this.load.image("characterData_health_description", "assets/UI/characterData/characterData_health_description.png");
     this.load.image("characterData_mana_description", "assets/UI/characterData/characterData_mana_description.png");
     this.load.image("characterData_attack_description", "assets/UI/characterData/characterData_attack_description.png");

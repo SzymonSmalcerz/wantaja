@@ -24,16 +24,11 @@ class StatusPointsManager extends UIFrameManager {
     state.leftStatusPointsText = state.add.text();
     state.leftStatusPointsText.anchor.setTo(0.5);
 
-    let textCss = {
-      font : "18px bold",
-      fontWeight : "900"
-    }
-
-    state.strengthText.setStyle(textCss);
-    state.agilityText.setStyle(textCss);
-    state.itelligenceText.setStyle(textCss);
-    state.vitalityText.setStyle(textCss);
-    state.leftStatusPointsText.setStyle(textCss);
+    this.state.styleText(state.strengthText);
+    this.state.styleText(state.agilityText);
+    this.state.styleText(state.itelligenceText);
+    this.state.styleText(state.vitalityText);
+    this.state.styleText(state.leftStatusPointsText);
 
     state.statusPoints.add(state.strengthText);
     state.statusPoints.add(state.agilityText);
@@ -173,7 +168,6 @@ class StatusPointsManager extends UIFrameManager {
   }
 
   onResize() {
-    super.onResize();
     this.getPositionsCoords();
     this.updateStatusText();
     let state = this.state;
@@ -185,5 +179,6 @@ class StatusPointsManager extends UIFrameManager {
     };
     state.statusPointsBackground.reset(this.posX,this.posY);
     state.statusPointsCloseButton.reset(this.posX + 143, this.posY - 150);
+    super.onResize();
   };
 }

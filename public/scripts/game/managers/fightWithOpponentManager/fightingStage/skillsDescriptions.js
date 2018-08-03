@@ -51,11 +51,16 @@ class Skill {
     state[this.groupName].add(this.blockedText);
     state[this.groupName].fixedToCamera = true;
     state[this.groupName].visible = false;
+
+    this.onResize();
   }
 
   updateStatusText() {
     this.effectText.reset(this.positions.effectText.x,this.positions.effectText.y);
     this.effectText.text = this.getEffect();
+
+    this.manaCostText.reset(this.positions.manaCostText.x,this.positions.manaCostText.y);
+    this.manaCostText.text = this.getManaCost();
 
     this.manaCostText.reset(this.positions.manaCostText.x,this.positions.manaCostText.y);
     this.manaCostText.text = this.getManaCost();
@@ -81,7 +86,12 @@ class Skill {
   }
 
   onResize() {
+    this.getPositionsCoords();
     this.updateStatusText();
+    this.normalFrame.reset(this.posX,this.posY);
+    this.blockedFrame.reset(this.posX,this.posY);
+    this.hide();
+    this.state[this.groupName].setAll("smoothed", false);
   }
 
   bringToTop() {

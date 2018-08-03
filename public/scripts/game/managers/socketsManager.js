@@ -11,19 +11,17 @@ class SocketsManager {
     this.handler.socket.on("addEnemy", function(data){
       self.handler.currentState.mapManager.addNewEnemy(data);
     });
+    
     // TODO do this dodge socket !!!!
     this.handler.socket.on("dodge", function(){
       console.log("DODGED!!!!");
     });
     this.handler.socket.on("removePlayer", function(data){
-      let playerToRemove = self.handler.currentState.allEntities.objects[data.id];
-      playerToRemove.kill();
-      delete self.handler.currentState.allEntities.objects[data.id];
+      self.handler.currentState.mapManager.removePlayer(data);
     });
+
     this.handler.socket.on("removeEnemy", function(data){
-      let enemyToRemove = self.handler.currentState.allEntities.enemies[data.id];
-      enemyToRemove.kill();
-      delete self.handler.currentState.allEntities.enemies[data.id];
+      self.handler.currentState.mapManager.removeEnemy(data);
     });
 
     this.handler.socket.on("fightEnemyAlreadyFighting", function(data){

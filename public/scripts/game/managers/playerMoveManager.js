@@ -34,7 +34,7 @@ class PlayerMoveManager {
     };
 
     // player has bloced movement <=> is doing some action
-    if(!this.state.player.canMove){
+    if(!this.state.player.canMove) {
       this.playerMoveList = [];
       this.state.player.body.velocity.setTo(0);
       return;

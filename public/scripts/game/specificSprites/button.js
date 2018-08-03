@@ -12,7 +12,8 @@ let Button = function(game,x,y,key,normalFrame,downFrame,overFrame,disabledFrame
   this.disabledFrame = disabledFrame || this.normalFrame;
 
   this.disabled = false;
-
+  this.smoothed = false;
+  
   this.initializeFrames();
 };
 

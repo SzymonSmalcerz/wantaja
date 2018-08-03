@@ -14,11 +14,8 @@ class GameHandler {
   startGame(data,socket){
     this.socket = socket;
     this.startPlayerData = data;
-    console.log(data);
     let gameWidth = Math.min(window.innerWidth, 500);
     let gameHeight = Math.min(window.innerHeight, 700);
-    console.log(gameWidth);
-    console.log(gameHeight);
     this.playerID = data.characterData.id;
     this.game = new Phaser.Game(gameWidth,gameHeight, Phaser.CANVAS);
     this.game.state.add("PreState", PreState);
@@ -31,8 +28,6 @@ class GameHandler {
     window.addEventListener("resize", () => {
       let width = Math.min(window.innerWidth, 500);
       let height = Math.min(window.innerHeight, 700);
-      console.log(width);
-      console.log(height);
       this.game.scale.setGameSize(width, height);
       this.game.camera.setBoundsToWorld();
       this.game.camera.setSize(width, height);

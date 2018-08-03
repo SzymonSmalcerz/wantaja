@@ -43,6 +43,8 @@ class FightingStageUIManager {
     };
     state.fightingStage.visible = false;
     state.fightingStage.fixedToCamera = true;
+
+    this.onResize();
   };
 
   updateStageUI() {
@@ -60,5 +62,7 @@ class FightingStageUIManager {
     state.fullHpBarEnemy.reset(state.game.width - 210,15);
     this.skillsUIManager.onResize();
     this.winUIManager.onResize();
+
+    state.fightingStage.setAll("smoothed", false);
   };
 }

@@ -4,13 +4,16 @@ class ExpandedMenuManager {
     this.uiManager = uiManager;
   }
 
-  initialize(){
+  initialize() {
     let state = this.state;
 
-    state.expandArrow = new Button(state.game,state.game.width-70,state.game.height-60,"expandArrow",0,1,2,3);
+    state.expandArrow = new CheckBox(state.game,0,0,false,0,1,2,3,4,5,6,7,false,"expandArrow");
     state.expandArrow.anchor.setTo(0);
-    state.expandArrow.addOnInputDownFunction(function(){
-      this.toggleExpandedMenu();
+    state.expandArrow.addOnUncheckFunction(function() {
+      this.closeExpandedMenu();
+    },this);
+    state.expandArrow.addOnCheckFunction(function() {
+      this.showExpandedMenu();
     },this);
     this.uiManager.blockPlayerMovementsWhenOver(state.expandArrow);
 
@@ -21,7 +24,7 @@ class ExpandedMenuManager {
     state.statusIcon = new Button(state.game,state.game.width-150,state.game.height-147,"statusIcon",0,1,2,3);
     state.statusIcon.anchor.setTo(0);
     state.statusIcon.visible = false;
-    state.statusIcon.addOnInputDownFunction(function(){
+    state.statusIcon.addOnInputDownFunction(function() {
       this.uiManager.toggleStatusPointWindow();
       this.closeExpandedMenu();
     },this);
@@ -44,30 +47,38 @@ class ExpandedMenuManager {
     this.onResize();
   }
 
-  toggleExpandedMenu(){
+  toggleExpandedMenu() {
     this.state.eqIcon.visible = !this.state.eqIcon.visible;
     this.state.statusIcon.visible = !this.state.statusIcon.visible;
     this.state.missionsIcon.visible = !this.state.missionsIcon.visible;
     this.state.backgroundIcons.visible = !this.state.backgroundIcons.visible;
   }
 
-  closeExpandedMenu(){
+  showExpandedMenu() {
+    this.state.eqIcon.visible = true;
+    this.state.statusIcon.visible = true;
+    this.state.missionsIcon.visible = true ;
+    this.state.backgroundIcons.visible = true;
+  }
+
+  closeExpandedMenu() {
     this.state.eqIcon.visible = false;
     this.state.statusIcon.visible = false;
     this.state.missionsIcon.visible = false;
     this.state.backgroundIcons.visible = false;
+    this.state.expandArrow.uncheck();
   }
 
-  onResize(){
+  onResize() {
     let state = this.state;
     state.expandArrow.reset(state.game.width-60,state.game.height-60);
     state.eqIcon.reset(state.game.width-205,state.game.height-147);
     state.statusIcon.reset(state.game.width-150,state.game.height-147);
     state.missionsIcon.reset(state.game.width-95,state.game.height-147);
     state.backgroundIcons.reset(state.game.width-245,state.game.height-170);
-    this.toggleExpandedMenu();
+    this.closeExpandedMenu();
   }
 
-  update(){
+  update() {
   }
 }

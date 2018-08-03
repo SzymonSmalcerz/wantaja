@@ -7,9 +7,8 @@ class MapManager {
   }
 
   initialize() {
-
-
     this.state.allEntities = this.state.add.group();
+    this.state.allEntities.smoothed = false;
     this.state.allEntities.objects = {};
     this.state.allEntities.enemies = {};
 
@@ -58,9 +57,10 @@ class MapManager {
     this.createPlayer();
   };
 
-  onResize(width, height){
+  onResize(width, height) {
     this.state.floor.resize(width,height);
     this.state.walls.resize(width,height);
+    this.state.allEntities.setAll("smoothed",false);
   };
 
   createPlayer() {
@@ -106,12 +106,25 @@ class MapManager {
     }
   }
 
+  removeEnemy (data) {
+    let enemyToRemove = this.state.allEntities.enemies[data.id];
+    enemyToRemove.kill();
+    delete this.state.allEntities.enemies[data.id];
+  }
+
+  removePlayer (data) {
+    let playerToRemove = this.state.allEntities.objects[data.id];
+    playerToRemove.kill();
+    delete this.state.allEntities.objects[data.id];
+  }
+
   addNewEnemy(data){
     let self = this.state;
     let newEnemy = null;
     if(!newEnemy){
       newEnemy = new Enemy(self,data.x,data.y,data.id,data.key,data.health,data.maxHealth);
       self.allEntities.add(newEnemy);
+      self.allEntities.add(newEnemy.descriptionText);
       self.allEntities.enemies[data.id] = newEnemy;
       newEnemy.inputEnabled = true;
       newEnemy.input.pixelPerfectClick = true;

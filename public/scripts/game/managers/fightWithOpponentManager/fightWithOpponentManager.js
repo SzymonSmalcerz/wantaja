@@ -94,11 +94,8 @@ class FightWithOpponentManager {
   handleWinFight(){
     let player = this.state.player;
     this.state.wonAlert.visible = true;
-
-    console.log(this.state.player.opponent);
     this.state.player.opponent.kill();
     this.updateEnemyHealth(0);
-    console.log(this.state.player.opponent);
     this.state.fightingStage.hideSkillsButtons();
     this.state.okButton.addOnInputDownFunction(function(){
       let player = this.state.player;

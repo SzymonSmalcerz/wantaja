@@ -18,6 +18,8 @@ class UIFrameManager {
 
   onResize() {
     this.bringToTop();
+    this.hideWindow();
+    this.frameGroup.setAll("smoothed",false);
   }
 
   update() {

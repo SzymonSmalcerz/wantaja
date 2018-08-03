@@ -2,7 +2,6 @@
 let Enemy = function(state,x,y, id,key  = "spider",health,maxHealth) {
   let game = state.game;
   Button.call(this,game,x,y,key,0,0,1);
-  game.add.existing(this);
   this.anchor.setTo(0.5);
   game.physics.enable(this);
   this.id = id;
@@ -12,13 +11,10 @@ let Enemy = function(state,x,y, id,key  = "spider",health,maxHealth) {
   this.input.pixelPerfectOver = true;
   this.descriptionText = state.add.text(x,y - this.height/2);
   this.descriptionText.anchor.setTo(0.5);
-  let textCss = {
-    font : "14px bold",
-    fontWeight : "900",
-    fill : "#FFFFFF"
-  }
-  this.descriptionText.setStyle(textCss);
-  this.descriptionText.text = key + " lvl. 1";
+  state.styleText(this.descriptionText);
+  this.descriptionText.fontSize = 16;
+  this.descriptionText.smoothed = false;
+  this.descriptionText.text = key + " lvl.1";
 }
 
 
