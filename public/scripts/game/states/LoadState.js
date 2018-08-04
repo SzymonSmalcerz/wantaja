@@ -10,6 +10,10 @@ let LoadState = {
     this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
     this.load.image("house1", "assets/house1.png");
 
+    /* Fences */
+    this.load.image("fence_horizontal", "assets/fences/fence_horizontal.png");
+    this.load.image("fence_vertical", "assets/fences/fence_vertical.png");
+
     /* Shortest Path */
     this.load.image("xGreen", "assets/shortestPath/xGreen.png");
     this.load.image("xRed", "assets/shortestPath/xRed.png");
@@ -81,7 +85,11 @@ let LoadState = {
     this.load.image("wood", "assets/entities/wood.png");
     this.load.image("wheat", "assets/entities/wheat.png");
     this.load.image("well", "assets/entities/well.png");
-    this.load.image("house2", "assets/entities/house2.png");
+    // houses
+    this.load.image("house2", "assets/entities/houses/house2.png");
+    this.load.image("house_cottage_1", "assets/entities/houses/house_cottage_1.png");
+    this.load.image("house_cottage_big", "assets/entities/houses/house_cottage_big.png");
+    this.load.image("house_cottage_big_2", "assets/entities/houses/house_cottage_big_2.png");
     // enemies
     this.load.spritesheet("spider", "assets/enemies/spider.png",64 ,64);
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");

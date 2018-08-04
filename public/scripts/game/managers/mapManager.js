@@ -9,12 +9,14 @@ class MapManager {
   initialize() {
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
+    this.state.allEntities.enableBody = true;
     this.state.allEntities.objects = {};
     this.state.allEntities.enemies = {};
 
     this.state.map = this.state.add.tilemap("firstMap",16,16);
     this.state.map.addTilesetImage("tileset16");
     this.state.floor = this.state.map.createLayer("Ground");
+    this.state.floor_2 = this.state.map.createLayer("Ground2");
     this.state.walls = this.state.map.createLayer("Walls");
     this.state.walls.layer.data = this.state.walls.layer.data.map((row,i) => {
       return row.map((val,index) => {
@@ -52,6 +54,22 @@ class MapManager {
       this.state.allEntities.add(newObj);
       this.state.entities.push(newObj);
     };
+
+    this.state.fences = [];
+    for(let i=0;i<this.state.map.objects["Fences"].length;i++) {
+      let fenceData = {};
+      console.log(this.state.map.objects["Fences"][i]);
+      this.state.map.objects["Fences"][i].properties.forEach(property => {
+        fenceData[property.name] = property.value;
+      });
+      fenceData.x = this.state.map.objects["Fences"][i].x;
+      fenceData.width = this.state.map.objects["Fences"][i].width;
+      fenceData.y = this.state.map.objects["Fences"][i].y;
+      fenceData.height = this.state.map.objects["Fences"][i].height;
+      let fences = generateFence(this.state,fenceData,this.state.allEntities);
+      this.state.fences = this.state.fences.concat(fences);
+    };
+    console.log(this.state.fences);
 
 
     this.createPlayer();

@@ -158,6 +158,8 @@ class PlayerMoveManager {
       return true;
     } else if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
       return true;
+    } else if(this.state.physics.arcade.collide(this.state.fences, this.state.playerShadow)) {
+      return true;
     } else if(this.state.physics.arcade.overlap(this.state.walls, this.state.playerShadow)) {
       return true;
     } else {

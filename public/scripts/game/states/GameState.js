@@ -16,6 +16,7 @@ let GameState = {
   update : function() {
     this.physics.arcade.collide(this.walls, this.player);
     this.physics.arcade.collide(this.entities, this.player);
+    this.physics.arcade.collide(this.player, this.fences);
     this.emitData();
     this.uiManager.update();
     this.playerMoveManager.update();
