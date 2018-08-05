@@ -85,6 +85,9 @@ let LoadState = {
     this.load.image("wood", "assets/entities/wood.png");
     this.load.image("wheat", "assets/entities/wheat.png");
     this.load.image("well", "assets/entities/well.png");
+    this.load.image("cart_full", "assets/entities/cart_full.png");
+    this.load.image("bucket_full", "assets/entities/bucket_full.png");
+    this.load.image("bucket_empty", "assets/entities/bucket_empty.png");
     // houses
     this.load.image("house2", "assets/entities/houses/house2.png");
     this.load.image("house_cottage_1", "assets/entities/houses/house_cottage_1.png");
@@ -93,6 +96,10 @@ let LoadState = {
     // enemies
     this.load.spritesheet("spider", "assets/enemies/spider.png",64 ,64);
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");
+
+    // mobs
+    this.load.spritesheet("chicken", "assets/entities/mobs/chicken.png",32 ,32);
+    this.load.spritesheet("cow", "assets/entities/mobs/cow.png",80 ,80);
 
     //player
     this.load.spritesheet("player", "assets/player/player.png",64 ,64);

@@ -2178,228 +2178,6 @@
                 }, 
                 {
                  "height":40,
-                 "id":82,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":578,
-                 "y":113
-                }, 
-                {
-                 "height":40,
-                 "id":85,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":547,
-                 "y":109
-                }, 
-                {
-                 "height":40,
-                 "id":86,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":557,
-                 "y":76
-                }, 
-                {
-                 "height":40,
-                 "id":87,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":571,
-                 "y":173
-                }, 
-                {
-                 "height":40,
-                 "id":88,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":519,
-                 "y":60
-                }, 
-                {
-                 "height":40,
-                 "id":89,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":572,
-                 "y":63
-                }, 
-                {
-                 "height":40,
                  "id":90,
                  "name":"wood",
                  "properties":[
@@ -2585,43 +2363,6 @@
                 }, 
                 {
                  "height":40,
-                 "id":96,
-                 "name":"wheat",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"wheat"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"29"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":1484,
-                 "y":224
-                }, 
-                {
-                 "height":40,
                  "id":97,
                  "name":"wheat",
                  "properties":[
@@ -2654,8 +2395,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":1527,
-                 "y":188
+                 "x":1555,
+                 "y":280
                 }, 
                 {
                  "height":40,
@@ -2691,45 +2432,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":1513,
-                 "y":254
-                }, 
-                {
-                 "height":40,
-                 "id":99,
-                 "name":"wheat",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"wheat"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"29"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":1509,
-                 "y":223
+                 "x":1525,
+                 "y":270
                 }, 
                 {
                  "height":109,
@@ -2770,43 +2474,6 @@
                 }, 
                 {
                  "height":40,
-                 "id":129,
-                 "name":"wheat",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"wheat"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"29"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":1458,
-                 "y":176
-                }, 
-                {
-                 "height":40,
                  "id":130,
                  "name":"wheat",
                  "properties":[
@@ -2839,8 +2506,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":1490,
-                 "y":176
+                 "x":1529,
+                 "y":248
                 }, 
                 {
                  "height":40,
@@ -2876,8 +2543,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":1467,
-                 "y":188
+                 "x":1490,
+                 "y":256
                 }, 
                 {
                  "height":40,
@@ -2913,45 +2580,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":590.5,
-                 "y":42
-                }, 
-                {
-                 "height":40,
-                 "id":135,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":615.5,
-                 "y":114
+                 "x":701.5,
+                 "y":41
                 }, 
                 {
                  "height":40,
@@ -2987,82 +2617,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":608.5,
-                 "y":17
-                }, 
-                {
-                 "height":40,
-                 "id":137,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":579.5,
-                 "y":73
-                }, 
-                {
-                 "height":40,
-                 "id":138,
-                 "name":"barell",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"10"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"barell"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"25"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"30"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":544.5,
-                 "y":19
+                 "x":741.5,
+                 "y":71
                 }, 
                 {
                  "height":40,
@@ -3098,8 +2654,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":623.5,
-                 "y":4
+                 "x":772.5,
+                 "y":16
                 }, 
                 {
                  "height":128,
@@ -3251,43 +2807,6 @@
                 }, 
                 {
                  "height":150,
-                 "id":144,
-                 "name":"house_cottage",
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"string",
-                         "value":"40"
-                        }, 
-                        {
-                         "name":"name",
-                         "type":"string",
-                         "value":"house_cottage_1"
-                        }, 
-                        {
-                         "name":"offsetX",
-                         "type":"string",
-                         "value":"15"
-                        }, 
-                        {
-                         "name":"offsetY",
-                         "type":"string",
-                         "value":"100"
-                        }, 
-                        {
-                         "name":"width",
-                         "type":"string",
-                         "value":"95"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":125,
-                 "x":644.5,
-                 "y":-19
-                }, 
-                {
-                 "height":150,
                  "id":145,
                  "name":"house_cottage",
                  "properties":[
@@ -3322,6 +2841,253 @@
                  "width":125,
                  "x":786.5,
                  "y":-19
+                }, 
+                {
+                 "height":40,
+                 "id":146,
+                 "name":"barell",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"10"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"barell"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"0"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"30"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30,
+                 "x":1539,
+                 "y":161
+                }, 
+                {
+                 "height":60,
+                 "id":147,
+                 "name":"cart_full",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"cart_full"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"19"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"36"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"64"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":90,
+                 "x":694,
+                 "y":130
+                }, 
+                {
+                 "height":30,
+                 "id":148,
+                 "name":"bucket_empty",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"10"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"bucket_empty"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"3"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"16"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"19"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":1461,
+                 "y":424
+                }, 
+                {
+                 "height":30,
+                 "id":150,
+                 "name":"bucket_full",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"10"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"bucket_full"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"3"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"16"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"19"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":1482.5,
+                 "y":438
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":9,
+         "name":"Mobs",
+         "objects":[
+                {
+                 "height":247,
+                 "id":151,
+                 "name":"chicken",
+                 "properties":[
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"1"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":730,
+                 "x":486,
+                 "y":221
+                }, 
+                {
+                 "height":312,
+                 "id":153,
+                 "name":"chicken",
+                 "properties":[
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"1"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":369,
+                 "x":318.5,
+                 "y":19
+                }, 
+                {
+                 "height":182,
+                 "id":154,
+                 "name":"chicken",
+                 "properties":[
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"2"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":436,
+                 "x":1041.5,
+                 "y":295
+                }, 
+                {
+                 "height":394,
+                 "id":155,
+                 "name":"cow",
+                 "properties":[
+                        {
+                         "name":"chanceOfDoingSpecialAction",
+                         "type":"string",
+                         "value":"0.4"
+                        }, 
+                        {
+                         "name":"changeTime",
+                         "type":"string",
+                         "value":"500"
+                        }, 
+                        {
+                         "name":"howManyAnimationsPerSec",
+                         "type":"string",
+                         "value":"3"
+                        }, 
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"1"
+                        }, 
+                        {
+                         "name":"speed",
+                         "type":"string",
+                         "value":"2"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":396,
+                 "x":9.5,
+                 "y":520
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3369,7 +3135,7 @@
                  "y":480
                 }, 
                 {
-                 "height":169,
+                 "height":180,
                  "id":126,
                  "name":"Fence",
                  "properties":[
@@ -3396,7 +3162,7 @@
                  "y":-11.5
                 }, 
                 {
-                 "height":201,
+                 "height":208,
                  "id":132,
                  "name":"Fence",
                  "properties":[
@@ -3428,8 +3194,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":146,
+ "nextlayerid":10,
+ "nextobjectid":156,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2018.06.01",

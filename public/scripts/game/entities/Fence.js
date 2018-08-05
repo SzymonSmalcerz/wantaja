@@ -3,7 +3,6 @@ let generateFence = function(state,data,group) {
   let y = data.y;
   let offset = data.offset || 24;
   let bodySpace = data.bodySpace || 8;
-  console.log(data);
   let type = data.type || "horizontal";
   let key = data.key || "fence" + "_" + type;
   let fencesArr = [];
@@ -36,7 +35,6 @@ let generateFence = function(state,data,group) {
         let rectangle = new Phaser.Rectangle(0,0,fencePart.width, fencePart.height + height);
         fencePart.crop(rectangle);
       }
-      console.log("here");
       fencePart.body.immovable = true;
       fencePart.body.height = fencePart.height - (data.offsetY || 0);
       fencePart.body.offset.y = data.offsetY || 0;

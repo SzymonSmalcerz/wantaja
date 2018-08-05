@@ -55,10 +55,10 @@ class MapManager {
       this.state.entities.push(newObj);
     };
 
+
     this.state.fences = [];
     for(let i=0;i<this.state.map.objects["Fences"].length;i++) {
       let fenceData = {};
-      console.log(this.state.map.objects["Fences"][i]);
       this.state.map.objects["Fences"][i].properties.forEach(property => {
         fenceData[property.name] = property.value;
       });
@@ -69,7 +69,24 @@ class MapManager {
       let fences = generateFence(this.state,fenceData,this.state.allEntities);
       this.state.fences = this.state.fences.concat(fences);
     };
-    console.log(this.state.fences);
+
+    for(let i=0;i<this.state.map.objects["Mobs"].length;i++) {
+      let mobsData = {};
+      this.state.map.objects["Mobs"][i].properties.forEach(property => {
+        mobsData[property.name] = property.value;
+      });
+      mobsData.x = this.state.map.objects["Mobs"][i].x;
+      mobsData.width = this.state.map.objects["Mobs"][i].width;
+      mobsData.y = this.state.map.objects["Mobs"][i].y;
+      mobsData.height = this.state.map.objects["Mobs"][i].height;
+      mobsData.quantity = mobsData.quantity || 1;
+      mobsData.key = mobsData.key || this.state.map.objects["Mobs"][i].name;
+      while(mobsData.quantity > 0){
+        let mob = new Mob(this.state,mobsData);
+        this.state.allEntities.add(mob);
+        mobsData.quantity -= 1;
+      }
+    };
 
 
     this.createPlayer();
@@ -93,8 +110,7 @@ class MapManager {
     this.state.allEntities.add(this.state.player);
   };
 
-  addNewPlayer(data){
-    console.log("adding new player!");
+  addNewPlayer(data) {
     let self = this.state;
     let newPlayer = null;
     if(!newPlayer){

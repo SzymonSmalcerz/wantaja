@@ -1,7 +1,7 @@
 const {Spider} = require("../enemies/enemy");
 
 class Map {
-  constructor(name,maxNumberOfMobs = 15,respTime = 1000){
+  constructor(name,maxNumberOfMobs = 5,respTime = 3000){
     this.name = name;
     this.maxNumberOfMobs = maxNumberOfMobs;
     this.currentNumberOfMobs = 0;
@@ -16,7 +16,7 @@ class Map {
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
 
-    let newSpider = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 100, this);
+    let newSpider = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
     this.currentNumberOfMobs += 1;
     this.mobs[newSpider.id] = newSpider;
     this.mobsDataToSend[newSpider.id] = {

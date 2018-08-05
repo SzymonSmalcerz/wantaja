@@ -12,6 +12,14 @@ let GameState = {
     this.setRenderingOrder();
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
+
+    // this.superChicken = new Mob(this, {
+    //   x : 300,
+    //   y : 300,
+    //   width : 300,
+    //   height : 1000,
+    //   key : "chicken"
+    // })
   },
   update : function() {
     this.physics.arcade.collide(this.walls, this.player);
