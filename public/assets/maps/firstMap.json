@@ -3009,7 +3009,7 @@
                         {
                          "name":"quantity",
                          "type":"string",
-                         "value":"15"
+                         "value":"35"
                         }],
                  "rotation":0,
                  "type":"",
@@ -3026,7 +3026,7 @@
                         {
                          "name":"quantity",
                          "type":"string",
-                         "value":"4"
+                         "value":"35"
                         }],
                  "rotation":0,
                  "type":"",
@@ -3043,7 +3043,7 @@
                         {
                          "name":"quantity",
                          "type":"string",
-                         "value":"5"
+                         "value":"15"
                         }],
                  "rotation":0,
                  "type":"",
