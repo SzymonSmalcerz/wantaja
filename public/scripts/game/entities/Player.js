@@ -35,7 +35,7 @@ let Player = function(game,data) {
   this.level = data.level || 1;
   this.id = data.id || 10;
   this.leftStatusPoints = data.leftStatusPoints || 0;
-  this.speed = 100;
+  this.speed = 70;
   this.realSpeed = this.speed/game.time.desiredFps;
 
   this.frame = 25;
@@ -50,7 +50,7 @@ let Player = function(game,data) {
   this.body.offset.x = 22;
   this.body.height = 20;
   this.body.offset.y = 44;
-  let howManyAnimationsPerSec = 12;
+  let howManyAnimationsPerSec = 10;
   this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], howManyAnimationsPerSec);
   this.animations.add("goRight", [27,28,29,30,31,32,33,34,35], howManyAnimationsPerSec);
   this.animations.add("goUp", [0,1,2,3,4,5,6,7,8], howManyAnimationsPerSec);

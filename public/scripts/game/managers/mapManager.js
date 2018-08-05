@@ -77,6 +77,7 @@ class MapManager {
 
   onResize(width, height) {
     this.state.floor.resize(width,height);
+    this.state.floor_2.resize(width,height);
     this.state.walls.resize(width,height);
     this.state.allEntities.setAll("smoothed",false);
   };
