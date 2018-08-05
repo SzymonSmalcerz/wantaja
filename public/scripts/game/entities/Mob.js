@@ -3,23 +3,29 @@ let Mob = function(state,data) {
   this.rightBorder = data.x + data.width;
   this.upperBorder = data.y;
   this.bottomBorder = data.y + data.height;
-  let x = Math.random() * data.width + data.x;
-  let y = Math.random() * data.height + data.y;
+  let x = Math.floor(Math.random() * data.width + data.x);
+  let y = Math.floor(Math.random() * data.height + data.y);
   Phaser.Sprite.call(this,state.game,x,y,data.key);
   this.state = state;
   this.speed = 2;
   this.anchor.setTo(0.5);
+  this.specialTime = data.specialTime;
+
   this.chanceOfDoingSpecialAction = data.chanceOfDoingSpecialAction || 0.55;
   this.changeTime = data.changeTime || 5000;
   this.state.game.add.existing(this);
   this.howManyAnimationsPerSec = data.howManyAnimationsPerSec || 10;
   this.actions = ["goLeft","goRight","goUp","goDown","specialAction"];
   this.currentAction = "goLeft";
+  if(data.specialActionArray) {
+    data.specialActionArray = data.specialActionArray.toString().split(",").map(value => Number(value));
+  }
+  this.specialActionArray = data.specialActionArray || [16,17,18,19];
   this.animations.add("goLeft", [0,1,2,3], this.howManyAnimationsPerSec);
   this.animations.add("goRight", [4,5,6,7], this.howManyAnimationsPerSec);
   this.animations.add("goUp", [8,9,10,11], this.howManyAnimationsPerSec);
   this.animations.add("goDown", [12,13,14,15], this.howManyAnimationsPerSec);
-  this.animations.add("specialAction", [16,17,18,19], this.howManyAnimationsPerSec);
+  this.animations.add("specialAction", this.specialActionArray, this.howManyAnimationsPerSec);
   this.smoothed = false;
   this.changeAction();
 }
@@ -73,12 +79,11 @@ Mob.prototype.specialAction = function() {
   this.animations.play("specialAction");
 };
 
-Mob.prototype.update = function() {
+Mob.prototype.updateMob = function() {
   this[this.currentAction]();
 };
 
 Mob.prototype.changeAction = function() {
-
   let self = this;
   if(Math.random() > this.chanceOfDoingSpecialAction) {
     this.currentState = "specialAction";
@@ -88,5 +93,5 @@ Mob.prototype.changeAction = function() {
   }
   setTimeout(function() {
     self.changeAction();
-  },Math.random() * self.changeTime/2 + 2 * self.changeTime/3);
+  },this.currentState == "specialAction" ? ( this.specialTime ? this.specialTime* 2/3 + Math.random() * this.specialTime/2 : Math.random() * self.changeTime/2 + 2 * self.changeTime/3 ) : Math.random() * self.changeTime/2 + 2 * self.changeTime/3);
 };

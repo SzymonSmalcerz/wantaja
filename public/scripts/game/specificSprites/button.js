@@ -1,6 +1,6 @@
 let Button = function(game,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera = true) {
   Phaser.Sprite.call(this,game,x,y,key);
-
+  this.visible = false;
   game.add.existing(this);
   this.anchor.setTo(0.5);
   // this.fixedToCamera = fixedToCamera;
@@ -13,8 +13,9 @@ let Button = function(game,x,y,key,normalFrame,downFrame,overFrame,disabledFrame
 
   this.disabled = false;
   this.smoothed = false;
-  
+
   this.initializeFrames();
+  this.visible = true;
 };
 
 Button.prototype = Object.create(Phaser.Sprite.prototype);

@@ -693,8 +693,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1248,
-                 "y":1238
+                 "x":1214,
+                 "y":1292
                 }, 
                 {
                  "height":128,
@@ -730,8 +730,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1338,
-                 "y":1039
+                 "x":1398,
+                 "y":1030
                 }, 
                 {
                  "height":128,
@@ -804,8 +804,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1259,
-                 "y":863
+                 "x":1495,
+                 "y":898
                 }, 
                 {
                  "height":128,
@@ -878,8 +878,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":967,
-                 "y":600
+                 "x":1354,
+                 "y":711
                 }, 
                 {
                  "height":128,
@@ -915,7 +915,7 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":932,
+                 "x":1428,
                  "y":766
                 }, 
                 {
@@ -2136,8 +2136,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1252,
-                 "y":1039
+                 "x":1261,
+                 "y":1029
                 }, 
                 {
                  "height":340,
@@ -3009,13 +3009,13 @@
                         {
                          "name":"quantity",
                          "type":"string",
-                         "value":"1"
+                         "value":"15"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":730,
-                 "x":486,
+                 "width":707,
+                 "x":505,
                  "y":221
                 }, 
                 {
@@ -3026,7 +3026,7 @@
                         {
                          "name":"quantity",
                          "type":"string",
-                         "value":"1"
+                         "value":"4"
                         }],
                  "rotation":0,
                  "type":"",
@@ -3043,18 +3043,18 @@
                         {
                          "name":"quantity",
                          "type":"string",
-                         "value":"2"
+                         "value":"5"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":436,
-                 "x":1041.5,
+                 "width":505,
+                 "x":972.5,
                  "y":295
                 }, 
                 {
-                 "height":394,
-                 "id":155,
+                 "height":463,
+                 "id":157,
                  "name":"cow",
                  "properties":[
                         {
@@ -3065,7 +3065,7 @@
                         {
                          "name":"changeTime",
                          "type":"string",
-                         "value":"500"
+                         "value":"2000"
                         }, 
                         {
                          "name":"howManyAnimationsPerSec",
@@ -3078,6 +3078,16 @@
                          "value":"1"
                         }, 
                         {
+                         "name":"specialActionArray",
+                         "type":"string",
+                         "value":"16,17,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19"
+                        }, 
+                        {
+                         "name":"specialTime",
+                         "type":"string",
+                         "value":"10000"
+                        }, 
+                        {
                          "name":"speed",
                          "type":"string",
                          "value":"2"
@@ -3085,9 +3095,150 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":396,
+                 "width":277,
                  "x":9.5,
-                 "y":520
+                 "y":17
+                }, 
+                {
+                 "height":469,
+                 "id":158,
+                 "name":"cow",
+                 "properties":[
+                        {
+                         "name":"chanceOfDoingSpecialAction",
+                         "type":"string",
+                         "value":"0.4"
+                        }, 
+                        {
+                         "name":"changeTime",
+                         "type":"string",
+                         "value":"2000"
+                        }, 
+                        {
+                         "name":"howManyAnimationsPerSec",
+                         "type":"string",
+                         "value":"3"
+                        }, 
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"2"
+                        }, 
+                        {
+                         "name":"specialActionArray",
+                         "type":"string",
+                         "value":"16,17,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19"
+                        }, 
+                        {
+                         "name":"specialTime",
+                         "type":"string",
+                         "value":"10000"
+                        }, 
+                        {
+                         "name":"speed",
+                         "type":"string",
+                         "value":"2"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":375,
+                 "x":22.5,
+                 "y":670.5
+                }, 
+                {
+                 "height":336,
+                 "id":159,
+                 "name":"cow",
+                 "properties":[
+                        {
+                         "name":"chanceOfDoingSpecialAction",
+                         "type":"string",
+                         "value":"0.4"
+                        }, 
+                        {
+                         "name":"changeTime",
+                         "type":"string",
+                         "value":"2000"
+                        }, 
+                        {
+                         "name":"howManyAnimationsPerSec",
+                         "type":"string",
+                         "value":"3"
+                        }, 
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"2"
+                        }, 
+                        {
+                         "name":"specialActionArray",
+                         "type":"string",
+                         "value":"16,17,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19"
+                        }, 
+                        {
+                         "name":"specialTime",
+                         "type":"string",
+                         "value":"10000"
+                        }, 
+                        {
+                         "name":"speed",
+                         "type":"string",
+                         "value":"2"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1044,
+                 "x":-13.5,
+                 "y":1244.5
+                }, 
+                {
+                 "height":458,
+                 "id":160,
+                 "name":"cow",
+                 "properties":[
+                        {
+                         "name":"chanceOfDoingSpecialAction",
+                         "type":"string",
+                         "value":"0.4"
+                        }, 
+                        {
+                         "name":"changeTime",
+                         "type":"string",
+                         "value":"2000"
+                        }, 
+                        {
+                         "name":"howManyAnimationsPerSec",
+                         "type":"string",
+                         "value":"3"
+                        }, 
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"1"
+                        }, 
+                        {
+                         "name":"specialActionArray",
+                         "type":"string",
+                         "value":"16,17,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19,18,19"
+                        }, 
+                        {
+                         "name":"specialTime",
+                         "type":"string",
+                         "value":"10000"
+                        }, 
+                        {
+                         "name":"speed",
+                         "type":"string",
+                         "value":"2"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":277,
+                 "x":1310.5,
+                 "y":1133.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3194,8 +3345,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":10,
- "nextobjectid":156,
+ "nextlayerid":12,
+ "nextobjectid":169,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2018.06.01",

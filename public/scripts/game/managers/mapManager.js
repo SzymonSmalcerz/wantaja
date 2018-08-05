@@ -70,6 +70,7 @@ class MapManager {
       this.state.fences = this.state.fences.concat(fences);
     };
 
+    this.state.allEntities.mobs = [];
     for(let i=0;i<this.state.map.objects["Mobs"].length;i++) {
       let mobsData = {};
       this.state.map.objects["Mobs"][i].properties.forEach(property => {
@@ -84,6 +85,7 @@ class MapManager {
       while(mobsData.quantity > 0){
         let mob = new Mob(this.state,mobsData);
         this.state.allEntities.add(mob);
+        this.state.allEntities.mobs.push(mob);
         mobsData.quantity -= 1;
       }
     };
@@ -177,7 +179,11 @@ class MapManager {
     }
   };
 
-
+  update() {
+    this.state.allEntities.mobs.forEach(mob => {
+      mob.updateMob();
+    })
+  }
   getDistanceBetweenEntityAndPlayer(entity){
     let entityCoords = {
       x : entity.left + entity.width/2,

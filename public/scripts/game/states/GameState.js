@@ -12,14 +12,6 @@ let GameState = {
     this.setRenderingOrder();
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
-
-    // this.superChicken = new Mob(this, {
-    //   x : 300,
-    //   y : 300,
-    //   width : 300,
-    //   height : 1000,
-    //   key : "chicken"
-    // })
   },
   update : function() {
     this.physics.arcade.collide(this.walls, this.player);
@@ -27,7 +19,20 @@ let GameState = {
     this.physics.arcade.collide(this.player, this.fences);
     this.emitData();
     this.uiManager.update();
+    this.mapManager.update();
     this.playerMoveManager.update();
+
+
+    this.sort();
+  },
+  sort() {
+    let indexOfentity = this.allEntities.children.length - 1;
+    while(indexOfentity > 0) {
+      if(this.allEntities.children[indexOfentity-1].bottom > this.allEntities.children[indexOfentity].bottom){
+        this.allEntities.children[indexOfentity].moveDown();
+      }
+      indexOfentity-=1;
+    };
   },
   render(){
     this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, 40, "#00ff00");
@@ -67,19 +72,19 @@ let GameState = {
     };
   },
   changeRenderOrder(entity) {
-
-    let indexOfentity = this.allEntities.children.indexOf(entity);
-    if(indexOfentity > 0 && indexOfentity < this.allEntities.children.length && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
-      while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {
-        entity.moveDown();
-        indexOfentity-=1;
-      };
-    } else {
-      while(indexOfentity < this.allEntities.children.length - 1 && this.allEntities.children[indexOfentity+1].bottom < entity.bottom) {
-        entity.moveUp();
-        indexOfentity+=1;
-      };
-    }
+    return;
+    // let indexOfentity = this.allEntities.children.indexOf(entity);
+    // if(indexOfentity > 0 && indexOfentity < this.allEntities.children.length && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
+    //   while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {
+    //     entity.moveDown();
+    //     indexOfentity-=1;
+    //   };
+    // } else {
+    //   while(indexOfentity < this.allEntities.children.length - 1 && this.allEntities.children[indexOfentity+1].bottom < entity.bottom) {
+    //     entity.moveUp();
+    //     indexOfentity+=1;
+    //   };
+    // }
 
   },
   emitData(){
@@ -121,6 +126,6 @@ let GameState = {
     }
     text.setStyle(textCss);
     text.lineSpacing = -5;
-    text.smoothed = false;
+    // text.smoothed = false;
   }
 };
