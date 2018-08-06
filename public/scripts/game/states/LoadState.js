@@ -100,6 +100,10 @@ let LoadState = {
     // mobs
     this.load.spritesheet("chicken", "assets/entities/mobs/chicken.png",32 ,32);
     this.load.spritesheet("cow", "assets/entities/mobs/cow.png",80 ,80);
+    this.load.spritesheet("pig", "assets/entities/mobs/pig.png",60 ,60);
+    this.load.spritesheet("cat", "assets/entities/mobs/cat.png",30 ,30);
+    this.load.spritesheet("dog", "assets/entities/mobs/dog.png",32 ,32);
+    this.load.spritesheet("butterfly", "assets/entities/mobs/butterfly.png",16 ,32);
 
     //player
     this.load.spritesheet("player", "assets/player/player.png",64 ,64);

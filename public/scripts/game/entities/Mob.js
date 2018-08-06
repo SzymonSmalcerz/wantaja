@@ -85,7 +85,7 @@ Mob.prototype.updateMob = function() {
 
 Mob.prototype.changeAction = function() {
   let self = this;
-  if(Math.random() > this.chanceOfDoingSpecialAction) {
+  if(Math.random() < this.chanceOfDoingSpecialAction) {
     this.currentState = "specialAction";
   } else {
     let randomIndex = Math.floor(Math.random() * this.actions.length);
