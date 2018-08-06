@@ -159,7 +159,7 @@ class MapManager {
     let self = this.state;
     let newEnemy = null;
     if(!newEnemy){
-      newEnemy = new Enemy(self,data.x,data.y,data.id,data.key,data.health,data.maxHealth);
+      newEnemy = new Enemy(self,data.x,data.y,data.id,data.key,data.health,data.maxHealth,data.animated);
       self.allEntities.add(newEnemy);
       self.allEntities.add(newEnemy.descriptionText);
       self.allEntities.enemies[data.id] = newEnemy;

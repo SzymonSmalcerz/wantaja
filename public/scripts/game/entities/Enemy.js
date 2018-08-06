@@ -1,5 +1,5 @@
 
-let Enemy = function(state,x,y, id,key  = "spider",health,maxHealth) {
+let Enemy = function(state,x,y, id,key  = "spider",health,maxHealth,animated) {
   let game = state.game;
   Button.call(this,game,x,y,key,0,0,1);
   this.anchor.setTo(0.5);
@@ -15,6 +15,34 @@ let Enemy = function(state,x,y, id,key  = "spider",health,maxHealth) {
   this.descriptionText.fontSize = 16;
   this.descriptionText.smoothed = false;
   this.descriptionText.text = key + " lvl.1";
+  this.animated = animated || false;
+  if(this.animated) {
+    this.howManyAnimationsPerSec = 10;
+    this.animations.add("normalState", [0,1,2,3], this.howManyAnimationsPerSec, true);
+    this.animations.add("hoverState", [4,5,6,7], this.howManyAnimationsPerSec, true);
+    this.events.destroy();
+    this.addOnInputOverFunction(function(){
+      if(!this.disabled){
+        this.animations.play("hoverState");
+      };
+    },this);
+    this.addOnInputOutFunction(function(){
+      if(!this.disabled){
+        this.animations.play("normalState");
+      };
+    },this);
+    this.addOnInputDownFunction(function(){
+      if(!this.disabled){
+        this.animations.play("hoverState");
+      };
+    },this);
+    this.addOnInputUpFunction(function(){
+      if(!this.disabled){
+        this.animations.play("normalState");
+      };
+    },this);
+    this.animations.play("normalState");
+  }
 }
 
 

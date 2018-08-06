@@ -93,9 +93,12 @@ let LoadState = {
     this.load.image("house_cottage_1", "assets/entities/houses/house_cottage_1.png");
     this.load.image("house_cottage_big", "assets/entities/houses/house_cottage_big.png");
     this.load.image("house_cottage_big_2", "assets/entities/houses/house_cottage_big_2.png");
+
     // enemies
-    this.load.spritesheet("spider", "assets/enemies/spider.png",64 ,64);
+    this.load.spritesheet("spider", "assets/enemies/spider.png",45 ,40);
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");
+    this.load.spritesheet("bee", "assets/enemies/bee.png",32 ,32);
+    this.load.image("beelogo", "assets/enemies/spiderlogo.png");
 
     // mobs
     this.load.spritesheet("chicken", "assets/entities/mobs/chicken.png",32 ,32);

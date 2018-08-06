@@ -1,7 +1,7 @@
-const {Spider} = require("../enemies/enemy");
+const {Spider, Bee} = require("../enemies/enemy");
 
 class Map {
-  constructor(name,maxNumberOfMobs = 5,respTime = 3000){
+  constructor(name,maxNumberOfMobs = 10,respTime = 3000){
     this.name = name;
     this.maxNumberOfMobs = maxNumberOfMobs;
     this.currentNumberOfMobs = 0;
@@ -16,20 +16,26 @@ class Map {
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
 
-    let newSpider = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+    let newEnemy;
+    if(Math.random() > 0.5) {
+      newEnemy = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+    } else {
+      newEnemy = new Bee(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+    }
     this.currentNumberOfMobs += 1;
-    this.mobs[newSpider.id] = newSpider;
-    this.mobsDataToSend[newSpider.id] = {
-      x : newSpider.x,
-      y : newSpider.y,
-      id : newSpider.id,
-      key : newSpider.key,
-      health : newSpider.health,
-      maxHealth : newSpider.maxHealth
+    this.mobs[newEnemy.id] = newEnemy;
+    this.mobsDataToSend[newEnemy.id] = {
+      x : newEnemy.x,
+      y : newEnemy.y,
+      id : newEnemy.id,
+      key : newEnemy.key,
+      health : newEnemy.health,
+      maxHealth : newEnemy.maxHealth,
+      animated : newEnemy.animated
     };
       for(let playerID in this.players) {
         if(this.players.hasOwnProperty(playerID)){
-          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newSpider.id]);
+          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
         }
       };
     }
