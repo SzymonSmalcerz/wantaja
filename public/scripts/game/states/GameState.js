@@ -12,6 +12,12 @@ let GameState = {
     this.setRenderingOrder();
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
+    this.bbbb = this.fightWithOpponentManager.glowingSwordsManager.addNewSword({
+      x : 100,
+      y : 100,
+      height : 0
+    })
+
   },
   update : function() {
     this.physics.arcade.collide(this.walls, this.player);
@@ -21,8 +27,6 @@ let GameState = {
     this.uiManager.update();
     this.mapManager.update();
     this.playerMoveManager.update();
-
-
     this.sort();
   },
   sort() {
@@ -48,6 +52,7 @@ let GameState = {
     this.game.world.bringToTop(this.map);
     this.game.world.bringToTop(this.allEntities);
     this.game.world.bringToTop(this.fightingStage);
+    this.game.world.bringToTop(this.glowingSwords);
     this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.ui);
 

@@ -157,12 +157,12 @@ let socketHandler = (socket, io) => {
       opponent.fightData.opponent = player;
       opponent.fightData.fightTick = Date.now();
       dm.fightingMobs.push(opponent);
-      // TODO skoncz prace z fightTick !!!!!
       dm.socketsOfPlayers[data.playerID].emit("fightInit",{
         enemyID : data.enemyID,
         enemyHealth : opponent.health,
         enemyMaxHealth : opponent.maxHealth
       });
+      dm.allMaps[player.currentMapName].emitDataToPlayers("renderSwords",data);
     } else {
       if(dm.socketsOfPlayers[data.playerID] && !(player.fightData && player.fightData.opponent && player.fightData.opponent.isFighting)){
         dm.socketsOfPlayers[data.playerID].emit("fightEnemyAlreadyFighting");
@@ -183,6 +183,10 @@ let socketHandler = (socket, io) => {
       playerSkill.getDamage(player,enemy);
     };
     if(enemy.health <= 0){
+      dm.allMaps[player.currentMapName].emitDataToPlayers("removeSwords",{
+        enemyID : enemy.id,
+        playerID : player.id
+      });
       player.experience += enemy.exp;
       if(player.experience > player.requiredExperience){
         dm.playerFunctions.levelUp(player);
@@ -191,6 +195,7 @@ let socketHandler = (socket, io) => {
         playerExperience : player.experience
       });
       dm.allMaps[dm.findMapNameByPlayerId[data.playerID]].removeEnemy(enemy.id);
+      player.fightData = {};
     } else {
       enemy.fightData.fightTick = Date.now();
       enemySkill = dm.skills[enemy.skillName];
@@ -198,6 +203,11 @@ let socketHandler = (socket, io) => {
       if(player.health <=0){
         enemy.isFighting = false;
         enemy.fightData = {};
+        dm.allMaps[player.currentMapName].emitDataToPlayers("removeSwords",{
+          enemyID : enemy.id,
+          playerID : player.id
+        });
+        player.fightData = {};
         // inform other s on map that player papa
         // and handle his death TODO
       };

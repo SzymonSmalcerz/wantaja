@@ -145,12 +145,18 @@ class MapManager {
 
   removeEnemy (data) {
     let enemyToRemove = this.state.allEntities.enemies[data.id];
+    this.state.fightWithOpponentManager.removeSwords({
+      enemyID : data.id
+    });
     enemyToRemove.kill();
     delete this.state.allEntities.enemies[data.id];
   }
 
   removePlayer (data) {
     let playerToRemove = this.state.allEntities.objects[data.id];
+    this.state.fightWithOpponentManager.removeSwords({
+      playerID : data.id
+    });
     playerToRemove.kill();
     delete this.state.allEntities.objects[data.id];
   }

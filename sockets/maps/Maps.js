@@ -140,6 +140,14 @@ class Map {
       }
     };
   }
+
+  emitDataToPlayers(messageName, messageObj) {
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        this.players[playerID].socket.emit(messageName, messageObj);
+      }
+    };
+  }
 };
 
 

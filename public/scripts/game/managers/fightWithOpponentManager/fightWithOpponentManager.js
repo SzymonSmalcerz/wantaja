@@ -8,11 +8,13 @@ class FightWithOpponentManager {
     this.state = state;
     this.fightingStageUIManager = new FightingStageUIManager(this);
     this.preFightMenu = new PreFightMenu(this);
+    this.glowingSwordsManager = new GlowingSwordsManager(this);
   };
 
   initialize(){
     this.fightingStageUIManager.initialize();
     this.preFightMenu.initialize();
+    this.glowingSwordsManager.initialize();
     this.onResize();
   };
 
@@ -82,6 +84,24 @@ class FightWithOpponentManager {
     player.bringToTop();
     enemy.bringToTop();
   };
+
+  renderSwords(data) {
+    if(data.enemyID){
+      this.glowingSwordsManager.addNewSword(this.state.allEntities.enemies[data.enemyID]);
+    }
+    if(data.playerID && this.state.allEntities.objects[data.playerID]) {
+      this.glowingSwordsManager.addNewSword(this.state.allEntities.objects[data.playerID]);
+    }
+  }
+
+  removeSwords(data) {
+    if(data.enemyID){
+      this.glowingSwordsManager.removeSword(this.state.allEntities.enemies[data.enemyID]);
+    }
+    if(data.playerID && this.state.allEntities.objects[data.playerID]) {
+      this.glowingSwordsManager.removeSword(this.state.allEntities.objects[data.playerID]);
+    }
+  }
 
   startFight(enemy){
     let player = this.state.player;

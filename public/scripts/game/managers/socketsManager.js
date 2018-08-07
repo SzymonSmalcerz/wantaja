@@ -11,7 +11,13 @@ class SocketsManager {
     this.handler.socket.on("addEnemy", function(data){
       self.handler.currentState.mapManager.addNewEnemy(data);
     });
-    
+    this.handler.socket.on("renderSwords", function(data){
+      self.handler.currentState.fightWithOpponentManager.renderSwords(data)
+    });
+    this.handler.socket.on("removeSwords", function(data){
+      self.handler.currentState.fightWithOpponentManager.removeSwords(data)
+    });
+
     // TODO do this dodge socket !!!!
     this.handler.socket.on("dodge", function(){
       console.log("DODGED!!!!");

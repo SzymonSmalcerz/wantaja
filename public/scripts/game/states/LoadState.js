@@ -61,6 +61,7 @@ let LoadState = {
     /* Fight sprites */
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
+    this.load.spritesheet("fightSwords","assets/fight/fightSwords.png",32,32);
     this.load.spritesheet("fightInitButton","assets/fight/fightInitButton.png",48,48);
     this.load.spritesheet("fightAbortButton","assets/fight/fightAbortButton.png",48,48);
     this.load.spritesheet("skill_health","assets/fight/skills/skill_health.png",48,48);
