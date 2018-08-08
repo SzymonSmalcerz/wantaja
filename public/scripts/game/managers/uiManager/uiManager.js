@@ -7,6 +7,7 @@ class UIManager {
     this.settingsManager = new SettingsManager(state,this);
 
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
+    this.alertManager = new AlertManager(this);
     this.blockedMovement = false;
     this.fightMode = false;
   }
@@ -65,9 +66,11 @@ class UIManager {
       frameManager.initialize();
     });
     this.expandedMenuManager.initialize();
+    this.alertManager.initialize();
     this.onResize();
     this.hideManaBar();
     this.hideHealthBar();
+    this.alertManager.showWindow("XDDDDDDDDDDDD");
   }
 
   addToGroup(sprite) {
@@ -76,9 +79,9 @@ class UIManager {
 
   blockPlayerMovementsWhenOver(sprite,releaseWhenInputUp){
     sprite.inputEnabled = true;
-    sprite.events.onInputOver.add(function(){
-      this.blockPlayerMovement();
-    },this);
+    // sprite.events.onInputOver.add(function(){
+    //   this.blockPlayerMovement();
+    // },this);
     sprite.events.onInputDown.add(function(){
       this.blockPlayerMovement();
     },this);

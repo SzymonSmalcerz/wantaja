@@ -9,6 +9,7 @@ let LoadState = {
     this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
     this.load.image("house1", "assets/house1.png");
+    this.load.image("collisionSquare", "assets/collisionSquare.png");
 
     /* Fences */
     this.load.image("fence_horizontal", "assets/fences/fence_horizontal.png");
@@ -22,6 +23,7 @@ let LoadState = {
     this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
     this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
     this.load.image("mobDescriptionFrame", "assets/infoTables/mobDescriptionFrame.png");
+    this.load.image("alertWindow", "assets/infoTables/alertWindow.png");
 
     this.load.image("skill_punch_description","assets/fight/skills/skillDescriptions/skill_punch_description.png");
     this.load.image("skill_health_description","assets/fight/skills/skillDescriptions/skill_health_description.png");

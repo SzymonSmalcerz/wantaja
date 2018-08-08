@@ -160,7 +160,7 @@ class PlayerMoveManager {
       return true;
     } else if(this.state.physics.arcade.collide(this.state.fences, this.state.playerShadow)) {
       return true;
-    } else if(this.state.physics.arcade.overlap(this.state.walls, this.state.playerShadow)) {
+    } else if(this.state.physics.arcade.overlap(this.state.colliders, this.state.playerShadow)) {
       return true;
     } else {
       return false;

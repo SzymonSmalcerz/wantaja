@@ -17,24 +17,29 @@ class MapManager {
     this.state.map.addTilesetImage("tileset16");
     this.state.floor = this.state.map.createLayer("Ground");
     this.state.floor_2 = this.state.map.createLayer("Ground2");
-    this.state.walls = this.state.map.createLayer("Walls");
-    this.state.walls.layer.data = this.state.walls.layer.data.map((row,i) => {
-      return row.map((val,index) => {
-        if(val.index < 0){
-          val.alpha = 0;
-          val.visible = false;
-          val.width = 0;
-          val.height = 0;
-          val.x = -500;
-          val.y = -500;
-          val.worldX = -500;
-          val.worldY = -500;
-        };
-        return val;
+    this.state.colliders = this.state.add.group();
+    this.state.floor_2.layer.data.forEach((row,i) => {
+      row.forEach((val,index) => {
+        if(val.index > 3071) {
+          let sprite = this.state.game.add.sprite(val.x * 16,val.y * 16,"collisionSquare");
+          this.state.game.physics.enable(sprite);
+          this.state.colliders.add(sprite);
+          sprite.body.immovable = true;
+          sprite.visible = false;
+          sprite.body.onCollide = new Phaser.Signal();
+          sprite.body.onCollide.add(function(){
+            this.visible = true;
+            console.log(this.x);
+            console.log(this.body.x);
+            console.log(this.body.width);
+            console.log("________");
+          },sprite);
+          // sprite.alpha = 0.00;
+        }
       });
     });
     this.state.floor.resizeWorld();
-    this.state.map.setCollisionBetween(0,64,true,"Walls");
+    // this.state.map.setCollisionBetween(3072,4096,true,"Ground2");
     this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Entities"].length;i++){
       let newObjData = {};
@@ -97,7 +102,7 @@ class MapManager {
   onResize(width, height) {
     this.state.floor.resize(width,height);
     this.state.floor_2.resize(width,height);
-    this.state.walls.resize(width,height);
+    // this.state.walls.resize(width,height);
     this.state.allEntities.setAll("smoothed",false);
   };
 
