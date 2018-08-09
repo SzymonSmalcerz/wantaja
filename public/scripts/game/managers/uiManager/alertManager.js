@@ -40,25 +40,28 @@ class AlertManager {
   }
 
   showWindow(text,key) {
-    key = key || "alertWindow";
+    key = key || "normalAlert";
 
     let alertFrame = this.alertFrames.getFirstExists(false);
     if(!alertFrame){
+    // if(true){
       alertFrame = this.state.game.add.sprite(-1000,-1000, key);
       this.alertFrames.add(alertFrame);
     }
-    alertFrame.reset(this.state.game.width/2,alertFrame.height * this.counter + 10);
+
+    alertFrame.loadTexture(key);
+    alertFrame.reset(this.state.game.width/2,alertFrame.height * this.counter - 10,key);
     alertFrame.anchor.setTo(0.5);
     alertFrame.alpha = 1.0;
-    alertFrame.key = key;
 
     let alertText = this.texts.getFirstExists(false);
     if(!alertText){
-      alertText = this.state.add.text(this.state.game.width/2,alertFrame.height * this.counter + 20);
+      alertText = this.state.add.text(this.state.game.width/2,alertFrame.height * this.counter);
       this.texts.add(alertText);
     } else {
-      alertText.reset(this.state.game.width/2,alertFrame.height * this.counter + 20);
+      alertText.reset(this.state.game.width/2,alertFrame.height * this.counter);
     }
+    this.state.styleText(alertText);
     alertText.anchor.setTo(0.5);
     alertText.alpha = 1.0;
     alertText.text = text;
@@ -70,5 +73,24 @@ class AlertManager {
 
     alertFrame.visible = true;
     alertText.visible = true;
+  }
+
+  showTownAlert(text) {
+    this.showWindow(text,"townAlert");
+  }
+  showDamageEnemyAlert(text) {
+    this.showWindow(text,"damageEnemyAlert");
+  }
+  showDamagePlayerAlert(text) {
+    this.showWindow(text,"damagePlayerAlert");
+  }
+  showHealthAlert(text) {
+    this.showWindow(text,"healthAlert");
+  }
+  showSomeoneElseFightingAlert() {
+    this.showWindow("someone else is fighting with this enemy !","someoneElseFightingAlert");
+  }
+  showDodgeAlert(text) {
+    this.showWindow(text || "dodge !","dodgeAlert");
   }
 }

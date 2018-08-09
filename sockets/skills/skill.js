@@ -8,17 +8,19 @@ class Skill {
 
   getDamage(player,enemy) {
     if(this.isSkillDodged(player,enemy)){
-      if(player.socket){
-        player.socket.emit("dodge",{});
+      return {
+        dodge : true
       }
-      return;
     };
     enemy.health -= this.baseDamage;
+    return {
+      takenHealth : this.baseDamage
+    }
   }
 
   isSkillDodged(player,enemy) {
-    if(player.dodge){
-      if(Math.random() * 100 <= player.dodge){
+    if(enemy.dodge){
+      if(Math.random() * 100 <= enemy.dodge){
         return true;
       }
     }
@@ -34,13 +36,14 @@ class Punch extends Skill {
 
   getDamage(player,enemy){
     if(this.isSkillDodged(player,enemy)){
-      if(player.socket){
-        player.socket.emit("dodge",{});
+      return {
+        dodge : true
       }
-      return;
     };
-    if(this.isSkillDodged(player,enemy)){}
     enemy.health -= player.attack;
+    return {
+      takenHealth : player.attack
+    }
   };
 };
 
@@ -51,10 +54,9 @@ class Poison extends Skill {
 
   getDamage(player,enemy) {
     if(this.isSkillDodged(player,enemy)){
-      if(player.socket){
-        player.socket.emit("dodge",{});
+      return {
+        dodge : true
       }
-      return;
     };
     if(player.level){
       if(player.level < this.requiredLevel){
@@ -63,6 +65,9 @@ class Poison extends Skill {
     }
     enemy.health -= player.attack * 2;
     player.mana -= this.manaCost;
+    return {
+      takenHealth : player.attack * 2
+    }
   };
 };
 
@@ -73,10 +78,9 @@ class Ignite extends Skill {
 
   getDamage(player,enemy) {
     if(this.isSkillDodged(player,enemy)){
-      if(player.socket){
-        player.socket.emit("dodge",{});
+      return {
+        dodge : true
       }
-      return;
     };
     if(player.level){
       if(player.level < this.requiredLevel){
@@ -85,6 +89,9 @@ class Ignite extends Skill {
     }
     enemy.health -= player.attack * 4;
     player.mana -= this.manaCost;
+    return {
+      takenHealth : player.attack * 4
+    }
   };
 };
 
@@ -94,12 +101,9 @@ class Entangle extends Skill {
   };
 
   getDamage(player,enemy) {
-    if(this.isSkillDodged(player,enemy)){
-      if(player.socket){
-        player.socket.emit("dodge",{});
-      }
-      return;
-    };
+    return {
+      dodge : true
+    }
     if(player.level){
       if(player.level < this.requiredLevel){
         return;
@@ -107,6 +111,9 @@ class Entangle extends Skill {
     }
     enemy.health -= player.attack * 5;
     player.mana -= this.manaCost;
+    return {
+      takenHealth : player.attack * 5
+    }
   };
 };
 
@@ -116,17 +123,12 @@ class Health extends Skill {
   };
 
   getDamage(player,enemy) {
-    if(this.isSkillDodged(player,enemy)){
-      if(player.socket){
-        player.socket.emit("dodge",{});
-      }
-      return;
-    };
     if(player.level){
       if(player.level < this.requiredLevel){
         return;
       }
     }
+    let playerOldHealth = player.health;
     player.health += player.maxHealth/10;
     player.health = Math.min(player.health,player.maxHealth);
     player.mana -= this.manaCost;
@@ -134,6 +136,9 @@ class Health extends Skill {
       player.socket.emit("playerUpdate",{
         health : player.health
       })
+    }
+    return {
+      addedHealth : player.health - playerOldHealth
     }
   };
 };

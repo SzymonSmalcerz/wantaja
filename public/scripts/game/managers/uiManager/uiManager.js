@@ -12,6 +12,25 @@ class UIManager {
     this.fightMode = false;
   }
 
+  showTownAlert(text){
+    this.alertManager.showTownAlert(text);
+  }
+  showDamageEnemyAlert(text) {
+    this.alertManager.showDamageEnemyAlert(text);
+  }
+  showDamagePlayerAlert(text) {
+    this.alertManager.showDamagePlayerAlert(text);
+  }
+  showHealthAlert(text) {
+    this.alertManager.showHealthAlert(text);
+  }
+  showSomeoneElseFightingAlert() {
+    this.alertManager.showSomeoneElseFightingAlert();
+  }
+  showDodgeAlert(text) {
+    this.alertManager.showDodgeAlert(text);
+  }
+
   initialize() {
     this.framesManagers = [];
     this.framesManagers.push(this.statusPointsManager);
@@ -70,7 +89,6 @@ class UIManager {
     this.onResize();
     this.hideManaBar();
     this.hideHealthBar();
-    this.alertManager.showWindow("XDDDDDDDDDDDD");
   }
 
   addToGroup(sprite) {

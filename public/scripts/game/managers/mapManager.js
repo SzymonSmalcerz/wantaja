@@ -3,7 +3,7 @@ class MapManager {
     this.state = state;
     this.enemiesDescriptionRendered = true;
     this.showPlayersDescription = true;
-
+    this.mapName = "firstMap";
   }
 
   initialize() {
@@ -13,31 +13,28 @@ class MapManager {
     this.state.allEntities.objects = {};
     this.state.allEntities.enemies = {};
 
-    this.state.map = this.state.add.tilemap("firstMap",16,16);
+    this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
     this.state.floor = this.state.map.createLayer("Ground");
     this.state.floor_2 = this.state.map.createLayer("Ground2");
     this.state.colliders = this.state.add.group();
-    this.state.floor_2.layer.data.forEach((row,i) => {
-      row.forEach((val,index) => {
-        if(val.index > 3071) {
-          let sprite = this.state.game.add.sprite(val.x * 16,val.y * 16,"collisionSquare");
-          this.state.game.physics.enable(sprite);
-          this.state.colliders.add(sprite);
-          sprite.body.immovable = true;
-          sprite.visible = false;
-          sprite.body.onCollide = new Phaser.Signal();
-          sprite.body.onCollide.add(function(){
-            this.visible = true;
-            console.log(this.x);
-            console.log(this.body.x);
-            console.log(this.body.width);
-            console.log("________");
-          },sprite);
-          // sprite.alpha = 0.00;
-        }
-      });
-    });
+    // this.state.floor_2.layer.data.forEach((row,i) => {
+    //   row.forEach((val,index) => {
+    //     if(val.index > 3071) {
+    //       let sprite = this.state.game.add.sprite(val.x * 16,val.y * 16,"collisionSquare");
+    //       this.state.game.physics.enable(sprite);
+    //       this.state.colliders.add(sprite);
+    //       sprite.body.immovable = true;
+    //       sprite.alpha = 0;
+    //       // sprite.visible = trie;
+    //       // sprite.body.onCollide = new Phaser.Signal();
+    //       // sprite.body.onCollide.addOnce(function(){
+    //       //   this.visible = false;
+    //       // },sprite);
+    //       // sprite.alpha = 0.00;
+    //     }
+    //   });
+    // });
     this.state.floor.resizeWorld();
     // this.state.map.setCollisionBetween(3072,4096,true,"Ground2");
     this.state.entities = [];

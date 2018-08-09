@@ -20,7 +20,7 @@ class SocketsManager {
 
     // TODO do this dodge socket !!!!
     this.handler.socket.on("dodge", function(){
-      console.log("DODGED!!!!");
+      self.handler.currentState.uiManager.showDodgeAlert();
     });
     this.handler.socket.on("removePlayer", function(data){
       self.handler.currentState.mapManager.removePlayer(data);
@@ -32,6 +32,7 @@ class SocketsManager {
 
     this.handler.socket.on("fightEnemyAlreadyFighting", function(data){
       console.log("enemy is already fighting with someone else :C");
+      self.handler.currentState.uiManager.showSomeoneElseFightingAlert();
       self.handler.currentState.player.quitFightingMode();
     })
 
@@ -81,10 +82,18 @@ class SocketsManager {
     });
 
     this.handler.socket.on("fightMove", function(data){
+      console.log(data);
       self.handler.currentState.player.mana = data.playerMana;
       self.handler.currentState.fightWithOpponentManager.animateEnemySkill(data);
       self.handler.currentState.fightWithOpponentManager.updateEnemyHealth(data.enemyHealth);
       self.handler.currentState.fightWithOpponentManager.updateStageUI();
+      if(data.playerMoveResult.dodge) {
+        self.handler.currentState.uiManager.showDodgeAlert("enemy dodged your attack !");
+      } else if(data.playerMoveResult.takenHealth) {
+        self.handler.currentState.uiManager.showDamageEnemyAlert("you damaged enemy with\n" + data.playerMoveResult.takenHealth + " health points");
+      } else if(data.playerMoveResult.addedHealth || data.playerMoveResult.addedHealth === 0) {
+        self.handler.currentState.uiManager.showHealthAlert("you recovered " + data.playerMoveResult.addedHealth + "\nhealth points");
+      }
     });
 
     this.handler.socket.on("playerUpdate", function(data) {
@@ -94,6 +103,9 @@ class SocketsManager {
     this.handler.socket.on("handleWinFight", function(data){
       self.handler.currentState.player.experience = data.playerExperience;
       self.handler.currentState.fightWithOpponentManager.handleWinFight();
+      if(data.playerMoveResult.takenHealth) {
+        self.handler.currentState.uiManager.showDamageEnemyAlert("you damaged enemy with\n" + data.playerMoveResult.takenHealth + " health points");
+      }
     });
 
     this.handler.socket.on('checkForConnection', function () {

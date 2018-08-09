@@ -12,11 +12,7 @@ let GameState = {
     this.setRenderingOrder();
     this.sortEntities();
     handler.socketsManager.sendToServerInitializedInfo();
-    this.bbbb = this.fightWithOpponentManager.glowingSwordsManager.addNewSword({
-      x : 100,
-      y : 100,
-      height : 0
-    })
+    this.uiManager.showTownAlert(this.mapManager.mapName);
 
   },
   update : function() {

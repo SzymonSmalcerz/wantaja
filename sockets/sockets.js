@@ -179,8 +179,10 @@ let socketHandler = (socket, io) => {
     let player = dm.allLoggedPlayersData[data.playerID];
     if(!player || !player.fightData || !player.fightData.opponent){return};
     let enemy = dm.allLoggedPlayersData[data.playerID].fightData.opponent;
+    let enemyMoveResult = {};
+    let playerMoveResult = {};
     if(player.mana >= playerSkill.manaCost){
-      playerSkill.getDamage(player,enemy);
+      playerMoveResult = playerSkill.getDamage(player,enemy);
     };
     if(enemy.health <= 0){
       dm.allMaps[player.currentMapName].emitDataToPlayers("removeSwords",{
@@ -192,14 +194,15 @@ let socketHandler = (socket, io) => {
         dm.playerFunctions.levelUp(player);
       };
       dm.socketsOfPlayers[data.playerID].emit("handleWinFight",{
-        playerExperience : player.experience
+        playerExperience : player.experience,
+        playerMoveResult
       });
       dm.allMaps[dm.findMapNameByPlayerId[data.playerID]].removeEnemy(enemy.id);
       player.fightData = {};
     } else {
       enemy.fightData.fightTick = Date.now();
       enemySkill = dm.skills[enemy.skillName];
-      enemySkill.getDamage(enemy,player);
+      enemyMoveResult = enemySkill.getDamage(enemy,player);
       if(player.health <=0){
         enemy.isFighting = false;
         enemy.fightData = {};
@@ -215,7 +218,9 @@ let socketHandler = (socket, io) => {
         enemyHealth : enemy.health,
         enemySkillName : enemy.skillName,
         playerHealth : player.health,
-        playerMana : player.mana
+        playerMana : player.mana,
+        enemyMoveResult,
+        playerMoveResult
       });
     };
   });
