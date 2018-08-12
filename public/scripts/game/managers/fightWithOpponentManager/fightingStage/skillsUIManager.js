@@ -21,7 +21,7 @@ class SkillsUIManager {
   animateEnemySkill(skillData){
     this.fightAnimationsManager.playAnimation(skillData.enemySkillName,true,true,{
       health : skillData.playerHealth
-    });
+    },skillData.enemyMoveResult);
   }
 
   getLeftSkillMargin(howManySkills){

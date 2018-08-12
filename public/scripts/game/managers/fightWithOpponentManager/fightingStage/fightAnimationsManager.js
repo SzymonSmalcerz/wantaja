@@ -16,7 +16,7 @@ class FightAnimationsManager {
     };
   };
 
-  playAnimation(skillName,animationOnPlayer,isThisEnemySkillAnimation,playerDataToChange){
+  playAnimation(skillName,animationOnPlayer,isThisEnemySkillAnimation,playerDataToChange, moveResult){
 
     if(!this.state.player.opponent){
       console.log("opponent not found ! :C");
@@ -59,7 +59,17 @@ class FightAnimationsManager {
       };
       if(!isThisEnemySkillAnimation && this.state.player.isFighting) {
         this.mainFightManager.damageEnemy(skillName);
-      };
+      } else {
+        if(moveResult) {
+          if(moveResult.dodge) {
+            this.state.uiManager.showDodgeAlert("you dodged enemy attack !");
+          } else if(moveResult.takenHealth) {
+            this.state.uiManager.showDamageEnemyAlert("enemy damaged you with\n" + moveResult.takenHealth + " health points");
+          } else if(moveResult.addedHealth || moveResult.addedHealth === 0) {
+            this.state.uiManager.showHealthAlert("enemy recovered " + moveResult.addedHealth + "\nhealth points");
+          }
+        }
+      }
       this.playingAnimation = false;
     },this);
   };
