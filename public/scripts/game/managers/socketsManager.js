@@ -133,8 +133,8 @@ class SocketsManager {
   sendToServerInitializedInfo(){
     let self = this;
     this.handler.socket.emit("initialized", {
-      id : self.handler.playerID,
-      characterData : handler.startPlayerData.characterData
+      id : self.handler.currentState.player.id,
+      mapName : self.handler.currentState.player.currentMapName
     });
   };
 

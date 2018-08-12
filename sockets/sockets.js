@@ -82,7 +82,7 @@ let socketHandler = (socket, io) => {
   socket.on("getGameData", async (object) => {
 
     console.log("got request to get game data from player with id: " + object.id);
-    if(dm.allLoggedPlayersData[object.id] && dm.allLoggedPlayersData[object.id].initialized){
+    if(dm.allLoggedPlayersData[object.id]){
       socket.emit("alreadyLoggedIn", {
         message : "user already logged in"
       });
@@ -115,15 +115,20 @@ let socketHandler = (socket, io) => {
         characterData.intelligence = user.intelligence;
         characterData.agility = user.agility;
 
-
+        console.log(":)))))))))))))))))))))))))))))))))))))))))))");
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;
-
-
         dm.socketsOfPlayers[object.id] = socket;
+        dm.allLoggedPlayersData[characterData.id] = characterData;
+        dm.allLoggedPlayersData[characterData.id].active = true;
+        dm.findMapNameByPlayerId[characterData.id] = characterData.currentMapName;
+
+        console.log(":)))))))))))))))))))))))))))))))))))))))))))");
+
         socket.emit("initialData",{
           characterData : characterData
         });
+        console.log("XD")
       }
 
     } catch(error) {
@@ -133,14 +138,10 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("initialized", function(data) {
-    if(!dm.allLoggedPlayersData[data.id]){
-      dm.allLoggedPlayersData[data.id] = data.characterData;
-      dm.allLoggedPlayersData[data.id].socket = dm.socketsOfPlayers[data.id];
-      dm.findMapNameByPlayerId[data.id] = data.characterData.currentMapName;
-      console.log("initialized player with id : " + data.id);
-      dm.allLoggedPlayersData[data.id].initialized = true;
-      dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
-    };
+    console.log("initialized");
+    dm.allMaps[data.mapName].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
+    dm.allLoggedPlayersData[data.id].socket = dm.socketsOfPlayers[data.id];
+    dm.allLoggedPlayersData[data.id].active = true;
   });
 
   socket.on("initFight", function(data){
@@ -269,7 +270,7 @@ let socketHandler = (socket, io) => {
 
             if(!dm.allLoggedPlayersData[playerID]) continue;
             var player = dm.allLoggedPlayersData[playerID];
-            if(dm.allLoggedPlayersData[playerID].initialized && !dm.allLoggedPlayersData[playerID].active){
+            if(!dm.allLoggedPlayersData[playerID].active){
               try {
                 var player = dm.allLoggedPlayersData[playerID];
                 var user = await User.findById(playerID);

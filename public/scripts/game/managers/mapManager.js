@@ -3,7 +3,7 @@ class MapManager {
     this.state = state;
     this.enemiesDescriptionRendered = true;
     this.showPlayersDescription = true;
-    this.mapName = "firstMap";
+    this.mapName = "secondMap";
   }
 
   initialize() {

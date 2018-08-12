@@ -11,8 +11,8 @@ let GameState = {
 
     this.setRenderingOrder();
     this.sortEntities();
-    handler.socketsManager.sendToServerInitializedInfo();
     this.uiManager.showTownAlert(this.mapManager.mapName);
+    handler.socketsManager.sendToServerInitializedInfo();
 
   },
   update : function() {

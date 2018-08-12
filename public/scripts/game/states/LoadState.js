@@ -7,6 +7,7 @@ let LoadState = {
 
 
     this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap("secondMap","assets/maps/secondMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
     this.load.image("house1", "assets/house1.png");
     this.load.image("collisionSquare", "assets/collisionSquare.png");
@@ -97,11 +98,26 @@ let LoadState = {
     this.load.image("cart_full", "assets/entities/cart_full.png");
     this.load.image("bucket_full", "assets/entities/bucket_full.png");
     this.load.image("bucket_empty", "assets/entities/bucket_empty.png");
+    this.load.image("cage_animal_1", "assets/entities/cage_animal_1.png");
+    this.load.image("bower_1", "assets/entities/bower_1.png");
+    this.load.image("bower_2", "assets/entities/bower_2.png");
+    this.load.image("bower_3", "assets/entities/bower_3.png");
     // houses
     this.load.image("house2", "assets/entities/houses/house2.png");
     this.load.image("house_cottage_1", "assets/entities/houses/house_cottage_1.png");
     this.load.image("house_cottage_big", "assets/entities/houses/house_cottage_big.png");
     this.load.image("house_cottage_big_2", "assets/entities/houses/house_cottage_big_2.png");
+
+    // houses second maps
+    this.load.image("house_semitown_big_1", "assets/entities/houses/house_semitown_big_1.png");
+    this.load.image("house_semitown_big_2", "assets/entities/houses/house_semitown_big_2.png");
+    this.load.image("house_semitown_long_1", "assets/entities/houses/house_semitown_long_1.png");
+    this.load.image("house_semitown_small_1", "assets/entities/houses/house_semitown_small_1.png");
+    this.load.image("house_semitown_small_2", "assets/entities/houses/house_semitown_small_2.png");
+    this.load.image("house_semitown_small_3", "assets/entities/houses/house_semitown_small_3.png");
+    this.load.image("house_semitown_small_4", "assets/entities/houses/house_semitown_small_4.png");
+    this.load.image("house_semitown_small_5", "assets/entities/houses/house_semitown_small_5.png");
+    this.load.image("house_semitown_small_6", "assets/entities/houses/house_semitown_small_6.png");
 
     // enemies
     this.load.spritesheet("spider", "assets/enemies/spider.png",45 ,40);
