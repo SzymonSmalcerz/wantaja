@@ -31,7 +31,8 @@ class Map {
       key : newEnemy.key,
       health : newEnemy.health,
       maxHealth : newEnemy.maxHealth,
-      animated : newEnemy.animated
+      animated : newEnemy.animated,
+      lvl : newEnemy.lvl
     };
       for(let playerID in this.players) {
         if(this.players.hasOwnProperty(playerID)){

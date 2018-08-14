@@ -1,9 +1,27 @@
 let LoadState = {
 
   preload : function(){
-    this.progressBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBar");
-    this.progressBar.anchor.setTo(0.5);
-    this.load.setPreloadSprite(this.progressBar);
+    this.loadScreenBackground = this.add.sprite(this.game.world.centerX, this.game.world.centerY,"loadScreenBackground");
+    this.loadScreenBackground.anchor.setTo(0.5);
+    this.loadScreenBackground.smoothed = false;
+    this.progressBarEmpty = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBarEmpty");
+    this.progressBarEmpty.anchor.setTo(0.5);
+    this.progressBarFull = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBarFull");
+    this.progressBarFull.anchor.setTo(0.5);
+    this.load.setPreloadSprite(this.progressBarFull);
+    this.loadText = this.add.text(this.game.world.centerX, this.game.world.centerY - 100);
+    let textCss = {
+      font : "20px bold",
+      fontWeight : "900",
+      stroke : '#FFF',
+      strokeThickness : 2,
+      fill : '#000'
+    }
+    this.loadText.setStyle(textCss);
+    this.loadText.smoothed = false;
+    this.loadText.anchor.setTo(0.5);
+    this.loadText.text = 'Game is loading';
+    this.loadText.fontSize = 25;
 
 
     this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);

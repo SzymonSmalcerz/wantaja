@@ -11,7 +11,9 @@ let PreState = {
     this.game.time.advancedTiming = true;
   },
   preload(){
-    this.load.image("progressBar","assets/progresBar.png");
+    this.load.image("progressBarFull","assets/loadScreen/progressBarFull.png");
+    this.load.image("progressBarEmpty","assets/loadScreen/progressBarEmpty.png");
+    this.load.image("loadScreenBackground","assets/loadScreen/loadScreenBackground.png");
   },
   create(){
     this.game.state.start("LoadState");

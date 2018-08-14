@@ -16,10 +16,10 @@ class SettingsManager extends UIFrameManager {
     this.uiManager.blockPlayerMovementsWhenOver(this.checkBox);
     this.number = 0;
     this.checkBox.addOnCheckFunction(function(){
-      this.state.showEnemiesDescription();
+      this.uiManager.showEnemiesDescriptions();
     }, this)
     this.checkBox.addOnUncheckFunction(function(){
-      this.state.hideEnemiesDescription();
+      this.uiManager.hideEnemiesDescriptions();
     }, this)
 
     this.frameGroup.add(this.background);

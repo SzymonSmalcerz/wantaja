@@ -1,8 +1,6 @@
 class MapManager {
   constructor(state) {
     this.state = state;
-    this.enemiesDescriptionRendered = true;
-    this.showPlayersDescription = true;
     this.mapName = "secondMap";
   }
 
@@ -127,26 +125,9 @@ class MapManager {
     }
   };
 
-  hideEnemiesDescription() {
-    this.enemiesDescriptionRendered = false;
-    for (var key in this.state.allEntities.enemies) {
-      if (this.state.allEntities.enemies.hasOwnProperty(key)) {
-          this.state.allEntities.enemies[key].hideDescription();
-      }
-    }
-  }
-
-  showEnemiesDescription() {
-    this.enemiesDescriptionRendered = true;
-    for (var key in this.state.allEntities.enemies) {
-      if (this.state.allEntities.enemies.hasOwnProperty(key)) {
-          this.state.allEntities.enemies[key].showDescription();
-      }
-    }
-  }
-
   removeEnemy (data) {
     let enemyToRemove = this.state.allEntities.enemies[data.id];
+    this.state.uiManager.removeEnemyDescription(enemyToRemove);
     this.state.fightWithOpponentManager.removeSwords({
       enemyID : data.id
     });
@@ -167,24 +148,20 @@ class MapManager {
     let self = this.state;
     let newEnemy = null;
     if(!newEnemy){
-      newEnemy = new Enemy(self,data.x,data.y,data.id,data.key,data.health,data.maxHealth,data.animated);
+      newEnemy = new Enemy(self,data);
       self.allEntities.add(newEnemy);
-      self.allEntities.add(newEnemy.descriptionText);
       self.allEntities.enemies[data.id] = newEnemy;
-      newEnemy.inputEnabled = true;
-      newEnemy.input.pixelPerfectClick = true;
-      newEnemy.events.onInputDown.add(function(){
+      newEnemy.addOnInputDownFunction(function(){
         if(this.getDistanceBetweenEntityAndPlayer(newEnemy) <= 50){
           self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
         };
       }, this);
       self.setRenderOrder(newEnemy);
-      if(!this.enemiesDescriptionRendered){
-        newEnemy.hideDescription();
-      }
     } else {
       newEnemy.reset(data.x,data.y);
     }
+
+    this.state.uiManager.addEnemyDescription(newEnemy);
   };
 
   update() {

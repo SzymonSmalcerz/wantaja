@@ -47,8 +47,9 @@ let GameState = {
   setRenderingOrder() {
     this.game.world.bringToTop(this.map);
     this.game.world.bringToTop(this.allEntities);
-    this.game.world.bringToTop(this.fightingStage);
+    this.game.world.bringToTop(this.descriptions);
     this.game.world.bringToTop(this.glowingSwords);
+    this.game.world.bringToTop(this.fightingStage);
     this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.ui);
 
@@ -111,12 +112,6 @@ let GameState = {
   setFightingModeOff(){
     this.uiManager.fightModeOff();
   },
-  hideEnemiesDescription() {
-    this.mapManager.hideEnemiesDescription();
-  },
-  showEnemiesDescription() {
-    this.mapManager.showEnemiesDescription();
-  },
   styleText(text) {
     let textCss = {
       font : "20px bold",
@@ -127,6 +122,6 @@ let GameState = {
     }
     text.setStyle(textCss);
     text.lineSpacing = -5;
-    // text.smoothed = false;
+    text.smoothed = false;
   }
 };

@@ -1,9 +1,10 @@
 class Enemy {
-  constructor(x,y,map,id,key,hp,damage,exp,skillName,animated,mana) {
+  constructor(x,y,map,id,lvl,key,hp,damage,exp,skillName,animated,mana) {
     this.map = map;
     this.x = x;
     this.y = y;
     this.id = id;
+    this.lvl = lvl || 0;
     this.key = key;
     this.health = hp || 100;
     this.mana = mana || 100;
@@ -25,14 +26,14 @@ class Enemy {
 class Spider extends Enemy {
   constructor(x,y,map) {
     let id = Math.floor(Math.random() * 100000) + "spider";
-    super(x,y,map,id,"spider",100,null,null,"poison");
+    super(x,y,map,id,2,"spider",100,null,null,"poison");
   }
 };
 
 class Bee extends Enemy {
   constructor(x,y,map) {
     let id = Math.floor(Math.random() * 100000) + "bee";
-    super(x,y,map,id,"bee",100,null,null,"poison",true);
+    super(x,y,map,id,1,"bee",100,null,null,"poison",true);
   }
 };
 

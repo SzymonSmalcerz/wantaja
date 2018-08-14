@@ -2,6 +2,7 @@ class UIManager {
   constructor(state){
     this.state = state;
 
+    this.entityDescriptionsManager = new EntityDescriptionsManager(this);
     this.statusPointsManager = new StatusPointsManager(state,this);
     this.characterDataManager = new CharacterDataManager(state,this);
     this.settingsManager = new SettingsManager(state,this);
@@ -80,7 +81,7 @@ class UIManager {
     state.ui.add(state.fullManaBar);
 
     state.ui.fixedToCamera = true;
-
+    this.entityDescriptionsManager.initialize();
     this.framesManagers.forEach(frameManager => {
       frameManager.initialize();
     });
@@ -93,6 +94,22 @@ class UIManager {
 
   addToGroup(sprite) {
     this.state.ui.add(sprite);
+  }
+
+  hideEnemiesDescriptions(){
+    this.entityDescriptionsManager.hideEnemiesDescriptions();
+  }
+
+  showEnemiesDescriptions(){
+    this.entityDescriptionsManager.showEnemiesDescriptions();
+  }
+
+  addEnemyDescription(enemy) {
+    this.entityDescriptionsManager.addEnemyDescription(enemy);
+  }
+
+  removeEnemyDescription(enemy) {
+    this.entityDescriptionsManager.removeEnemyDescription(enemy);
   }
 
   blockPlayerMovementsWhenOver(sprite,releaseWhenInputUp){
