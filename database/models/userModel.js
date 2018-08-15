@@ -66,6 +66,11 @@ var userSchema = new mongoose.Schema({
     type : Number,
     default : 1
   },
+  key : {
+    type : String,
+    required : true,
+    default : "male_1lvl"
+  },
   //every weapon has its own attack + can have some other bonuses which increase power of player
   weapon : {
     attack : {

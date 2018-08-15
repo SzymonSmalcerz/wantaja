@@ -1,7 +1,7 @@
 initializeConnection();
 
 
-function initializeConnection(){
+function initializeConnection() {
   var socket = socket || io();
   window.onload = function(){
 
@@ -11,11 +11,11 @@ function initializeConnection(){
       });
     });
 
-    socket.on('initialData',function(data){
+    socket.on('initialData',function(data) {
       handler.startGame(data,socket);
     });
 
-    socket.on('alreadyLoggedIn', function(data){
+    socket.on('alreadyLoggedIn', function(data) {
       // handler.startGame(data,socket);
       alert(data.message + "\nwait 10 seconds\nand try again");
     });

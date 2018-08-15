@@ -12,8 +12,19 @@ class GameHandler {
   }
 
   startGame(data,socket){
+    this.playerAvatarDictionary = {
+      female : {
+        levels : [5,10,15,20,25,30,35],
+        names : ['black','brown','blond','purple','red']
+      },
+      male : {
+        levels : [5,10,15,20,25,30,35],
+        names : ['green','white','blond','pink','bold','grey']
+      }
+    };
     this.socket = socket;
     this.startPlayerData = data;
+    this.playerData = data.characterData;
     let gameWidth = Math.min(window.innerWidth, 500);
     let gameHeight = Math.min(window.innerHeight, 700);
     this.playerID = data.characterData.id;

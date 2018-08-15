@@ -115,7 +115,10 @@ let socketHandler = (socket, io) => {
         characterData.intelligence = user.intelligence;
         characterData.agility = user.agility;
 
-        console.log(":)))))))))))))))))))))))))))))))))))))))))))");
+        characterData.key = user.key;
+        characterData.gender = "male";
+        // characterData.key = 'male_15_white';
+        // console.log(user.key);
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;
         dm.socketsOfPlayers[object.id] = socket;
@@ -123,12 +126,9 @@ let socketHandler = (socket, io) => {
         dm.allLoggedPlayersData[characterData.id].active = true;
         dm.findMapNameByPlayerId[characterData.id] = characterData.currentMapName;
 
-        console.log(":)))))))))))))))))))))))))))))))))))))))))))");
-
         socket.emit("initialData",{
-          characterData : characterData
+          characterData
         });
-        console.log("XD")
       }
 
     } catch(error) {
@@ -138,8 +138,7 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("initialized", function(data) {
-    console.log("initialized");
-    dm.allMaps[data.mapName].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
+    dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
     dm.allLoggedPlayersData[data.id].socket = dm.socketsOfPlayers[data.id];
     dm.allLoggedPlayersData[data.id].active = true;
   });

@@ -1,6 +1,6 @@
 let Player = function(game,data) {
 
-  Phaser.Sprite.call(this,game,data.x,data.y,"player");
+  Phaser.Sprite.call(this,game,data.x,data.y,data.key || "player");
   // console.log(data);
   this.skillsDictionary = data.skillsDictionary || [{
     skillName : "punch",

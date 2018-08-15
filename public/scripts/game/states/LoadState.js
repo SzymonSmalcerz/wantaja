@@ -23,6 +23,26 @@ let LoadState = {
     this.loadText.text = 'Game is loading';
     this.loadText.fontSize = 25;
 
+    /* assets for home state */
+    this.load.spritesheet("buttonStart","assets/homeState/buttonStart.png",200,100);
+    /* end of assets for home state */
+
+    // player avatars //
+    //player
+    this.load.spritesheet("player", "assets/player/player.png",64 ,64);
+
+
+    for (var key in handler.playerAvatarDictionary) {
+      if (handler.playerAvatarDictionary.hasOwnProperty(key)) {
+        handler.playerAvatarDictionary[key].levels.forEach(level => {
+          handler.playerAvatarDictionary[key].names.forEach(name => {
+            this.load.spritesheet(key + '_' + level + '_' + name, "assets/player/" + key + "/" + level + 'lvl_' + name + ".png",64,64);
+          });
+        });
+        this.load.spritesheet(key + '_1lvl', "assets/player/" + key + "/1lvl.png",64,64);
+      }
+    }
+
 
     this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.tilemap("secondMap","assets/maps/secondMap.json",null,Phaser.Tilemap.TILED_JSON);
@@ -150,10 +170,6 @@ let LoadState = {
     this.load.spritesheet("cat", "assets/entities/mobs/cat.png",30 ,30);
     this.load.spritesheet("dog", "assets/entities/mobs/dog.png",32 ,32);
     this.load.spritesheet("butterfly", "assets/entities/mobs/butterfly.png",16 ,32);
-
-    //player
-    this.load.spritesheet("player", "assets/player/player.png",64 ,64);
-
 
     /* UI */
     // bars [health bar/ experience bar etc]
