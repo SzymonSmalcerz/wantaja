@@ -1,6 +1,6 @@
 class StatusPointsManager extends UIFrameManager {
   constructor(state,uiManager){
-    super(state,uiManager,Phaser.Keyboard.C);
+    super(state,uiManager,Phaser.Keyboard.C,'Status points');
     this.statusPointsNames = ["strength","vitality","intelligence","agility"];
   }
 
@@ -8,8 +8,7 @@ class StatusPointsManager extends UIFrameManager {
     this.getPositionsCoords();
     let state = this.state;
 
-    state.statusPoints = state.add.group();
-    this.frameGroup = state.statusPoints;
+    state.statusPoints = this.frameGroup;
     // state.statusPointsBackground = state.game.add.sprite(state.game.world.width/2,state.game.world.height/2,"statusPoints");
     state.statusPointsBackground = state.game.add.sprite(this.posX,this.posY,"statusPoints");
     state.statusPointsBackground.anchor.setTo(0.5);
@@ -18,9 +17,13 @@ class StatusPointsManager extends UIFrameManager {
 
     // texts
     state.strengthText = state.add.text();
+    state.strengthText_2 = state.add.text();
     state.agilityText = state.add.text();
+    state.agilityText_2 = state.add.text();
     state.itelligenceText = state.add.text();
+    state.itelligenceText_2 = state.add.text();
     state.vitalityText = state.add.text();
+    state.vitalityText_2 = state.add.text();
     state.leftStatusPointsText = state.add.text();
     state.leftStatusPointsText.anchor.setTo(0.5);
 
@@ -28,12 +31,20 @@ class StatusPointsManager extends UIFrameManager {
     this.state.styleText(state.agilityText);
     this.state.styleText(state.itelligenceText);
     this.state.styleText(state.vitalityText);
+    this.state.styleText(state.strengthText_2);
+    this.state.styleText(state.agilityText_2);
+    this.state.styleText(state.itelligenceText_2);
+    this.state.styleText(state.vitalityText_2);
     this.state.styleText(state.leftStatusPointsText);
 
     state.statusPoints.add(state.strengthText);
     state.statusPoints.add(state.agilityText);
     state.statusPoints.add(state.itelligenceText);
     state.statusPoints.add(state.vitalityText);
+    state.statusPoints.add(state.strengthText_2);
+    state.statusPoints.add(state.agilityText_2);
+    state.statusPoints.add(state.itelligenceText_2);
+    state.statusPoints.add(state.vitalityText_2);
     state.statusPoints.add(state.leftStatusPointsText);
 
     //end of text
@@ -105,7 +116,7 @@ class StatusPointsManager extends UIFrameManager {
       },
 
       plusButton : {
-        x : this.posX + 80,
+        x : this.posX + 77,
         y : this.posY - 65,
         difference : 60
       }
@@ -117,15 +128,23 @@ class StatusPointsManager extends UIFrameManager {
 
     state.strengthText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10);
     state.strengthText.text = "pts: " + this.state.player.strength;
+    state.strengthText_2.reset(this.positions.questionMark.x-10,this.positions.questionMark.y - 40);
+    state.strengthText_2.text = 'strength';
 
     state.vitalityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference);
     state.vitalityText.text = "pts: " + this.state.player.vitality;
+    state.vitalityText_2.reset(this.positions.questionMark.x+-10,this.positions.questionMark.y - 40 + this.positions.questionMark.difference);
+    state.vitalityText_2.text = 'vitality';
 
     state.itelligenceText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 2);
     state.itelligenceText.text = "pts: " + this.state.player.intelligence;
+    state.itelligenceText_2.reset(this.positions.questionMark.x-10,this.positions.questionMark.y - 40 + this.positions.questionMark.difference * 2);
+    state.itelligenceText_2.text = 'intelligence';
 
     state.agilityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 3);
     state.agilityText.text = "pts: " + this.state.player.agility;
+    state.agilityText_2.reset(this.positions.questionMark.x-10,this.positions.questionMark.y - 40 + this.positions.questionMark.difference * 3);
+    state.agilityText_2.text = 'agility';
 
     state.leftStatusPointsText.reset(this.posX,this.posY - 110);
     state.leftStatusPointsText.text = "left points to add: " + this.state.player.leftStatusPoints;

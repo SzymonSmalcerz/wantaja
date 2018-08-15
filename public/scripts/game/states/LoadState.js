@@ -93,6 +93,9 @@ let LoadState = {
     this.load.spritesheet("plusButton","assets/UI/plusButton.png",50,50);
     this.load.spritesheet("closeButton","assets/UI/closeButton.png",50,50);
 
+    /* frames */
+    this.load.image("frame", "assets/UI/frame.png");
+
     /* status points */
     this.load.image("statusPoints", "assets/UI/statusPoints.png");
     this.load.image("statusPoints_strength_description", "assets/UI/statusPoints_strength_description.png");
@@ -109,7 +112,6 @@ let LoadState = {
     this.load.image("characterData_dodge_description", "assets/UI/characterData/characterData_dodge_description.png");
 
     /* settings */
-    this.load.image("settingsFrame", "assets/UI/settings/settingsFrame.png");
     this.load.spritesheet("settingsButton", "assets/UI/settings/settingsButton.png",50,50);
 
     /* Fight sprites */
@@ -199,6 +201,7 @@ let LoadState = {
     this.load.spritesheet("eqIcon","assets/UI/bottomUI/expansionMenu/eqIcon.png",50,50);
     this.load.spritesheet("missionsIcon","assets/UI/bottomUI/expansionMenu/missionsIcon.png",50,50);
     this.load.spritesheet("statusIcon","assets/UI/bottomUI/expansionMenu/statusIcon.png",50,50);
+    this.load.spritesheet("characterDataIcon","assets/UI/bottomUI/expansionMenu/characterDataIcon.png",50,50);
     this.load.image("backgroundIcons","assets/UI/bottomUI/expansionMenu/background.png");
     this.load.spritesheet("checkBox","assets/UI/checkbox.png",50,50);
   },

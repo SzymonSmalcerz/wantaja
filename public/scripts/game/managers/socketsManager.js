@@ -126,6 +126,7 @@ class SocketsManager {
       self.handler.currentState.player.leftStatusPoints = data.leftStatusPoints;
       self.handler.currentState.player.experience = data.experience;
       self.handler.currentState.player.requiredExperience = data.requiredExperience;
+      self.handler.currentState.uiManager.showLevelUpAlert();
     })
 
   }

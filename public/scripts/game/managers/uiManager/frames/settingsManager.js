@@ -1,14 +1,13 @@
 class SettingsManager extends UIFrameManager {
   constructor(state,uiManager){
-    super(state,uiManager,Phaser.Keyboard.Z);
+    super(state,uiManager,Phaser.Keyboard.Z,'Settings');
     this.getPositionsCoords();
   }
 
   initialize() {
     let state = this.state;
-    state.optionsManager = state.add.group();
-    this.frameGroup = state.optionsManager;
-    this.background = state.game.add.sprite(0,0,"settingsFrame");
+    state.optionsManager = this.frameGroup;
+    this.background = state.game.add.sprite(0,0,"frame");
     this.background.anchor.setTo(0.5);
     this.uiManager.blockPlayerMovementsWhenOver(this.background);
 
@@ -22,8 +21,14 @@ class SettingsManager extends UIFrameManager {
       this.uiManager.hideEnemiesDescriptions();
     }, this)
 
+    this.enemiesDescriptionsText = state.add.text();
+    this.enemiesDescriptionsText.anchor.setTo(0,0.5);
+    this.enemiesDescriptionsText.text = "show enemies\ndescriptions:"
+    this.state.styleText(this.enemiesDescriptionsText);
+
     this.frameGroup.add(this.background);
     this.frameGroup.add(this.checkBox);
+    this.frameGroup.add(this.enemiesDescriptionsText);
 
     this.frameGroup.fixedToCamera = true;
 
@@ -51,12 +56,17 @@ class SettingsManager extends UIFrameManager {
       settingsButton : {
         x : this.state.game.width-115,
         y : this.state.game.height-60
+      },
+      enemiesDescriptionsText : {
+        x : this.posX - 100,
+        y : this.posY - 50
       }
     }
   }
 
   onResize() {
     this.getPositionsCoords();
+    this.enemiesDescriptionsText.reset(this.positions.enemiesDescriptionsText.x,this.positions.enemiesDescriptionsText.y);
     this.background.reset(this.posX,this.posY);
     this.checkBox.reset(this.positions.enemiesCheckBox.x,this.positions.enemiesCheckBox.y);
     this.settingsButton.reset(this.positions.settingsButton.x,this.positions.settingsButton.y);

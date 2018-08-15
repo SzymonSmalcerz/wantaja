@@ -31,6 +31,9 @@ class UIManager {
   showDodgeAlert(text) {
     this.alertManager.showDodgeAlert(text);
   }
+  showLevelUpAlert(text) {
+    this.alertManager.showLevelUpAlert(text);
+  }
 
   initialize() {
     this.framesManagers = [];
@@ -120,22 +123,26 @@ class UIManager {
     sprite.events.onInputDown.add(function(){
       this.blockPlayerMovement();
     },this);
-    sprite.events.onInputOut.add(function(){
+    sprite.events.onInputOut.add(function() {
       this.unBlockPlayerMovement();
     },this);
 
-    if(releaseWhenInputUp){
-      sprite.events.onInputUp.add(function(){
+    if(releaseWhenInputUp) {
+      sprite.events.onInputUp.add(function() {
         this.unBlockPlayerMovement();
       },this);
     }
   }
 
-  toggleStatusPointWindow(){
+  toggleStatusPointWindow() {
     this.statusPointsManager.toggleWindow();
   }
 
-  blockPlayerMovement(){
+  toggleCharacterDataWindow() {
+    this.characterDataManager.toggleWindow();
+  }
+
+  blockPlayerMovement() {
     this.blockedMovement = true;
   }
 

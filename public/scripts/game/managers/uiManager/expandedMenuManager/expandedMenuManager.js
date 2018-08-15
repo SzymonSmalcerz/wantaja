@@ -17,65 +17,63 @@ class ExpandedMenuManager {
     },this);
     this.uiManager.blockPlayerMovementsWhenOver(state.expandArrow);
 
-    state.eqIcon = new Button(state.game,state.game.width-205,state.game.height-147,"eqIcon",0,1,2,3);
-    state.eqIcon.anchor.setTo(0);
-    state.eqIcon.visible = false;
-    this.uiManager.blockPlayerMovementsWhenOver(state.eqIcon,true);
-    state.statusIcon = new Button(state.game,state.game.width-150,state.game.height-147,"statusIcon",0,1,2,3);
-    state.statusIcon.anchor.setTo(0);
-    state.statusIcon.visible = false;
-    state.statusIcon.addOnInputDownFunction(function() {
+    this.characterDataIcon = new Button(state.game,state.game.width-260,state.game.height-147,"characterDataIcon",0,1,2,3);
+    this.characterDataIcon.addOnInputDownFunction(function() {
+      this.uiManager.toggleCharacterDataWindow();
+      this.closeExpandedMenu();
+    },this);
+    this.uiManager.blockPlayerMovementsWhenOver(this.characterDataIcon,true);
+    this.eqIcon = new Button(state.game,state.game.width-205,state.game.height-147,"eqIcon",0,1,2,3);
+    this.uiManager.blockPlayerMovementsWhenOver(this.eqIcon,true);
+    this.statusIcon = new Button(state.game,state.game.width-150,state.game.height-147,"statusIcon",0,1,2,3);
+    this.statusIcon.addOnInputDownFunction(function() {
       this.uiManager.toggleStatusPointWindow();
       this.closeExpandedMenu();
     },this);
-    this.uiManager.blockPlayerMovementsWhenOver(state.statusIcon,true);
-    state.missionsIcon = new Button(state.game,state.game.width-95,state.game.height-147,"missionsIcon",0,1,2,3);
-    state.missionsIcon.anchor.setTo(0);
-    state.missionsIcon.visible = false;
-    this.uiManager.blockPlayerMovementsWhenOver(state.missionsIcon,true);
-    state.backgroundIcons = state.game.add.sprite(state.game.width-245,state.game.height-170,"backgroundIcons");
-    state.backgroundIcons.visible = false;
-    this.uiManager.blockPlayerMovementsWhenOver(state.backgroundIcons);
+    this.uiManager.blockPlayerMovementsWhenOver(this.statusIcon,true);
+    this.missionsIcon = new Button(state.game,state.game.width-95,state.game.height-147,"missionsIcon",0,1,2,3);
+    this.uiManager.blockPlayerMovementsWhenOver(this.missionsIcon,true);
+    this.backgroundIcons = state.game.add.sprite(state.game.width-300,state.game.height-170,"backgroundIcons");
+    this.uiManager.blockPlayerMovementsWhenOver(this.backgroundIcons);
 
+    this.expandedMenu = this.state.game.add.group();
+    this.expandedMenu.add(this.backgroundIcons);
+    this.expandedMenu.add(this.characterDataIcon);
+    this.expandedMenu.add(this.eqIcon);
+    this.expandedMenu.add(this.statusIcon);
+    this.expandedMenu.add(this.missionsIcon);
+    this.expandedMenu.setAll("anchor",{
+      x : 0,
+      y : 0
+    })
     //adding everything to one group
-    this.uiManager.addToGroup(state.backgroundIcons);
+    this.uiManager.addToGroup(this.expandedMenu);
     this.uiManager.addToGroup(state.expandArrow);
-    this.uiManager.addToGroup(state.eqIcon);
-    this.uiManager.addToGroup(state.statusIcon);
-    this.uiManager.addToGroup(state.missionsIcon);
 
     this.onResize();
   }
 
   toggleExpandedMenu() {
-    this.state.eqIcon.visible = !this.state.eqIcon.visible;
-    this.state.statusIcon.visible = !this.state.statusIcon.visible;
-    this.state.missionsIcon.visible = !this.state.missionsIcon.visible;
-    this.state.backgroundIcons.visible = !this.state.backgroundIcons.visible;
+    this.expandedMenu.visible = !this.expandedMenu.visible;
   }
 
   showExpandedMenu() {
-    this.state.eqIcon.visible = true;
-    this.state.statusIcon.visible = true;
-    this.state.missionsIcon.visible = true ;
-    this.state.backgroundIcons.visible = true;
+    this.expandedMenu.visible = true;
   }
 
   closeExpandedMenu() {
-    this.state.eqIcon.visible = false;
-    this.state.statusIcon.visible = false;
-    this.state.missionsIcon.visible = false;
-    this.state.backgroundIcons.visible = false;
+    this.expandedMenu.visible = false;
     this.state.expandArrow.uncheck();
   }
 
   onResize() {
     let state = this.state;
     state.expandArrow.reset(state.game.width-60,state.game.height-60);
-    state.eqIcon.reset(state.game.width-205,state.game.height-147);
-    state.statusIcon.reset(state.game.width-150,state.game.height-147);
-    state.missionsIcon.reset(state.game.width-95,state.game.height-147);
-    state.backgroundIcons.reset(state.game.width-245,state.game.height-170);
+    this.characterDataIcon.reset(state.game.width-260,state.game.height-147);
+    this.eqIcon.reset(state.game.width-205,state.game.height-147);
+    this.statusIcon.reset(state.game.width-150,state.game.height-147);
+    this.missionsIcon.reset(state.game.width-95,state.game.height-147);
+    this.backgroundIcons.reset(state.game.width-300,state.game.height-170);
     this.closeExpandedMenu();
   }
 

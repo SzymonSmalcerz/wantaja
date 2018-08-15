@@ -1,6 +1,6 @@
 class CharacterDataManager extends UIFrameManager{
   constructor(state,uiManager) {
-    super(state,uiManager,Phaser.Keyboard.X);
+    super(state,uiManager,Phaser.Keyboard.X,'Character data');
     this.dataNames = ["level","attack", "mana", "health", "dodge"];
   }
 
@@ -38,8 +38,7 @@ class CharacterDataManager extends UIFrameManager{
   initialize() {
     this.getPositionsCoords();
     let state = this.state;
-    state.characterData = state.add.group();
-    this.frameGroup = state.characterData;
+    state.characterData = this.frameGroup;
     this.characterDataBackground = state.game.add.sprite(this.posX,this.posY,"characterDataFrame");
     this.characterDataBackground.anchor.setTo(0.5);
     this.uiManager.blockPlayerMovementsWhenOver(this.characterDataBackground);

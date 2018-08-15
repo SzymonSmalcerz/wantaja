@@ -57,13 +57,12 @@ class GameHandler {
 
   styleText(text) {
     let textCss = {
-      font : "22px",
+      font : "20px",
       fontWeight : "900",
       stroke : '#FFF',
-      strokeThickness : 3,
+      strokeThickness : 2,
       fill : '#000'
-    }
-    console.log(text.y);
+    };
     text.setStyle(textCss);
     text.lineSpacing = -5;
     text.smoothed = false;
