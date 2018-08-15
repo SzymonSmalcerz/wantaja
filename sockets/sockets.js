@@ -138,6 +138,7 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("initialized", function(data) {
+    dm.allLoggedPlayersData[data.id].key = data.key;
     dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
     dm.allLoggedPlayersData[data.id].socket = dm.socketsOfPlayers[data.id];
     dm.allLoggedPlayersData[data.id].active = true;

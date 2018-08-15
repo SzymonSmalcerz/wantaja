@@ -116,7 +116,7 @@ class MapManager {
     let self = this.state;
     let newPlayer = null;
     if(!newPlayer){
-      newPlayer = new OtherPlayer(self.game,data.x,data.y,data.id);
+      newPlayer = new OtherPlayer(self.game,data);
       self.allEntities.add(newPlayer);
       self.allEntities.objects[data.id] = newPlayer;
       self.setRenderOrder(newPlayer);

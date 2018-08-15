@@ -14,11 +14,11 @@ class GameHandler {
   startGame(data,socket){
     this.playerAvatarDictionary = {
       female : {
-        levels : [5,10,15,20,25,30,35],
+        levels : [1,5,10,15,20,25,30,35],
         names : ['black','brown','blond','purple','red']
       },
       male : {
-        levels : [5,10,15,20,25,30,35],
+        levels : [1,5,10,15,20,25,30,35],
         names : ['green','white','blond','pink','bold','grey']
       }
     };
@@ -35,7 +35,7 @@ class GameHandler {
     this.game.state.add("GameState", GameState);
     this.game.state.start("PreState");
 
-    
+
     this.socketsManager = new SocketsManager(this);
     this.socketsManager.initialize();
     window.addEventListener("resize", () => {
@@ -53,6 +53,20 @@ class GameHandler {
       };
       this.game.scale.refresh();
     });
+  }
+
+  styleText(text) {
+    let textCss = {
+      font : "22px",
+      fontWeight : "900",
+      stroke : '#FFF',
+      strokeThickness : 3,
+      fill : '#000'
+    }
+    console.log(text.y);
+    text.setStyle(textCss);
+    text.lineSpacing = -5;
+    text.smoothed = false;
   }
 };
 

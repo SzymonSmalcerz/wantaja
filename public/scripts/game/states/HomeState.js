@@ -31,6 +31,9 @@ let HomeState = {
     // player avatars checkboxes
     this.playerAvatarsCheckboxes = this.game.add.group();
     this.playerAvatars.add(this.playerAvatarsCheckboxes);
+    // player avatars texts
+    this.playerAvatarsTexts = this.game.add.group();
+    this.playerAvatars.add(this.playerAvatarsTexts);
 
     // scrollBar
     this.scrollBar = this.game.add.group();
@@ -66,6 +69,7 @@ let HomeState = {
     };
     this.playerAvatarsSprites.callAll('kill');
     this.playerAvatarsCheckboxes.callAll('kill');
+    this.playerAvatarsTexts.callAll('kill');
     this.game.state.start("GameState");
   },
   toggleDisplays() {
@@ -87,35 +91,52 @@ let HomeState = {
   showPlayerAvatarPanel() {
     this.playerAvatarsSprites.callAll('kill');
     this.playerAvatarsCheckboxes.callAll('kill');
+    this.playerAvatarsTexts.callAll('kill');
     // this.showAvatarsDisplay();
-    let y = 64;
+    let y = 120;
     let x = 32;
     let width;
     if(handler.playerData.gender == "male") {
       width = ( ( this.game,this.game.width - 64 ) / handler.playerAvatarDictionary.male.names.length );
       handler.playerAvatarDictionary.male.levels.forEach(level => {
-        handler.playerAvatarDictionary.male.names.forEach(name => {
 
+        let avatarText = this.playerAvatarsTexts.getFirstExists(false);
+        if(!avatarText){
+          avatarText = this.add.text();
+          this.playerAvatarsTexts.add(avatarText);
+        };
+        avatarText.reset(this.game.width/2 - this.scrollbar_top.width,y-70);
+        handler.styleText(avatarText);
+        avatarText.anchor.setTo(0.5);
+        avatarText.alpha = 1.0;
+        avatarText.text = 'sprites avaliable from ' + level + ' level:';
+
+        if(level == 1) {
           let avatarSprite = this.playerAvatarsSprites.getFirstExists(false);
           if(!avatarSprite) {
-            avatarSprite = this.game.add.sprite(x,y - 20, 'male_' + level + '_' + name);
+            avatarSprite = this.game.add.sprite();
             this.playerAvatarsSprites.add(avatarSprite);
-          } else {
-            avatarSprite.reset(x,y);
-          }
+          };
+          x = this.game.width/2 - this.scrollbar_top.width;
+          avatarSprite.reset(x,y - 20);
           avatarSprite.anchor.setTo(0.5);
-          avatarSprite.loadTexture('male_' + level + '_' + name);
+          avatarSprite.loadTexture('male_' + level);
           avatarSprite.frame = 18;
 
           let checkBox = this.playerAvatarsCheckboxes.getFirstExists(false);
           if(!checkBox) {
             checkBox = new CheckBox(this.game,x,y+30,false,0,1,2,3,4,5,6,7,false,"smallCheckBox");
             this.playerAvatarsCheckboxes.add(checkBox);
-          } else {
-            checkBox.reset(x,y+30);
+            checkBox.addOnCheckFunction(function() {
+              if(this.currentCheckBox) {
+                this.currentCheckBox.uncheck();
+              }
+              this.currentCheckBox = checkBox;
+            }, this);
           }
+          checkBox.reset(x,y+30);
           checkBox.anchor.setTo(0.5);
-          checkBox.avatarKey = 'male_' + level + '_' + name;
+          checkBox.avatarKey = 'male_' + level;
 
           if(handler.playerData.key == checkBox.avatarKey) {
             checkBox.check();
@@ -123,15 +144,54 @@ let HomeState = {
           } else {
             checkBox.uncheck();
           }
-          checkBox.addOnCheckFunction(function() {
-            if(this.currentCheckBox) {
-              this.currentCheckBox.uncheck();
-            }
-            this.currentCheckBox = checkBox;
-          }, this);
+        } else {
+          handler.playerAvatarDictionary.male.names.forEach(name => {
 
-          x+= width;
-        });
+            let avatarSprite = this.playerAvatarsSprites.getFirstExists(false);
+            if(!avatarSprite) {
+              avatarSprite = this.game.add.sprite();
+              this.playerAvatarsSprites.add(avatarSprite);
+            };
+            avatarSprite.reset(x,y - 20);
+            avatarSprite.anchor.setTo(0.5);
+            avatarSprite.loadTexture('male_' + level + '_' + name);
+            avatarSprite.frame = 18;
+
+            let checkBox = this.playerAvatarsCheckboxes.getFirstExists(false);
+            if(!checkBox) {
+              checkBox = new CheckBox(this.game,x,y+30,false,0,1,2,3,4,5,6,7,false,"smallCheckBox");
+              this.playerAvatarsCheckboxes.add(checkBox);
+              checkBox.addOnCheckFunction(function() {
+                if(this.currentCheckBox) {
+                  this.currentCheckBox.uncheck();
+                }
+                this.currentCheckBox = checkBox;
+              }, this);
+            } else {
+              checkBox.reset(x,y+30);
+            }
+            checkBox.anchor.setTo(0.5);
+            checkBox.avatarKey = 'male_' + level + '_' + name;
+
+            if(handler.playerData.key == checkBox.avatarKey) {
+              checkBox.check();
+              this.currentCheckBox = checkBox;
+            } else {
+              checkBox.uncheck();
+            }
+
+
+
+            if(level > handler.playerData.level) {
+              console.log("AAA");
+              checkBox.disableCheckBox();
+              avatarSprite.tint = 0x000000;
+            }
+
+            x+= width;
+          });
+        }
+
         y += 150;
         x = 32;
       });

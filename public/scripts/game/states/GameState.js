@@ -113,15 +113,6 @@ let GameState = {
     this.uiManager.fightModeOff();
   },
   styleText(text) {
-    let textCss = {
-      font : "20px bold",
-      fontWeight : "900",
-      stroke : '#FFF',
-      strokeThickness : 2,
-      fill : '#000'
-    }
-    text.setStyle(textCss);
-    text.lineSpacing = -5;
-    text.smoothed = false;
+    handler.styleText(text);
   }
 };

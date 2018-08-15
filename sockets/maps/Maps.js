@@ -53,7 +53,8 @@ class Map {
         this.players[playerID].socket.emit("addPlayer", {
           x : playerData.x,
           y : playerData.y,
-          id : playerData.id
+          id : playerData.id,
+          key : playerData.key
         });
       }
     };
@@ -69,6 +70,7 @@ class Map {
         data.players[playerID] = {
           x : this.players[playerID].data.x,
           y : this.players[playerID].data.y,
+          key : this.players[playerID].data.key,
           id : playerID
         }
       }

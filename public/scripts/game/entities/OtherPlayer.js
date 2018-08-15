@@ -1,10 +1,10 @@
 
-let OtherPlayer = function(game,x,y, id){
-  Phaser.Sprite.call(this,game,x,y,"player");
+let OtherPlayer = function(game,data){
+  Phaser.Sprite.call(this,game,data.x,data.y,data.key || "player");
   game.add.existing(this);
   this.anchor.setTo(0.5);
   game.physics.enable(this);
-  this.id = id;
+  this.id = data.id;
   this.smoothed = false;
 }
 

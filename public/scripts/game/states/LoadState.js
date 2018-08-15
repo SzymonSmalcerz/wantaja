@@ -40,11 +40,13 @@ let LoadState = {
     for (var key in handler.playerAvatarDictionary) {
       if (handler.playerAvatarDictionary.hasOwnProperty(key)) {
         handler.playerAvatarDictionary[key].levels.forEach(level => {
-          handler.playerAvatarDictionary[key].names.forEach(name => {
-            this.load.spritesheet(key + '_' + level + '_' + name, "assets/player/" + key + "/" + level + 'lvl_' + name + ".png",64,64);
-          });
+          if(level != 1) {
+            handler.playerAvatarDictionary[key].names.forEach(name => {
+              this.load.spritesheet(key + '_' + level + '_' + name, "assets/player/" + key + "/" + level + 'lvl_' + name + ".png",64,64);
+            });
+          };
         });
-        this.load.spritesheet(key + '_1lvl', "assets/player/" + key + "/1lvl.png",64,64);
+        this.load.spritesheet(key + '_1', "assets/player/" + key + "/1lvl.png",64,64);
       }
     }
 
