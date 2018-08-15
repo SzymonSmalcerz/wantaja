@@ -85,6 +85,11 @@ CheckBox.prototype.uncheck = function() {
   this.setNormalFrame();
 }
 
+CheckBox.prototype.check = function() {
+  this.checked = true;
+  this.setNormalFrame();
+}
+
 CheckBox.prototype.toggleCheck = function(){
   this.checked = !this.checked;
 };

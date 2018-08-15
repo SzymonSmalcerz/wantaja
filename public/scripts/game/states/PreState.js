@@ -1,6 +1,19 @@
 let PreState = {
   init : function (){
-    this.game.stage.backgroundColor = "#fff";
+    // console.log(this.game.plugins);
+    // console.log(this.game);
+    // console.log(Phaser.Plugin.KineticScrolling)
+    this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
+    this.game.kineticScrolling.configure({
+      kineticMovement: true,
+      timeConstantScroll: 325, //really mimic iOS
+      horizontalScroll: false,
+      verticalScroll: true,
+      horizontalWheel: false,
+      verticalWheel: true,
+      deltaWheel: 40
+  });
+    // this.game.stage.backgroundColor = "#fff";
     // this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
     this.scale.pageAlignHorizontally = true;

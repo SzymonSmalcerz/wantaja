@@ -34,6 +34,8 @@ class GameHandler {
     this.game.state.add("HomeState", HomeState);
     this.game.state.add("GameState", GameState);
     this.game.state.start("PreState");
+
+    
     this.socketsManager = new SocketsManager(this);
     this.socketsManager.initialize();
     window.addEventListener("resize", () => {

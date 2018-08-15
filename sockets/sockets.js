@@ -282,6 +282,7 @@ let socketHandler = (socket, io) => {
                 user.vitality = player.vitality;
                 user.intelligence = player.intelligence;
                 user.agility = player.agility;
+                user.key = player.key;
                 await user.save();
 
                 console.log("saved statis of :", user._id);

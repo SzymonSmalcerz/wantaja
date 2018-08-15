@@ -103,8 +103,8 @@ class MapManager {
 
   createPlayer() {
     if(!handler.player){
-      let receivedDataFromServer = handler.startPlayerData.characterData;
-      this.state.player = new Player(this.state.game,receivedDataFromServer);
+      console.log(handler.playerData.key);
+      this.state.player = new Player(this.state.game,handler.playerData);
     } else {
       this.state.player = handler.player;
     };

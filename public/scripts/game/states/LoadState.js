@@ -25,6 +25,11 @@ let LoadState = {
 
     /* assets for home state */
     this.load.spritesheet("buttonStart","assets/homeState/buttonStart.png",200,100);
+    this.load.image("scrollbar_top","assets/homeState/scrollbar_top.png");
+    this.load.image("scrollbar_bottom","assets/homeState/scrollbar_bottom.png");
+    this.load.image("scrollbar_middle","assets/homeState/scrollbar_middle.png");
+    this.load.image("scrollbar_wheel","assets/homeState/scrollbar_wheel.png");
+    this.load.spritesheet("smallCheckBox","assets/homeState/smallCheckBox.png",30,30);
     /* end of assets for home state */
 
     // player avatars //
