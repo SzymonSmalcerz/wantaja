@@ -21,6 +21,7 @@ class PlayerMoveManager {
 
     this.playerBodyOffset = 20;
     this.xTimeout = 1500;
+    this.counter = 0;
   }
 
   update(){
@@ -28,6 +29,7 @@ class PlayerMoveManager {
     if((Date.now() - this.lastTimeInputRead > this.xTimeout)){
       this.state.xGreen.visible = false;
       this.state.xRed.visible = false;
+      // console.log(Date.now() - this.lastTimeInputRead);
     } else {
       this.state.xGreen.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
       this.state.xRed.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
@@ -40,9 +42,8 @@ class PlayerMoveManager {
       return;
     };
 
-    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && !this.state.uiManager.blockedMovement) {
+    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.state.uiManager.blockedMovement <= 0) {
 
-      this.lastTimeInputRead = Date.now();
       let goal = {
         x : this.state.game.input.activePointer.worldX,
         y : this.state.game.input.activePointer.worldY - this.playerBodyOffset
@@ -67,6 +68,7 @@ class PlayerMoveManager {
 
         let firstElement = openList.getSmallestFElement();
         if (firstElement == null) {
+          this.lastTimeInputRead = Date.now();
           return;
         };
 
@@ -75,20 +77,28 @@ class PlayerMoveManager {
         let topSuccessor = this.handleSuccesor(firstElement,"down",playerSpeed,openList,closedList,goal);
         let bottomSuccessor = this.handleSuccesor(firstElement,"up",playerSpeed,openList,closedList,goal);
         if(rightSuccessor){
+          this.lastTimeInputRead = Date.now();
           return this.createPath(rightSuccessor);
         } else if(leftSuccessor) {
+          this.lastTimeInputRead = Date.now();
           return this.createPath(leftSuccessor);
         } else if(topSuccessor) {
+          this.lastTimeInputRead = Date.now();
           return this.createPath(topSuccessor);
         } else if(bottomSuccessor) {
+          this.lastTimeInputRead = Date.now();
           return this.createPath(bottomSuccessor);
         };
 
         closedList.push(firstElement);
 
       };
-      this.lastTimeInputRead = Date.now();
-    };
+
+    } else {
+      if(this.state.uiManager.blockedMovement > 0) {
+        this.state.uiManager.blockedMovement -= 1;
+      }
+    }
 
     if(this.state.player.canMove){
       if(this.cursors.up.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.W)) {

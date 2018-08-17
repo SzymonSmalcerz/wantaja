@@ -100,6 +100,13 @@ class SocketsManager {
       self.handler.currentState.player.updateData(data);
     });
 
+    this.handler.socket.on("changedMap", function(data) {
+      console.log(data);
+      handler.player.currentMapName = data.mapName;
+      handler.player.reset(data.playerX, data.playerY);
+      self.handler.currentState.changeMap();
+    });
+
     this.handler.socket.on("handleWinFight", function(data){
       self.handler.currentState.player.experience = data.playerExperience;
       self.handler.currentState.fightWithOpponentManager.handleWinFight();

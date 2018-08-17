@@ -160,7 +160,42 @@ class FirstMap extends Map {
   }
 };
 
+class SecondMap extends Map {
+  constructor() {
+    super("secondMap");
+  }
+
+  respMobs() {
+    if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
+
+    let newEnemy = new Bee(Math.floor(Math.random() * 100) + 100,Math.floor(Math.random() * 100) + 400, this);
+    this.currentNumberOfMobs += 1;
+    this.mobs[newEnemy.id] = newEnemy;
+    this.mobsDataToSend[newEnemy.id] = {
+      x : newEnemy.x,
+      y : newEnemy.y,
+      id : newEnemy.id,
+      key : newEnemy.key,
+      health : newEnemy.health,
+      maxHealth : newEnemy.maxHealth,
+      animated : newEnemy.animated,
+      lvl : newEnemy.lvl
+    };
+      for(let playerID in this.players) {
+        if(this.players.hasOwnProperty(playerID)){
+          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
+        }
+      };
+    }
+
+    setTimeout(() => {
+      this.respMobs();
+    }, this.respTime);
+  }
+};
+
 
 module.exports = {
-  FirstMap
+  FirstMap,
+  SecondMap
 };

@@ -1,10 +1,16 @@
 class MapManager {
   constructor(state) {
     this.state = state;
-    this.mapName = "secondMap";
+    // this.mapName = "secondMap";
+  }
+
+  onChangeMap() {
+    this.mapName = handler.player.currentMapName;
+    this.initialize();
   }
 
   initialize() {
+    this.mapName = this.mapName || handler.playerData.currentMapName;
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
     this.state.allEntities.enableBody = true;
@@ -16,6 +22,14 @@ class MapManager {
     this.state.floor = this.state.map.createLayer("Ground");
     this.state.floor_2 = this.state.map.createLayer("Ground2");
     this.state.colliders = this.state.add.group();
+    this.state.doorToMap = new Button(this.state.game,50,50, "door_to_map",0,1,2,3)
+    this.state.allEntities.add(this.state.doorToMap);
+    this.state.doorToMap.addOnInputDownFunction(function(){
+      handler.socketsManager.emit("changeMap", {
+        mapName : "secondMap",
+        id : handler.playerData.id
+      })
+    },this);
     // this.state.floor_2.layer.data.forEach((row,i) => {
     //   row.forEach((val,index) => {
     //     if(val.index > 3071) {
@@ -105,6 +119,7 @@ class MapManager {
     if(!handler.player){
       console.log(handler.playerData.key);
       this.state.player = new Player(this.state.game,handler.playerData);
+      handler.player = this.state.player;
     } else {
       this.state.player = handler.player;
     };

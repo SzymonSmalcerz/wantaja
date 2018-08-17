@@ -1,5 +1,5 @@
 const User = require("../database/models/userModel");
-const {FirstMap} = require("./maps/Maps");
+const { FirstMap, SecondMap } = require("./maps/Maps");
 const skills = require("./skills/skill");
 
 let dm = { // data manager, created to hold values for game purpose
@@ -74,6 +74,7 @@ dm.removePlayer = function(playerID) {
   delete this.findMapNameByPlayerId[playerID];
 };
 dm.allMaps["firstMap"] = new FirstMap();
+dm.allMaps["secondMap"] = new SecondMap();
 
 
 
@@ -142,6 +143,20 @@ let socketHandler = (socket, io) => {
     dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
     dm.allLoggedPlayersData[data.id].socket = dm.socketsOfPlayers[data.id];
     dm.allLoggedPlayersData[data.id].active = true;
+  });
+
+  socket.on("changeMap", function(data) {
+    console.log(data);
+    dm.allMaps[dm.findMapNameByPlayerId[data.id]].removePlayer(data.id);
+    dm.allLoggedPlayersData[data.id].currentMapName = data.mapName;
+    dm.findMapNameByPlayerId[data.id] = data.mapName;
+    dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
+    dm.allLoggedPlayersData[data.id].active = true;
+    dm.socketsOfPlayers[data.id].emit('changedMap', {
+      mapName : dm.findMapNameByPlayerId[data.id],
+      playerX : 500,
+      playerY : 500
+    });
   });
 
   socket.on("initFight", function(data){

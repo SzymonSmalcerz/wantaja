@@ -7,9 +7,6 @@ class SettingsManager extends UIFrameManager {
   initialize() {
     let state = this.state;
     state.optionsManager = this.frameGroup;
-    this.background = state.game.add.sprite(0,0,"frame");
-    this.background.anchor.setTo(0.5);
-    this.uiManager.blockPlayerMovementsWhenOver(this.background);
 
     this.checkBox = new CheckBox(this.state.game,0,0,true,0,1,2,3,4,5,6,7);
     this.uiManager.blockPlayerMovementsWhenOver(this.checkBox);
@@ -25,8 +22,6 @@ class SettingsManager extends UIFrameManager {
     this.enemiesDescriptionsText.anchor.setTo(0,0.5);
     this.enemiesDescriptionsText.text = "show enemies\ndescriptions:"
     this.state.styleText(this.enemiesDescriptionsText);
-
-    this.frameGroup.add(this.background);
     this.frameGroup.add(this.checkBox);
     this.frameGroup.add(this.enemiesDescriptionsText);
 
@@ -67,7 +62,6 @@ class SettingsManager extends UIFrameManager {
   onResize() {
     this.getPositionsCoords();
     this.enemiesDescriptionsText.reset(this.positions.enemiesDescriptionsText.x,this.positions.enemiesDescriptionsText.y);
-    this.background.reset(this.posX,this.posY);
     this.checkBox.reset(this.positions.enemiesCheckBox.x,this.positions.enemiesCheckBox.y);
     this.settingsButton.reset(this.positions.settingsButton.x,this.positions.settingsButton.y);
     super.onResize();

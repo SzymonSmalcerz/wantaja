@@ -9,8 +9,13 @@ class UIManager {
 
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.alertManager = new AlertManager(this);
-    this.blockedMovement = false;
+    // this.blockedMovement = false;
     this.fightMode = false;
+    this.blockedMovement = 2;
+  }
+
+  onChangeMap(){
+    this.entityDescriptionsManager.onChangeMap();
   }
 
   showTownAlert(text){
@@ -123,15 +128,18 @@ class UIManager {
     sprite.events.onInputDown.add(function(){
       this.blockPlayerMovement();
     },this);
-    sprite.events.onInputOut.add(function() {
-      this.unBlockPlayerMovement();
-    },this);
+    // sprite.events.onInputOut.add(function() {
+    //   this.unBlockPlayerMovement();
+    // },this);
 
-    if(releaseWhenInputUp) {
-      sprite.events.onInputUp.add(function() {
-        this.unBlockPlayerMovement();
-      },this);
-    }
+    // if(releaseWhenInputUp) {
+    //   sprite.events.onInputUp.add(function() {
+    //     this.unBlockPlayerMovement();
+    //   },this);
+    // }
+    // sprite.events.onInputUp.add(function() {
+    //   this.unBlockPlayerMovement();
+    // },this);
   }
 
   toggleStatusPointWindow() {
@@ -143,11 +151,11 @@ class UIManager {
   }
 
   blockPlayerMovement() {
-    this.blockedMovement = true;
+    this.blockedMovement = 2;
   }
 
   unBlockPlayerMovement(){
-    this.blockedMovement = false;
+    // this.blockedMovement = false;
   }
 
   fightModeOn(){
@@ -227,6 +235,6 @@ class UIManager {
     });
     this.expandedMenuManager.onResize();
 
-    this.blockedMovement = false;
+    this.blockedMovement = 2;
   };
 }

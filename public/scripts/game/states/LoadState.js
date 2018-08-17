@@ -24,12 +24,13 @@ let LoadState = {
     this.loadText.fontSize = 25;
 
     /* assets for home state */
-    this.load.spritesheet("buttonStart","assets/homeState/buttonStart.png",200,100);
+    this.load.spritesheet("button","assets/homeState/button.png",200,100);
     this.load.image("scrollbar_top","assets/homeState/scrollbar_top.png");
+    this.load.image("background_homeState","assets/homeState/background_homeState.png");
     this.load.image("scrollbar_bottom","assets/homeState/scrollbar_bottom.png");
     this.load.image("scrollbar_middle","assets/homeState/scrollbar_middle.png");
     this.load.image("scrollbar_wheel","assets/homeState/scrollbar_wheel.png");
-    this.load.spritesheet("smallCheckBox","assets/homeState/smallCheckBox.png",30,30);
+    this.load.spritesheet("checkbox_avatars","assets/homeState/checkbox_avatars.png",40,40);
     /* end of assets for home state */
 
     // player avatars //
@@ -54,6 +55,7 @@ let LoadState = {
     this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.tilemap("secondMap","assets/maps/secondMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
+    this.load.spritesheet("door_to_map", "assets/maps/door_to_map.png",30,46);
     this.load.image("house1", "assets/house1.png");
     this.load.image("collisionSquare", "assets/collisionSquare.png");
 

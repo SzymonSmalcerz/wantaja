@@ -11,9 +11,17 @@ let GameState = {
 
     this.setRenderingOrder();
     this.sortEntities();
-    this.uiManager.showTownAlert(this.mapManager.mapName);
+    this.uiManager.showTownAlert(this.player.currentMapName);
     handler.socketsManager.sendToServerInitializedInfo();
 
+  },
+  changeMap() {
+    this.uiManager.onChangeMap();
+    this.fightWithOpponentManager.onChangeMap();
+    this.mapManager.onChangeMap();
+    this.setRenderingOrder();
+    this.sortEntities();
+    this.uiManager.showTownAlert(this.player.currentMapName);
   },
   update : function() {
     this.physics.arcade.collide(this.colliders, this.player);
@@ -93,7 +101,7 @@ let GameState = {
     this.player.emitData(handler);
   },
   initializeMap() {
-    this.mapManager = new MapManager(this);
+    this.mapManager = this.mapManager || new MapManager(this);
     this.mapManager.initialize();
   },
   setCamera() {

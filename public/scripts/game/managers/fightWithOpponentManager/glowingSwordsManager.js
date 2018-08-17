@@ -9,6 +9,10 @@ class GlowingSwordsManager {
     this.group = this.state.glowingSwords;
   };
 
+  onChangeMap() {
+    this.state.glowingSwords.callAll('kill');
+  }
+
   addNewSword(entity) {
     let glowingSword = this.group.getFirstExists(false);
     if(!glowingSword){

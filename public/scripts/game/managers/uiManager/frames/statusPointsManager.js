@@ -1,20 +1,13 @@
 class StatusPointsManager extends UIFrameManager {
   constructor(state,uiManager){
-    super(state,uiManager,Phaser.Keyboard.C,'Status points');
+    super(state,uiManager,Phaser.Keyboard.C,'Status points','statusPoints');
     this.statusPointsNames = ["strength","vitality","intelligence","agility"];
   }
 
   initialize() {
-    this.getPositionsCoords();
     let state = this.state;
 
     state.statusPoints = this.frameGroup;
-    // state.statusPointsBackground = state.game.add.sprite(state.game.world.width/2,state.game.world.height/2,"statusPoints");
-    state.statusPointsBackground = state.game.add.sprite(this.posX,this.posY,"statusPoints");
-    state.statusPointsBackground.anchor.setTo(0.5);
-    this.uiManager.blockPlayerMovementsWhenOver(state.statusPointsBackground);
-    state.statusPoints.add(state.statusPointsBackground);
-
     // texts
     state.strengthText = state.add.text();
     state.strengthText_2 = state.add.text();
@@ -25,7 +18,7 @@ class StatusPointsManager extends UIFrameManager {
     state.vitalityText = state.add.text();
     state.vitalityText_2 = state.add.text();
     state.leftStatusPointsText = state.add.text();
-    state.leftStatusPointsText.anchor.setTo(0.5);
+    state.leftStatusPointsText.anchor.setTo(0,0.5);
 
     this.state.styleText(state.strengthText);
     this.state.styleText(state.agilityText);
@@ -49,12 +42,6 @@ class StatusPointsManager extends UIFrameManager {
 
     //end of text
 
-    state.statusPointsCloseButton = new Button(this.state.game,this.posX + 83, this.posY - 128,"closeButton",0,1,2,3);
-    state.statusPoints.add(state.statusPointsCloseButton);
-    this.uiManager.blockPlayerMovementsWhenOver(state.statusPointsCloseButton,true);
-    state.statusPointsCloseButton.addOnInputDownFunction(function(){
-      this.toggleWindow();
-    },this);
 
     state.statusPoints.plusButtons = [];
 
@@ -146,8 +133,8 @@ class StatusPointsManager extends UIFrameManager {
     state.agilityText_2.reset(this.positions.questionMark.x-10,this.positions.questionMark.y - 40 + this.positions.questionMark.difference * 3);
     state.agilityText_2.text = 'agility';
 
-    state.leftStatusPointsText.reset(this.posX,this.posY - 110);
-    state.leftStatusPointsText.text = "left points to add: " + this.state.player.leftStatusPoints;
+    state.leftStatusPointsText.reset(Math.round(this.frameTitle.x - this.frameTitle.width/2),this.posY - 105);
+    state.leftStatusPointsText.text = "left points: " + this.state.player.leftStatusPoints;
 
   }
 
@@ -196,8 +183,6 @@ class StatusPointsManager extends UIFrameManager {
     for(let i=0;i<this.statusPointsNames.length;i++){
       state.statusPoints.plusButtons[i].reset(this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference);
     };
-    state.statusPointsBackground.reset(this.posX,this.posY);
-    state.statusPointsCloseButton.reset(this.posX + 143, this.posY - 150);
     super.onResize();
   };
 }

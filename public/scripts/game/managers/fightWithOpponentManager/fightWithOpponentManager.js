@@ -18,6 +18,10 @@ class FightWithOpponentManager {
     this.onResize();
   };
 
+  onChangeMap() {
+    this.glowingSwordsManager.onChangeMap();
+  }
+
   updateStageUI() {
     this.fightingStageUIManager.updateStageUI();
   }
