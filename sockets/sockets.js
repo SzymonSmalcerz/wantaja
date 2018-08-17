@@ -146,11 +146,10 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("changeMap", function(data) {
-    console.log(data);
     dm.allMaps[dm.findMapNameByPlayerId[data.id]].removePlayer(data.id);
     dm.allLoggedPlayersData[data.id].currentMapName = data.mapName;
     dm.findMapNameByPlayerId[data.id] = data.mapName;
-    dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
+    // dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
     dm.allLoggedPlayersData[data.id].active = true;
     dm.socketsOfPlayers[data.id].emit('changedMap', {
       mapName : dm.findMapNameByPlayerId[data.id],

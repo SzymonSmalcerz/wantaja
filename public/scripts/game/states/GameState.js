@@ -16,12 +16,14 @@ let GameState = {
 
   },
   changeMap() {
-    this.uiManager.onChangeMap();
-    this.fightWithOpponentManager.onChangeMap();
-    this.mapManager.onChangeMap();
-    this.setRenderingOrder();
-    this.sortEntities();
-    this.uiManager.showTownAlert(this.player.currentMapName);
+    this.game.world.removeAll();
+    // this.uiManager.onChangeMap();
+    // this.fightWithOpponentManager.onChangeMap();
+    // this.mapManager.onChangeMap();
+    // this.setRenderingOrder();
+    // this.sortEntities();
+    // this.uiManager.showTownAlert(this.player.currentMapName);
+    this.game.state.start("GameState");
   },
   update : function() {
     this.physics.arcade.collide(this.colliders, this.player);

@@ -16,7 +16,6 @@ class MapManager {
     this.state.allEntities.enableBody = true;
     this.state.allEntities.objects = {};
     this.state.allEntities.enemies = {};
-
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
     this.state.floor = this.state.map.createLayer("Ground");
