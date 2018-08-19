@@ -1,6 +1,8 @@
 
 let GameState = {
   create : function(){
+
+    this.game.world.removeAll();
     this.smoothed = false;
     handler.currentState = this;
     this.initializeMap();
@@ -16,7 +18,7 @@ let GameState = {
 
   },
   changeMap() {
-    this.game.world.removeAll();
+    // this.game.world.removeAll();
     // this.uiManager.onChangeMap();
     // this.fightWithOpponentManager.onChangeMap();
     // this.mapManager.onChangeMap();
