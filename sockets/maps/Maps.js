@@ -10,6 +10,7 @@ class Map {
     this.dataToSend = {};
     this.mobsDataToSend = {};
     this.mobs = {};
+    this.nextMaps = {};
     this.respMobs();
   }
 
@@ -157,12 +158,28 @@ class Map {
 class FirstMap extends Map {
   constructor() {
     super("firstMap");
+    this.nextMaps = {
+      'secondMap' : {
+        doorX : 2,
+        doorY : 230,
+        playerX : 290,
+        playerY : 40
+      }
+    };
   }
 };
 
 class SecondMap extends Map {
   constructor() {
     super("secondMap");
+    this.nextMaps = {
+      'firstMap' : {
+        doorX : 290,
+        doorY : 2,
+        playerX : 40,
+        playerY : 230
+      }
+    };
   }
 
   respMobs() {

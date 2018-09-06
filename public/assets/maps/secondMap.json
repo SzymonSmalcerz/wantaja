@@ -1200,7 +1200,7 @@
                  "visible":true,
                  "width":100,
                  "x":862.5,
-                 "y":1030.83333333333
+                 "y":1030.83
                 }, 
                 {
                  "height":40,
@@ -1273,7 +1273,7 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":940.333333333333,
+                 "x":940.333,
                  "y":1099
                 }, 
                 {
@@ -1310,8 +1310,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":848.333333333333,
-                 "y":1103.33333333333
+                 "x":848.333,
+                 "y":1103.33
                 }, 
                 {
                  "height":96,
@@ -1347,8 +1347,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":741.333333333333,
-                 "y":1094.66666666667
+                 "x":741.333,
+                 "y":1094.67
                 }, 
                 {
                  "height":96,
@@ -1384,8 +1384,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":572.666666666667,
-                 "y":1094.16666666667
+                 "x":572.667,
+                 "y":1094.17
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1413,10 +1413,10 @@
                  "visible":true,
                  "width":60,
                  "x":592,
-                 "y":1111.66666666667
+                 "y":1111.67
                 }, 
                 {
-                 "height":34.6666666666665,
+                 "height":34.6667,
                  "id":170,
                  "name":"pig",
                  "properties":[
@@ -1453,9 +1453,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":36.6666666666666,
+                 "width":36.6667,
                  "x":769.833,
-                 "y":1122.83333333333
+                 "y":1122.83
                 }, 
                 {
                  "height":87,
@@ -1500,7 +1500,7 @@
                  "y":1229
                 }, 
                 {
-                 "height":485.727306060606,
+                 "height":485.727,
                  "id":230,
                  "name":"cow",
                  "properties":[
@@ -1542,12 +1542,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":364.939393939394,
-                 "x":46.3181818181815,
-                 "y":369.257559090909
+                 "width":364.939,
+                 "x":46.3182,
+                 "y":369.258
                 }, 
                 {
-                 "height":740.272760606061,
+                 "height":740.273,
                  "id":231,
                  "name":"cow",
                  "properties":[
@@ -1589,9 +1589,37 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":1074.0303030303,
-                 "x":512.984848484848,
-                 "y":14.7121045454545
+                 "width":1074.03,
+                 "x":512.985,
+                 "y":14.7121
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":17,
+         "name":"Doors",
+         "objects":[
+                {
+                 "height":46,
+                 "id":233,
+                 "name":"door",
+                 "properties":[
+                        {
+                         "name":"nextMapName",
+                         "type":"string",
+                         "value":"firstMap"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30,
+                 "x":290,
+                 "y":2
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1683,7 +1711,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":90.6663000000001,
+                 "width":90.6663,
                  "x":1354.17,
                  "y":1037.83
                 }, 
@@ -1705,7 +1733,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":82.3330000000001,
+                 "width":82.333,
                  "x":1368.5,
                  "y":1292.5
                 }, 
@@ -1727,7 +1755,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":81.3330000000001,
+                 "width":81.333,
                  "x":1368.5,
                  "y":1436.5
                 }, 
@@ -1830,8 +1858,8 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":203.6663,
-                 "x":-11.3331499999999,
+                 "width":203.666,
+                 "x":-11.3331,
                  "y":1056.5
                 }],
          "opacity":1,
@@ -1840,8 +1868,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":17,
- "nextobjectid":232,
+ "nextlayerid":18,
+ "nextobjectid":234,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2018.06.01",

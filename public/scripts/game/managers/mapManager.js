@@ -4,7 +4,9 @@ class MapManager {
   }
 
   initialize() {
-    this.mapName = this.mapName || handler.playerData.currentMapName;
+  console.log(this.mapName);
+    this.mapName = handler.playerData.currentMapName;
+    console.log(this.mapName);
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
     this.state.allEntities.enableBody = true;
@@ -15,33 +17,24 @@ class MapManager {
     this.state.floor = this.state.map.createLayer("Ground");
     this.state.floor_2 = this.state.map.createLayer("Ground2");
     this.state.colliders = this.state.add.group();
-    this.state.doorToMap = new Button(this.state.game,50,50, "door_to_map",0,1,2,3)
-    this.state.allEntities.add(this.state.doorToMap);
-    this.state.doorToMap.addOnInputDownFunction(function(){
-      handler.socketsManager.emit("changeMap", {
-        mapName : "secondMap",
-        id : handler.playerData.id
-      })
-    },this);
-    // this.state.floor_2.layer.data.forEach((row,i) => {
-    //   row.forEach((val,index) => {
-    //     if(val.index > 3071) {
-    //       let sprite = this.state.game.add.sprite(val.x * 16,val.y * 16,"collisionSquare");
-    //       this.state.game.physics.enable(sprite);
-    //       this.state.colliders.add(sprite);
-    //       sprite.body.immovable = true;
-    //       sprite.alpha = 0;
-    //       // sprite.visible = trie;
-    //       // sprite.body.onCollide = new Phaser.Signal();
-    //       // sprite.body.onCollide.addOnce(function(){
-    //       //   this.visible = false;
-    //       // },sprite);
-    //       // sprite.alpha = 0.00;
-    //     }
-    //   });
-    // });
+
     this.state.floor.resizeWorld();
-    // this.state.map.setCollisionBetween(3072,4096,true,"Ground2");
+
+    for(let i=0;i<this.state.map.objects["Doors"].length;i++) {
+      let doorToMap = new Button(this.state.game,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3)
+      this.state.allEntities.add(doorToMap);
+      let properites = {};
+      this.state.map.objects["Doors"][i].properties.forEach(property => {
+        properites[property.name] = property.value;
+      });
+      doorToMap.addOnInputDownFunction(function(){
+        handler.socketsManager.emit("changeMap", {
+          mapName : properites['nextMapName'],
+          id : handler.playerData.id
+        })
+      },this);
+    }
+
     this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Entities"].length;i++){
       let newObjData = {};

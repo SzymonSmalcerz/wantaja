@@ -155,16 +155,32 @@ let socketHandler = (socket, io) => {
     dm.allLoggedPlayersData[data.id].active = true;
   });
 
+  let doorWidth = 30;
+  let doorHeight = 46;
+  let xDifference;
+  let yDifference;
+  let map;
   socket.on("changeMap", function(data) {
-    dm.allMaps[dm.findMapNameByPlayerId[data.id]].removePlayer(data.id);
-    dm.allLoggedPlayersData[data.id].currentMapName = data.mapName;
-    dm.findMapNameByPlayerId[data.id] = data.mapName;
-    dm.allLoggedPlayersData[data.id].active = true;
-    dm.socketsOfPlayers[data.id].emit('changedMap', {
-      mapName : dm.findMapNameByPlayerId[data.id],
-      playerX : 500,
-      playerY : 500
-    });
+    map = dm.allMaps[dm.findMapNameByPlayerId[data.id]];
+    //check if this door is registered for this map
+    if(map && map.nextMaps[data.mapName]){
+      xDifference = dm.allLoggedPlayersData[data.id].x - map.nextMaps[data.mapName].doorX;
+      yDifference = dm.allLoggedPlayersData[data.id].y - map.nextMaps[data.mapName].doorY;
+      //check if player is in range of the door
+      if(Math.abs(xDifference) < 100 && Math.abs(yDifference) < 100) {
+        map.removePlayer(data.id);
+        dm.allLoggedPlayersData[data.id].currentMapName = data.mapName;
+        dm.findMapNameByPlayerId[data.id] = data.mapName;
+        dm.allLoggedPlayersData[data.id].active = true;
+        dm.socketsOfPlayers[data.id].emit('changedMap', {
+          mapName : dm.findMapNameByPlayerId[data.id],
+          playerX : map.nextMaps[data.mapName].playerX,
+          playerY : map.nextMaps[data.mapName].playerY
+        });
+      }
+    } else {
+      console.log(`map with name ${data.mapName} is not registered !!!!`);
+    }
   });
 
   socket.on("initFight", function(data){
