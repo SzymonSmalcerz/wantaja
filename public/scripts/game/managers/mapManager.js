@@ -12,11 +12,12 @@ class MapManager {
     this.state.allEntities.enemies = {};
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
-    this.state.floor = this.state.map.createLayer("Ground");
+    this.state.background = this.state.game.add.sprite(0, 0,"grass");
+    // this.state.floor = this.state.map.createLayer("Ground");
     // this.state.floor_2 = this.state.map.createLayer("Ground2");
     this.state.colliders = this.state.add.group();
 
-    this.state.floor.resizeWorld();
+    this.state.game.world.resize(1600,1600);
 
     for(let i=0;i<this.state.map.objects["Doors"].length;i++) {
       let doorToMap = new Button(this.state.game,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3)
@@ -94,8 +95,8 @@ class MapManager {
   };
 
   onResize(width, height) {
-    this.state.floor.resize(width,height);
-    this.state.floor_2.resize(width,height);
+    // this.state.floor.resize(width,height);
+    // this.state.floor_2.resize(width,height);
     // this.state.walls.resize(width,height);
     this.state.allEntities.setAll("smoothed",false);
   };

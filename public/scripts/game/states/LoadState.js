@@ -56,6 +56,7 @@ let LoadState = {
     this.load.tilemap("secondMap","assets/maps/secondMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
     this.load.spritesheet("door_to_map", "assets/maps/door_to_map.png",30,46);
+    this.load.image("grass", "assets/maps/grass.png");
     this.load.image("house1", "assets/house1.png");
     this.load.image("collisionSquare", "assets/collisionSquare.png");
 
