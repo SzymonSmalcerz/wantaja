@@ -1,12 +1,6 @@
 class MapManager {
   constructor(state) {
     this.state = state;
-    // this.mapName = "secondMap";
-  }
-
-  onChangeMap() {
-    this.mapName = handler.player.currentMapName;
-    this.initialize();
   }
 
   initialize() {

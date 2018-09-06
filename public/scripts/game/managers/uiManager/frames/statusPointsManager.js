@@ -88,7 +88,6 @@ class StatusPointsManager extends UIFrameManager {
       },this);
     }
 
-    state.statusPoints.fixedToCamera = true;
     this.onResize();
     this.hideWindow();
   }

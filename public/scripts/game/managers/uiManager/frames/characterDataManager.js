@@ -44,7 +44,6 @@ class CharacterDataManager extends UIFrameManager{
     this.addTextToGroup();
     this.addQuestionMarksToGroup();
     this.addDescriptionsToGroup();
-    state.characterData.fixedToCamera = true;
     this.hideWindow();
   }
 

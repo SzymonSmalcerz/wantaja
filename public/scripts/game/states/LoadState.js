@@ -97,6 +97,7 @@ let LoadState = {
 
     /* frames */
     this.load.image("frame", "assets/UI/frame.png");
+    this.load.image("equipmentFrame", "assets/UI/equipmentFrame.png");
 
     /* status points */
     this.load.image("statusPoints", "assets/UI/statusPoints.png");

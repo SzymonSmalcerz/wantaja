@@ -6,16 +6,13 @@ class UIManager {
     this.statusPointsManager = new StatusPointsManager(state,this);
     this.characterDataManager = new CharacterDataManager(state,this);
     this.settingsManager = new SettingsManager(state,this);
+    this.equipmentManager = new EquipmentManager(state,this);
 
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.alertManager = new AlertManager(this);
     // this.blockedMovement = false;
     this.fightMode = false;
     this.blockedMovement = 2;
-  }
-
-  onChangeMap(){
-    this.entityDescriptionsManager.onChangeMap();
   }
 
   showTownAlert(text){
@@ -45,6 +42,7 @@ class UIManager {
     this.framesManagers.push(this.statusPointsManager);
     this.framesManagers.push(this.characterDataManager);
     this.framesManagers.push(this.settingsManager);
+    this.framesManagers.push(this.equipmentManager);
     let state = this.state;
 
     // uiTileSprite
@@ -120,7 +118,7 @@ class UIManager {
     this.entityDescriptionsManager.removeEnemyDescription(enemy);
   }
 
-  blockPlayerMovementsWhenOver(sprite,releaseWhenInputUp){
+  blockPlayerMovementsWhenOver(sprite){
     sprite.inputEnabled = true;
     sprite.events.onInputOver.add(function(){
       this.blockPlayerMovement();
@@ -128,22 +126,14 @@ class UIManager {
     sprite.events.onInputDown.add(function(){
       this.blockPlayerMovement();
     },this);
-    // sprite.events.onInputOut.add(function() {
-    //   this.unBlockPlayerMovement();
-    // },this);
-
-    // if(releaseWhenInputUp) {
-    //   sprite.events.onInputUp.add(function() {
-    //     this.unBlockPlayerMovement();
-    //   },this);
-    // }
-    // sprite.events.onInputUp.add(function() {
-    //   this.unBlockPlayerMovement();
-    // },this);
   }
 
   toggleStatusPointWindow() {
     this.statusPointsManager.toggleWindow();
+  }
+
+  toggleEquipmentWindow() {
+    this.equipmentManager.toggleWindow();
   }
 
   toggleCharacterDataWindow() {

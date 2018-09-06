@@ -1,6 +1,7 @@
 const User = require("../database/models/userModel");
 const { FirstMap, SecondMap } = require("./maps/Maps");
 const skills = require("./skills/skill");
+const equipment = require("./equipment/equipment");
 
 let dm = { // data manager, created to hold values for game purpose
   allLoggedPlayersData : {},
@@ -11,7 +12,7 @@ let dm = { // data manager, created to hold values for game purpose
     lastTime : 0,
     lastTimeForCheckingIfPlayersAreActive : 0
   },
-  fps : 5,
+  fps : 10,
   fightingMobs : [],
   skills : {
     "punch" : new skills.Punch,
@@ -22,16 +23,17 @@ let dm = { // data manager, created to hold values for game purpose
   },
   playerFunctions : {
     calculateMaxHp : function(player){
-      return (player.vitality + player.level + player.weapon.vitality) * 15 + 70;
+      return (player.vitality + player.level + player.additionalVitality) * 15 + 70;
     },
     calculateMaxMana : function(player){
-      return (player.intelligence + player.level) * 5;
+      return (player.intelligence + player.level + player.additionalIntelligence) * 5;
     },
     calculateAttack : function(player){
-      return (player.strength + player.level + player.weapon.strength) * 10 + player.weapon.attack;
+      // return (player.strength + player.level + player.additionalStrength) * 10 + player.weapon.attack;
+      return (player.strength + player.level + player.additionalStrength) * 10;
     },
     calculateDodge : function(player){
-      return (player.agility + player.weapon.agility)/player.level * 10;
+      return (player.agility + player.additionalAgility)/player.level * 10;
     },
     calculateRequiredExperience : function(player){
       return player.level * 150;;
@@ -102,19 +104,21 @@ let socketHandler = (socket, io) => {
         characterData.x = user.x;
         characterData.y = user.y;
         characterData.experience = user.experience;
-        characterData.weapon = user.weapon;
-        characterData.leftStatusPoints = dm.playerFunctions.calculateLeftStatusPoints(user);
+        characterData.equipmentCurrentlyDressed = user.equipmentCurrentlyDressed;
+        characterData.equipment = user.equipment;
+        characterData.currentWeaponKey = user.equipmentCurrentlyDressed ? user.equipmentCurrentlyDressed.weapon : null;
+        characterData.additionalAgility = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].agility : 0;
+        characterData.additionalStrength = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].strength : 0;
+        characterData.additionalIntelligence = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].intelligence : 0;
+        characterData.additionalVitality = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].vitality : 0;
 
-        characterData.maxHealth = dm.playerFunctions.calculateMaxHp(user);
-        characterData.maxMana = dm.playerFunctions.calculateMaxMana(user);
-        // characterData.maxMana = 200;
-        characterData.attack = dm.playerFunctions.calculateAttack(user);
-        characterData.requiredExperience = dm.playerFunctions.calculateRequiredExperience(user);
 
         characterData.strength = user.strength;
         characterData.vitality = user.vitality;
         characterData.intelligence = user.intelligence;
         characterData.agility = user.agility;
+
+
 
         characterData.key = user.key;
         characterData.gender = "male";
@@ -126,6 +130,12 @@ let socketHandler = (socket, io) => {
         dm.allLoggedPlayersData[characterData.id] = characterData;
         dm.allLoggedPlayersData[characterData.id].active = true;
         dm.findMapNameByPlayerId[characterData.id] = characterData.currentMapName;
+
+        characterData.maxHealth = dm.playerFunctions.calculateMaxHp(characterData);
+        characterData.maxMana = dm.playerFunctions.calculateMaxMana(characterData);
+        characterData.attack = dm.playerFunctions.calculateAttack(characterData);
+        characterData.requiredExperience = dm.playerFunctions.calculateRequiredExperience(characterData);
+        characterData.leftStatusPoints = dm.playerFunctions.calculateLeftStatusPoints(characterData);
 
         socket.emit("initialData",{
           characterData
@@ -149,7 +159,6 @@ let socketHandler = (socket, io) => {
     dm.allMaps[dm.findMapNameByPlayerId[data.id]].removePlayer(data.id);
     dm.allLoggedPlayersData[data.id].currentMapName = data.mapName;
     dm.findMapNameByPlayerId[data.id] = data.mapName;
-    // dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
     dm.allLoggedPlayersData[data.id].active = true;
     dm.socketsOfPlayers[data.id].emit('changedMap', {
       mapName : dm.findMapNameByPlayerId[data.id],

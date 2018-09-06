@@ -66,37 +66,59 @@ var userSchema = new mongoose.Schema({
     type : Number,
     default : 1
   },
-  key : {
-    type : String,
-    required : true,
-    default : "male_1lvl"
-  },
-  //every weapon has its own attack + can have some other bonuses which increase power of player
-  weapon : {
-    attack : {
-      type : Number,
-      default : 1
+  equipmentCurrentlyDressed : {
+    type : {
+      weapon : {
+        type : String,
+        required : true
+      },
+      helment : {
+        type : String,
+        required : true,
+        default : null
+      },
+      armor : {
+        type : String,
+        required : true,
+        default : null
+      },
+      special_1 : {
+        type : String,
+        required : true,
+        default : null
+      },
+      special_2 : {
+        type : String,
+        required : true,
+        default : null
+      },
+      boots : {
+        type : String,
+        required : true,
+        default : null
+      }
     },
-    strength : {
-      type : Number,
-      default : 0
-    },
-    intelligence : {
-      type : Number,
-      default : 0
-    },
-    vitality : {
-      type : Number,
-      default : 0
-    },
-    agility : {
-      type : Number,
-      default : 0
-    },
-    leftStatusPoints : {
-      type : Number,
-      default : 0
+    default : {
+      weapon : "sword_1",
+      helment : null,
+      armor : null,
+      special_1 : null,
+      special_2 : null,
+      boots : null
     }
+  },
+  equipment : {
+    type : [{
+      key : {
+        type : String,
+        required : true
+      },
+      type : {
+        type : String,
+        required : true
+      }
+    }],
+    default : []
   }
 });
 

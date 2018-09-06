@@ -101,7 +101,6 @@ class SocketsManager {
     });
 
     this.handler.socket.on("changedMap", function(data) {
-      console.log(data);
       handler.player.currentMapName = data.mapName;
       handler.player.reset(data.playerX, data.playerY);
       self.handler.currentState.changeMap();

@@ -14,11 +14,6 @@ class EntityDescriptionsManager {
     this.state.descriptions.add(this.playersDescriptions);
   };
 
-  onChangeMap() {
-    this.enemiesDescriptions.callAll('kill');
-    this.playersDescriptions.callAll('kill');
-  }
-
   hideEnemiesDescriptions() {
     this.enemiesDescriptions.visible = false;
   }

@@ -1,6 +1,6 @@
 class UIFrameManager {
   constructor(state,uiManager,keyboardButtonTriger,frameTitle,frameBackgroundKey) {
-    if(!state || !uiManager || !keyboardButtonTriger || !frameTitle){
+    if(!state || !uiManager || !keyboardButtonTriger){
       throw new Error("inherited class MUST provide state/uiManager/keyboardButtonTriger/frameTitle");
     }
     this.state = state;
@@ -10,22 +10,20 @@ class UIFrameManager {
     this.lastTime = 0;
     this.keyboardButtonTriger = keyboardButtonTriger;
     this.frameGroup = this.state.add.group();
+    this.frameGroup.fixedToCamera = true;
 
-    this.getPositionsCoords();
-    this.frameBackground = state.game.add.sprite(this.posX,this.posY,frameBackgroundKey || 'frame');
-    this.frameBackground.anchor.setTo(0.5);
-    this.uiManager.blockPlayerMovementsWhenOver(this.frameBackground);
-    this.frameGroup.add(this.frameBackground);
-
-    this.frameTitle = state.add.text();
-    this.frameTitle.anchor.setTo(0.5,0.5);
-    this.frameTitle.text = frameTitle;
-    this.state.styleText(this.frameTitle);
-    this.frameTitle.fontSize = 26;
-    while(this.frameTitle.width > 142) {
-      this.frameTitle.fontSize -= 1;
+    if(frameTitle) {
+      this.frameTitle = state.add.text();
+      this.frameTitle.anchor.setTo(0.5,0.5);
+      this.frameTitle.text = frameTitle;
+      this.state.styleText(this.frameTitle);
+      this.frameTitle.fontSize = 26;
+      while(this.frameTitle.width > 142) {
+        this.frameTitle.fontSize -= 1;
+      }
+      this.frameGroup.add(this.frameTitle);
     }
-    this.frameGroup.add(this.frameTitle);
+
 
 
     this.closeButton = new Button(this.state.game,this.posX + 83, this.posY - 128,"closeButton",0,1,2,3);
@@ -35,6 +33,12 @@ class UIFrameManager {
       this.hideWindow();
     },this);
 
+
+    this.getPositionsCoords();
+    this.frameBackground = state.game.add.sprite(this.posX,this.posY,frameBackgroundKey || 'frame');
+    this.frameBackground.anchor.setTo(0.5);
+    this.uiManager.blockPlayerMovementsWhenOver(this.frameBackground);
+    this.frameGroup.add(this.frameBackground);
   }
 
   initialize() {
@@ -43,9 +47,11 @@ class UIFrameManager {
 
   onResize() {
     this.frameBackground.reset(this.posX,this.posY);
-    // this.frameGroup.bringToTop(this.frameTitle);
-    this.frameTitle.reset(Math.round(this.state.game.width/2 - this.closeButton.width/2),Math.round(this.state.game.height/2 - 132));
-    // this.frameGroup.bringToTop(this.closeButton);
+    if(this.frameTitle) {
+      this.frameGroup.bringToTop(this.frameTitle);
+      this.frameTitle.reset(Math.round(this.state.game.width/2 - this.closeButton.width/2),Math.round(this.state.game.height/2 - 132));
+    }
+    this.frameGroup.bringToTop(this.closeButton);
     this.closeButton.reset(this.posX + this.frameBackground.width/2 - this.closeButton.width/2, this.posY - this.frameBackground.height/2 + this.closeButton.height/2 + 2);
     this.bringToTop();
     this.hideWindow();

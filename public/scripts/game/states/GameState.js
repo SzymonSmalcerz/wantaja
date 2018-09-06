@@ -1,8 +1,5 @@
-
 let GameState = {
-  create : function(){
-
-    this.game.world.removeAll();
+  create : function() {
     this.smoothed = false;
     handler.currentState = this;
     this.initializeMap();
@@ -10,7 +7,6 @@ let GameState = {
     this.initUI();
     this.initFightWithOpponentManager();
     this.initMoveManager();
-
     this.setRenderingOrder();
     this.sortEntities();
     this.uiManager.showTownAlert(this.player.currentMapName);
@@ -18,13 +14,7 @@ let GameState = {
 
   },
   changeMap() {
-    // this.game.world.removeAll();
-    // this.uiManager.onChangeMap();
-    // this.fightWithOpponentManager.onChangeMap();
-    // this.mapManager.onChangeMap();
-    // this.setRenderingOrder();
-    // this.sortEntities();
-    // this.uiManager.showTownAlert(this.player.currentMapName);
+    this.game.world.removeAll();
     this.game.state.start("GameState");
   },
   update : function() {
@@ -64,7 +54,6 @@ let GameState = {
     this.game.world.bringToTop(this.fightingStage);
     this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.ui);
-
     this.game.world.bringToTop(this.skillDescriptions);
     this.game.world.bringToTop(this.wonAlert);
   },

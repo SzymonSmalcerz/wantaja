@@ -18,6 +18,9 @@ let Player = function(game,data) {
     skillName : "health",
     onPlayer : true
   }];
+  this.equipmentCurrentlyDressed = data.equipmentCurrentlyDressed;
+  this.equipment = data.equipment;
+
   this.currentMapName = data.currentMapName;
   this.health = data.health || 10;
   this.maxHealth = data.maxHealth || 19;
@@ -51,7 +54,7 @@ let Player = function(game,data) {
   this.body.offset.x = 22;
   this.body.height = 20;
   this.body.offset.y = 44;
-  let howManyAnimationsPerSec = 5;
+  let howManyAnimationsPerSec = 10;
   this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], howManyAnimationsPerSec);
   this.animations.add("goRight", [27,28,29,30,31,32,33,34,35], howManyAnimationsPerSec);
   this.animations.add("goUp", [0,1,2,3,4,5,6,7,8], howManyAnimationsPerSec);

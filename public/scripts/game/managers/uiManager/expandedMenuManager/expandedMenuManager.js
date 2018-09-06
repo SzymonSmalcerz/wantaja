@@ -24,6 +24,10 @@ class ExpandedMenuManager {
     },this);
     this.uiManager.blockPlayerMovementsWhenOver(this.characterDataIcon,true);
     this.eqIcon = new Button(state.game,state.game.width-205,state.game.height-147,"eqIcon",0,1,2,3);
+    this.eqIcon.addOnInputDownFunction(function() {
+      this.uiManager.toggleEquipmentWindow();
+      this.closeExpandedMenu();
+    },this);
     this.uiManager.blockPlayerMovementsWhenOver(this.eqIcon,true);
     this.statusIcon = new Button(state.game,state.game.width-150,state.game.height-147,"statusIcon",0,1,2,3);
     this.statusIcon.addOnInputDownFunction(function() {
@@ -66,6 +70,11 @@ class ExpandedMenuManager {
     this.state.expandArrow.uncheck();
   }
 
+  bringToTop() {
+    this.state.game.world.bringToTop(this.expandedMenu);
+    this.state.game.world.bringToTop(this.state.expandArrow);
+  }
+
   onResize() {
     let state = this.state;
     state.expandArrow.reset(state.game.width-60,state.game.height-60);
@@ -74,6 +83,7 @@ class ExpandedMenuManager {
     this.statusIcon.reset(state.game.width-150,state.game.height-147);
     this.missionsIcon.reset(state.game.width-95,state.game.height-147);
     this.backgroundIcons.reset(state.game.width-300,state.game.height-170);
+    this.bringToTop();
     this.closeExpandedMenu();
   }
 

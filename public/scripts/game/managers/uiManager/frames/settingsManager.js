@@ -25,9 +25,6 @@ class SettingsManager extends UIFrameManager {
     this.frameGroup.add(this.checkBox);
     this.frameGroup.add(this.enemiesDescriptionsText);
 
-    this.frameGroup.fixedToCamera = true;
-
-
     this.settingsButton = new Button(state.game,0,0,"settingsButton",0,1,2,3);
     this.settingsButton.anchor.setTo(0);
     this.settingsButton.addOnInputDownFunction(function(){
