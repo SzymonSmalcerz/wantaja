@@ -4,9 +4,7 @@ class MapManager {
   }
 
   initialize() {
-  console.log(this.mapName);
     this.mapName = handler.playerData.currentMapName;
-    console.log(this.mapName);
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
     this.state.allEntities.enableBody = true;
@@ -15,7 +13,7 @@ class MapManager {
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
     this.state.floor = this.state.map.createLayer("Ground");
-    this.state.floor_2 = this.state.map.createLayer("Ground2");
+    // this.state.floor_2 = this.state.map.createLayer("Ground2");
     this.state.colliders = this.state.add.group();
 
     this.state.floor.resizeWorld();
@@ -23,6 +21,7 @@ class MapManager {
     for(let i=0;i<this.state.map.objects["Doors"].length;i++) {
       let doorToMap = new Button(this.state.game,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3)
       this.state.allEntities.add(doorToMap);
+      doorToMap.anchor.setTo(0);
       let properites = {};
       this.state.map.objects["Doors"][i].properties.forEach(property => {
         properites[property.name] = property.value;
