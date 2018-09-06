@@ -11,7 +11,7 @@ let dm = { // data manager, created to hold values for game purpose
     lastTime : 0,
     lastTimeForCheckingIfPlayersAreActive : 0
   },
-  fps : 8,
+  fps : 5,
   fightingMobs : [],
   skills : {
     "punch" : new skills.Punch,

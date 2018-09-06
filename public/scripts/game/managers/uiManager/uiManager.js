@@ -122,9 +122,9 @@ class UIManager {
 
   blockPlayerMovementsWhenOver(sprite,releaseWhenInputUp){
     sprite.inputEnabled = true;
-    // sprite.events.onInputOver.add(function(){
-    //   this.blockPlayerMovement();
-    // },this);
+    sprite.events.onInputOver.add(function(){
+      this.blockPlayerMovement();
+    },this);
     sprite.events.onInputDown.add(function(){
       this.blockPlayerMovement();
     },this);

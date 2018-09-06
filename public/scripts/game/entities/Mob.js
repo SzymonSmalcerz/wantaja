@@ -14,7 +14,7 @@ let Mob = function(state,data) {
   this.chanceOfDoingSpecialAction = data.chanceOfDoingSpecialAction || 0.55;
   this.changeTime = data.changeTime || 5000;
   this.state.game.add.existing(this);
-  this.howManyAnimationsPerSec = data.howManyAnimationsPerSec || 10;
+  this.howManyAnimationsPerSec = data.howManyAnimationsPerSec || 5;
   this.actions = ["goLeft","goRight","goUp","goDown","specialAction"];
   this.currentAction = "goLeft";
   if(data.specialActionArray) {

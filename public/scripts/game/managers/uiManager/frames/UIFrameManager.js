@@ -11,6 +11,12 @@ class UIFrameManager {
     this.keyboardButtonTriger = keyboardButtonTriger;
     this.frameGroup = this.state.add.group();
 
+    this.getPositionsCoords();
+    this.frameBackground = state.game.add.sprite(this.posX,this.posY,frameBackgroundKey || 'frame');
+    this.frameBackground.anchor.setTo(0.5);
+    this.uiManager.blockPlayerMovementsWhenOver(this.frameBackground);
+    this.frameGroup.add(this.frameBackground);
+
     this.frameTitle = state.add.text();
     this.frameTitle.anchor.setTo(0.5,0.5);
     this.frameTitle.text = frameTitle;
@@ -29,12 +35,6 @@ class UIFrameManager {
       this.hideWindow();
     },this);
 
-
-    this.getPositionsCoords();
-    this.frameBackground = state.game.add.sprite(this.posX,this.posY,frameBackgroundKey || 'frame');
-    this.frameBackground.anchor.setTo(0.5);
-    this.uiManager.blockPlayerMovementsWhenOver(this.frameBackground);
-    this.frameGroup.add(this.frameBackground);
   }
 
   initialize() {
@@ -43,9 +43,9 @@ class UIFrameManager {
 
   onResize() {
     this.frameBackground.reset(this.posX,this.posY);
-    this.frameGroup.bringToTop(this.frameTitle);
+    // this.frameGroup.bringToTop(this.frameTitle);
     this.frameTitle.reset(Math.round(this.state.game.width/2 - this.closeButton.width/2),Math.round(this.state.game.height/2 - 132));
-    this.frameGroup.bringToTop(this.closeButton);
+    // this.frameGroup.bringToTop(this.closeButton);
     this.closeButton.reset(this.posX + this.frameBackground.width/2 - this.closeButton.width/2, this.posY - this.frameBackground.height/2 + this.closeButton.height/2 + 2);
     this.bringToTop();
     this.hideWindow();
