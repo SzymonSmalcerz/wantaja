@@ -7,7 +7,7 @@ let Mob = function(state,data) {
   let y = Math.floor(Math.random() * data.height + data.y);
   Phaser.Sprite.call(this,state.game,x,y,data.key);
   this.state = state;
-  this.speed = 2;
+  this.speed = 1;
   this.anchor.setTo(0.5);
   this.specialTime = data.specialTime;
 
@@ -42,7 +42,6 @@ Mob.prototype.goUp = function() {
   }
   this.y -= this.speed;
   this.animations.play("goUp");
-  this.state.changeRenderOrder(this);
 };
 
 Mob.prototype.goDown = function() {
@@ -52,7 +51,6 @@ Mob.prototype.goDown = function() {
   }
   this.y += this.speed;
   this.animations.play("goDown");
-  this.state.changeRenderOrder(this);
 };
 
 Mob.prototype.goRight = function() {
@@ -62,7 +60,6 @@ Mob.prototype.goRight = function() {
   }
   this.x += this.speed;
   this.animations.play("goRight");
-  // this.state.changeRenderOrder(this);
 };
 
 Mob.prototype.goLeft = function() {
@@ -72,7 +69,6 @@ Mob.prototype.goLeft = function() {
   }
   this.x -= this.speed;
   this.animations.play("goLeft");
-  // this.state.changeRenderOrder(this);
 };
 
 Mob.prototype.specialAction = function() {

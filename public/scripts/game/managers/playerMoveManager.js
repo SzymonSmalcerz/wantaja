@@ -104,19 +104,19 @@ class PlayerMoveManager {
       if(this.cursors.up.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.W)) {
         this.playerMoveList = [];
         this.state.player.goUp();
-        this.state.changeRenderOrder(this.state.player);
+        // this.state.changeRenderOrder(this.state.player);
       } else if(this.cursors.down.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
         this.playerMoveList = [];
         this.state.player.goDown();
-        this.state.changeRenderOrder(this.state.player);
+        // this.state.changeRenderOrder(this.state.player);
       }  else if(this.cursors.left.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.A)) {
         this.playerMoveList = [];
         this.state.player.goLeft();
-        this.state.changeRenderOrder(this.state.player);
+        // this.state.changeRenderOrder(this.state.player);
       }  else if(this.cursors.right.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
         this.playerMoveList = [];
         this.state.player.goRight();
-        this.state.changeRenderOrder(this.state.player);
+        // this.state.changeRenderOrder(this.state.player);
       } else if(this.playerMoveList.length > 0){
         let move = this.playerMoveList.pop();
 
@@ -131,7 +131,7 @@ class PlayerMoveManager {
         };
 
 
-        this.state.changeRenderOrder(this.state.player);
+        // this.state.changeRenderOrder(this.state.player);
       } else {
         this.state.player.frame = 19;
         this.state.player.animations.stop();

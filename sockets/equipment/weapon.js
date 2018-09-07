@@ -12,13 +12,14 @@ let weaponArray = [
   {
     minAttack : 6,
     maxAttack : 10,
-    key : "sword_1",
+    key : "weapon_1",
+    strength : 1,
     requiredLevel : 1
   },
   {
     minAttack : 11,
     maxAttack : 15,
-    key : "sword_2",
+    key : "weapon_2",
     strength : 2,
     requiredLevel : 5
   }

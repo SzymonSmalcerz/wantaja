@@ -5,9 +5,21 @@ class EquipmentManager extends UIFrameManager {
   }
 
   initialize() {
-    // let state = this.state;
-    // state.optionsManager = this.frameGroup;
-    //
+    let state = this.state;
+    state.equipmentManager = this.frameGroup;
+    console.log(this.state.player.equipmentCurrentlyDressed);
+    this.getPositionsCoords();
+    this.dressedUpEq = {};
+    let arr = ['weapon'];
+    arr.forEach(type => {
+      let key = this.state.player.equipmentCurrentlyDressed[type];
+      if(key) {
+        this.dressedUpEq[type] = this.state.game.add.sprite(this.positions[type].x,this.positions[type].y, key);
+        this.frameGroup.add(this.dressedUpEq[type]);
+      }
+    });
+
+
     // this.checkBox = new CheckBox(this.state.game,0,0,true,0,1,2,3,4,5,6,7);
     // this.uiManager.blockPlayerMovementsWhenOver(this.checkBox);
     // this.number = 0;
@@ -23,19 +35,6 @@ class EquipmentManager extends UIFrameManager {
     // this.enemiesDescriptionsText.text = "show enemies\ndescriptions:"
     // this.state.styleText(this.enemiesDescriptionsText);
     // this.frameGroup.add(this.checkBox);
-    // this.frameGroup.add(this.enemiesDescriptionsText);
-    //
-    // this.frameGroup.fixedToCamera = true;
-    //
-    //
-    // this.settingsButton = new Button(state.game,0,0,"settingsButton",0,1,2,3);
-    // this.settingsButton.anchor.setTo(0);
-    // this.settingsButton.addOnInputDownFunction(function(){
-    //   this.toggleWindow();
-    // },this);
-    // this.uiManager.blockPlayerMovementsWhenOver(this.settingsButton);
-    // this.uiManager.addToGroup(this.settingsButton);
-
     this.hideWindow();
     this.onResize();
   }
@@ -44,6 +43,10 @@ class EquipmentManager extends UIFrameManager {
   getPositionsCoords() {
     super.getPositionsCoords();
     this.positions = {
+      weapon : {
+        x : this.posX - 75,
+        y : this.posY - 100
+      }
     }
   }
 

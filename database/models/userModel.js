@@ -87,7 +87,7 @@ var userSchema = new mongoose.Schema({
         required : true,
         default : null
       },
-      special_2 : {
+      shield : {
         type : String,
         required : true,
         default : null
@@ -99,9 +99,9 @@ var userSchema = new mongoose.Schema({
       }
     },
     default : {
-      weapon : "sword_1",
+      weapon : "weapon_1",
       helment : null,
-      armor : null,
+      armor : "armor_1",
       special_1 : null,
       special_2 : null,
       boots : null

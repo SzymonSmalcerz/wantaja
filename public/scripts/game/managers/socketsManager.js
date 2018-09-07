@@ -36,6 +36,10 @@ class SocketsManager {
       self.handler.currentState.player.quitFightingMode();
     })
 
+    this.handler.socket.on("alert", function(data) {
+      self.handler.currentState.uiManager.showAlert(data.message);
+    })
+
     this.handler.socket.on("initialMapData", function(data) {
       for(let playerID in data.players) {
         if(data.players.hasOwnProperty(playerID)){
@@ -77,12 +81,10 @@ class SocketsManager {
       if (!enemy) {
         return;
       };
-
       self.handler.currentState.fightWithOpponentManager.initFight(enemy);
     });
 
-    this.handler.socket.on("fightMove", function(data){
-      console.log(data);
+    this.handler.socket.on("fightMove", function(data) {
       self.handler.currentState.player.mana = data.playerMana;
       self.handler.currentState.fightWithOpponentManager.animateEnemySkill(data);
       self.handler.currentState.fightWithOpponentManager.updateEnemyHealth(data.enemyHealth);
@@ -103,6 +105,7 @@ class SocketsManager {
     this.handler.socket.on("changedMap", function(data) {
       handler.player.currentMapName = data.mapName;
       handler.playerData.currentMapName = data.mapName;
+      handler.backgroundsData = data.mapBackgrounds;
       handler.player.reset(data.playerX, data.playerY);
       self.handler.currentState.changeMap();
     });

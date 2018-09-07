@@ -67,8 +67,8 @@ class Skill {
   }
 
   getPositionsCoords() {
-    this.posX = this.state.game.width/2;
-    this.posY = this.state.game.height/2;
+    this.posX = Math.round(this.state.game.width/2);
+    this.posY = Math.round(this.state.game.width/2);
     this.positions = {
       effectText : {
         x : this.posX - 55,

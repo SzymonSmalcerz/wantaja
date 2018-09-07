@@ -10,6 +10,17 @@ let LoadState = {
     this.progressBarFull.anchor.setTo(0.5);
     this.load.setPreloadSprite(this.progressBarFull);
     this.loadText = this.add.text(this.game.world.centerX, this.game.world.centerY - 100);
+
+    // testowy kwadrat sluzacy do testowania .. :D
+    this.load.image("test_50","assets/test_50.png");
+
+    let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots"];
+    let allEquipmentVersions = ["_1","_2"];
+    allEquipmentTypes.forEach(type => {
+      allEquipmentVersions.forEach(version => {
+        this.load.spritesheet(`${type}${version}`,`assets/equipment/${type}${version}.png`,50,50);
+      })
+    })
     let textCss = {
       font : "20px bold",
       fontWeight : "900",
@@ -56,7 +67,10 @@ let LoadState = {
     this.load.tilemap("secondMap","assets/maps/secondMap.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
     this.load.spritesheet("door_to_map", "assets/maps/door_to_map.png",30,46);
+    this.load.spritesheet("changeMapButton","assets/maps/changeMapButton.png",50,50);
     this.load.image("grass", "assets/maps/grass.png");
+    this.load.image("firstMapBackground", "assets/maps/firstMapBackground.png");
+    this.load.image("secondMapBackground", "assets/maps/secondMapBackground.png");
     this.load.image("house1", "assets/house1.png");
     this.load.image("collisionSquare", "assets/collisionSquare.png");
 
@@ -122,8 +136,8 @@ let LoadState = {
     this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
     this.load.spritesheet("fightSwords","assets/fight/fightSwords.png",32,32);
-    this.load.spritesheet("fightInitButton","assets/fight/fightInitButton.png",48,48);
-    this.load.spritesheet("fightAbortButton","assets/fight/fightAbortButton.png",48,48);
+    this.load.spritesheet("fightInitButton","assets/fight/fightInitButton.png",50,50);
+    // this.load.spritesheet("closeButton","assets/fight/abortButton.png",48,48);
     this.load.spritesheet("skill_health","assets/fight/skills/skill_health.png",48,48);
     this.load.spritesheet("skill_ignite","assets/fight/skills/skill_ignite.png",48,48);
     this.load.spritesheet("skill_poison","assets/fight/skills/skill_poison.png",48,48);

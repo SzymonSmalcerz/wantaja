@@ -25,8 +25,19 @@ class GameHandler {
     this.socket = socket;
     this.startPlayerData = data;
     this.playerData = data.characterData;
+    this.backgroundsData = data.mapData.backgrounds;
+    this.mapDimensions = {
+      width : data.mapData.dimensions.width || 1600,
+      height : data.mapData.dimensions.height + 65 || 1665
+    };
     let gameWidth = Math.min(window.innerWidth, 500);
     let gameHeight = Math.min(window.innerHeight, 700);
+    // if(gameWidth%2 == 1) {
+    //   gameWidth-=1
+    // };
+    // if(gameHeight%2 == 1) {
+    //   gameHeight-=1
+    //  };
     this.playerID = data.characterData.id;
     this.game = new Phaser.Game(gameWidth,gameHeight, Phaser.CANVAS);
     this.game.state.add("PreState", PreState);
@@ -39,9 +50,28 @@ class GameHandler {
     this.socketsManager = new SocketsManager(this);
     this.socketsManager.initialize();
     window.addEventListener("resize", () => {
+      this.onResize();
+    });
+
+
+    this.onResize = () => {
       let width = Math.min(window.innerWidth, 500);
       let height = Math.min(window.innerHeight, 700);
-      this.game.scale.setGameSize(width, height);
+      // console.log("_______________");
+      // if(width%2 == 1) {
+      //   console.log("decreased width");
+      //   width-=1
+      // } else {
+      //   console.log("normal width")
+      // }
+      // if(height%2 == 1) {
+      //   console.log("decreased height");
+      //   height-=1
+      //  } else {
+      //    console.log("normal height")
+      //  }
+      this.game.scale.setGameSize(width, height); // this fucking method resize world to width and height XD you must change it to its original :OOO
+      this.game.world.resize(this.mapDimensions.width, this.mapDimensions.height); // FUCK ME WHAT A BUG XDDDDDDDDDDDDDDD
       this.game.camera.setBoundsToWorld();
       this.game.camera.setSize(width, height);
       this.game.scale.setShowAll();
@@ -51,8 +81,7 @@ class GameHandler {
       if(this.game.state.getCurrentState()){
         this.game.state.getCurrentState().onResize(width,height);
       };
-      this.game.scale.refresh();
-    });
+    }
   }
 
   styleText(text) {
@@ -66,6 +95,11 @@ class GameHandler {
     text.setStyle(textCss);
     text.lineSpacing = -5;
     text.smoothed = false;
+    // if(text.width % 2 == 1) {
+    //   console.log("XD");
+    //   console.log(text._text);
+    //   text.width += 1;
+    // }
   }
 };
 

@@ -36,6 +36,9 @@ class UIManager {
   showLevelUpAlert(text) {
     this.alertManager.showLevelUpAlert(text);
   }
+  showAlert(text) {
+    this.alertManager.showWindow(text);
+  }
 
   initialize() {
     this.framesManagers = [];
@@ -121,9 +124,15 @@ class UIManager {
   blockPlayerMovementsWhenOver(sprite){
     sprite.inputEnabled = true;
     sprite.events.onInputOver.add(function(){
-      this.blockPlayerMovement();
+      this.blockPlayerMovement(10000);
     },this);
     sprite.events.onInputDown.add(function(){
+      this.blockPlayerMovement(10000);
+    },this);
+    sprite.events.onInputUp.add(function(){
+      this.blockPlayerMovement();
+    },this);
+    sprite.events.onInputOut.add(function(){
       this.blockPlayerMovement();
     },this);
   }
@@ -140,8 +149,8 @@ class UIManager {
     this.characterDataManager.toggleWindow();
   }
 
-  blockPlayerMovement() {
-    this.blockedMovement = 2;
+  blockPlayerMovement(num) {
+    this.blockedMovement = num || 2;
   }
 
   unBlockPlayerMovement(){

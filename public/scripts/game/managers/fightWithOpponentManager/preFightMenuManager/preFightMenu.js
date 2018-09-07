@@ -14,7 +14,7 @@ class PreFightMenu {
 
     state.fightInitButton = new Button(this.state.game,-100,-100,"fightInitButton",0,0,1,2);
     state.fightInitButton.anchor.setTo(0.5);
-    state.fightAbortButton = new Button(this.state.game,-100,-100,"fightAbortButton",0,0,1,2);
+    state.fightAbortButton = new Button(this.state.game,-100,-100,"closeButton",0,0,1,2);
     state.fightAbortButton.anchor.setTo(0.5);
     state.fightingOptionsMenu.add(state.fightInitButton);
     state.fightingOptionsMenu.add(state.fightAbortButton);

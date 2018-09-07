@@ -68,7 +68,7 @@ class StatusPointsManager extends UIFrameManager {
 
 
       state["statusPoints_" + this.statusPointsNames[i] + "_description"] = state.game.add.sprite(this.positions.questionMark.x,this.positions.questionMark.y  + i*this.positions.questionMark.difference,"statusPoints_" + this.statusPointsNames[i] + "_description");
-      state["statusPoints_" + this.statusPointsNames[i] + "_description"].anchor.setTo(0.3,1);
+      // state["statusPoints_" + this.statusPointsNames[i] + "_description"].anchor.setTo(0.3,1);
       // state["statusPoints_" + this.statusPointsNames[i] + "_description"].alpha = 0.9;
       state["statusPoints_" + this.statusPointsNames[i] + "_description"].visible = false;
       state.statusPoints.add(state["statusPoints_" + this.statusPointsNames[i] + "_description"]);
@@ -176,10 +176,13 @@ class StatusPointsManager extends UIFrameManager {
     this.getPositionsCoords();
     this.updateStatusText();
     let state = this.state;
+    // for(let i=0;i<this.statusPointsNames.length;i++){
+    //   state.statusPoints.questionMarks[i].reset(this.positions.questionMark.x,this.positions.questionMark.y  + i*this.positions.questionMark.difference);
+    // }
     for(let i=0;i<this.statusPointsNames.length;i++){
+      state["statusPoints_" + this.statusPointsNames[i] + "_description"].reset(this.positions.questionMark.x + 15,this.positions.questionMark.y - 45  + i*this.positions.questionMark.difference);
+      state["statusPoints_" + this.statusPointsNames[i] + "_description"].visible = false;
       state.statusPoints.questionMarks[i].reset(this.positions.questionMark.x,this.positions.questionMark.y  + i*this.positions.questionMark.difference);
-    }
-    for(let i=0;i<this.statusPointsNames.length;i++){
       state.statusPoints.plusButtons[i].reset(this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference);
     };
     super.onResize();

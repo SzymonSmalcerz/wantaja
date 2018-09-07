@@ -1,10 +1,19 @@
 class MapManager {
   constructor(state) {
     this.state = state;
+    this.preChangeMapMenu = new PreChangeMapMenu(this);
   }
 
   initialize() {
+
     this.mapName = handler.playerData.currentMapName;
+
+    this.state.backgrounds = this.state.add.group();
+    this.state.backgrounds.smoothed = false;
+    handler.backgroundsData.forEach(backgroundKey => {
+      this.state.background = this.state.game.add.sprite(0, 0,backgroundKey);
+    });
+
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
     this.state.allEntities.enableBody = true;
@@ -12,30 +21,28 @@ class MapManager {
     this.state.allEntities.enemies = {};
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
-    this.state.background = this.state.game.add.sprite(0, 0,"grass");
-    // this.state.floor = this.state.map.createLayer("Ground");
-    // this.state.floor_2 = this.state.map.createLayer("Ground2");
     this.state.colliders = this.state.add.group();
 
-    this.state.game.world.resize(1600,1600);
-
+    this.preChangeMapMenu.initialize();
+    this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Doors"].length;i++) {
       let doorToMap = new Button(this.state.game,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3)
       this.state.allEntities.add(doorToMap);
+      this.state.game.physics.enable(doorToMap);
+      doorToMap.body.immovable = true;
+      this.state.entities.push(doorToMap);
       doorToMap.anchor.setTo(0);
       let properites = {};
       this.state.map.objects["Doors"][i].properties.forEach(property => {
         properites[property.name] = property.value;
       });
+
+      doorToMap.nextMapName = properites['nextMapName'];
       doorToMap.addOnInputDownFunction(function(){
-        handler.socketsManager.emit("changeMap", {
-          mapName : properites['nextMapName'],
-          id : handler.playerData.id
-        })
+        this.preChangeMapMenu.showOptionsMenu(doorToMap);
       },this);
     }
 
-    this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Entities"].length;i++){
       let newObjData = {};
       this.state.map.objects["Entities"][i].properties.forEach(property => {

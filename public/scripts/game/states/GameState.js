@@ -3,13 +3,13 @@ let GameState = {
     this.smoothed = false;
     handler.currentState = this;
     this.initializeMap();
-    this.setCamera();
     this.initUI();
     this.initFightWithOpponentManager();
     this.initMoveManager();
     this.setRenderingOrder();
     this.sortEntities();
     this.uiManager.showTownAlert(this.player.currentMapName);
+    handler.onResize();
     handler.socketsManager.sendToServerInitializedInfo();
 
   },
@@ -26,6 +26,7 @@ let GameState = {
     this.mapManager.update();
     this.playerMoveManager.update();
     this.sort();
+    this.camera.focusOnXY(this.player.x, this.player.y);
   },
   sort() {
     let indexOfentity = this.allEntities.children.length - 1;
@@ -53,6 +54,7 @@ let GameState = {
     this.game.world.bringToTop(this.glowingSwords);
     this.game.world.bringToTop(this.fightingStage);
     this.game.world.bringToTop(this.fightingOptionsMenu);
+    this.game.world.bringToTop(this.changeMapOptionsMenu);
     this.game.world.bringToTop(this.ui);
     this.game.world.bringToTop(this.skillDescriptions);
     this.game.world.bringToTop(this.wonAlert);
@@ -75,20 +77,8 @@ let GameState = {
     };
   },
   changeRenderOrder(entity) {
+    throw new Error('SHOULD NOT BE CALLED, DEPRACATED METHOD');
     return;
-    // let indexOfentity = this.allEntities.children.indexOf(entity);
-    // if(indexOfentity > 0 && indexOfentity < this.allEntities.children.length && this.allEntities.children[indexOfentity-1].bottom > entity.bottom){
-    //   while(indexOfentity > 0 && this.allEntities.children[indexOfentity-1].bottom > entity.bottom) {
-    //     entity.moveDown();
-    //     indexOfentity-=1;
-    //   };
-    // } else {
-    //   while(indexOfentity < this.allEntities.children.length - 1 && this.allEntities.children[indexOfentity+1].bottom < entity.bottom) {
-    //     entity.moveUp();
-    //     indexOfentity+=1;
-    //   };
-    // }
-
   },
   emitData(){
     this.player.emitData(handler);
@@ -96,9 +86,6 @@ let GameState = {
   initializeMap() {
     this.mapManager = this.mapManager || new MapManager(this);
     this.mapManager.initialize();
-  },
-  setCamera() {
-    this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON,1,1);
   },
   onResize(width, height) {
     this.fightWithOpponentManager.onResize();

@@ -98,8 +98,7 @@ class CharacterDataManager extends UIFrameManager{
     this.dataNames.forEach(dataName => {
       this[dataName + "_text"].reset(this.positions[dataName].x - 10,this.positions[dataName].y);
       this[dataName + "_questionMark"].reset(this.positions[dataName].x - 40,this.positions[dataName].y + 25);
-      this[dataName + "_description"].reset(this.positions[dataName].x,this.positions[dataName].y);
-      // this[dataName + "_description"].smoothed = false;
+      this[dataName + "_description"].reset(this.positions[dataName].x - 12,this.positions[dataName].y - 25);
       this[dataName + "_description"].visible = false;
     });
 

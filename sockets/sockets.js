@@ -29,7 +29,7 @@ let dm = { // data manager, created to hold values for game purpose
       return (player.intelligence + player.level + player.additionalIntelligence) * 5;
     },
     calculateAttack : function(player){
-      // return (player.strength + player.level + player.additionalStrength) * 10 + player.weapon.attack;
+      // return (player.strength + player.level + player.additionalStrength) * 10 + player[type].attack;
       return (player.strength + player.level + player.additionalStrength) * 10;
     },
     calculateDodge : function(player){
@@ -104,13 +104,23 @@ let socketHandler = (socket, io) => {
         characterData.x = user.x;
         characterData.y = user.y;
         characterData.experience = user.experience;
+
         characterData.equipmentCurrentlyDressed = user.equipmentCurrentlyDressed;
         characterData.equipment = user.equipment;
-        characterData.currentWeaponKey = user.equipmentCurrentlyDressed ? user.equipmentCurrentlyDressed.weapon : null;
-        characterData.additionalAgility = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].agility : 0;
-        characterData.additionalStrength = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].strength : 0;
-        characterData.additionalIntelligence = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].intelligence : 0;
-        characterData.additionalVitality = equipment.weapon[user.currentWeaponKey] ? equipment.weapon[user.currentWeaponKey].vitality : 0;
+        characterData.additionalAgility = 0;
+        characterData.additionalStrength = 0;
+        characterData.additionalIntelligence = 0;
+        characterData.additionalVitality = 0;
+        if(user.equipmentCurrentlyDressed) {
+          let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots"];
+          allEquipmentTypes.forEach(type => {
+            let key = user.equipmentCurrentlyDressed ? user.equipmentCurrentlyDressed[type] : null;
+            characterData.additionalAgility += equipment[type][key] ? equipment[type][key].agility || 0 : 0;
+            characterData.additionalStrength += equipment[type][key] ? equipment[type][key].strength || 0 : 0;
+            characterData.additionalIntelligence += equipment[type][key] ? equipment[type][key].intelligence || 0 : 0;
+            characterData.additionalVitality += equipment[type][key] ? equipment[type][key].vitality || 0 : 0;
+          })
+        }
 
 
         characterData.strength = user.strength;
@@ -118,12 +128,9 @@ let socketHandler = (socket, io) => {
         characterData.intelligence = user.intelligence;
         characterData.agility = user.agility;
 
-
-
         characterData.key = user.key;
         characterData.gender = "male";
-        // characterData.key = 'male_15_white';
-        // console.log(user.key);
+
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;
         dm.socketsOfPlayers[object.id] = socket;
@@ -138,7 +145,14 @@ let socketHandler = (socket, io) => {
         characterData.leftStatusPoints = dm.playerFunctions.calculateLeftStatusPoints(characterData);
 
         socket.emit("initialData",{
-          characterData
+          characterData,
+          mapData : {
+            backgrounds : dm.allMaps[characterData.currentMapName].backgrounds,
+            dimensions : {
+              height :  dm.allMaps[characterData.currentMapName].height,
+              width :  dm.allMaps[characterData.currentMapName].width
+            }
+          }
         });
       }
 
@@ -163,23 +177,36 @@ let socketHandler = (socket, io) => {
   socket.on("changeMap", function(data) {
     map = dm.allMaps[dm.findMapNameByPlayerId[data.id]];
     //check if this door is registered for this map
-    if(map && map.nextMaps[data.mapName]){
+    if(map && map.nextMaps[data.mapName]) {
       xDifference = dm.allLoggedPlayersData[data.id].x - map.nextMaps[data.mapName].doorX;
       yDifference = dm.allLoggedPlayersData[data.id].y - map.nextMaps[data.mapName].doorY;
+
+      // check if player has required Level
+      if(map.nextMaps[data.mapName].requiredLevel > dm.allLoggedPlayersData[data.id].level) {
+        dm.socketsOfPlayers[data.id].emit("alert",{
+          message : `you must reach ${map.nextMaps[data.mapName].requiredLevel} level\nto go to this location`
+        });
+        return;
+      }
+
       //check if player is in range of the door
       if(Math.abs(xDifference) < 100 && Math.abs(yDifference) < 100) {
+
         map.removePlayer(data.id);
         dm.allLoggedPlayersData[data.id].currentMapName = data.mapName;
         dm.findMapNameByPlayerId[data.id] = data.mapName;
         dm.allLoggedPlayersData[data.id].active = true;
         dm.socketsOfPlayers[data.id].emit('changedMap', {
           mapName : dm.findMapNameByPlayerId[data.id],
+          mapBackgrounds : dm.allMaps[dm.findMapNameByPlayerId[data.id]] ? dm.allMaps[dm.findMapNameByPlayerId[data.id]].backgrounds : [],
           playerX : map.nextMaps[data.mapName].playerX,
           playerY : map.nextMaps[data.mapName].playerY
         });
+        dm.allLoggedPlayersData[data.id].x = map.nextMaps[data.mapName].playerX;
+        dm.allLoggedPlayersData[data.id].y = map.nextMaps[data.mapName].playerY;
       }
     } else {
-      console.log(`map with name ${data.mapName} is not registered !!!!`);
+      console.log(`map with name ${data.mapName} is not registered for ${dm.findMapNameByPlayerId[data.id]}!!!!`);
     }
   });
 
