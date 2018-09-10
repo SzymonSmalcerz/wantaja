@@ -6,7 +6,8 @@ let basicProperties = {
   vitality : 0,
   agility : 0,
   requiredLevel : 0,
-  type : "weapon"
+  type : "weapon",
+  description : "weapon"
 }
 let weaponArray = [
   {
@@ -14,14 +15,16 @@ let weaponArray = [
     maxAttack : 10,
     key : "weapon_1",
     strength : 1,
-    requiredLevel : 1
+    requiredLevel : 1,
+    description : 'basic weapon,\nbetter than nothing'
   },
   {
     minAttack : 11,
     maxAttack : 15,
     key : "weapon_2",
     strength : 2,
-    requiredLevel : 5
+    requiredLevel : 5,
+    description : 'basic weapon,\nbetter than nothing'
   }
 ];
 

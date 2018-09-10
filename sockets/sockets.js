@@ -49,7 +49,6 @@ let dm = { // data manager, created to hold values for game purpose
       player.maxMana = dm.playerFunctions.calculateMaxMana(player);
       player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
       player.dodge = dm.playerFunctions.calculateDodge(player);
-      // player.dodge = 100;
       player.leftStatusPoints += 5;
 
       dm.socketsOfPlayers[player.id].emit("levelUp", {
@@ -112,16 +111,18 @@ let socketHandler = (socket, io) => {
         characterData.additionalIntelligence = 0;
         characterData.additionalVitality = 0;
         if(user.equipmentCurrentlyDressed) {
-          let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots"];
+          let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots","special"];
           allEquipmentTypes.forEach(type => {
             let key = user.equipmentCurrentlyDressed ? user.equipmentCurrentlyDressed[type] : null;
             characterData.additionalAgility += equipment[type][key] ? equipment[type][key].agility || 0 : 0;
             characterData.additionalStrength += equipment[type][key] ? equipment[type][key].strength || 0 : 0;
             characterData.additionalIntelligence += equipment[type][key] ? equipment[type][key].intelligence || 0 : 0;
             characterData.additionalVitality += equipment[type][key] ? equipment[type][key].vitality || 0 : 0;
+            if(user.equipmentCurrentlyDressed[type]) {
+              characterData.equipmentCurrentlyDressed[type] = equipment[type][key];
+            }
           })
         }
-
 
         characterData.strength = user.strength;
         characterData.vitality = user.vitality;

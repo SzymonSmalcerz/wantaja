@@ -5,7 +5,8 @@ let basicProperties = {
   vitality : 0,
   agility : 0,
   requiredLevel : 0,
-  type : "helmet"
+  type : "helmet",
+  description : "helmet"
 }
 let helmetArray = [
   {

@@ -14,13 +14,18 @@ let LoadState = {
     // testowy kwadrat sluzacy do testowania .. :D
     this.load.image("test_50","assets/test_50.png");
 
-    let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots"];
+    let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots","special"];
     let allEquipmentVersions = ["_1","_2"];
     allEquipmentTypes.forEach(type => {
       allEquipmentVersions.forEach(version => {
         this.load.spritesheet(`${type}${version}`,`assets/equipment/${type}${version}.png`,50,50);
       })
     })
+    this.load.image(`itemDescriptionFrame`,`assets/equipment/descriptionFrame.png`);
+    this.load.image(`discardButton`,`assets/equipment/discardButton.png`);
+    this.load.image(`dressButton`,`assets/equipment/dressButton.png`);
+    this.load.image(`takeOffButton`,`assets/equipment/takeOffButton.png`);
+    this.load.image(`itemActionBackground`,`assets/equipment/itemActionBackground.png`);
     let textCss = {
       font : "20px bold",
       fontWeight : "900",
