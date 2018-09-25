@@ -4,10 +4,10 @@ let LoadState = {
     this.loadScreenBackground = this.add.sprite(this.game.world.centerX, this.game.world.centerY,"loadScreenBackground");
     this.loadScreenBackground.anchor.setTo(0.5);
     this.loadScreenBackground.smoothed = false;
-    this.progressBarEmpty = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBarEmpty");
-    this.progressBarEmpty.anchor.setTo(0.5);
     this.progressBarFull = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBarFull");
     this.progressBarFull.anchor.setTo(0.5);
+    this.progressBarEmpty = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBarEmpty");
+    this.progressBarEmpty.anchor.setTo(0.5);
     this.load.setPreloadSprite(this.progressBarFull);
     this.loadText = this.add.text(this.game.world.centerX, this.game.world.centerY - 100);
 
@@ -22,9 +22,10 @@ let LoadState = {
       })
     })
     this.load.image(`itemDescriptionFrame`,`assets/equipment/descriptionFrame.png`);
-    this.load.image(`discardButton`,`assets/equipment/discardButton.png`);
-    this.load.image(`dressButton`,`assets/equipment/dressButton.png`);
-    this.load.image(`takeOffButton`,`assets/equipment/takeOffButton.png`);
+    this.load.image(`itemDiscardFrame`,`assets/equipment/itemDiscardFrame.png`);
+    this.load.spritesheet(`discardButton`,`assets/equipment/discardButton.png`,75,50);
+    this.load.spritesheet(`dressButton`,`assets/equipment/dressButton.png`,75,50);
+    this.load.spritesheet(`takeOffButton`,`assets/equipment/takeOffButton.png`,75,50);
     this.load.image(`itemActionBackground`,`assets/equipment/itemActionBackground.png`);
     let textCss = {
       font : "20px bold",
@@ -114,6 +115,8 @@ let LoadState = {
     this.load.image("questionMark","assets/infoTables/questionMark.png");
     this.load.spritesheet("plusButton","assets/UI/plusButton.png",50,50);
     this.load.spritesheet("closeButton","assets/UI/closeButton.png",50,50);
+    this.load.spritesheet("yesButton","assets/UI/yesButton.png",100,50);
+    this.load.spritesheet("noButton","assets/UI/noButton.png",100,50);
 
     /* frames */
     this.load.image("frame", "assets/UI/frame.png");

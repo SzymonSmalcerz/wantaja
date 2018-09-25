@@ -22,36 +22,46 @@ let dm = { // data manager, created to hold values for game purpose
     "health" : new skills.Health
   },
   playerFunctions : {
-    calculateMaxHp : function(player){
+    calculateMaxHp : function(player) {
       return (player.vitality + player.level + player.additionalVitality) * 15 + 70;
     },
-    calculateMaxMana : function(player){
+    calculateMaxMana : function(player) {
       return (player.intelligence + player.level + player.additionalIntelligence) * 5;
     },
-    calculateAttack : function(player){
+    calculateAttack : function(player) {
       // return (player.strength + player.level + player.additionalStrength) * 10 + player[type].attack;
       return (player.strength + player.level + player.additionalStrength) * 10;
     },
-    calculateDodge : function(player){
+    calculateDodge : function(player) {
       return (player.agility + player.additionalAgility)/player.level * 10;
     },
-    calculateRequiredExperience : function(player){
+    calculateRequiredExperience : function(player) {
       return player.level * 150;;
     },
-    calculateLeftStatusPoints : function(player){
+    calculateLeftStatusPoints : function(player) {
       return player.level * 5 - (player.strength + player.vitality + player.intelligence + player.agility);
+    },
+    calculateAll : function(player) {
+      player.maxHealth = this.calculateMaxHp(player);
+      player.maxMana = this.calculateMaxMana(player);
+      player.attack = this.calculateAttack(player);
+      player.dodge = this.calculateDodge(player);
+      player.requiredExperience = this.calculateRequiredExperience(player);
+      player.leftStatusPoints = this.calculateLeftStatusPoints(player);
     },
     levelUp : function(player) {
       player.level += 1;
       player.experience = 0;
+      player.leftStatusPoints += 5;
+      this.updatePlayerData(player);
+    },
+    updatePlayerData : function(player) {
       player.requiredExperience = dm.playerFunctions.calculateRequiredExperience(player);
       player.attack = dm.playerFunctions.calculateAttack(player);
       player.maxMana = dm.playerFunctions.calculateMaxMana(player);
       player.maxHealth = dm.playerFunctions.calculateMaxHp(player);
       player.dodge = dm.playerFunctions.calculateDodge(player);
-      player.leftStatusPoints += 5;
-
-      dm.socketsOfPlayers[player.id].emit("levelUp", {
+      dm.socketsOfPlayers[player.id].emit("updatePlayerData", {
         level : player.level,
         requiredExperience : player.requiredExperience,
         experience : player.experience,
@@ -66,7 +76,7 @@ let dm = { // data manager, created to hold values for game purpose
 };
 dm.removePlayer = function(playerID) {
   this.allMaps[this.findMapNameByPlayerId[playerID]].removePlayer(playerID);
-  if(this.allLoggedPlayersData[playerID].fightData && this.allLoggedPlayersData[playerID].fightData.opponent && this.allLoggedPlayersData[playerID].fightData.opponent.isFighting){
+  if(this.allLoggedPlayersData[playerID].fightData && this.allLoggedPlayersData[playerID].fightData.opponent && this.allLoggedPlayersData[playerID].fightData.opponent.isFighting) {
     this.allLoggedPlayersData[playerID].fightData.opponent.isFighting = false;
   };
   delete this.allLoggedPlayersData[playerID];
@@ -84,7 +94,7 @@ let socketHandler = (socket, io) => {
   socket.on("getGameData", async (object) => {
 
     console.log("got request to get game data from player with id: " + object.id);
-    if(dm.allLoggedPlayersData[object.id]){
+    if(dm.allLoggedPlayersData[object.id]) {
       socket.emit("alreadyLoggedIn", {
         message : "user already logged in"
       });
@@ -92,10 +102,10 @@ let socketHandler = (socket, io) => {
     }
     try {
       if (!object.id.match(/^[0-9a-fA-F]{24}$/)) {
-        throw "id is not valid, doesn't mach ObjectID from monbodb";
+        throw "id is not valid, doesn't mach ObjectID from mongodb";
       };
       let user = await User.findById(object.id);
-      if(!user){
+      if(!user) {
         console.log("shouldn't happen but user not found in socket.on(getGameData) sockets.js");
       } else {
         let characterData = {};
@@ -104,25 +114,53 @@ let socketHandler = (socket, io) => {
         characterData.y = user.y;
         characterData.experience = user.experience;
 
-        characterData.equipmentCurrentlyDressed = user.equipmentCurrentlyDressed;
+        // characterData.equipmentCurrentlyDressed = user.equipmentCurrentlyDressed;
         characterData.equipment = user.equipment;
         characterData.additionalAgility = 0;
         characterData.additionalStrength = 0;
         characterData.additionalIntelligence = 0;
         characterData.additionalVitality = 0;
+
+        characterData.equipmentCurrentlyDressed = {};
         if(user.equipmentCurrentlyDressed) {
           let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots","special"];
           allEquipmentTypes.forEach(type => {
-            let key = user.equipmentCurrentlyDressed ? user.equipmentCurrentlyDressed[type] : null;
-            characterData.additionalAgility += equipment[type][key] ? equipment[type][key].agility || 0 : 0;
-            characterData.additionalStrength += equipment[type][key] ? equipment[type][key].strength || 0 : 0;
-            characterData.additionalIntelligence += equipment[type][key] ? equipment[type][key].intelligence || 0 : 0;
-            characterData.additionalVitality += equipment[type][key] ? equipment[type][key].vitality || 0 : 0;
             if(user.equipmentCurrentlyDressed[type]) {
-              characterData.equipmentCurrentlyDressed[type] = equipment[type][key];
+              let key = user.equipmentCurrentlyDressed ? user.equipmentCurrentlyDressed[type] : null;
+              characterData.additionalAgility += equipment[type][key] ? equipment[type][key].agility || 0 : 0;
+              characterData.additionalStrength += equipment[type][key] ? equipment[type][key].strength || 0 : 0;
+              characterData.additionalIntelligence += equipment[type][key] ? equipment[type][key].intelligence || 0 : 0;
+              characterData.additionalVitality += equipment[type][key] ? equipment[type][key].vitality || 0 : 0;
+              characterData.equipmentCurrentlyDressed[type] = {};
+              characterData.equipmentCurrentlyDressed[type].item = equipment[type][key];
+              characterData.equipmentCurrentlyDressed[type].placeTaken = true;
+            } else {
+              characterData.equipmentCurrentlyDressed[type] = {};
+              characterData.equipmentCurrentlyDressed[type].item = null;
+              characterData.equipmentCurrentlyDressed[type].placeTaken = false;
             }
           })
         }
+
+        characterData.equipmentLength = 4;
+        characterData.equipmentHeight = 3;
+        characterData.equipment = [];
+        for(let i = 0;i<characterData.equipmentHeight;i++) {
+          for(let j = 0;j<characterData.equipmentLength;j++) {
+            characterData.equipment[i] = characterData.equipment[i] || [];
+            characterData.equipment[i][j] = {};
+            characterData.equipment[i][j].item = {};
+            characterData.equipment[i][j].placeTaken = false;
+          }
+        };
+
+        user.equipment.forEach(object => {
+          characterData.equipment[object.y][object.x].item = {
+            ...object._doc,
+            ...equipment[object.type][object.key]
+          };
+          characterData.equipment[object.y][object.x].placeTaken = true;
+        });
 
         characterData.strength = user.strength;
         characterData.vitality = user.vitality;
@@ -139,12 +177,10 @@ let socketHandler = (socket, io) => {
         dm.allLoggedPlayersData[characterData.id].active = true;
         dm.findMapNameByPlayerId[characterData.id] = characterData.currentMapName;
 
-        characterData.maxHealth = dm.playerFunctions.calculateMaxHp(characterData);
-        characterData.maxMana = dm.playerFunctions.calculateMaxMana(characterData);
-        characterData.attack = dm.playerFunctions.calculateAttack(characterData);
-        characterData.requiredExperience = dm.playerFunctions.calculateRequiredExperience(characterData);
-        characterData.leftStatusPoints = dm.playerFunctions.calculateLeftStatusPoints(characterData);
+        dm.playerFunctions.calculateAll(characterData);
 
+        socket.characterData = characterData;
+        socket.playerID = characterData.id;
         socket.emit("initialData",{
           characterData,
           mapData : {
@@ -164,11 +200,229 @@ let socketHandler = (socket, io) => {
   });
 
   socket.on("initialized", function(data) {
-    dm.allLoggedPlayersData[data.id].key = data.key;
-    dm.allMaps[dm.findMapNameByPlayerId[data.id]].addPlayer(dm.allLoggedPlayersData[data.id], dm.socketsOfPlayers[data.id]);
-    dm.allLoggedPlayersData[data.id].socket = dm.socketsOfPlayers[data.id];
-    dm.allLoggedPlayersData[data.id].active = true;
+    data = dm.socketsOfPlayers[socket.playerID].characterData;
+    dm.allLoggedPlayersData[socket.playerID].key = data.key;
+    dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].addPlayer(dm.allLoggedPlayersData[socket.playerID], dm.socketsOfPlayers[socket.playerID]);
+    dm.allLoggedPlayersData[socket.playerID].socket = dm.socketsOfPlayers[socket.playerID];
+    dm.allLoggedPlayersData[socket.playerID].active = true;
   });
+
+  socket.on("takeOffItem", function(data) {
+    let plData = dm.allLoggedPlayersData[socket.playerID];
+    let item = plData.equipmentCurrentlyDressed[data.type].item;
+    let result = takeOffItem(plData, item);
+    if(result) {
+      dm.playerFunctions.updatePlayerData(plData);
+      socket.emit('takeOffItem', {
+        type : item.type,
+        position : result
+      });
+    } else {
+      socket.emit('alert' , {
+        message : `not enough space in equipment !`
+      })
+    }
+  });
+
+  function takeOffItem(plData, item) {
+    if(!item) {
+      console.log(`item doesn't exists`);
+      return;
+    }
+
+    let type = item.type;
+    let position = undefined;
+    plData.equipment.forEach((row, yPos) => {
+      row.forEach((object, xPos) => {
+        if(!position && !object.placeTaken) {
+          position = {
+            x : xPos,
+            y : yPos
+          }
+          plData.additionalAgility -= plData.equipmentCurrentlyDressed[type].item.agility;
+          plData.additionalStrength -= plData.equipmentCurrentlyDressed[type].item.strength;
+          plData.additionalIntelligence -= plData.equipmentCurrentlyDressed[type].item.intelligence;
+          plData.additionalVitality -= plData.equipmentCurrentlyDressed[type].item.vitality;
+
+          plData.equipment[yPos][xPos].item = plData.equipmentCurrentlyDressed[type].item;
+          plData.equipment[yPos][xPos].placeTaken = true;
+
+          plData.equipmentCurrentlyDressed[type].placeTaken = false;
+        }
+      })
+    });
+
+    if(position) {
+      return position;
+    } else {
+      return false;
+    }
+  }
+
+  socket.on("dressItem", function(data) {
+    let plData = dm.allLoggedPlayersData[socket.playerID];
+    let eqPlace = plData.equipment[data.y][data.x];
+
+    if(!eqPlace) {
+      console.log(`? :) eqPlace out of bounds`);
+      return;
+    } else if(!eqPlace.item || !eqPlace.placeTaken) {
+      console.log(eqPlace.item);
+      console.log(eqPlace.placeTaken);
+        console.log('data');
+        console.log(data);
+      console.log(`item doesn't exists or this place is not occupied by any item`);
+      return;
+    }
+
+    let item = plData.equipment[data.y][data.x].item;
+
+    let newOldWearItemPositions;
+    if(plData.equipmentCurrentlyDressed[item.type].placeTaken) {
+      newOldWearItemPositions = takeOffItem(plData, plData.equipmentCurrentlyDressed[item.type].item);
+    }
+
+    plData.equipmentCurrentlyDressed[item.type].item = plData.equipment[data.y][data.x].item;
+    plData.equipmentCurrentlyDressed[item.type].placeTaken = true;
+    plData.additionalAgility += plData.equipmentCurrentlyDressed[item.type].item.agility;
+    plData.additionalStrength += plData.equipmentCurrentlyDressed[item.type].item.strength;
+    plData.additionalIntelligence += plData.equipmentCurrentlyDressed[item.type].item.intelligence;
+    plData.additionalVitality += plData.equipmentCurrentlyDressed[item.type].item.vitality;
+    plData.equipment[data.y][data.x].placeTaken = false;
+
+    dm.playerFunctions.updatePlayerData(plData);
+
+    socket.emit('dressItem', {
+      newOldWearItemPositions,
+      currentlyWearItemOldPositions : {
+        x : data.x,
+        y : data.y
+      }
+    });
+  });
+
+  socket.on("destroyItem", function(data) {
+    let plData = dm.allLoggedPlayersData[socket.playerID];
+
+    if(data.isCurrentlyWear) {
+      if(!plData.equipmentCurrentlyDressed[data.type].item || !plData.equipmentCurrentlyDressed[data.type].placeTaken) {
+        console.log(`? :) non item with type ${data.type} is wear by this player :o`);
+        return;
+      } else {
+        plData.additionalAgility -= plData.equipmentCurrentlyDressed[data.type].item.agility;
+        plData.additionalStrength -= plData.equipmentCurrentlyDressed[data.type].item.strength;
+        plData.additionalIntelligence -= plData.equipmentCurrentlyDressed[data.type].item.intelligence;
+        plData.additionalVitality -= plData.equipmentCurrentlyDressed[data.type].item.vitality;
+        plData.equipmentCurrentlyDressed[data.type].placeTaken = false;
+        dm.playerFunctions.updatePlayerData(plData);
+      }
+    } else {
+      let eqPlace = plData.equipment[data.y][data.x];
+      if(!eqPlace) {
+        console.log(`? :) eqPlace out of bounds`);
+        return;
+      } else if(!eqPlace.item || !eqPlace.placeTaken) {
+        console.log(`item doesn't exists or this place is not occupied by any item`);
+        return;
+      } else {
+        plData.equipment[data.y][data.x].placeTaken = false;
+      }
+    }
+
+    socket.emit('discardItem', data);
+  });
+
+  socket.on("discardItem", function(data) {
+    let plData = dm.allLoggedPlayersData[socket.playerID];
+    let discardedItem;
+    if(data.isCurrentlyWear) {
+      if(!plData.equipmentCurrentlyDressed[data.type].item || !plData.equipmentCurrentlyDressed[data.type].placeTaken) {
+        console.log(`? :) non item with type ${data.type} is wear by this player :o`);
+        return;
+      } else {
+        discardedItem = plData.equipmentCurrentlyDressed[data.type].item;
+        plData.additionalAgility -= plData.equipmentCurrentlyDressed[data.type].item.agility;
+        plData.additionalStrength -= plData.equipmentCurrentlyDressed[data.type].item.strength;
+        plData.additionalIntelligence -= plData.equipmentCurrentlyDressed[data.type].item.intelligence;
+        plData.additionalVitality -= plData.equipmentCurrentlyDressed[data.type].item.vitality;
+        plData.equipmentCurrentlyDressed[data.type].placeTaken = false;
+        dm.playerFunctions.updatePlayerData(plData);
+      }
+    } else {
+      let eqPlace = plData.equipment[data.y][data.x];
+      if(!eqPlace) {
+        console.log(`? :) eqPlace out of bounds`);
+        return;
+      } else if(!eqPlace.item || !eqPlace.placeTaken) {
+        console.log(`item doesn't exists or this place is not occupied by any item`);
+        return;
+      } else {
+        discardedItem = eqPlace.item;
+        eqPlace.placeTaken = false;
+      }
+    }
+
+    dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].addItem({
+      x : dm.allLoggedPlayersData[socket.playerID].x,
+      y : dm.allLoggedPlayersData[socket.playerID].y,
+      key : discardedItem.key,
+      type : discardedItem.type
+    });
+
+    socket.emit('discardItem', data);
+  });
+
+  socket.on("pickUpItem", function(data) {
+
+    let plData = dm.allLoggedPlayersData[socket.playerID];
+    let map = dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]];
+    if(map.items[data.itemID] && playerInRange(plData, map.items[data.itemID])) {
+      let itemEqPosition = getFirstFreePositionInPlayerEquipment(plData);
+      if(!itemEqPosition) {
+        dm.socketsOfPlayers[socket.playerID].emit("alert",{
+          message : `you don't have enough free\nspace in your equipment!\n`
+        });
+        return;
+      }
+      plData.equipment[itemEqPosition.y][itemEqPosition.x].item = {
+        ...itemEqPosition,
+        ...equipment[map.items[data.itemID].type][map.items[data.itemID].key]
+      }
+      plData.equipment[itemEqPosition.y][itemEqPosition.x].placeTaken = true;
+      console.log('itemEqPosition');
+      console.log(itemEqPosition);
+      map.removeItem(data.itemID);
+      dm.socketsOfPlayers[socket.playerID].emit("addItemToEquipment", plData.equipment[itemEqPosition.y][itemEqPosition.x]);
+
+    }
+  });
+
+  function playerInRange(playerData, entity, range) {
+    xDifference = playerData.x - entity.x;
+    yDifference = playerData.y - entity.y;
+    range = range || 100;
+    //check if player is in range of the entity
+    if(Math.abs(xDifference) < range && Math.abs(yDifference) < range) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function getFirstFreePositionInPlayerEquipment(playerData) {
+    let position = undefined;
+    playerData.equipment.forEach((row, yPos) => {
+      row.forEach((object, xPos) => {
+        if(!position && !object.placeTaken) {
+          position = {
+            x : xPos,
+            y : yPos
+          }
+        }
+      })
+    });
+    return position;
+  }
 
   let doorWidth = 30;
   let doorHeight = 46;
@@ -176,15 +430,15 @@ let socketHandler = (socket, io) => {
   let yDifference;
   let map;
   socket.on("changeMap", function(data) {
-    map = dm.allMaps[dm.findMapNameByPlayerId[data.id]];
+    map = dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]];
     //check if this door is registered for this map
     if(map && map.nextMaps[data.mapName]) {
-      xDifference = dm.allLoggedPlayersData[data.id].x - map.nextMaps[data.mapName].doorX;
-      yDifference = dm.allLoggedPlayersData[data.id].y - map.nextMaps[data.mapName].doorY;
+      xDifference = dm.allLoggedPlayersData[socket.playerID].x - map.nextMaps[data.mapName].doorX;
+      yDifference = dm.allLoggedPlayersData[socket.playerID].y - map.nextMaps[data.mapName].doorY;
 
       // check if player has required Level
-      if(map.nextMaps[data.mapName].requiredLevel > dm.allLoggedPlayersData[data.id].level) {
-        dm.socketsOfPlayers[data.id].emit("alert",{
+      if(map.nextMaps[data.mapName].requiredLevel > dm.allLoggedPlayersData[socket.playerID].level) {
+        dm.socketsOfPlayers[socket.playerID].emit("alert",{
           message : `you must reach ${map.nextMaps[data.mapName].requiredLevel} level\nto go to this location`
         });
         return;
@@ -193,29 +447,29 @@ let socketHandler = (socket, io) => {
       //check if player is in range of the door
       if(Math.abs(xDifference) < 100 && Math.abs(yDifference) < 100) {
 
-        map.removePlayer(data.id);
-        dm.allLoggedPlayersData[data.id].currentMapName = data.mapName;
-        dm.findMapNameByPlayerId[data.id] = data.mapName;
-        dm.allLoggedPlayersData[data.id].active = true;
-        dm.socketsOfPlayers[data.id].emit('changedMap', {
-          mapName : dm.findMapNameByPlayerId[data.id],
-          mapBackgrounds : dm.allMaps[dm.findMapNameByPlayerId[data.id]] ? dm.allMaps[dm.findMapNameByPlayerId[data.id]].backgrounds : [],
+        map.removePlayer(socket.playerID);
+        dm.allLoggedPlayersData[socket.playerID].currentMapName = data.mapName;
+        dm.findMapNameByPlayerId[socket.playerID] = data.mapName;
+        dm.allLoggedPlayersData[socket.playerID].active = true;
+        dm.socketsOfPlayers[socket.playerID].emit('changedMap', {
+          mapName : dm.findMapNameByPlayerId[socket.playerID],
+          mapBackgrounds : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].backgrounds : [],
           playerX : map.nextMaps[data.mapName].playerX,
           playerY : map.nextMaps[data.mapName].playerY
         });
-        dm.allLoggedPlayersData[data.id].x = map.nextMaps[data.mapName].playerX;
-        dm.allLoggedPlayersData[data.id].y = map.nextMaps[data.mapName].playerY;
+        dm.allLoggedPlayersData[socket.playerID].x = map.nextMaps[data.mapName].playerX;
+        dm.allLoggedPlayersData[socket.playerID].y = map.nextMaps[data.mapName].playerY;
       }
     } else {
-      console.log(`map with name ${data.mapName} is not registered for ${dm.findMapNameByPlayerId[data.id]}!!!!`);
+      console.log(`map with name ${data.mapName} is not registered for ${dm.findMapNameByPlayerId[socket.playerID]}!!!!`);
     }
   });
 
-  socket.on("initFight", function(data){
+  socket.on("initFight", function(data) {
     let mapName = dm.findMapNameByPlayerId[data.playerID];
     let opponent = dm.allMaps[mapName].mobs[data.enemyID];
     let player = dm.allLoggedPlayersData[data.playerID];
-    if(mapName && opponent && !opponent.isFighting){
+    if(mapName && opponent && !opponent.isFighting) {
       opponent.isFighting = true;
       player.fightData = {};
       player.fightData.opponent = opponent;
@@ -232,7 +486,7 @@ let socketHandler = (socket, io) => {
       });
       dm.allMaps[player.currentMapName].emitDataToPlayers("renderSwords",data);
     } else {
-      if(dm.socketsOfPlayers[data.playerID] && !(player.fightData && player.fightData.opponent && player.fightData.opponent.isFighting)){
+      if(dm.socketsOfPlayers[data.playerID] && !(player.fightData && player.fightData.opponent && player.fightData.opponent.isFighting)) {
         dm.socketsOfPlayers[data.playerID].emit("fightEnemyAlreadyFighting");
       };
     }
@@ -245,20 +499,20 @@ let socketHandler = (socket, io) => {
       return;
     }
     let player = dm.allLoggedPlayersData[data.playerID];
-    if(!player || !player.fightData || !player.fightData.opponent){return};
+    if(!player || !player.fightData || !player.fightData.opponent) {return};
     let enemy = dm.allLoggedPlayersData[data.playerID].fightData.opponent;
     let enemyMoveResult = {};
     let playerMoveResult = {};
-    if(player.mana >= playerSkill.manaCost){
+    if(player.mana >= playerSkill.manaCost) {
       playerMoveResult = playerSkill.getDamage(player,enemy);
     };
-    if(enemy.health <= 0){
+    if(enemy.health <= 0) {
       dm.allMaps[player.currentMapName].emitDataToPlayers("removeSwords",{
         enemyID : enemy.id,
         playerID : player.id
       });
       player.experience += enemy.exp;
-      if(player.experience > player.requiredExperience){
+      if(player.experience > player.requiredExperience) {
         dm.playerFunctions.levelUp(player);
       };
       dm.socketsOfPlayers[data.playerID].emit("handleWinFight",{
@@ -271,7 +525,7 @@ let socketHandler = (socket, io) => {
       enemy.fightData.fightTick = Date.now();
       enemySkill = dm.skills[enemy.skillName];
       enemyMoveResult = enemySkill.getDamage(enemy,player);
-      if(player.health <=0){
+      if(player.health <=0) {
         enemy.isFighting = false;
         enemy.fightData = {};
         dm.allMaps[player.currentMapName].emitDataToPlayers("removeSwords",{
@@ -297,19 +551,19 @@ let socketHandler = (socket, io) => {
 
 
   socket.on("playerData", function(data) {
-    if(!dm.allLoggedPlayersData[data.id]){return}
-    dm.allLoggedPlayersData[data.id].active = true;
-    dm.allLoggedPlayersData[data.id].x = data.x;
-    dm.allLoggedPlayersData[data.id].y = data.y;
-    dm.allLoggedPlayersData[data.id].frame = data.frame;
+    if(!dm.allLoggedPlayersData[socket.playerID]) {return}
+    dm.allLoggedPlayersData[socket.playerID].active = true;
+    dm.allLoggedPlayersData[socket.playerID].x = data.x;
+    dm.allLoggedPlayersData[socket.playerID].y = data.y;
+    dm.allLoggedPlayersData[socket.playerID].frame = data.frame;
   })
 
 
   var sendToUserData = (time) => {
     requestAnimationFrame(sendToUserData);
-    if(time - dm.keepAliveProtocol.lastTime > 1000/dm.fps){
+    if(time - dm.keepAliveProtocol.lastTime > 1000/dm.fps) {
       dm.keepAliveProtocol.lastTime = time;
-      for(var mapID in dm.allMaps){
+      for(var mapID in dm.allMaps) {
         if(!dm.allMaps.hasOwnProperty(mapID)) continue;
         dm.allMaps[mapID].tick();
       }
@@ -330,14 +584,14 @@ let socketHandler = (socket, io) => {
           dm.allLoggedPlayersData[playerID].active = false;
       }
       io.emit("checkForConnection");
-      setTimeout(async function(){
+      setTimeout(async function() {
         for (var playerID in dm.allLoggedPlayersData) {
             // skip loop if the property is from prototype
             if (!dm.allLoggedPlayersData.hasOwnProperty(playerID)) continue;
 
             if(!dm.allLoggedPlayersData[playerID]) continue;
             var player = dm.allLoggedPlayersData[playerID];
-            if(!dm.allLoggedPlayersData[playerID].active){
+            if(!dm.allLoggedPlayersData[playerID].active) {
               try {
                 var player = dm.allLoggedPlayersData[playerID];
                 var user = await User.findById(playerID);
@@ -354,7 +608,7 @@ let socketHandler = (socket, io) => {
                 await user.save();
 
                 console.log("saved statis of :", user._id);
-              }catch(e){
+              }catch(e) {
                 console.log(e);
               };
 
@@ -368,8 +622,8 @@ let socketHandler = (socket, io) => {
   };
 
   socket.on("checkedConnection", (playerData) => {
-    if(dm.allLoggedPlayersData[playerData.id]){
-        dm.allLoggedPlayersData[playerData.id].active = true;
+    if(dm.allLoggedPlayersData[socket.playerID]) {
+        dm.allLoggedPlayersData[socket.playerID].active = true;
     };
   });
 
@@ -377,7 +631,7 @@ let socketHandler = (socket, io) => {
   socket.on("addStatusPoint", (data) => {
     let player = dm.allLoggedPlayersData[data.playerID];
     if(player) {
-      if(player.leftStatusPoints < 0 ){return;}
+      if(player.leftStatusPoints < 0 ) {return;}
       player[data.statusName] += 1;
       player.attack = dm.playerFunctions.calculateAttack(player);
       player.maxMana = dm.playerFunctions.calculateMaxMana(player);
@@ -393,7 +647,7 @@ let socketHandler = (socket, io) => {
     };
   });
 
-  if(!dm.serverStarted){
+  if(!dm.serverStarted) {
     sendToUserData();
     checkForConnection();
     dm.serverStarted = true;

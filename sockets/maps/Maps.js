@@ -1,4 +1,5 @@
 const {Spider, Bee} = require("../enemies/enemy");
+const Item = require("../equipment/itemOnTheGround");
 
 class Map {
   constructor(name, backgrounds = ['grass'], width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 3000){
@@ -8,8 +9,10 @@ class Map {
     this.respTime = respTime;
     this.players = {};
     this.dataToSend = {};
-    this.mobsDataToSend = {};
     this.mobs = {};
+    this.mobsDataToSend = {};
+    this.items = {};
+    this.itemsDataToSend = {};
     this.nextMaps = {};
     this.backgrounds = backgrounds;
     this.width = width;
@@ -19,25 +22,24 @@ class Map {
 
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
-
-    let newEnemy;
-    if(Math.random() > 0.5) {
-      newEnemy = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
-    } else {
-      newEnemy = new Bee(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
-    }
-    this.currentNumberOfMobs += 1;
-    this.mobs[newEnemy.id] = newEnemy;
-    this.mobsDataToSend[newEnemy.id] = {
-      x : newEnemy.x,
-      y : newEnemy.y,
-      id : newEnemy.id,
-      key : newEnemy.key,
-      health : newEnemy.health,
-      maxHealth : newEnemy.maxHealth,
-      animated : newEnemy.animated,
-      lvl : newEnemy.lvl
-    };
+      let newEnemy;
+      if(Math.random() > 0.5) {
+        newEnemy = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+      } else {
+        newEnemy = new Bee(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+      }
+      this.currentNumberOfMobs += 1;
+      this.mobs[newEnemy.id] = newEnemy;
+      this.mobsDataToSend[newEnemy.id] = {
+        x : newEnemy.x,
+        y : newEnemy.y,
+        id : newEnemy.id,
+        key : newEnemy.key,
+        health : newEnemy.health,
+        maxHealth : newEnemy.maxHealth,
+        animated : newEnemy.animated,
+        lvl : newEnemy.lvl
+      };
       for(let playerID in this.players) {
         if(this.players.hasOwnProperty(playerID)){
           this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
@@ -121,6 +123,33 @@ class Map {
 
     this.mobs[idOfRemovedMob].onDie();
   };
+
+  removeItem(idOfRemovedItem) {
+    if(!this.items[idOfRemovedItem]){return};
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        this.players[playerID].socket.emit("removeItem", {
+          id : idOfRemovedItem
+        });
+      }
+    };
+    delete this.items[idOfRemovedItem];
+  };
+
+  addItem(itemData) {
+    let item = new Item(itemData.x,itemData.y,this,itemData.key,itemData.type)
+    this.items[item.id] = item;
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)){
+        this.players[playerID].socket.emit("addItem", {
+          x : item.x,
+          y : item.y,
+          id : item.id,
+          key : item.key
+        });
+      }
+    };
+  }
 
   tick() {
     let newDataToSend = {};

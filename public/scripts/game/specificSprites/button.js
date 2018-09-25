@@ -81,7 +81,6 @@ Button.prototype.initializeFrames = function(){
   this.addOnInputOverFunction(function(){
     if(!this.disabled){
       this.frame = this.overFrame;
-      console.log("OVERRRR");
     };
   },this);
   this.addOnInputOutFunction(function(){

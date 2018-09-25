@@ -122,9 +122,22 @@ var userSchema = new mongoose.Schema({
       type : {
         type : String,
         required : true
+      },
+      x : {
+        type : Number,
+        required : true
+      },
+      y : {
+        type : Number,
+        required : true
       }
     }],
-    default : []
+    default : [{
+      key : "boots_2",
+      type : "boots",
+      x : 0,
+      y : 1
+    }]
   }
 });
 

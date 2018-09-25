@@ -19,6 +19,7 @@ class MapManager {
     this.state.allEntities.enableBody = true;
     this.state.allEntities.objects = {};
     this.state.allEntities.enemies = {};
+    this.state.allEntities.items = {};
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
     this.state.colliders = this.state.add.group();
@@ -109,8 +110,7 @@ class MapManager {
   };
 
   createPlayer() {
-    if(!handler.player){
-      console.log(handler.playerData.key);
+    if(!handler.player) {
       this.state.player = new Player(this.state.game,handler.playerData);
       handler.player = this.state.player;
     } else {
@@ -171,6 +171,38 @@ class MapManager {
 
     this.state.uiManager.addEnemyDescription(newEnemy);
   };
+
+  addNewItem(data) {
+    let self = this.state;
+    let newItem = null;
+    if(!newItem){
+      newItem = new Button(this.state.game,data.x, data.y,data.key,0,1,2,3);
+      newItem.scale.setTo(0.7);
+      self.allEntities.add(newItem);
+      console.log(data);
+      self.allEntities.items[data.id] = newItem;
+      newItem.addOnInputDownFunction(function() {
+        if(this.getDistanceBetweenEntityAndPlayer(newItem) <= 100) {
+          // self.fightWithOpponentManager.showFightOptionsMenu(newItem);
+          // console.log("BIERZ ITEM");
+          // pickUpItem
+          handler.socketsManager.emit('pickUpItem', {
+            itemID : data.id
+          })
+        };
+      }, this);
+      self.setRenderOrder(newItem);
+    } else {
+      newItem.reset(data.x,data.y);
+    }
+  };
+
+  removeItem (data) {
+    console.log(data.id);
+    let itemToRemove = this.state.allEntities.items[data.id];
+    itemToRemove.kill();
+    delete this.state.allEntities.items[data.id];
+  }
 
   update() {
     this.state.allEntities.mobs.forEach(mob => {

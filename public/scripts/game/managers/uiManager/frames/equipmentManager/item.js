@@ -1,27 +1,29 @@
-let Item = function(equipmentManager,x,y,data,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera = true) {
-
+let Item = function(equipmentManager,x,y,data,isCurrentlyWear,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera = true) {
   Phaser.Group.call(this,equipmentManager.state.game);
+  data = data || {};
   this.x = x;
   this.y = y;
-  this.key = data.key;
-  this.description = data.description;
-  this.strength = data.strength;
-  this.vitality = data.vitality;
-  this.intelligence = data.intelligence;
-  this.strength = data.strength;
-  this.defence = data.defence;
-  this.minAttack = data.minAttack;
-  this.maxAttack = data.maxAttack;
-  this.requiredLevel = data.requiredLevel;
+  this.isCurrentlyWear = isCurrentlyWear || false;
+  this.equipmentPositionX = data.x || -1;
+  this.equipmentPositionY = data.y || -1;
+  this.key = data.key || "boots_1";
+  this.itemType = data.type || "boots";
+  this.description = data.description || "asd";
+  this.strength = data.strength || 0;
+  this.vitality = data.vitality || 0;
+  this.intelligence = data.intelligence || 0;
+  this.agility = data.agility || 0;
+  this.defence = data.defence || 0;
+  this.minAttack = data.minAttack || 0;
+  this.maxAttack = data.maxAttack || 0;
+  this.requiredLevel = data.requiredLevel || 0;
   this.equipmentManager = equipmentManager;
   this.state = equipmentManager.state;
-  this.width = 50;
-  this.height = 50;
-  this.sprite = new Button(equipmentManager.state.game,x,y,data.key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera);
+  this.sprite = new Button(equipmentManager.state.game,0,0,data.key || "boots_1",normalFrame || 0,downFrame || 1,overFrame || 2,disabledFrame || 3,fixedToCamera);
   this.equipmentManager.uiManager.blockPlayerMovementsWhenOver(this.sprite);
-  // this.spriteDescription = new ItemDescription(state,this);
-  //
   this.sprite.addOnInputOverFunction(function() {
+    // console.log(this.equipmentPositionX);
+    // console.log(this.equipmentPositionY);
     this.equipmentManager.itemDescription.show(this);
   }, this);
   this.sprite.addOnInputOutFunction(function() {
@@ -29,9 +31,32 @@ let Item = function(equipmentManager,x,y,data,normalFrame,downFrame,overFrame,di
   }, this);
   this.sprite.addOnInputUpFunction(function() {
     this.equipmentManager.itemDescription.hide(this);
+    this.equipmentManager.itemMenu.show(this);
   }, this);
   this.add(this.sprite);
 };
 
 Item.prototype = Object.create(Phaser.Group.prototype);
 Item.prototype.constructor = Item;
+
+Item.prototype.reset = function(x,y) {
+  this.x = x;
+  this.y = y;
+}
+
+Item.prototype.changeView = function(data) {
+  this.key = data.key || "boots_1";
+  this.itemType = data.itemType || data.type || "boots";
+  this.description = data.description || "asd";
+  this.strength = data.strength || 0;
+  this.vitality = data.vitality || 0;
+  this.intelligence = data.intelligence || 0;
+  this.agility = data.agility || 0;
+  this.defence = data.defence || 0;
+  this.minAttack = data.minAttack || 0;
+  this.maxAttack = data.maxAttack || 0;
+  this.requiredLevel = data.requiredLevel || 0;
+  // this.equipmentPositionX = data.equipmentPositionX === 0 ? 0 : ( data.equipmentPositionX || data.x || 0 );
+  // this.equipmentPositionY = data.equipmentPositionY === 0 ? 0 : ( data.equipmentPositionY || data.y || 0 );
+  this.sprite.loadTexture(data.key);
+}

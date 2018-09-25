@@ -2,6 +2,7 @@ let Player = function(game,data) {
 
   Phaser.Sprite.call(this,game,data.x,data.y,data.key || "player");
   // console.log(data);
+  this.game = game;
   this.skillsDictionary = data.skillsDictionary || [{
     skillName : "punch",
     onPlayer : false
@@ -142,7 +143,17 @@ Player.prototype.emitData = function(handler){
 };
 
 Player.prototype.damage = function(way) {
-  if(way == "punch"){
-    console.log("punching");
-  };
+  // if(way == "punch"){
+  //   console.log("punching");
+  // };
+  throw new Error("wtf ?");
+}
+
+Player.prototype.addNewItem = function(data) {
+  console.log(data);
+  console.log(this.equipment);
+  console.log(this.equipment[data.item.y]);
+  console.log(this.equipment[data.item.y][data.item.x]);
+  this.equipment[data.item.y][data.item.x] = data;
+  handler.currentState.uiManager.equipmentManager.addItemToNonDressEquipment(data);
 }
