@@ -1,21 +1,20 @@
 class UIManager {
-  constructor(state){
+  constructor(state) {
     this.state = state;
-
+    this.game = state.game;
     this.entityDescriptionsManager = new EntityDescriptionsManager(this);
     this.statusPointsManager = new StatusPointsManager(state,this);
     this.characterDataManager = new CharacterDataManager(state,this);
     this.settingsManager = new SettingsManager(state,this);
     this.equipmentManager = new EquipmentManager(state,this);
+    this.tradeManager = new TradeManager(state,this);
 
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.alertManager = new AlertManager(this);
-    // this.blockedMovement = false;
     this.fightMode = false;
-    this.blockedMovement = 2;
   }
 
-  showTownAlert(text){
+  showTownAlert(text) {
     this.alertManager.showTownAlert(text);
   }
   showDamageEnemyAlert(text) {
@@ -46,50 +45,72 @@ class UIManager {
     this.framesManagers.push(this.characterDataManager);
     this.framesManagers.push(this.settingsManager);
     this.framesManagers.push(this.equipmentManager);
+    this.framesManagers.push(this.tradeManager);
     let state = this.state;
-
     // uiTileSprite
-    state.uiTile_normal = state.add.tileSprite(40,state.game.height-70,state.game.width - 80,70,"normalTile");
-    state.uiTile_left = state.add.sprite(0,state.game.height-70,"leftTile");
-    state.uiTile_right = state.add.sprite(state.game.width-70,state.game.height-70,"rightTile");
-    state.uiTile_middle = state.add.sprite(state.game.width/2 - 50,state.game.height-100,"middleTile");
+    this.uiGroupTile_normal = state.add.tileSprite(40,state.game.height-70,state.game.width - 80,70,"normalTile");
+    this.uiGroupTile_left = state.add.sprite(0,state.game.height-70,"leftTile");
+    this.uiGroupTile_right = state.add.sprite(state.game.width-70,state.game.height-70,"rightTile");
+    this.uiGroupTile_middle = state.add.sprite(state.game.width/2 - 50,state.game.height-100,"middleTile");
 
-    this.blockPlayerMovementsWhenOver(state.uiTile_normal);
-    this.blockPlayerMovementsWhenOver(state.uiTile_left);
-    this.blockPlayerMovementsWhenOver(state.uiTile_right);
-    this.blockPlayerMovementsWhenOver(state.uiTile_middle);
+    this.blockPlayerMovementsWhenOver(this.uiGroupTile_normal);
+    this.blockPlayerMovementsWhenOver(this.uiGroupTile_left);
+    this.blockPlayerMovementsWhenOver(this.uiGroupTile_right);
+    this.blockPlayerMovementsWhenOver(this.uiGroupTile_middle);
+
+    this.moneyIcon = state.add.sprite(state.game.width/2 + 50,state.game.height-100,"moneyIcon");
+    this.blockPlayerMovementsWhenOver(this.moneyIcon);
+
+    this.moneyText = this.state.add.text(-500,-500);
+    this.state.styleText(this.moneyText);
+    let textCss = {
+      stroke : '#000',
+      strokeThickness : 4,
+      fill : '	#DAA520'
+    };
+    this.moneyText.setStyle(textCss);
+    this.moneyText.anchor.setTo(0,0.5);
+    this.moneyText.fontSize = 18;
+    this.moneyText.text = '0$';
+
     // health bars
-    state.emptyHpBar = state.game.add.sprite(70,state.game.height - 55,"healthBarDark");
-    state.fullHpBar = state.game.add.sprite(70,state.game.height - 55,"healthBar");
+    this.emptyHpBar = state.game.add.sprite(70,state.game.height - 55,"healthBarDark");
+    this.fullHpBar = state.game.add.sprite(70,state.game.height - 55,"healthBar");
 
     //experience bars
-    state.emptyManaBar = state.game.add.sprite(70,state.game.height - 48,"manaBarDark");
-    state.fullManaBar = state.game.add.sprite(70,state.game.height - 48,"manaBar");
-    state.emptyManaBar.visible = false;
-    state.fullManaBar.visible = false;
+    this.emptyManaBar = state.game.add.sprite(70,state.game.height - 48,"manaBarDark");
+    this.fullManaBar = state.game.add.sprite(70,state.game.height - 48,"manaBar");
+    this.emptyManaBar.visible = false;
+    this.fullManaBar.visible = false;
 
     //experience bars
-    state.emptyExpBar = state.game.add.sprite(70,state.game.height - 35,"experienceBarDark");
-    state.fullExpBar = state.game.add.sprite(70,state.game.height - 35,"experienceBar");
+    this.emptyExpBar = state.game.add.sprite(70,state.game.height - 35,"experienceBarDark");
+    this.fullExpBar = state.game.add.sprite(70,state.game.height - 35,"experienceBar");
 
     //player logo
-    state.playerlogo = state.game.add.sprite(2,state.game.height - 72,"playerlogo");
+    this.playerlogo = state.game.add.sprite(2,state.game.height - 72,"playerlogo");
 
-    state.ui = state.add.group();
 
-    state.ui.add(state.uiTile_normal);
-    state.ui.add(state.uiTile_right);
-    state.ui.add(state.uiTile_left);
-    state.ui.add(state.uiTile_middle);
-    state.ui.add(state.playerlogo);
-    state.ui.add(state.emptyHpBar);
-    state.ui.add(state.fullHpBar);
-    state.ui.add(state.emptyExpBar);
-    state.ui.add(state.fullExpBar);
-    state.ui.add(state.emptyManaBar);
-    state.ui.add(state.fullManaBar);
+    // state.uiGroup = state.add.group();
+    // this.uiGroup = state.uiGroup;
+    this.uiGroup = state.add.group();
+    // state.game.add.existing(this.uiGroup);
 
-    state.ui.fixedToCamera = true;
+    this.uiGroup.add(this.uiGroupTile_normal);
+    this.uiGroup.add(this.uiGroupTile_right);
+    this.uiGroup.add(this.uiGroupTile_left);
+    this.uiGroup.add(this.uiGroupTile_middle);
+    this.uiGroup.add(this.moneyText);
+    this.uiGroup.add(this.moneyIcon);
+    this.uiGroup.add(this.playerlogo);
+    this.uiGroup.add(this.emptyHpBar);
+    this.uiGroup.add(this.fullHpBar);
+    this.uiGroup.add(this.emptyExpBar);
+    this.uiGroup.add(this.fullExpBar);
+    this.uiGroup.add(this.emptyManaBar);
+    this.uiGroup.add(this.fullManaBar);
+
+    this.uiGroup.fixedToCamera = true;
     this.entityDescriptionsManager.initialize();
     this.framesManagers.forEach(frameManager => {
       frameManager.initialize();
@@ -99,17 +120,22 @@ class UIManager {
     this.onResize();
     this.hideManaBar();
     this.hideHealthBar();
+    this.updateMoneyText();
+  }
+
+  updateMoneyText() {
+    this.moneyText.text = `${handler.money}$`;
   }
 
   addToGroup(sprite) {
-    this.state.ui.add(sprite);
+    this.uiGroup.add(sprite);
   }
 
-  hideEnemiesDescriptions(){
+  hideEnemiesDescriptions() {
     this.entityDescriptionsManager.hideEnemiesDescriptions();
   }
 
-  showEnemiesDescriptions(){
+  showEnemiesDescriptions() {
     this.entityDescriptionsManager.showEnemiesDescriptions();
   }
 
@@ -121,20 +147,24 @@ class UIManager {
     this.entityDescriptionsManager.removeEnemyDescription(enemy);
   }
 
-  blockPlayerMovementsWhenOver(sprite){
+  blockPlayerMovementsWhenOver(sprite) {
     sprite.inputEnabled = true;
-    sprite.events.onInputOver.add(function(){
+    sprite.events.onInputOver.add(function() {
       this.blockPlayerMovement(10000);
     },this);
-    sprite.events.onInputDown.add(function(){
+    sprite.events.onInputDown.add(function() {
       this.blockPlayerMovement(10000);
     },this);
-    sprite.events.onInputUp.add(function(){
+    sprite.events.onInputUp.add(function() {
       this.blockPlayerMovement();
     },this);
-    sprite.events.onInputOut.add(function(){
+    sprite.events.onInputOut.add(function() {
       this.blockPlayerMovement();
     },this);
+  }
+
+  showTradeWindow(trader) {
+    this.tradeManager.showWindow(trader);
   }
 
   toggleStatusPointWindow() {
@@ -150,43 +180,51 @@ class UIManager {
   }
 
   blockPlayerMovement(num) {
-    this.blockedMovement = num || 2;
+    this.state.blockPlayerMovement(num);
   }
 
-  unBlockPlayerMovement(){
+  unBlockPlayerMovement() {
     // this.blockedMovement = false;
   }
 
-  fightModeOn(){
+  fightModeOn() {
+    if(this.state.game.width < 380) {
+      this.moneyIcon.reset(15, this.state.game.height - 110 - 100);
+      this.moneyText.reset(65, this.state.game.height - 89 - 100);
+    }
     this.showManaBar();
     this.showHealthBar();
     this.fightMode = true;
   }
 
-  fightModeOff(){
+  fightModeOff() {
     this.hideManaBar();
     this.hideHealthBar();
     this.fightMode = false;
+    if(this.state.game.width < 380) {
+      this.moneyIcon.reset(15, this.state.game.height - 103);
+      this.moneyText.reset(65, this.state.game.height - 76);
+    }
   }
 
-  showManaBar(){
-    this.state.emptyManaBar.visible = true;
-    this.state.fullManaBar.visible = true;
+  showManaBar() {
+    this.emptyManaBar.visible = true;
+    this.fullManaBar.visible = true;
   }
 
-  hideManaBar(){
-    this.state.emptyManaBar.visible = false;
-    this.state.fullManaBar.visible = false;
+  hideManaBar() {
+    this.emptyManaBar.visible = false;
+    this.fullManaBar.visible = false;
   }
 
-  showHealthBar(){
-    this.state.emptyHpBar.visible = true;
-    this.state.fullHpBar.visible = true;
+  showHealthBar() {
+    this.emptyHpBar.visible = true;
+    this.fullHpBar.visible = true;
   }
 
-  hideHealthBar(){
-    this.state.emptyHpBar.visible = false;
-    this.state.fullHpBar.visible = false;
+  hideHealthBar() {
+    this.emptyHpBar.visible = false;
+    this.fullHpBar.visible = false;
   }
 
   closeAllWindows() {
@@ -198,9 +236,9 @@ class UIManager {
   update() {
     // TODO nie trzeba updatowac tego caly czas !!!! jedynie jak dostaniemy info od servera, ze hp/mana/exp playera sie zmienil !!!!
     let state = this.state;
-    state.fullHpBar.width = state.player.health/state.player.maxHealth * state.emptyHpBar.width;
-    state.fullManaBar.width = state.player.mana/state.player.maxMana * state.emptyManaBar.width;
-    state.fullExpBar.width = state.player.experience/state.player.requiredExperience * state.emptyExpBar.width;
+    this.fullHpBar.width = state.player.health/state.player.maxHealth * this.emptyHpBar.width;
+    this.fullManaBar.width = state.player.mana/state.player.maxMana * this.emptyManaBar.width;
+    this.fullExpBar.width = state.player.experience/state.player.requiredExperience * this.emptyExpBar.width;
     this.expandedMenuManager.update();
     this.framesManagers.forEach(frameManager => {
       frameManager.update();
@@ -209,31 +247,48 @@ class UIManager {
 
   onResize() {
     let state = this.state;
-    state.emptyHpBar.reset(60,state.game.height - 55);
-    state.fullHpBar.reset(60,state.game.height - 55);
-    state.emptyManaBar.reset(60,state.game.height - 35);
-    state.fullManaBar.reset(60,state.game.height - 35);
-    state.emptyExpBar.reset(60,state.game.height - 35);
-    state.fullExpBar.reset(60,state.game.height - 35);
-
-    if(!this.fightMode){
+    this.emptyHpBar.reset(60, state.game.height - 55);
+    this.fullHpBar.reset(60, state.game.height - 55);
+    this.emptyManaBar.reset(60, state.game.height - 35);
+    this.fullManaBar.reset(60, state.game.height - 35);
+    this.emptyExpBar.reset(60, state.game.height - 35);
+    this.fullExpBar.reset(60, state.game.height - 35);
+    if(this.state.game.width < 380 && this.fightMode) {
+      this.moneyIcon.reset(15, state.game.height - 110 - 100);
+      this.moneyText.reset(65, state.game.height - 89 - 100);
+    } else {
+      this.moneyIcon.reset(15, state.game.height - 103);
+      this.moneyText.reset(65, state.game.height - 76);
+    }
+    if(!this.fightMode) {
       this.fightModeOff();
     }
 
-    state.playerlogo.reset(10,state.game.height - 60);
+    this.playerlogo.reset(10,state.game.height - 60);
 
-    state.uiTile_normal.reset(40,state.game.height-70);
-    state.uiTile_normal.width = state.game.width - 80;
-    state.uiTile_normal.height = 70;
-    state.uiTile_left.reset(0,state.game.height-70);
-    state.uiTile_right.reset(state.game.width-70,state.game.height-70);
-    state.uiTile_middle.reset(state.game.width/2 - 50,state.game.height-100);
+    this.uiGroupTile_normal.reset(40,state.game.height-70);
+    this.uiGroupTile_normal.width = state.game.width - 80;
+    this.uiGroupTile_normal.height = 70;
+    this.uiGroupTile_left.reset(0,state.game.height-70);
+    this.uiGroupTile_right.reset(state.game.width-70,state.game.height-70);
+    this.uiGroupTile_middle.reset(state.game.width/2 - 50,state.game.height-100);
 
     this.framesManagers.forEach(frameManager => {
       frameManager.onResize();
     });
     this.expandedMenuManager.onResize();
-
-    this.blockedMovement = 2;
   };
+
+  onMapChange() {
+    this.uiGroup.removeAll(true);
+  }
+
+  bringToTop(item) {
+    this.game.world.bringToTop(this.uiGroup);
+  }
+
+  bringItemToTop(item) {
+    this.uiGroup.bringToTop(item);
+  }
+
 }

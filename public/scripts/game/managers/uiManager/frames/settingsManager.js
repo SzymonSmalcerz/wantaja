@@ -8,7 +8,7 @@ class SettingsManager extends UIFrameManager {
     let state = this.state;
     state.optionsManager = this.frameGroup;
 
-    this.checkBox = new CheckBox(this.state.game,0,0,true,0,1,2,3,4,5,6,7);
+    this.checkBox = new CheckBox(this.state,0,0,true,0,1,2,3,4,5,6,7);
     this.uiManager.blockPlayerMovementsWhenOver(this.checkBox);
     this.number = 0;
     this.checkBox.addOnCheckFunction(function(){
@@ -25,7 +25,7 @@ class SettingsManager extends UIFrameManager {
     this.frameGroup.add(this.checkBox);
     this.frameGroup.add(this.enemiesDescriptionsText);
 
-    this.settingsButton = new Button(state.game,0,0,"settingsButton",0,1,2,3);
+    this.settingsButton = new Button(state,0,0,"settingsButton",0,1,2,3);
     this.settingsButton.anchor.setTo(0);
     this.settingsButton.addOnInputDownFunction(function(){
       this.toggleWindow();

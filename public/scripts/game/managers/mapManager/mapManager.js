@@ -4,6 +4,13 @@ class MapManager {
     this.preChangeMapMenu = new PreChangeMapMenu(this);
   }
 
+  onMapChange() {
+    this.preChangeMapMenu.onMapChange();
+    this.state.backgrounds.removeAll(true);
+    // this.state.allEntities.removeAll(true);
+    // this.state.map.removeAll(true);
+  }
+
   initialize() {
 
     this.mapName = handler.playerData.currentMapName;
@@ -20,6 +27,8 @@ class MapManager {
     this.state.allEntities.objects = {};
     this.state.allEntities.enemies = {};
     this.state.allEntities.items = {};
+    this.state.allEntities.traders = {};
+    this.state.allEntities.npcs = {};
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
     this.state.colliders = this.state.add.group();
@@ -27,7 +36,7 @@ class MapManager {
     this.preChangeMapMenu.initialize();
     this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Doors"].length;i++) {
-      let doorToMap = new Button(this.state.game,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3)
+      let doorToMap = new Button(this.state,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3)
       this.state.allEntities.add(doorToMap);
       this.state.game.physics.enable(doorToMap);
       doorToMap.body.immovable = true;
@@ -39,8 +48,11 @@ class MapManager {
       });
 
       doorToMap.nextMapName = properites['nextMapName'];
-      doorToMap.addOnInputDownFunction(function(){
-        this.preChangeMapMenu.showOptionsMenu(doorToMap);
+      doorToMap.addOnInputDownFunction(function() {
+        if(getDistanceBetweenEntityAndPlayer(doorToMap, this.state.player) <= 100) {
+          this.state.blockPlayerMovement();
+          this.preChangeMapMenu.showOptionsMenu(doorToMap);
+        }
       },this);
     }
 
@@ -103,9 +115,6 @@ class MapManager {
   };
 
   onResize(width, height) {
-    // this.state.floor.resize(width,height);
-    // this.state.floor_2.resize(width,height);
-    // this.state.walls.resize(width,height);
     this.state.allEntities.setAll("smoothed",false);
   };
 
@@ -160,7 +169,8 @@ class MapManager {
       self.allEntities.add(newEnemy);
       self.allEntities.enemies[data.id] = newEnemy;
       newEnemy.addOnInputDownFunction(function(){
-        if(this.getDistanceBetweenEntityAndPlayer(newEnemy) <= 50){
+        if(getDistanceBetweenEntityAndPlayer(newEnemy, this.state.player) <= 50) {
+          this.state.blockPlayerMovement();
           self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
         };
       }, this);
@@ -172,20 +182,45 @@ class MapManager {
     this.state.uiManager.addEnemyDescription(newEnemy);
   };
 
+  addNewTrader(data) {
+    let self = this.state;
+    let newTrader = null;
+    if(!newTrader){
+      newTrader = new Trader(self,data);
+      self.allEntities.add(newTrader);
+      self.allEntities.traders[data.id] = newTrader;
+      self.setRenderOrder(newTrader);
+    } else {
+      newTrader.reset(data.x,data.y);
+    }
+  };
+
+  addNewNpc(data) {
+    let self = this.state;
+    let newNpc = null;
+    if(!newNpc){
+      newNpc = new Npc(self,data);
+      self.allEntities.add(newNpc);
+      self.allEntities.npcs[data.id] = newNpc;
+      self.setRenderOrder(newNpc);
+    } else {
+      newNpc.reset(data.x,data.y);
+    }
+    console.log(data);
+  };
+
   addNewItem(data) {
     let self = this.state;
     let newItem = null;
     if(!newItem){
-      newItem = new Button(this.state.game,data.x, data.y,data.key,0,1,2,3);
+      newItem = new Button(this.state,data.x, data.y,data.key,0,1,2,3);
       newItem.scale.setTo(0.7);
       self.allEntities.add(newItem);
       console.log(data);
       self.allEntities.items[data.id] = newItem;
       newItem.addOnInputDownFunction(function() {
-        if(this.getDistanceBetweenEntityAndPlayer(newItem) <= 100) {
-          // self.fightWithOpponentManager.showFightOptionsMenu(newItem);
-          // console.log("BIERZ ITEM");
-          // pickUpItem
+        if(getDistanceBetweenEntityAndPlayer(newItem, this.state.player) <= 50) {
+          this.state.blockPlayerMovement();
           handler.socketsManager.emit('pickUpItem', {
             itemID : data.id
           })
@@ -209,15 +244,4 @@ class MapManager {
       mob.updateMob();
     })
   }
-  getDistanceBetweenEntityAndPlayer(entity){
-    let entityCoords = {
-      x : entity.left + entity.width/2,
-      y : entity.bottom - entity.height/2
-    };
-    let playerCoords = {
-      x : this.state.player.left + this.state.player.width/2,
-      y : this.state.player.bottom - this.state.player.height/2
-    };
-    return Math.sqrt(Math.pow(entityCoords.x - playerCoords.x,2) + Math.pow(entityCoords.y - playerCoords.y,2));
-  };
 }

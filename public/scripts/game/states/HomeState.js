@@ -131,7 +131,7 @@ let HomeState = {
 
           let checkBox = this.playerAvatarsCheckboxes.getFirstExists(false);
           if(!checkBox) {
-            checkBox = new CheckBox(this.game,x,y+30,false,0,1,2,3,4,5,6,7,false,"checkbox_avatars");
+            checkBox = new CheckBox(this,x,y+30,false,0,1,2,3,4,5,6,7,false,"checkbox_avatars");
             this.playerAvatarsCheckboxes.add(checkBox);
             checkBox.addOnCheckFunction(function() {
               if(this.currentCheckBox) {
@@ -171,7 +171,7 @@ let HomeState = {
 
             let checkBox = this.playerAvatarsCheckboxes.getFirstExists(false);
             if(!checkBox) {
-              checkBox = new CheckBox(this.game,x,y+30,false,0,1,2,3,4,5,6,7,false,"checkbox_avatars");
+              checkBox = new CheckBox(this,x,y+30,false,0,1,2,3,4,5,6,7,false,"checkbox_avatars");
               this.playerAvatarsCheckboxes.add(checkBox);
               checkBox.addOnCheckFunction(function() {
                 if(this.currentCheckBox) {

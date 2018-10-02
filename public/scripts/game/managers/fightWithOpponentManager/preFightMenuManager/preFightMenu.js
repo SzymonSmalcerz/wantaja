@@ -1,44 +1,50 @@
-class PreFightMenu {
-  constructor(mainFightManager){
-    this.state = mainFightManager.state;
-    this.mainFightManager = mainFightManager;
+class PreFightMenu extends Phaser.Group {
+  constructor(fightWithOpponentManager) {
+    super(fightWithOpponentManager.state.game);
+    this.state = fightWithOpponentManager.state;
+    this.fightWithOpponentManager = fightWithOpponentManager;
   };
 
-  initialize(){
+  initialize() {
     this.createFightingOptionsMenu();
   };
 
-  createFightingOptionsMenu(){
+  createFightingOptionsMenu() {
     let state = this.state;
-    state.fightingOptionsMenu = state.add.group();
 
-    state.fightInitButton = new Button(this.state.game,-100,-100,"fightInitButton",0,0,1,2);
-    state.fightInitButton.anchor.setTo(0.5);
-    state.fightAbortButton = new Button(this.state.game,-100,-100,"closeButton",0,0,1,2);
-    state.fightAbortButton.anchor.setTo(0.5);
-    state.fightingOptionsMenu.add(state.fightInitButton);
-    state.fightingOptionsMenu.add(state.fightAbortButton);
+    this.fightInitButton = new Button(this.state,-100,-100,"fightInitButton",0,0,1,2);
+    this.fightInitButton.anchor.setTo(0.5);
+    this.fightAbortButton = new Button(this.state,-100,-100,"closeButton",0,0,1,2);
+    this.fightAbortButton.anchor.setTo(0.5);
+    this.add(this.fightInitButton);
+    this.add(this.fightAbortButton);
 
-    state.fightingOptionsMenu.visible = false;
+    this.visible = false;
   };
 
+  onMapChange() {
+    this.removeAll(true);
+  }
+
+  onResize() {}
+
   showFightOptionsMenu(enemy) {
-    if(this.state.player.isFighting){return};
+    if(this.state.player.isFighting) {return};
     this.state.player.setFightingMode(); // player wont send any data about his position to the server while fighting
-    this.state.fightInitButton.reset(enemy.x, enemy.y - 25);
-    this.state.fightAbortButton.reset(enemy.x, enemy.y + 25);
+    this.fightInitButton.reset(enemy.x, enemy.y - 25);
+    this.fightAbortButton.reset(enemy.x, enemy.y + 25);
 
-    this.state.fightInitButton.addOnInputDownFunction(function(){
-      this.mainFightManager.startFight(enemy);
-      this.state.fightingOptionsMenu.visible = false;
+    this.fightInitButton.addOnInputDownFunction(function() {
+      this.fightWithOpponentManager.startFight(enemy);
+      this.visible = false;
       this.state.playerMoveManager.lastTimeInputRead = Date.now();
     },this,true);
 
-    this.state.fightAbortButton.addOnInputDownFunction(function(){
+    this.fightAbortButton.addOnInputDownFunction(function() {
       this.state.player.quitFightingMode();
-      this.state.fightingOptionsMenu.visible = false;
+      this.visible = false;
       this.state.playerMoveManager.lastTimeInputRead = Date.now();
     },this,true);
-    this.state.fightingOptionsMenu.visible = true;
+    this.visible = true;
   };
 };

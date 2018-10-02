@@ -18,7 +18,6 @@ class SocketsManager {
       self.handler.currentState.fightWithOpponentManager.removeSwords(data)
     });
 
-    // TODO do this dodge socket !!!!
     this.handler.socket.on("dodge", function(){
       self.handler.currentState.uiManager.showDodgeAlert();
     });
@@ -51,6 +50,22 @@ class SocketsManager {
         if(data.mobs.hasOwnProperty(enemyID)) {
           if(!self.handler.currentState.allEntities[enemyID]) {
             self.handler.currentState.mapManager.addNewEnemy(data.mobs[enemyID]);
+          };
+        }
+      };
+
+      for(let traderID in data.traders) {
+        if(data.traders.hasOwnProperty(traderID)) {
+          if(!self.handler.currentState.allEntities[traderID]) {
+            self.handler.currentState.mapManager.addNewTrader(data.traders[traderID]);
+          };
+        }
+      };
+
+      for(let npcID in data.npcs) {
+        if(data.npcs.hasOwnProperty(npcID)) {
+          if(!self.handler.currentState.allEntities[npcID]) {
+            self.handler.currentState.mapManager.addNewNpc(data.npcs[npcID]);
           };
         }
       };
@@ -105,13 +120,14 @@ class SocketsManager {
       handler.player.currentMapName = data.mapName;
       handler.playerData.currentMapName = data.mapName;
       handler.backgroundsData = data.mapBackgrounds;
+      handler.fightingStageBackground = data.fightingStageBackground;
       handler.player.reset(data.playerX, data.playerY);
       self.handler.currentState.changeMap();
     });
 
     this.handler.socket.on("handleWinFight", function(data) {
       self.handler.currentState.player.experience = data.playerExperience;
-      self.handler.currentState.fightWithOpponentManager.handleWinFight();
+      self.handler.currentState.fightWithOpponentManager.handleWinFight(data);
       if(data.playerMoveResult.takenHealth) {
         self.handler.currentState.uiManager.showDamageEnemyAlert("you damaged enemy with\n" + data.playerMoveResult.takenHealth + " health points");
       }
@@ -119,9 +135,7 @@ class SocketsManager {
 
     this.handler.socket.on('checkForConnection', function () {
       console.log("tick");
-      self.handler.socket.emit("checkedConnection",{
-        id : self.handler.playerID
-      });
+      self.handler.socket.emit("checkedConnection");
     });
 
     this.handler.socket.on("updatePlayerData", function(data) {
@@ -160,18 +174,20 @@ class SocketsManager {
     });
 
     this.handler.socket.on("addItemToEquipment", function(data) {
-      // TODO
       self.handler.currentState.player.addNewItem(data);
-      // TODO
+    });
+
+    this.handler.socket.on("updateMoney", function(data) {
+      handler.money = data.amount;
+      if(handler.currentState.uiManager) {
+        handler.currentState.uiManager.updateMoneyText();
+      }
     });
   }
 
-  sendToServerInitializedInfo(){
+  sendToServerInitializedInfo() {
     let self = this;
-    this.handler.socket.emit("initialized", {
-      id : self.handler.playerData.id,
-      key : self.handler.playerData.key
-    });
+    this.handler.socket.emit("initialized");
   };
 
 

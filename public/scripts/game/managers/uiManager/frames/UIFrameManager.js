@@ -1,7 +1,7 @@
 class UIFrameManager {
   constructor(state,uiManager,keyboardButtonTriger,frameTitle,frameBackgroundKey) {
-    if(!state || !uiManager || !keyboardButtonTriger){
-      throw new Error("inherited class MUST provide state/uiManager/keyboardButtonTriger/frameTitle");
+    if(!state || !uiManager){
+      throw new Error("inherited class MUST provide state/uiManager/frameTitle");
     }
     this.state = state;
     this.uiManager = uiManager;
@@ -26,7 +26,7 @@ class UIFrameManager {
 
 
 
-    this.closeButton = new Button(this.state.game,this.posX + 83, this.posY - 128,"closeButton",0,1,2,3);
+    this.closeButton = new Button(this.state,this.posX + 83, this.posY - 128,"closeButton",0,1,2,3);
     this.frameGroup.add(this.closeButton);
     this.uiManager.blockPlayerMovementsWhenOver(this.closeButton,true);
     this.closeButton.addOnInputDownFunction(function(){
@@ -59,13 +59,13 @@ class UIFrameManager {
   }
 
   update() {
-    if(this.state.game.input.keyboard.isDown(this.keyboardButtonTriger) && Date.now() - this.lastTime > 200){
+    if(this.keyboardButtonTriger && this.state.game.input.keyboard.isDown(this.keyboardButtonTriger) && Date.now() - this.lastTime > 200){
       this.lastTime = Date.now();
       this.toggleWindow();
     }
   }
 
-  showWindow(){
+  showWindow() {
     this.uiManager.closeAllWindows();
     this.frameGroup.visible = true;
     this.bringToTop();

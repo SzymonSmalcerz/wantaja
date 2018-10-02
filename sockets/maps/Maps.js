@@ -1,10 +1,14 @@
-const {Spider, Bee} = require("../enemies/enemy");
+const { Spider, Bee } = require("../enemies/enemy");
+const { Trader_Greengrove, traders_utils } = require("../traders/traders");
 const Item = require("../equipment/itemOnTheGround");
+const Mission = require("../missions/missions");
+const Npc = require("../npcs/npcs");
 
 class Map {
-  constructor(name, backgrounds = ['grass'], width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 3000){
+  constructor(name, fightingStageBackground ,backgrounds = ['grass'], traders, npcs, missions, width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 3000){
     this.name = name;
     this.maxNumberOfMobs = maxNumberOfMobs;
+    this.fightingStageBackground = fightingStageBackground;
     this.currentNumberOfMobs = 0;
     this.respTime = respTime;
     this.players = {};
@@ -12,7 +16,9 @@ class Map {
     this.mobs = {};
     this.mobsDataToSend = {};
     this.items = {};
-    this.itemsDataToSend = {};
+    this.traders = traders || {};
+    this.npcs = npcs || {};
+    this.missions = missions || {};
     this.nextMaps = {};
     this.backgrounds = backgrounds;
     this.width = width;
@@ -68,7 +74,9 @@ class Map {
     let self = this;
     let data = {
       players : {},
-      mobs : self.mobsDataToSend
+      mobs : self.mobsDataToSend,
+      traders : self.traders,
+      npcs : self.npcs
     };
 
     for(let playerID in this.players) {
@@ -186,12 +194,11 @@ class Map {
   }
 };
 
-
-class FirstMap extends Map {
+class Greengrove extends Map {
   constructor() {
-    super("firstMap", ['grass','firstMapBackground']);
+    super("Greengrove", "fightingBackgroundGreengrove", ['grass','GreengroveBackground']);
     this.nextMaps = {
-      'secondMap' : {
+      'Northpool' : {
         doorX : 133,
         doorY : 1552,
         playerX : 290,
@@ -199,14 +206,20 @@ class FirstMap extends Map {
         requiredLevel : 2
       }
     };
+    this.traders = {
+      'greengroveTrader' : new Trader_Greengrove(1260, 312)
+    }
+    this.npcs = {
+      'greengrove_john' : new Npc(900, 180, 'greengrove_john')
+    }
   }
 };
 
-class SecondMap extends Map {
+class Northpool extends Map {
   constructor() {
-    super("secondMap", ['grass','secondMapBackground']);
+    super("Northpool", "fightingBackgroundNorthpool", ['grass','NorthpoolBackground']);
     this.nextMaps = {
-      'firstMap' : {
+      'Greengrove' : {
         doorX : 290,
         doorY : 2,
         playerX : 133,
@@ -247,6 +260,6 @@ class SecondMap extends Map {
 
 
 module.exports = {
-  FirstMap,
-  SecondMap
+  Greengrove,
+  Northpool
 };

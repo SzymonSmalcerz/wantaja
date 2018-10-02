@@ -35,10 +35,10 @@ let ItemMenu = function(equipmentManager, x, y) {
   this.description.fontSize = 17;
   this.add(this.description);
 
-  this.closeButton = new Button(this.state.game,75, -117,"closeButton",0,1,2,3);
+  this.closeButton = new Button(this.state,75, -117,"closeButton",0,1,2,3);
   this.add(this.closeButton);
 
-  this.takeOffButton = new Button(this.state.game,-45, 94,"takeOffButton",0,1,2,3);
+  this.takeOffButton = new Button(this.state,-45, 94,"takeOffButton",0,1,2,3);
   this.takeOffButton.anchor.setTo(0.5);
   this.add(this.takeOffButton);
   this.takeOffButton.addOnInputUpFunction(function() {
@@ -46,7 +46,7 @@ let ItemMenu = function(equipmentManager, x, y) {
     this.hide();
   }, this);
 
-  this.dressButton = new Button(this.state.game,-45, 94,"dressButton",0,1,2,3);
+  this.dressButton = new Button(this.state,-45, 94,"dressButton",0,1,2,3);
   this.dressButton.anchor.setTo(0.5);
   this.add(this.dressButton);
   this.dressButton.addOnInputUpFunction(function() {
@@ -54,7 +54,7 @@ let ItemMenu = function(equipmentManager, x, y) {
     this.hide();
   }, this);
 
-  this.discardButton = new Button(this.state.game,45, 94,"discardButton",0,1,2,3);
+  this.discardButton = new Button(this.state,45, 94,"discardButton",0,1,2,3);
   this.discardButton.anchor.setTo(0.5);
   this.add(this.discardButton);
   this.discardButton.addOnInputUpFunction(function() {

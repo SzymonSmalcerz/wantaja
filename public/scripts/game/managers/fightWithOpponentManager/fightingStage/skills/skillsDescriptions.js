@@ -17,7 +17,7 @@ class Skill {
     this.initialize();
   }
 
-  initialize(){
+  initialize() {
     this.getPositionsCoords();
     let state = this.state;
     state["skill_" + this.name + "_description"] = this;
@@ -68,7 +68,7 @@ class Skill {
 
   getPositionsCoords() {
     this.posX = Math.round(this.state.game.width/2);
-    this.posY = Math.round(this.state.game.width/2);
+    this.posY = Math.round(this.state.game.height/2);
     this.positions = {
       effectText : {
         x : this.posX - 55,
@@ -110,12 +110,12 @@ class Skill {
   }
   // choose if show blocked or normal frame
   chooseFrame() {
-    if(this.isSkillDisabled()){
+    if(this.isSkillDisabled()) {
       this.blockedFrame.visible = true;
       this.blockedText.visible = true;
       this.normalFrame.visible = false;
       this.blockedText.reset(this.positions.blockedText.x,this.positions.blockedText.y);
-      if(this.requiredLevel > this.entity.level ){
+      if(this.requiredLevel > this.entity.level ) {
         this.blockedText.text = "required level to use\nthis skill : " + this.requiredLevel;
       } else {
         this.blockedText.text = "not enough mana!";
@@ -131,8 +131,12 @@ class Skill {
     this.state[this.groupName].visible = false;
   }
 
-  getManaCost(){
+  getManaCost() {
     return this.manaCost;
+  }
+
+  onMapChange() {
+
   }
 
   getEffect() {

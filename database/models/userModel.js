@@ -13,6 +13,11 @@ var userSchema = new mongoose.Schema({
     type : String,
     required : true
   },
+  money : {
+    type : Number,
+    required : true,
+    default : 0
+  },
   email : {
     type : String,
     required : true,
@@ -40,7 +45,7 @@ var userSchema = new mongoose.Schema({
   },
   currentMapName : {
     type : String,
-    default : "firstMap"
+    default : "Greengrove"
   },
   health : {
     type : Number,
@@ -103,15 +108,15 @@ var userSchema = new mongoose.Schema({
         default : null
       }
     },
-    default : {
-      weapon : "weapon_1",
-      helmet : "helmet_1",
-      armor : "armor_1",
-      special : "special_1",
-      shield : "shield_1",
-      boots : "boots_1",
-      gloves : "gloves_1"
-    }
+    // default : {
+    //   weapon : "weapon_1",
+    //   helmet : "helmet_1",
+    //   armor : "armor_1",
+    //   special : "special_1",
+    //   shield : "shield_1",
+    //   boots : "boots_1",
+    //   gloves : "gloves_1"
+    // }
   },
   equipment : {
     type : [{
@@ -136,8 +141,13 @@ var userSchema = new mongoose.Schema({
       key : "boots_2",
       type : "boots",
       x : 0,
-      y : 1
+      y : 0
     }]
+  },
+  missions : {
+    type : [],
+    required : true,
+    default : []
   }
 });
 

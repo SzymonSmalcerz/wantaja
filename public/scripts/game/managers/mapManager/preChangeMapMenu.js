@@ -6,9 +6,9 @@ class PreChangeMapMenu {
 
   initialize(){
     this.state.changeMapOptionsMenu = this.state.add.group();
-    this.changeMapButton = new Button(this.state.game,-100,-100,"changeMapButton",0,0,1,2);
+    this.changeMapButton = new Button(this.state,-100,-100,"changeMapButton",0,0,1,2);
     this.changeMapButton.anchor.setTo(0.5);
-    this.changeMapAbortButton = new Button(this.state.game,-100,-100,"closeButton",0,0,1,2);
+    this.changeMapAbortButton = new Button(this.state,-100,-100,"closeButton",0,0,1,2);
     this.changeMapAbortButton.anchor.setTo(0.5);
     this.state.changeMapOptionsMenu.add(this.changeMapButton);
     this.state.changeMapOptionsMenu.add(this.changeMapAbortButton);
@@ -22,8 +22,7 @@ class PreChangeMapMenu {
 
     this.changeMapButton.addOnInputDownFunction(function(){
       handler.socketsManager.emit("changeMap", {
-        mapName : door.nextMapName,
-        id : handler.playerData.id
+        mapName : door.nextMapName
       })
       this.state.changeMapOptionsMenu.visible = false;
     },this,true);
@@ -33,4 +32,8 @@ class PreChangeMapMenu {
     },this,true);
     this.state.changeMapOptionsMenu.visible = true;
   };
+
+  onMapChange() {
+    this.state.changeMapOptionsMenu.removeAll(true);
+  }
 };

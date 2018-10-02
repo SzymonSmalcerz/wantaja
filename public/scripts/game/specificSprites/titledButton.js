@@ -1,6 +1,6 @@
 let TitledButton = function(state,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,title,style,fixedToCamera = true) {
   Phaser.Group.call(this,state.game);
-  this.button = new Button(state.game,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera);
+  this.button = new Button(state,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera);
   this.title = state.add.text(x,y);
   this.title.smoothed = false;
   this.title.anchor.setTo(0.5);

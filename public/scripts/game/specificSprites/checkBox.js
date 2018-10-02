@@ -1,10 +1,12 @@
-let CheckBox = function(game,x,y,checked,
+let CheckBox = function(state,x,y,checked,
                         unselectedNormalFrame,unselectedDownFrame,unselectedOverFrame,unselectedDisabledFrame,
                         selectedNormalFrame,selectedDownFrame,selectedOverFrame,selectedDisabledFrame,
                         fixedToCamera,key) {
-  Phaser.Sprite.call(this,game,x,y,key || "checkBox");
-
-  game.add.existing(this);
+  Phaser.Sprite.call(this,state.game,x,y,key || "checkBox");
+    this.key = key;
+  this.state = state;
+  this.game = state.game;
+  // this.game.add.existing(this);
   this.anchor.setTo(0.5);
   this.fixedToCamera = fixedToCamera || false;
   this.inputEnabled = true;
@@ -28,8 +30,8 @@ let CheckBox = function(game,x,y,checked,
   }
 
   this.disabled = false;
-
   this.smoothed = false;
+
   this.initializeFrames();
 };
 
@@ -173,24 +175,25 @@ CheckBox.prototype.addOnInputUpFunction = function(specificFunction,context,addO
   };
 };
 
-CheckBox.prototype.initializeFrames = function(){
+CheckBox.prototype.initializeFrames = function() {
   this.addOnInputOverFunction(function(){
     if(!this.disabled){
       this.setOverFrame();
     };
   },this);
-  this.addOnInputOutFunction(function(){
+  this.addOnInputOutFunction(function() {
     if(!this.disabled){
       this.setNormalFrame();
     };
   },this);
-  this.addOnInputDownFunction(function(){
+  this.addOnInputDownFunction(function() {
     if(!this.disabled){
       this.setDownFrame();
       this.toggleCheck();
     };
+    this.game.world.bringToTop(this);
   },this);
-  this.addOnInputUpFunction(function(){
+  this.addOnInputUpFunction(function() {
     if(!this.disabled){
       this.setNormalFrame();
     };

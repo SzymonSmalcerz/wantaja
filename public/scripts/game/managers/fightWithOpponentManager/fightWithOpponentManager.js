@@ -3,15 +3,22 @@
   also initialize fighting stage and handle win/lose fight
 */
 
-class FightWithOpponentManager {
-  constructor(state){
+class FightWithOpponentManager extends Phaser.Group {
+
+  constructor(state) {
+    super(state.game);
+
     this.state = state;
     this.fightingStageUIManager = new FightingStageUIManager(this);
     this.preFightMenu = new PreFightMenu(this);
     this.glowingSwordsManager = new GlowingSwordsManager(this);
+
+    this.add(this.preFightMenu);
+    this.add(this.glowingSwordsManager);
+    this.add(this.fightingStageUIManager);
   };
 
-  initialize(){
+  initialize() {
     this.fightingStageUIManager.initialize();
     this.preFightMenu.initialize();
     this.glowingSwordsManager.initialize();
@@ -27,47 +34,41 @@ class FightWithOpponentManager {
   }
 
   updateEnemyHealth(enemyHealth) {
-    let state = this.state;
-    state.player.opponent.health = enemyHealth;
-    state.fullHpBarEnemy.width = state.player.opponent.health/state.player.opponent.maxHealth * state.emptyHpBarEnemy.width;
+    this.fightingStageUIManager.updateEnemyHealth(enemyHealth);
   };
 
   initEnemyHealth() {
-    this.state.fullHpBarEnemy.width = this.state.emptyHpBarEnemy.width;
+    console.log("JAKIS BLAD :)");
+    this.fightingStageUIManager.initEnemyHealth();
   }
 
-  setEnemy(enemy){
+  setEnemy(enemy) {
     this.enemy = enemy;
   };
 
-  damageEnemy(typeOfDamage){
+  damageEnemy(typeOfDamage) {
     let self = this;
-    handler.socketsManager.emit("damageEnemy",{
-      playerID : self.state.player.id,
+    handler.socketsManager.emit("damageEnemy", {
       skillName : typeOfDamage
     });
   };
 
-  animateEnemySkill(skillData){
+  animateEnemySkill(skillData) {
     this.fightingStageUIManager.animateEnemySkill(skillData);
   };
 
-  showFightOptionsMenu(enemy){
+  showFightOptionsMenu(enemy) {
     this.preFightMenu.showFightOptionsMenu(enemy);
   }
 
-  initFight(enemy){
+  initFight(enemy) {
     let player = this.state.player;
     let state = this.state;
     this.currentEnemy = enemy;
     this.state.setFightingModeOn();
-    player.health = player.maxHealth;
-    player.mana = player.maxMana;
-    this.initEnemyHealth();
     player.setFightingMode(); // player wont send any data about his position to the server while fighting
     player.opponent = enemy;
-    state.fightingStage.visible = true;
-    state.fightingStage.showSkillsButtons()
+    this.fightingStageUIManager.showWindow()
     enemy.oldCoords = {
       x : enemy.x,
       y : enemy.y
@@ -76,21 +77,12 @@ class FightWithOpponentManager {
       x : player.x,
       y : player.y
     }
-    state.enemyLogo.loadTexture(enemy.key + "logo");
-    enemy.x = state.game.width/2 + 50;
-    enemy.y = state.game.height/2 - 45;
 
-    player.x = state.game.width/2 - 50;
-    player.y = state.game.height/2 + 70;
-
-    state.fightingStage.add(player);
-    state.fightingStage.add(enemy);
-    player.bringToTop();
-    enemy.bringToTop();
+    this.fightingStageUIManager.initializeFight(player, enemy);
   };
 
   renderSwords(data) {
-    if(data.enemyID){
+    if(data.enemyID) {
       this.glowingSwordsManager.addNewSword(this.state.allEntities.enemies[data.enemyID]);
     }
     if(data.playerID && this.state.allEntities.objects[data.playerID]) {
@@ -99,7 +91,7 @@ class FightWithOpponentManager {
   }
 
   removeSwords(data) {
-    if(data.enemyID){
+    if(data.enemyID) {
       this.glowingSwordsManager.removeSword(this.state.allEntities.enemies[data.enemyID]);
     }
     if(data.playerID && this.state.allEntities.objects[data.playerID]) {
@@ -107,7 +99,7 @@ class FightWithOpponentManager {
     }
   }
 
-  startFight(enemy){
+  startFight(enemy) {
     let player = this.state.player;
     handler.socketsManager.emit("initFight",{
       playerID : player.id,
@@ -115,26 +107,34 @@ class FightWithOpponentManager {
     })
   };
 
-  handleWinFight(){
+  handleWinFight(data) {
     let player = this.state.player;
-    this.state.wonAlert.visible = true;
+    this.fightingStageUIManager.showWonWindow(data);
     this.state.player.opponent.kill();
     this.updateEnemyHealth(0);
-    this.state.fightingStage.hideSkillsButtons();
-    this.state.okButton.addOnInputDownFunction(function(){
-      let player = this.state.player;
-      player.reset(player.oldCoords.x, player.oldCoords.y);
-      this.state.fightingStage.visible = false;
-      this.state.allEntities.add(player);
-      player.quitFightingMode();
+    this.fightingStageUIManager.hideSkillsButtons();
+    this.fightingStageUIManager.activateEndOfFightButton(function() {
       this.state.playerMoveManager.lastTimeInputRead = Date.now();
-      this.state.wonAlert.visible = false;
       this.state.setFightingModeOff();
-    },this,true);
+      this.fightingStageUIManager.fightModeOff();
+    },this);
   };
 
-  onResize(){
+  onResize() {
+    this.preFightMenu.onResize();
     this.fightingStageUIManager.onResize();
+    this.glowingSwordsManager.onResize();
   };
+
+  bringToTop() {
+    this.game.world.bringToTop(this);
+  }
+
+  onMapChange() {
+    this.fightingStageUIManager.onMapChange();
+    this.preFightMenu.onMapChange();
+    this.glowingSwordsManager.onMapChange();
+    this.removeAll(true);
+  }
 
 }

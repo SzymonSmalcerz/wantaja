@@ -24,8 +24,10 @@ class GameHandler {
     };
     this.socket = socket;
     this.startPlayerData = data;
+    this.money = data.characterData.money;
     this.playerData = data.characterData;
     this.backgroundsData = data.mapData.backgrounds;
+    this.fightingStageBackground = data.mapData.fightingStageBackground;
     this.mapDimensions = {
       width : data.mapData.dimensions.width || 1600,
       height : data.mapData.dimensions.height + 65 || 1665
@@ -41,6 +43,7 @@ class GameHandler {
     this.playerID = data.characterData.id;
     this.game = new Phaser.Game(gameWidth,gameHeight, Phaser.CANVAS);
     this.game.state.add("PreState", PreState);
+    this.game.state.add("ChangeMapState", ChangeMapState);
     this.game.state.add("LoadState", LoadState);
     this.game.state.add("HomeState", HomeState);
     this.game.state.add("GameState", GameState);

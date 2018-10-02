@@ -22,14 +22,28 @@ class PlayerMoveManager {
     this.playerBodyOffset = 20;
     this.xTimeout = 1500;
     this.counter = 0;
+    this.blockedMovement = 0;
+    this.notVisibleXsesCount = 0;
   }
 
-  update(){
+  blockPlayerMovement(num) {
+    this.blockedMovement = num || 2;
+  }
+
+  eraseXses(num) {
+    num = num || 2;
+    console.log("XD");
+    this.state.xGreen.visible = false;
+    this.state.xRed.visible = false;
+    this.notVisibleXsesCount = 2;
+  }
+
+  update() {
+
 
     if((Date.now() - this.lastTimeInputRead > this.xTimeout)){
       this.state.xGreen.visible = false;
       this.state.xRed.visible = false;
-      // console.log(Date.now() - this.lastTimeInputRead);
     } else {
       this.state.xGreen.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
       this.state.xRed.alpha = 1 - (Date.now() - this.lastTimeInputRead)/this.xTimeout;
@@ -42,8 +56,11 @@ class PlayerMoveManager {
       return;
     };
 
-    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.state.uiManager.blockedMovement <= 0) {
+    if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.blockedMovement <= 0) {
 
+
+
+      this.lastTimeInputRead = Date.now();
       let goal = {
         x : this.state.game.input.activePointer.worldX,
         y : this.state.game.input.activePointer.worldY - this.playerBodyOffset
@@ -95,8 +112,8 @@ class PlayerMoveManager {
       };
 
     } else {
-      if(this.state.uiManager.blockedMovement > 0) {
-        this.state.uiManager.blockedMovement -= 1;
+      if(this.blockedMovement > 0) {
+        this.blockedMovement -= 1;
       }
     }
 
@@ -178,6 +195,15 @@ class PlayerMoveManager {
   };
 
   renderX(color, coords) {
+    if(this.notVisibleXsesCount > 0) {
+      this.notVisibleXsesCount = 0;
+      return;
+    }
+      console.log(this.notVisibleXsesCount);
+      console.log(this.state.xRed.alpha);
+      console.log(this.state.xGreen.alpha);
+      console.log(Date.now() - this.lastTimeInputRead);
+      console.log("____________________________");
     if(color == "red") {
       this.state.xRed.reset(coords.x, coords.y + this.playerBodyOffset);
       this.state.xRed.visible = true;

@@ -73,6 +73,9 @@ class AlertManager {
 
     alertFrame.visible = true;
     alertText.visible = true;
+
+    this.uiManager.bringItemToTop(this.alertFrames);
+    this.uiManager.bringItemToTop(this.texts);
   }
 
   showTownAlert(text) {

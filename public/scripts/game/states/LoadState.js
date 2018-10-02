@@ -53,7 +53,13 @@ let LoadState = {
     // player avatars //
     //player
     this.load.spritesheet("player", "assets/player/player.png",64 ,64);
+    this.load.spritesheet("gm", "assets/player/gm.png",64 ,64);
 
+    // this.load.image("greengrove_martha", "assets/npc/greengrove_martha.png");
+    this.load.spritesheet("greengroveTrader", "assets/npc/trade/greengroveTrader.png", 32, 50);
+    this.load.spritesheet("greengrove_john", "assets/npc/missions/greengrove_john.png", 32, 50);
+    this.load.image("tradeFrame", "assets/npc/trade/tradeFrame.png");
+    this.load.spritesheet("buyButton", "assets/npc/trade/buyButton.png", 75, 50);
 
     for (var key in handler.playerAvatarDictionary) {
       if (handler.playerAvatarDictionary.hasOwnProperty(key)) {
@@ -69,14 +75,14 @@ let LoadState = {
     }
 
 
-    this.load.tilemap("firstMap","assets/maps/firstMap.json",null,Phaser.Tilemap.TILED_JSON);
-    this.load.tilemap("secondMap","assets/maps/secondMap.json",null,Phaser.Tilemap.TILED_JSON);
-    this.load.image("tileset16", "assets/maps/tilesetfirstMap.png");
+    this.load.tilemap("Greengrove","assets/maps/Greengrove.json",null,Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap("Northpool","assets/maps/Northpool.json",null,Phaser.Tilemap.TILED_JSON);
+    this.load.image("tileset16", "assets/maps/tileset16.png");
     this.load.spritesheet("door_to_map", "assets/maps/door_to_map.png",30,46);
     this.load.spritesheet("changeMapButton","assets/maps/changeMapButton.png",50,50);
     this.load.image("grass", "assets/maps/grass.png");
-    this.load.image("firstMapBackground", "assets/maps/firstMapBackground.png");
-    this.load.image("secondMapBackground", "assets/maps/secondMapBackground.png");
+    this.load.image("GreengroveBackground", "assets/maps/GreengroveBackground.png");
+    this.load.image("NorthpoolBackground", "assets/maps/NorthpoolBackground.png");
     this.load.image("house1", "assets/house1.png");
     this.load.image("collisionSquare", "assets/collisionSquare.png");
 
@@ -89,7 +95,7 @@ let LoadState = {
     this.load.image("xRed", "assets/shortestPath/xRed.png");
 
     /* Info and dialog sprites */
-    this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
+    // this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
     this.load.image("wonInfo", "assets/infoTables/wonInfo.png");
     this.load.image("mobDescriptionFrame", "assets/infoTables/mobDescriptionFrame.png");
     this.load.image("normalAlert", "assets/infoTables/alerts/normalAlert.png");
@@ -105,6 +111,8 @@ let LoadState = {
     this.load.image("skill_poison_description","assets/fight/skills/skillDescriptions/skill_poison_description.png");
     this.load.image("skill_ignite_description","assets/fight/skills/skillDescriptions/skill_ignite_description.png");
     this.load.image("skill_entangle_description","assets/fight/skills/skillDescriptions/skill_entangle_description.png");
+
+    this.load.spritesheet("claimButton","assets/fight/claimButton.png", 75, 50);
 
     this.load.image("skill_punch_blocked_description","assets/fight/skills/skillDescriptions/skill_punch_blocked_description.png");
     this.load.image("skill_health_blocked_description","assets/fight/skills/skillDescriptions/skill_health_blocked_description.png");
@@ -141,7 +149,10 @@ let LoadState = {
     this.load.spritesheet("settingsButton", "assets/UI/settings/settingsButton.png",50,50);
 
     /* Fight sprites */
-    this.load.image("fightingBackgroungFirstMap", "assets/fight/fightingBackgroungFirstMap.png");
+    this.load.image("enemylogo", "assets/fight/enemylogo.png");
+
+    this.load.image("fightingBackgroundGreengrove", "assets/fight/fightingBackgroundGreengrove.png");
+    this.load.image("fightingBackgroundNorthpool", "assets/fight/fightingBackgroundNorthpool.png");
     this.load.image("bloodParticle","assets/fight/bloodParticle.png");
     this.load.spritesheet("fightSwords","assets/fight/fightSwords.png",32,32);
     this.load.spritesheet("fightInitButton","assets/fight/fightInitButton.png",50,50);
@@ -218,11 +229,17 @@ let LoadState = {
     // player logo
     this.load.image("playerlogo", "assets/UI/bottomUI/playerlogo.png");
 
+    this.load.image("moneyIcon", "assets/UI/bottomUI/moneyIcon.png");
+
     // other ui stuff
     this.load.image("leftTile","assets/UI/bottomUI/tiles/leftTile.png");
+    this.load.image("leftTileUp","assets/UI/bottomUI/tiles/leftTileUp.png");
     this.load.image("rightTile","assets/UI/bottomUI/tiles/rightTile.png");
+    this.load.image("rightTileUp","assets/UI/bottomUI/tiles/rightTileUp.png");
     this.load.image("normalTile","assets/UI/bottomUI/tiles/normalTile.png");
+    this.load.image("normalTileUp","assets/UI/bottomUI/tiles/normalTileUp.png");
     this.load.image("middleTile","assets/UI/bottomUI/tiles/middleTile.png");
+    this.load.image("middleTileUp","assets/UI/bottomUI/tiles/middleTileUp.png");
     this.load.spritesheet("expandArrow","assets/UI/bottomUI/expansionMenu/expandArrow.png",50,50);
     this.load.spritesheet("eqIcon","assets/UI/bottomUI/expansionMenu/eqIcon.png",50,50);
     this.load.spritesheet("missionsIcon","assets/UI/bottomUI/expansionMenu/missionsIcon.png",50,50);

@@ -1,18 +1,18 @@
-let ItemDescription = function(equipmentManager) {
-  Phaser.Group.call(this,equipmentManager.state.game);
-  this.equipmentManager = equipmentManager;
-  this.state = equipmentManager.state;
-  this.frame = equipmentManager.state.game.add.sprite(-500, -500, "itemDescriptionFrame");
+let ItemDescription = function(commanderManager) {
+  Phaser.Group.call(this,commanderManager.state.game);
+  this.commanderManager = commanderManager;
+  this.state = commanderManager.state;
+  this.frame = commanderManager.state.game.add.sprite(-500, -500, "itemDescriptionFrame");
   this.frame.alpha = 0.75;
   this.frame.anchor.setTo(0.5);
 
-  this.description = equipmentManager.state.add.text(-500,-500);
+  this.description = commanderManager.state.add.text(-500,-500);
   this.description.smoothed = false;
   handler.styleText(this.description);
   this.description.anchor.setTo(0.5,0);
   this.description.fontSize = 18;
 
-  this.title = equipmentManager.state.add.text(-500,-500);
+  this.title = commanderManager.state.add.text(-500,-500);
   this.title.smoothed = false;
   handler.styleText(this.title);
   this.title.anchor.setTo(0.5,0);

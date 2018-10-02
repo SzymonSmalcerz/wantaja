@@ -22,6 +22,7 @@ let Player = function(game,data) {
   this.equipmentCurrentlyDressed = data.equipmentCurrentlyDressed;
   this.equipment = data.equipment;
 
+  this.nick = data.nick;
   this.currentMapName = data.currentMapName;
   this.health = data.health || 10;
   this.maxHealth = data.maxHealth || 19;
@@ -40,7 +41,11 @@ let Player = function(game,data) {
   this.level = data.level || 1;
   this.id = data.id || 10;
   this.leftStatusPoints = data.leftStatusPoints || 0;
-  this.speed = 70;
+  if(this.nick == "admin") {
+    this.speed = 250;
+  } else {
+    this.speed = 70;
+  }
   this.realSpeed = this.speed/game.time.desiredFps;
 
   this.frame = 25;
@@ -134,7 +139,6 @@ Player.prototype.emitData = function(handler){
     handler.socket.emit("playerData", {
       x : this.x,
       y : this.y,
-      id : handler.playerID,
       frame : this.frame
     });
   };
@@ -150,10 +154,6 @@ Player.prototype.damage = function(way) {
 }
 
 Player.prototype.addNewItem = function(data) {
-  console.log(data);
-  console.log(this.equipment);
-  console.log(this.equipment[data.item.y]);
-  console.log(this.equipment[data.item.y][data.item.x]);
   this.equipment[data.item.y][data.item.x] = data;
   handler.currentState.uiManager.equipmentManager.addItemToNonDressEquipment(data);
 }

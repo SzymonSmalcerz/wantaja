@@ -27,7 +27,7 @@ let ItemDiscardFrame = function(equipmentManager, x, y) {
   this.info.anchor.setTo(0.5,0);
   this.add(this.info);
 
-  this.yesButton = new Button(this.state.game,-52, 50,"yesButton",0,1,2,3);
+  this.yesButton = new Button(this.state,-52, 50,"yesButton",0,1,2,3);
   this.yesButton.anchor.setTo(0.5);
   this.add(this.yesButton);
   this.yesButton.addOnInputUpFunction(function() {
@@ -35,7 +35,7 @@ let ItemDiscardFrame = function(equipmentManager, x, y) {
     this.hide();
   }, this);
 
-  this.noButton = new Button(this.state.game,52, 50,"noButton",0,1,2,3);
+  this.noButton = new Button(this.state,52, 50,"noButton",0,1,2,3);
   this.noButton.anchor.setTo(0.5);
   this.add(this.noButton);
   this.noButton.addOnInputUpFunction(function() {

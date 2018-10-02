@@ -1,6 +1,6 @@
 
 let Enemy = function(state,data) {
-  Button.call(this,state.game,data.x,data.y,data.key || "spider",0,0,1);
+  Button.call(this,state,data.x,data.y,data.key || "spider",0,0,1);
   this.anchor.setTo(0.5);
   state.game.physics.enable(this);
   this.id = data.id;
@@ -37,6 +37,10 @@ let Enemy = function(state,data) {
     },this);
     this.animations.play("normalState");
   }
+
+  this.addOnInputDownFunction(function() {
+    this.state.playerMoveManager.eraseXses();
+  }, this);
 }
 
 

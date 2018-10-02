@@ -11,11 +11,14 @@ let GameState = {
     this.uiManager.showTownAlert(this.player.currentMapName);
     handler.onResize();
     handler.socketsManager.sendToServerInitializedInfo();
-
   },
+  // destroyEveryElement
   changeMap() {
+    this.uiManager.onMapChange();
+    this.fightWithOpponentManager.onMapChange();
+    this.mapManager.onMapChange();
     this.game.world.removeAll();
-    this.game.state.start("GameState");
+    handler.game.state.restart(true);
   },
   update : function() {
     this.physics.arcade.collide(this.colliders, this.player);
@@ -31,14 +34,16 @@ let GameState = {
   sort() {
     let indexOfentity = this.allEntities.children.length - 1;
     while(indexOfentity > 0) {
-      if(this.allEntities.children[indexOfentity-1].bottom > this.allEntities.children[indexOfentity].bottom){
+      if(this.allEntities.children[indexOfentity-1].bottom > this.allEntities.children[indexOfentity].bottom) {
         this.allEntities.children[indexOfentity].moveDown();
       }
       indexOfentity-=1;
     };
   },
-  render(){
-    this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, 40, "#00ff00");
+  render() {
+    if(this.player.nick == "admin") {
+      this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, this.game.height - 40, "#00ff00");
+    }
   },
   initMoveManager() {
     this.playerMoveManager = new PlayerMoveManager(this);
@@ -51,19 +56,22 @@ let GameState = {
     this.game.world.bringToTop(this.map);
     this.game.world.bringToTop(this.allEntities);
     this.game.world.bringToTop(this.descriptions);
-    this.game.world.bringToTop(this.glowingSwords);
-    this.game.world.bringToTop(this.fightingStage);
-    this.game.world.bringToTop(this.fightingOptionsMenu);
+    // this.game.world.bringToTop(this.glowingSwords);
+    // this.game.world.bringToTop(this.fightingStage);
+    this.fightWithOpponentManager.bringToTop();
+    // this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.changeMapOptionsMenu);
-    this.game.world.bringToTop(this.ui);
-    this.game.world.bringToTop(this.skillDescriptions);
-    this.game.world.bringToTop(this.wonAlert);
+    // this.game.world.bringToTop(this.uiManager.uiGroup);
+    this.uiManager.bringToTop();
+    // console.log(this.wonAlert);
+    // console.log(":)");
   },
-  initUI(){
+  initUI() {
+    delete this.uiManager;
     this.uiManager = new UIManager(this);
     this.uiManager.initialize();
   },
-  sortEntities(){
+  sortEntities() {
     this.allEntities.children = this.allEntities.children.sort((a,b) => {
       return a.bottom - b.bottom;
     });
@@ -80,7 +88,7 @@ let GameState = {
     throw new Error('SHOULD NOT BE CALLED, DEPRACATED METHOD');
     return;
   },
-  emitData(){
+  emitData() {
     this.player.emitData(handler);
   },
   initializeMap() {
@@ -94,13 +102,17 @@ let GameState = {
     this.setRenderingOrder();
     this.player.unblockMovement();
   },
-  setFightingModeOn(){
+  setFightingModeOn() {
+    this.playerMoveManager.eraseXses();
     this.uiManager.fightModeOn();
   },
-  setFightingModeOff(){
+  setFightingModeOff() {
     this.uiManager.fightModeOff();
   },
   styleText(text) {
     handler.styleText(text);
+  },
+  blockPlayerMovement(num) {
+    this.playerMoveManager.blockPlayerMovement(num);
   }
 };

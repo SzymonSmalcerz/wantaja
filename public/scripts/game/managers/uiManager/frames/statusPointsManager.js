@@ -46,7 +46,7 @@ class StatusPointsManager extends UIFrameManager {
     state.statusPoints.plusButtons = [];
 
     for(let i=0;i<this.statusPointsNames.length;i++){
-      state.statusPoints.plusButtons.push(new Button(this.state.game,this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference, "plusButton",0,1,2,3));
+      state.statusPoints.plusButtons.push(new Button(this.state,this.positions.plusButton.x,this.positions.plusButton.y  + i*this.positions.plusButton.difference, "plusButton",0,1,2,3));
       state.statusPoints.plusButtons[i].anchor.setTo(0.5);
       state.statusPoints.add(state.statusPoints.plusButtons[i]);
       this.uiManager.blockPlayerMovementsWhenOver(state.statusPoints.plusButtons[i]);
@@ -163,11 +163,10 @@ class StatusPointsManager extends UIFrameManager {
     }
   }
 
-  addStatus(statusName){
+  addStatus(statusName) {
     this.state.player[statusName] += 1;
     this.updateStatusText();
-    handler.socketsManager.emit("addStatusPoint",{
-      playerID : this.state.player.id,
+    handler.socketsManager.emit("addStatusPoint", {
       statusName
     })
   }

@@ -1,7 +1,9 @@
-let Button = function(game,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera = true) {
-  Phaser.Sprite.call(this,game,x,y,key);
+let Button = function(state,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera = true) {
+  Phaser.Sprite.call(this,state.game,x,y,key);
   this.visible = false;
-  game.add.existing(this);
+  this.game = state.game;
+  this.state = state;
+  // state.game.add.existing(this);
   this.anchor.setTo(0.5);
   // this.fixedToCamera = fixedToCamera;
   this.inputEnabled = true;
@@ -14,6 +16,7 @@ let Button = function(game,x,y,key,normalFrame,downFrame,overFrame,disabledFrame
   this.disabled = false;
   this.smoothed = false;
 
+  this.key = key;
   this.initializeFrames();
   this.visible = true;
 };
@@ -88,7 +91,7 @@ Button.prototype.initializeFrames = function(){
       this.frame = this.normalFrame;
     };
   },this);
-  this.addOnInputDownFunction(function(){
+  this.addOnInputDownFunction(function() {
     if(!this.disabled){
       this.frame = this.downFrame;
     };

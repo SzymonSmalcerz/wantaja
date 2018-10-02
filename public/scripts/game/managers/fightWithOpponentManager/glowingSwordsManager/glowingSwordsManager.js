@@ -1,24 +1,22 @@
-class GlowingSwordsManager {
-  constructor(mainFightManager){
-    this.state = mainFightManager.state;
-    this.mainFightManager = mainFightManager;
+class GlowingSwordsManager extends Phaser.Group {
+  constructor(fightWithOpponentManager) {
+    super(fightWithOpponentManager.state.game);
+    this.state = fightWithOpponentManager.state;
+    this.fightWithOpponentManager = fightWithOpponentManager;
   };
 
-  initialize() {
-    this.state.glowingSwords = this.state.add.group();
-    this.group = this.state.glowingSwords;
-  };
+  initialize() {};
 
-  onChangeMap() {
-    this.state.glowingSwords.callAll('kill');
+  onMapChange() {
+    this.removeAll(true);
   }
 
   addNewSword(entity) {
-    let glowingSword = this.group.getFirstExists(false);
-    if(!glowingSword){
+    let glowingSword = this.getFirstExists(false);
+    if(!glowingSword) {
       glowingSword = this.state.game.add.sprite(entity.x, entity.y - 20, "fightSwords");
       glowingSword.animations.add("glow", [0,1,2], 5, true);
-      this.group.add(glowingSword);
+      this.add(glowingSword);
     } else {
       glowingSword.reset(entity.x, entity.y - 20);
     }
@@ -29,11 +27,13 @@ class GlowingSwordsManager {
   }
 
   removeSword(entity) {
-    this.group.children.forEach(children => {
+    this.children.forEach(children => {
       if( children.ownerID == entity.id ) {
         children.ownerID = null;
         children.kill();
       }
     });
   }
+
+  onResize() {}
 };

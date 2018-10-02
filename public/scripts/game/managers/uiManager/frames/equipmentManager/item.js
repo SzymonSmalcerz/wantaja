@@ -4,9 +4,10 @@ let Item = function(equipmentManager,x,y,data,isCurrentlyWear,normalFrame,downFr
   this.x = x;
   this.y = y;
   this.isCurrentlyWear = isCurrentlyWear || false;
-  this.equipmentPositionX = data.x || -1;
-  this.equipmentPositionY = data.y || -1;
+  this.equipmentPositionX = data.x ? data.x : data.x === 0 ? 0 : -1;
+  this.equipmentPositionY = data.y ? data.y : data.y === 0 ? 0 : -1;
   this.key = data.key || "boots_1";
+  this.price = data.price || 0;
   this.itemType = data.type || "boots";
   this.description = data.description || "asd";
   this.strength = data.strength || 0;
@@ -19,7 +20,7 @@ let Item = function(equipmentManager,x,y,data,isCurrentlyWear,normalFrame,downFr
   this.requiredLevel = data.requiredLevel || 0;
   this.equipmentManager = equipmentManager;
   this.state = equipmentManager.state;
-  this.sprite = new Button(equipmentManager.state.game,0,0,data.key || "boots_1",normalFrame || 0,downFrame || 1,overFrame || 2,disabledFrame || 3,fixedToCamera);
+  this.sprite = new Button(equipmentManager.state,0,0,data.key || "boots_1",normalFrame || 0,downFrame || 1,overFrame || 2,disabledFrame || 3,fixedToCamera);
   this.equipmentManager.uiManager.blockPlayerMovementsWhenOver(this.sprite);
   this.sprite.addOnInputOverFunction(function() {
     // console.log(this.equipmentPositionX);
@@ -45,7 +46,9 @@ Item.prototype.reset = function(x,y) {
 }
 
 Item.prototype.changeView = function(data) {
+  this.visible = true;
   this.key = data.key || "boots_1";
+  this.price = data.price || 0;
   this.itemType = data.itemType || data.type || "boots";
   this.description = data.description || "asd";
   this.strength = data.strength || 0;
@@ -56,7 +59,9 @@ Item.prototype.changeView = function(data) {
   this.minAttack = data.minAttack || 0;
   this.maxAttack = data.maxAttack || 0;
   this.requiredLevel = data.requiredLevel || 0;
-  // this.equipmentPositionX = data.equipmentPositionX === 0 ? 0 : ( data.equipmentPositionX || data.x || 0 );
-  // this.equipmentPositionY = data.equipmentPositionY === 0 ? 0 : ( data.equipmentPositionY || data.y || 0 );
   this.sprite.loadTexture(data.key);
+}
+
+Item.prototype.hide = function() {
+  this.visible = false;
 }
