@@ -14,11 +14,15 @@ class EquipmentManager extends UIFrameManager {
     this.dressedUpEq = {};
     let arr = ["weapon","helmet","gloves","armor","shield","boots","special"];
     arr.forEach(type => {
-      let itemData = this.state.player.equipmentCurrentlyDressed[type].item;
-      if(itemData) {
-        this.dressedUpEq[type] = new Item(this, -500 , -500 , itemData, true);
-        this.frameGroup.add(this.dressedUpEq[type]);
+      console.log(this.state.player.equipmentCurrentlyDressed);
+      if(this.state.player.equipmentCurrentlyDressed[type]){
+        let itemData = this.state.player.equipmentCurrentlyDressed[type].item;
+        if(itemData) {
+          this.dressedUpEq[type] = new Item(this, -500 , -500 , itemData, true);
+          this.frameGroup.add(this.dressedUpEq[type]);
+        }
       }
+
     });
 
     this.notDressedUpEq = [];
