@@ -22,6 +22,32 @@ function playerStateListeners(socket, io) {
     };
   });
 
+  socket.on("teleport", function(data) {
+    if(!data.mapName) {return;}
+    let teleporter = dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].teleporter;
+    teleporter.teleports.forEach(teleportData => {
+      if(teleportData.mapName == data.mapName) {
+        if(dm.allLoggedPlayersData[socket.playerID].money < teleportData.price) {
+          socket.emit("alert",{
+            message : `you don't have enough money\nto go to this location`
+          });
+        } else if(dm.allLoggedPlayersData[socket.playerID].level < teleportData.requiredLevel) {
+          socket.emit("alert",{
+            message : `you must reach ${teleportData.requiredLevel} level\nto teleport to this location`
+          });
+        } else {
+          dm.allLoggedPlayersData[socket.playerID].money -= teleportData.price;
+          changeMap(dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]], {
+            mapName : teleportData.mapName,
+            newPlayerX : teleportData.x,
+            newPlayerY : teleportData.y
+          });
+        }
+
+      }
+    })
+  });
+
   let doorWidth = 30;
   let doorHeight = 46;
   let xDifference;
@@ -44,21 +70,9 @@ function playerStateListeners(socket, io) {
 
       //check if player is in range of the door
       if(Math.abs(xDifference) < 100 && Math.abs(yDifference) < 100) {
-
-        map.removePlayer(socket.playerID);
-        dm.allLoggedPlayersData[socket.playerID].currentMapName = data.mapName;
-        dm.findMapNameByPlayerId[socket.playerID] = data.mapName;
-        dm.allLoggedPlayersData[socket.playerID].active = true;
-        socket.emit('changedMap', {
-          mapName : dm.findMapNameByPlayerId[socket.playerID],
-          mapBackgrounds : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].backgrounds : [],
-          fightingStageBackground : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].fightingStageBackground : [],
-          playerX : map.nextMaps[data.mapName].playerX,
-          playerY : map.nextMaps[data.mapName].playerY
-        });
-        dm.allLoggedPlayersData[socket.playerID].x = map.nextMaps[data.mapName].playerX;
-        dm.allLoggedPlayersData[socket.playerID].y = map.nextMaps[data.mapName].playerY;
+        changeMap(map, data);
       }
+
     } else {
       console.log(`map with name ${data.mapName} is not registered for ${dm.findMapNameByPlayerId[socket.playerID]}!!!!`);
     }
@@ -71,6 +85,25 @@ function playerStateListeners(socket, io) {
     dm.allLoggedPlayersData[socket.playerID].y = data.y;
     dm.allLoggedPlayersData[socket.playerID].frame = data.frame;
   })
+
+  var changeMap = (map, data) => {
+    map.removePlayer(socket.playerID);
+    dm.allLoggedPlayersData[socket.playerID].currentMapName = data.mapName;
+    dm.findMapNameByPlayerId[socket.playerID] = data.mapName;
+    dm.allLoggedPlayersData[socket.playerID].active = true;
+    socket.emit('changedMap', {
+      mapName : dm.findMapNameByPlayerId[socket.playerID],
+      mapBackgrounds : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].backgrounds : [],
+      fightingStageBackground : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].fightingStageBackground : [],
+      playerX : data.newPlayerX || map.nextMaps[data.mapName].playerX,
+      playerY : data.newPlayerY || map.nextMaps[data.mapName].playerY,
+      money : dm.allLoggedPlayersData[socket.playerID].money,
+      equipmentCurrentlyDressed : dm.allLoggedPlayersData[socket.playerID].equipmentCurrentlyDressed,
+      equipment : dm.allLoggedPlayersData[socket.playerID].equipment
+    });
+    dm.allLoggedPlayersData[socket.playerID].x = data.newPlayerX || map.nextMaps[data.mapName].playerX;
+    dm.allLoggedPlayersData[socket.playerID].y = data.newPlayerY || map.nextMaps[data.mapName].playerY;
+  }
 
 
   var sendToUserData = (time) => {
@@ -141,7 +174,17 @@ function playerStateListeners(socket, io) {
                 user.key = player.key;
                 user.money = player.money;
 
-                user.missions = player.missions;
+                let missionsToSave = [];
+                for (var missionName in player.missions) {
+                  if (player.missions.hasOwnProperty(missionName)) {
+                      missionsToSave.push({
+                        missionName : missionName,
+                        currentStage : dm.missions[missionName].getStageIndex(player.missions[missionName].currentStage.name)
+                      })
+                  }
+                }
+
+                user.missions = missionsToSave;
 
                 await user.save();
 

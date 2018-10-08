@@ -1,15 +1,17 @@
 let LoadState = {
 
-  preload : function(){
-    this.loadScreenBackground = this.add.sprite(this.game.world.centerX, this.game.world.centerY,"loadScreenBackground");
+  preload : function() {
+    handler.currentState = this;
+    this.getPositionsCoords();
+    this.loadScreenBackground = this.add.sprite(this.posX, this.posY,"loadScreenBackground");
     this.loadScreenBackground.anchor.setTo(0.5);
     this.loadScreenBackground.smoothed = false;
-    this.progressBarFull = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBarFull");
+    this.progressBarFull = this.add.sprite(this.posX, this.posY + 100, "progressBarFull");
     this.progressBarFull.anchor.setTo(0.5);
-    this.progressBarEmpty = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, "progressBarEmpty");
+    this.progressBarEmpty = this.add.sprite(this.posX, this.posY + 100, "progressBarEmpty");
     this.progressBarEmpty.anchor.setTo(0.5);
     this.load.setPreloadSprite(this.progressBarFull);
-    this.loadText = this.add.text(this.game.world.centerX, this.game.world.centerY - 100);
+    this.loadText = this.add.text(this.posX, this.posY - 100);
 
     // testowy kwadrat sluzacy do testowania .. :D
     this.load.image("test_50","assets/test_50.png");
@@ -56,10 +58,18 @@ let LoadState = {
     this.load.spritesheet("gm", "assets/player/gm.png",64 ,64);
 
     // this.load.image("greengrove_martha", "assets/npc/greengrove_martha.png");
+    this.load.image("leftTileMission", "assets/npc/missions/tiles/leftTileMission.png");
+    this.load.image("rightTileMission", "assets/npc/missions/tiles/rightTileMission.png");
+    this.load.image("normalTileMission", "assets/npc/missions/tiles/normalTileMission.png");
+    this.load.image("middleTileMission", "assets/npc/missions/tiles/middleTileMission.png");
+    this.load.spritesheet("questionMarkNpc", "assets/npc/missions/questionMarkNpc.png", 35, 35);
     this.load.spritesheet("greengroveTrader", "assets/npc/trade/greengroveTrader.png", 32, 50);
     this.load.spritesheet("greengrove_john", "assets/npc/missions/greengrove_john.png", 32, 50);
     this.load.image("tradeFrame", "assets/npc/trade/tradeFrame.png");
     this.load.spritesheet("buyButton", "assets/npc/trade/buyButton.png", 75, 50);
+
+    this.load.spritesheet("teleporter", "assets/npc/teleport/teleporter.png", 32, 56);
+    this.load.spritesheet("goButton", "assets/npc/teleport/goButton.png", 50, 50);
 
     for (var key in handler.playerAvatarDictionary) {
       if (handler.playerAvatarDictionary.hasOwnProperty(key)) {
@@ -93,6 +103,8 @@ let LoadState = {
     /* Shortest Path */
     this.load.image("xGreen", "assets/shortestPath/xGreen.png");
     this.load.image("xRed", "assets/shortestPath/xRed.png");
+    this.load.image("xSword", "assets/shortestPath/xSword.png");
+    this.load.image("xTrade", "assets/shortestPath/xTrade.png");
 
     /* Info and dialog sprites */
     // this.load.spritesheet("okButton", "assets/infoTables/okButton.png",200,92);
@@ -125,6 +137,11 @@ let LoadState = {
     this.load.spritesheet("closeButton","assets/UI/closeButton.png",50,50);
     this.load.spritesheet("yesButton","assets/UI/yesButton.png",100,50);
     this.load.spritesheet("noButton","assets/UI/noButton.png",100,50);
+    this.load.spritesheet("emptyButton","assets/UI/emptyButton.png",50,50);
+
+    this.load.spritesheet("flexibleButtonLeft","assets/UI/fexibleButton/flexibleButtonLeft.png",30,80);
+    this.load.spritesheet("flexibleButtonRight","assets/UI/fexibleButton/flexibleButtonRight.png",30,80);
+    this.load.spritesheet("flexibleButtonNorm","assets/UI/fexibleButton/flexibleButtonNorm.png",30,80);
 
     /* frames */
     this.load.image("frame", "assets/UI/frame.png");
@@ -248,7 +265,18 @@ let LoadState = {
     this.load.image("backgroundIcons","assets/UI/bottomUI/expansionMenu/background.png");
     this.load.spritesheet("checkBox","assets/UI/checkbox.png",50,50);
   },
-  create(){
+  getPositionsCoords() {
+    this.posX = Math.round(this.state.game.width/2);
+    this.posY = Math.round(this.state.game.height/2);
+  },
+  onResize(width, height) {
+    this.getPositionsCoords();
+    this.loadScreenBackground.reset(this.posX, this.posY);
+    this.progressBarFull.reset(this.posX, this.posY + 100);
+    this.progressBarEmpty.reset(this.posX, this.posY + 100);
+    this.loadText.reset(this.posX, this.posY - 100);
+  },
+  create() {
     this.game.state.start("HomeState");
   }
 }

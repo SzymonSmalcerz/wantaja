@@ -1,5 +1,5 @@
 class PlayerMoveManager {
-  constructor(state){
+  constructor(state) {
     this.state = state;
     this.state.playerShadow = new Player(this.state.game,{
       x : 0,
@@ -30,9 +30,12 @@ class PlayerMoveManager {
     this.blockedMovement = num || 2;
   }
 
+  unblockPlayerMovement() {
+    this.blockedMovement = 0;
+  }
+
   eraseXses(num) {
     num = num || 2;
-    console.log("XD");
     this.state.xGreen.visible = false;
     this.state.xRed.visible = false;
     this.notVisibleXsesCount = 2;
@@ -41,7 +44,7 @@ class PlayerMoveManager {
   update() {
 
 
-    if((Date.now() - this.lastTimeInputRead > this.xTimeout)){
+    if((Date.now() - this.lastTimeInputRead > this.xTimeout)) {
       this.state.xGreen.visible = false;
       this.state.xRed.visible = false;
     } else {
@@ -50,15 +53,13 @@ class PlayerMoveManager {
     };
 
     // player has bloced movement <=> is doing some action
-    if(!this.state.player.canMove) {
+    if(!this.state.player.canMove || this.state.playerBlocked) {
       this.playerMoveList = [];
       this.state.player.body.velocity.setTo(0);
       return;
     };
 
     if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.blockedMovement <= 0) {
-
-
 
       this.lastTimeInputRead = Date.now();
       let goal = {
@@ -67,13 +68,24 @@ class PlayerMoveManager {
       };
 
       let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
-      if(this.checkCollisionAtPoint(goalPoint)){
-        this.renderX("red", goal);
-        return;
-      } else {
-        this.renderX("green", goal);
-      };
+      if(this.checkCollisionAtPoint(goalPoint)) {
+        goalPoint = this.getNearestPosition(goal);
+        if(!goalPoint) {
+          this.renderX("red", goal);
+          return;
+        } else {
+          console.log("found !");
 
+          goal = {
+            x : goalPoint.x,
+            y : goalPoint.y,
+          }
+          this.renderX("green", goalPoint);
+        }
+      } else {
+        this.renderX("green", goalPoint);
+      };
+      console.log("here");
       let openList = new ASearchList();
       let closedList = new ASearchList();
       let playerSpeed = this.state.player.realSpeed;
@@ -81,7 +93,7 @@ class PlayerMoveManager {
       openList.push(new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y})));
 
 
-      while(openList.length > 0){
+      while(openList.length > 0) {
 
         let firstElement = openList.getSmallestFElement();
         if (firstElement == null) {
@@ -93,7 +105,7 @@ class PlayerMoveManager {
         let leftSuccessor = this.handleSuccesor(firstElement,"left",playerSpeed,openList,closedList,goal);
         let topSuccessor = this.handleSuccesor(firstElement,"down",playerSpeed,openList,closedList,goal);
         let bottomSuccessor = this.handleSuccesor(firstElement,"up",playerSpeed,openList,closedList,goal);
-        if(rightSuccessor){
+        if(rightSuccessor) {
           this.lastTimeInputRead = Date.now();
           return this.createPath(rightSuccessor);
         } else if(leftSuccessor) {
@@ -117,7 +129,7 @@ class PlayerMoveManager {
       }
     }
 
-    if(this.state.player.canMove){
+    if(this.state.player.canMove) {
       if(this.cursors.up.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.W)) {
         this.playerMoveList = [];
         this.state.player.goUp();
@@ -134,7 +146,7 @@ class PlayerMoveManager {
         this.playerMoveList = [];
         this.state.player.goRight();
         // this.state.changeRenderOrder(this.state.player);
-      } else if(this.playerMoveList.length > 0){
+      } else if(this.playerMoveList.length > 0) {
         let move = this.playerMoveList.pop();
 
         if(move == "up") {
@@ -158,6 +170,30 @@ class PlayerMoveManager {
 
   };
 
+  getNearestPosition(goal) {
+
+    let possibilities = [
+      new ASearchPoint(goal.x - this.state.player.realSpeed,goal.y,-1,0),
+      new ASearchPoint(goal.x - this.state.player.realSpeed,goal.y - this.state.player.realSpeed,-1,0),
+      new ASearchPoint(goal.x - this.state.player.realSpeed,goal.y + this.state.player.realSpeed,-1,0),
+      new ASearchPoint(goal.x + this.state.player.realSpeed,goal.y,-1,0),
+      new ASearchPoint(goal.x + this.state.player.realSpeed,goal.y - this.state.player.realSpeed,-1,0),
+      new ASearchPoint(goal.x + this.state.player.realSpeed,goal.y + this.state.player.realSpeed,-1,0),
+      new ASearchPoint(goal.x,goal.y + this.state.player.realSpeed,-1,0),
+      new ASearchPoint(goal.x,goal.y - this.state.player.realSpeed,-1,0)
+    ]
+
+    for(let i =0;i<possibilities.length;i++) {
+      if(!this.checkCollisionAtPoint(possibilities[i])) {
+        return possibilities[i];
+      }
+    }
+
+    return false;
+
+  }
+
+
   createPath(aSearchPoint) {
     this.playerMoveList = [];
     let parent;
@@ -179,9 +215,9 @@ class PlayerMoveManager {
     return this.playerMoveList;
   };
 
-  checkCollisionAtPoint(aSearchPoint){
+  checkCollisionAtPoint(aSearchPoint) {
     this.state.playerShadow.reset(aSearchPoint.x, aSearchPoint.y);
-    if(aSearchPoint.x < 0 || aSearchPoint.y < 0 || aSearchPoint.x > this.state.world.width || aSearchPoint.y > this.state.world.height){
+    if(aSearchPoint.x < 0 || aSearchPoint.y < 0 || aSearchPoint.x > this.state.world.width || aSearchPoint.y > this.state.world.height) {
       return true;
     } else if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
       return true;
@@ -199,11 +235,6 @@ class PlayerMoveManager {
       this.notVisibleXsesCount = 0;
       return;
     }
-      console.log(this.notVisibleXsesCount);
-      console.log(this.state.xRed.alpha);
-      console.log(this.state.xGreen.alpha);
-      console.log(Date.now() - this.lastTimeInputRead);
-      console.log("____________________________");
     if(color == "red") {
       this.state.xRed.reset(coords.x, coords.y + this.playerBodyOffset);
       this.state.xRed.visible = true;
@@ -220,17 +251,17 @@ class PlayerMoveManager {
   handleSuccesor(firstElement,direction,playerSpeed,openList,closedList,goal) {
 
     let successor;
-    if(direction == "right"){
+    if(direction == "right") {
       successor = new ASearchPoint(firstElement.x + playerSpeed,firstElement.y,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x + playerSpeed, y:firstElement.y}),firstElement);
-    } else if(direction == "left"){
+    } else if(direction == "left") {
       successor = new ASearchPoint(firstElement.x - playerSpeed,firstElement.y,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x - playerSpeed, y:firstElement.y}),firstElement);
-    } else if(direction == "up"){
+    } else if(direction == "up") {
       successor = new ASearchPoint(firstElement.x,firstElement.y - playerSpeed,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x, y:firstElement.y - playerSpeed}),firstElement);
     } else {
       successor = new ASearchPoint(firstElement.x,firstElement.y + playerSpeed,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x, y:firstElement.y + playerSpeed}),firstElement);
     };
 
-    if(this.checkCollisionAtPoint(successor)){
+    if(this.checkCollisionAtPoint(successor)) {
       return;
     } else if(this.nearGoal(successor,playerSpeed)) {
       return successor;
@@ -245,7 +276,7 @@ class PlayerMoveManager {
     };
   };
 
-  nearGoal(point,playerSpeed){
+  nearGoal(point,playerSpeed) {
     if (point.h < playerSpeed) {
       return true;
     } else {
@@ -259,7 +290,7 @@ class PlayerMoveManager {
 };
 
 class ASearchPoint {
-  constructor(x,y,g,h,parent){
+  constructor(x,y,g,h,parent) {
     this.x = x;
     this.y = y;
     this.g = g;
@@ -270,12 +301,12 @@ class ASearchPoint {
 };
 
 class ASearchList {
-  constructor(){
+  constructor() {
     this.list = {};
     this.length = 0;
   };
 
-  push(aSearchPoint){
+  push(aSearchPoint) {
     this.list[aSearchPoint.x + "A" + aSearchPoint.y] = aSearchPoint;
     this.length += 1;
   };
@@ -292,7 +323,7 @@ class ASearchList {
     this.list[aSearchPoint.x + "A" + aSearchPoint.y] = aSearchPoint;
   }
 
-  getSmallestFElement(){
+  getSmallestFElement() {
     if (this.length == 0) {
       return null;
     };
@@ -303,7 +334,7 @@ class ASearchList {
     for (var id in this.list) {
       if (this.list.hasOwnProperty(id)) {
          currEl = this.list[id];
-         if(currEl.f < smallestEl.f){
+         if(currEl.f < smallestEl.f) {
            smallestEl = currEl;
          };
       };

@@ -1,8 +1,9 @@
 let PreState = {
-  init : function (){
+  init : function () {
     // console.log(this.game.plugins);
     // console.log(this.game);
     // console.log(Phaser.Plugin.KineticScrolling)
+    handler.currentState = this;
     this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
     this.game.kineticScrolling.configure({
       kineticMovement: true,
@@ -23,12 +24,15 @@ let PreState = {
     this.game.time.desiredFps = 20;
     this.game.time.advancedTiming = true;
   },
-  preload(){
+  preload() {
     this.load.image("progressBarFull","assets/loadScreen/progressBarFull.png");
     this.load.image("progressBarEmpty","assets/loadScreen/progressBarEmpty.png");
     this.load.image("loadScreenBackground","assets/loadScreen/loadScreenBackground.png");
   },
-  create(){
+  create() {
     this.game.state.start("LoadState");
+  },
+  onResize() {
+    console.log("preState TODO onResize");
   }
 }

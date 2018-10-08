@@ -57,7 +57,7 @@ let ItemMenuTrade = function(tradeManager, x, y) {
   this.tradeManager.uiManager.blockPlayerMovementsWhenOver(this.buyButton,true);
   this.tradeManager.uiManager.blockPlayerMovementsWhenOver(this.frame,true);
 
-  this.closeButton.addOnInputDownFunction(function(){
+  this.closeButton.addOnInputDownFunction(function() {
     this.hide();
   },this);
 

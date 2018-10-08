@@ -3,6 +3,33 @@ const validator = require("validator");
 const SECRET = "asddd123";
 const bcrypt = require("bcryptjs");
 
+// const { Mission,
+//         Stage_goto,
+//         Stage_getitem,
+//         Stage_kill,
+//         HighLight,
+//         Dialog } = require("../../sockets/missions/missions");
+
+// let getFirstMission = function() {
+//   return new Mission([
+//     new Stage_goto(
+//       [new HighLight('greengrove_john', 'Greengrove')],
+//       new Dialog("Hello wanderer!\n" +
+//                   "I haven't expect you that early ! Anyway I\n" +
+//                   "have small quest for you, recently many spiders\n" +
+//                   "came to our village, destroy 10 of them or they\n" +
+//                   "will destroy us !", "ok")
+//     ),
+//     new Stage_kill([], 'spider', 10, 10),
+//     new Stage_goto(
+//       [new HighLight('greengrove_john', 'Greengrove')],
+//       new Dialog('Oh my.. You have done it!\nhere is your reward', 'ok')
+//     )
+//   ], 0, {
+//     money : 100
+//   }, "newcomers", 1);
+// }
+
 var userSchema = new mongoose.Schema({
   nick : {
     type : String,
@@ -145,11 +172,35 @@ var userSchema = new mongoose.Schema({
     }]
   },
   missions : {
-    type : [],
+    type : [{
+      missionName : {
+        type : String,
+        required : true
+      },
+      currentStage : {
+        type : Number,
+        required : true
+      },
+      missionData : {
+        type : mongoose.Schema.Types.Mixed
+      }
+    }],
+    required : true,
+    default : [
+      {
+        missionName : 'newcomers',
+        currentStage : 0
+      }
+    ]
+  },
+  doneMissions : {
+    type : [String],
     required : true,
     default : []
   }
 });
+
+
 
 
 userSchema.statics.getUserByNickAndPassword = async function(nickOfUser,password){
@@ -173,9 +224,6 @@ userSchema.statics.getUserByNickAndPassword = async function(nickOfUser,password
     return Promise.reject(err);
 
   }
-
-
-
   return ;
 };
 

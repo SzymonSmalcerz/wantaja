@@ -62,6 +62,10 @@ class SocketsManager {
         }
       };
 
+      if(data.teleporter) {
+        self.handler.currentState.mapManager.addNewTeleporter(data.teleporter);
+      }
+
       for(let npcID in data.npcs) {
         if(data.npcs.hasOwnProperty(npcID)) {
           if(!self.handler.currentState.allEntities[npcID]) {
@@ -69,6 +73,7 @@ class SocketsManager {
           };
         }
       };
+      handler.currentState.initMissionManager();
     });
 
     this.handler.socket.on("statusUpdate", function(data) {
@@ -117,12 +122,30 @@ class SocketsManager {
     });
 
     this.handler.socket.on("changedMap", function(data) {
+      // handler.playerData = handler.currentState.player;
+      handler.playerData.experience = handler.currentState.player.experience || 10;
+      handler.playerData.requiredExperience = handler.currentState.player.requiredExperience || 10;
+
+      handler.playerData.strength = handler.currentState.player.strength || 1;
+      handler.playerData.agility = handler.currentState.player.agility || 1;
+      handler.playerData.vitality = handler.currentState.player.vitality || 1;
+      handler.playerData.intelligence = handler.currentState.player.intelligence || 1;
+
+      handler.playerData.attack = handler.currentState.player.attack || 1;
+      handler.playerData.dodge = handler.currentState.player.dodge || 0;
+      handler.playerData.level = handler.currentState.player.level || 1;
+      handler.playerData.id = handler.currentState.player.id || 10;
+      handler.playerData.leftStatusPoints = handler.currentState.player.leftStatusPoints || 0;
+      handler.playerData.x = data.playerX;
+      handler.playerData.y = data.playerY;
+      handler.playerData.equipment = data.equipment;
+      handler.playerData.equipmentCurrentlyDressed = data.equipmentCurrentlyDressed;
       handler.player.currentMapName = data.mapName;
       handler.playerData.currentMapName = data.mapName;
       handler.backgroundsData = data.mapBackgrounds;
       handler.fightingStageBackground = data.fightingStageBackground;
-      handler.player.reset(data.playerX, data.playerY);
       self.handler.currentState.changeMap();
+      handler.currentState.player.reset(data.playerX, data.playerY);
     });
 
     this.handler.socket.on("handleWinFight", function(data) {

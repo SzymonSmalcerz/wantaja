@@ -25,43 +25,47 @@ let TitledButton = function(state,x,y,key,normalFrame,downFrame,overFrame,disabl
 TitledButton.prototype = Object.create(Phaser.Group.prototype);
 TitledButton.prototype.constructor = TitledButton;
 
-TitledButton.prototype.reset = function(x,y,key){
+TitledButton.prototype.reset = function(x,y,key) {
   this.button.reset(x,y,key);
   this.title.reset(Math.round(this.button.x + (0.5-this.button.anchor.x) * this.button.width),Math.round(this.button.y + (0.5-this.button.anchor.y) * this.button.height));
 };
 
-TitledButton.prototype.setNormalFrame = function(){
+TitledButton.prototype.changeTitle = function(text) {
+  this.title.text = text;
+};
+
+TitledButton.prototype.setNormalFrame = function() {
   this.button.setNormalFrame();
 };
 
-TitledButton.prototype.setOverFrame = function(){
+TitledButton.prototype.setOverFrame = function() {
   this.button.setOverFrame();
 };
 
-TitledButton.prototype.setDisabledFrame = function(){
+TitledButton.prototype.setDisabledFrame = function() {
   this.button.setDisabledFrame();
 };
 
-TitledButton.prototype.addOnInputOverFunction = function(specificFunction,context,addOnce){
+TitledButton.prototype.addOnInputOverFunction = function(specificFunction,context,addOnce) {
   this.button.addOnInputOverFunction(specificFunction,context,addOnce);
 };
 
-TitledButton.prototype.addOnInputOutFunction = function(specificFunction,context,addOnce){
+TitledButton.prototype.addOnInputOutFunction = function(specificFunction,context,addOnce) {
   this.button.addOnInputOutFunction(specificFunction,context,addOnce);
 };
 
-TitledButton.prototype.addOnInputDownFunction = function(specificFunction,context,addOnce){
+TitledButton.prototype.addOnInputDownFunction = function(specificFunction,context,addOnce) {
   this.button.addOnInputDownFunction(specificFunction,context,addOnce);
 };
 
-TitledButton.prototype.addOnInputUpFunction = function(specificFunction,context,addOnce){
+TitledButton.prototype.addOnInputUpFunction = function(specificFunction,context,addOnce) {
   this.button.addOnInputUpFunction(specificFunction,context,addOnce);
 };
 
-TitledButton.prototype.disableButton = function(){
+TitledButton.prototype.disableButton = function() {
   this.button.disableButton();
 };
 
-TitledButton.prototype.enableButton = function(){
+TitledButton.prototype.enableButton = function() {
   this.button.disableButton();
 };

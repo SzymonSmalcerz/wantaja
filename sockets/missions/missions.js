@@ -5,6 +5,13 @@ class HighLight {
   }
 }
 
+class Dialog {
+  constructor(missionDescription, response) {
+    this.missionDescription = missionDescription;
+    this.response = response;
+  }
+}
+
 /*
   TYPES:
     - goto (go to some npc)
@@ -12,28 +19,30 @@ class HighLight {
     - getitem (get some item)
 */
 class Stage {
-  constructor(highLights, type) {
+  constructor(highLights, type, name) {
     this.highLights = highLights;
     this.type = type;
+    this.name = name;
   }
 }
 
 class Stage_goto extends Stage {
-  constructor(highLights) {
-    super(highLights, 'goto');
+  constructor(highLights, stageName, dialogs) {
+    super(highLights, 'goto', stageName);
+    this.dialogs = dialogs;
   }
 }
 
 class Stage_getitem extends Stage {
-  constructor(highLights, itemKey) {
-    super(highLights, 'getitem');
+  constructor(highLights, stageName, itemKey) {
+    super(highLights, 'getitem', stageName);
     this.itemKey = itemKey;
   }
 }
 
 class Stage_kill extends Stage {
-  constructor(highLights, enemyKey, numberLeft, numberOryginal) {
-    super(highLights, 'kill');
+  constructor(highLights, stageName, enemyKey, numberLeft, numberOryginal) {
+    super(highLights, 'kill', stageName);
     this.enemyKey = enemyKey;
     this.numberLeft = numberLeft;
     this.numberOryginal = numberOryginal;
@@ -41,19 +50,52 @@ class Stage_kill extends Stage {
 }
 
 class Mission {
-  constructor(stages, currentStageIndex) {
+  constructor(stages, currentStageIndex, reward, missionName, requiredLevel) {
     this.stages = stages;
-    this.currentStageIndex = currentStageIndex || 0;
-    this.currentStage = this.stages[this.currentStageIndex];
+    this.reward = reward;
+    this.missionName = missionName;
+    this.requiredLevel = requiredLevel || 1;
   }
 
-  changeStage() {
-    this.currentStageIndex += 1;
-    if(this.currentStageIndex >= this.stages.length) {
+  getStage(index) {
+    return this.stages[index];
+  }
+
+  getStageIndex(stageName) {
+    return this.stages.reduce((total,stage,i) => {
+      if(stageName == stage.name) {
+        return i;
+      } else {
+        return total;
+      }
+    }, -1)
+  }
+
+  isDone(index) {
+    if(index >= this.stages.length) {
       return true;
+    } else {
+      return false;
     }
-    this.currentStage = this.stages[this.currentStageIndex];
+  }
+
+  getReward() {
+    return this.reward;
   }
 }
 
-module.exports = Mission
+// let mission_killSpiders = new Mission([
+//   new Stage_goto([new HighLight('greengrove_john', 'Greengrove')]),
+//   new Stage_kill([], 'spider', 10, 10),
+//   new Stage_goto([new HighLight('greengrove_john', 'Greengrove')])
+// ], 0, {
+//   money : 100
+// });
+module.exports = {
+  Mission,
+  Stage_goto,
+  Stage_getitem,
+  Stage_kill,
+  HighLight,
+  Dialog
+}

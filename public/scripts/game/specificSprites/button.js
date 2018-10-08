@@ -1,4 +1,4 @@
-let Button = function(state,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera = true) {
+let Button = function(state,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera = true, blockPlayerMovement) {
   Phaser.Sprite.call(this,state.game,x,y,key);
   this.visible = false;
   this.game = state.game;
@@ -19,6 +19,25 @@ let Button = function(state,x,y,key,normalFrame,downFrame,overFrame,disabledFram
   this.key = key;
   this.initializeFrames();
   this.visible = true;
+
+  this.events.onInputOver.add(function() {
+    this.state.game.canvas.style.cursor = "pointer";
+  }, this);
+
+  this.events.onInputOut.add(function() {
+    this.state.game.canvas.style.cursor = "default";
+  }, this);
+
+  if(this.state.blockPlayerMovement && this.blockPlayerMovement) {
+    this.events.onInputDown.add(function() {
+      this.state.blockPlayerMovement();
+    }, this);
+  }
+
+
+  this.events.onInputUp.add(function() {
+    this.state.game.canvas.style.cursor = "default";
+  }, this);
 };
 
 Button.prototype = Object.create(Phaser.Sprite.prototype);

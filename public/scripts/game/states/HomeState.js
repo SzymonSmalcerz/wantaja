@@ -5,18 +5,18 @@ let HomeState = {
   create() {
     this.game.stage.backgroundColor = '#ede5d8';
     this.buttons = this.game.add.group();
-    this.startGameButton = new TitledButton(this,this.game.world.centerX, this.game.world.centerY - 100,"button",0,1,2,3,'start game',15);
-    this.startGameButton.addOnInputDownFunction(function(){
+    this.startGameButton = new TitledButton(this,this.posX, this.posY - 100,"button",0,1,2,3,'start game',15);
+    this.startGameButton.addOnInputDownFunction(function() {
       this.startGame();
     },this)
     this.buttons.setAll('smoothed', false);
 
-    this.showPlayerAvatarPanelButton = new TitledButton(this,this.game.world.centerX, this.game.world.centerY + 100,"button",0,1,2,3,'change avatar',15);
-    this.showPlayerAvatarPanelButton.addOnInputDownFunction(function(){
+    this.showPlayerAvatarPanelButton = new TitledButton(this,this.posX, this.posY + 100,"button",0,1,2,3,'change avatar',15);
+    this.showPlayerAvatarPanelButton.addOnInputDownFunction(function() {
       this.showAvatarsDisplay();
     },this)
 
-    this.homeScreenBackground = this.add.sprite(this.game.width/2, this.game.height/2,"background_homeState");
+    this.homeScreenBackground = this.add.sprite(this.posX, this.posY,"background_homeState");
     this.homeScreenBackground.anchor.setTo(0.5);
     this.homeScreenBackground.smoothed = false;
 
@@ -55,7 +55,7 @@ let HomeState = {
     this.playerAvatars.add(this.scrollBar);
 
     this.goBackButton = new TitledButton(this,this.game.width - 250, this.game.height - 110,"button",0,1,2,3,'go back',15)
-    this.goBackButton.addOnInputDownFunction(function(){
+    this.goBackButton.addOnInputDownFunction(function() {
       this.showMainDisplay();
     },this)
     this.goBackButton.anchor.setTo(0);
@@ -100,22 +100,29 @@ let HomeState = {
     this.playerAvatarsTexts.callAll('kill');
     // this.showAvatarsDisplay();
     let y = 120;
-    let x = 32;
+    let x = 0;
     let width;
     if(handler.playerData.gender == "male") {
-      width = ( ( this.game,this.game.width - 64 ) / handler.playerAvatarDictionary.male.names.length );
+      width = Math.round(( ( this.game,this.game.width - this.scrollbar_top.width ) / handler.playerAvatarDictionary.male.names.length ));
       handler.playerAvatarDictionary.male.levels.forEach(level => {
 
         let avatarText = this.playerAvatarsTexts.getFirstExists(false);
-        if(!avatarText){
+        if(!avatarText) {
           avatarText = this.add.text();
           this.playerAvatarsTexts.add(avatarText);
         };
-        avatarText.reset(this.game.width/2 - this.scrollbar_top.width,y-70);
+        avatarText.reset(Math.floor(this.posX - this.scrollbar_top.width/2),y-70);
         handler.styleText(avatarText);
         avatarText.anchor.setTo(0.5);
         avatarText.alpha = 1.0;
+
         avatarText.text = 'sprites avaliable from ' + level + ' level:';
+        while(avatarText.width < this.game.width - this.scrollbar_top.width * 3) {
+          avatarText.fontSize += 1;
+        }
+        while(avatarText.width > this.game.width - this.scrollbar_top.width) {
+          avatarText.fontSize -= 1;
+        }
 
         if(level == 1) {
           let avatarSprite = this.playerAvatarsSprites.getFirstExists(false);
@@ -123,7 +130,7 @@ let HomeState = {
             avatarSprite = this.game.add.sprite();
             this.playerAvatarsSprites.add(avatarSprite);
           };
-          x = this.game.width/2 - this.scrollbar_top.width;
+          x = Math.floor(this.posX - this.scrollbar_top.width/2);
           avatarSprite.reset(x,y - 20);
           avatarSprite.anchor.setTo(0.5);
           avatarSprite.loadTexture('male_' + level);
@@ -157,8 +164,8 @@ let HomeState = {
             checkBox.uncheck();
           }
         } else {
+          x += Math.floor(width/2);
           handler.playerAvatarDictionary.male.names.forEach(name => {
-
             let avatarSprite = this.playerAvatarsSprites.getFirstExists(false);
             if(!avatarSprite) {
               avatarSprite = this.game.add.sprite();
@@ -208,7 +215,7 @@ let HomeState = {
         }
 
         y += 150;
-        x = 32;
+        x = 0;
       });
     } else {
       console.log("showing female options");
@@ -217,11 +224,16 @@ let HomeState = {
     this.game.world.setBounds(0, 0, this.game.width, y + 100);
     this.playerAvatars.bringToTop(this.goBackButton);
   },
+  getPositionsCoords() {
+    this.posX = Math.round(this.state.game.width/2);
+    this.posY = Math.round(this.state.game.height/2);
+  },
   onResize(width, height) {
+    this.getPositionsCoords();
     if(this.buttons.visible) {
-      this.startGameButton.reset(this.game.world.centerX, this.game.world.centerY - 100);
-      this.showPlayerAvatarPanelButton.reset(this.game.world.centerX, this.game.world.centerY + 100);
-      this.homeScreenBackground.reset(this.game.width/2, this.game.height/2);
+      this.startGameButton.reset(this.posX, this.posY - 100);
+      this.showPlayerAvatarPanelButton.reset(this.posX, this.posY + 100);
+      this.homeScreenBackground.reset(this.posX, this.posY);
     }
     if(this.playerAvatars.visible) {
       this.game.world.setBounds(0, 0, this.game.width, this.game.world.height || this.game.height);

@@ -25,10 +25,16 @@ let initializers = function(socket) {
         characterData.y = user.y;
         characterData.experience = user.experience;
 
-        characterData.missions = [{
-          xd : "ASD",
-          elo : ":P"
-        }];
+        characterData.missions = {};
+        // characterData.doneMissions = user.doneMissions;
+
+        user.missions.forEach(mission => {
+          console.log(mission);
+          characterData.missions[mission.missionName] = {
+            missionName : mission.missionName,
+            currentStage : dm.missions[mission.missionName].getStage(mission.currentStage)
+          }
+        });
 
         characterData.equipment = user.equipment;
         characterData.additionalAgility = 0;
@@ -54,6 +60,13 @@ let initializers = function(socket) {
               characterData.equipmentCurrentlyDressed[type].item = null;
               characterData.equipmentCurrentlyDressed[type].placeTaken = false;
             }
+          })
+        } else {
+          let allEquipmentTypes = ["weapon","helmet","gloves","armor","shield","boots","special"];
+          allEquipmentTypes.forEach(type => {
+            characterData.equipmentCurrentlyDressed[type] = {};
+            characterData.equipmentCurrentlyDressed[type].item = null;
+            characterData.equipmentCurrentlyDressed[type].placeTaken = false;
           })
         }
 

@@ -1,11 +1,11 @@
 const { Spider, Bee } = require("../enemies/enemy");
 const { Trader_Greengrove, traders_utils } = require("../traders/traders");
 const Item = require("../equipment/itemOnTheGround");
-const Mission = require("../missions/missions");
 const Npc = require("../npcs/npcs");
+const Teleporter = require("../teleporters/teleporters");
 
 class Map {
-  constructor(name, fightingStageBackground ,backgrounds = ['grass'], traders, npcs, missions, width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 3000){
+  constructor(name, fightingStageBackground ,backgrounds = ['grass'], traders, teleporter, npcs, width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 3000){
     this.name = name;
     this.maxNumberOfMobs = maxNumberOfMobs;
     this.fightingStageBackground = fightingStageBackground;
@@ -17,8 +17,8 @@ class Map {
     this.mobsDataToSend = {};
     this.items = {};
     this.traders = traders || {};
+    this.teleporter = teleporter || {};
     this.npcs = npcs || {};
-    this.missions = missions || {};
     this.nextMaps = {};
     this.backgrounds = backgrounds;
     this.width = width;
@@ -76,6 +76,7 @@ class Map {
       players : {},
       mobs : self.mobsDataToSend,
       traders : self.traders,
+      teleporter : self.teleporter,
       npcs : self.npcs
     };
 
@@ -209,6 +210,15 @@ class Greengrove extends Map {
     this.traders = {
       'greengroveTrader' : new Trader_Greengrove(1260, 312)
     }
+    this.teleporter = new Teleporter(150, 300, [
+      {
+        mapName : 'Northpool',
+        price : 1000,
+        x : 913,
+        y : 1100,
+        requiredLevel : 2
+      }
+    ]);
     this.npcs = {
       'greengrove_john' : new Npc(900, 180, 'greengrove_john')
     }
@@ -227,6 +237,16 @@ class Northpool extends Map {
         requiredLevel : 1
       }
     };
+
+    this.teleporter = new Teleporter(913, 1250, [
+      {
+        mapName : 'Greengrove',
+        price : 10000,
+        x : 900,
+        y : 250,
+        requiredLevel : 2
+      }
+    ])
   }
 
   respMobs() {

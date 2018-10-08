@@ -45,6 +45,12 @@ Item.prototype.reset = function(x,y) {
   this.y = y;
 }
 
+Item.prototype.changeParent = function(newEquipmentManager) {
+  this.equipmentManager = newEquipmentManager;
+  this.parent = newEquipmentManager;
+  this.sprite.parent = newEquipmentManager;
+}
+
 Item.prototype.changeView = function(data) {
   this.visible = true;
   this.key = data.key || "boots_1";

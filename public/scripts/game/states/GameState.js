@@ -2,6 +2,7 @@ let GameState = {
   create : function() {
     this.smoothed = false;
     handler.currentState = this;
+    this.missionManager = new MissionManager(this);
     this.initializeMap();
     this.initUI();
     this.initFightWithOpponentManager();
@@ -17,6 +18,9 @@ let GameState = {
     this.uiManager.onMapChange();
     this.fightWithOpponentManager.onMapChange();
     this.mapManager.onMapChange();
+    if(this.missionManager) {
+      this.missionManager.onMapChange();
+    }
     this.game.world.removeAll();
     handler.game.state.restart(true);
   },
@@ -63,6 +67,7 @@ let GameState = {
     this.game.world.bringToTop(this.changeMapOptionsMenu);
     // this.game.world.bringToTop(this.uiManager.uiGroup);
     this.uiManager.bringToTop();
+    this.missionManager.bringToTop();
     // console.log(this.wonAlert);
     // console.log(":)");
   },
@@ -92,13 +97,17 @@ let GameState = {
     this.player.emitData(handler);
   },
   initializeMap() {
-    this.mapManager = this.mapManager || new MapManager(this);
+    this.mapManager = new MapManager(this);
     this.mapManager.initialize();
+  },
+  initMissionManager() {
+    this.missionManager.initialize();
   },
   onResize(width, height) {
     this.fightWithOpponentManager.onResize();
     this.mapManager.onResize(width,height);
     this.uiManager.onResize();
+    this.missionManager.onResize();
     this.setRenderingOrder();
     this.player.unblockMovement();
   },
@@ -112,7 +121,16 @@ let GameState = {
   styleText(text) {
     handler.styleText(text);
   },
+  blockPlayer() {
+    this.playerBlocked = true;
+  },
+  unblockPlayer() {
+    this.playerBlocked = false;
+  },
   blockPlayerMovement(num) {
     this.playerMoveManager.blockPlayerMovement(num);
+  },
+  unblockPlayerMovement() {
+    this.playerMoveManager.unblockPlayerMovement();
   }
 };

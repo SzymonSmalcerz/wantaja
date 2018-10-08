@@ -33,6 +33,18 @@ let CheckBox = function(state,x,y,checked,
   this.smoothed = false;
 
   this.initializeFrames();
+
+  this.events.onInputOver.add(function() {
+    this.state.game.canvas.style.cursor = "pointer";
+  }, this);
+
+  this.events.onInputOut.add(function() {
+    this.state.game.canvas.style.cursor = "default";
+  }, this);
+
+  this.events.onInputUp.add(function() {
+    this.state.game.canvas.style.cursor = "default";
+  }, this);
 };
 
 CheckBox.prototype = Object.create(Phaser.Sprite.prototype);

@@ -1,5 +1,5 @@
 class UIFrameManager {
-  constructor(state,uiManager,keyboardButtonTriger,frameTitle,frameBackgroundKey) {
+  constructor(state,uiManager,keyboardButtonTriger,frameTitle,frameBackgroundKey,fixedToCamera = true) {
     if(!state || !uiManager){
       throw new Error("inherited class MUST provide state/uiManager/frameTitle");
     }
@@ -10,7 +10,7 @@ class UIFrameManager {
     this.lastTime = 0;
     this.keyboardButtonTriger = keyboardButtonTriger;
     this.frameGroup = this.state.add.group();
-    this.frameGroup.fixedToCamera = true;
+    this.frameGroup.fixedToCamera = fixedToCamera;
 
     if(frameTitle) {
       this.frameTitle = state.add.text();

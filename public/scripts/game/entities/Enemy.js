@@ -8,6 +8,7 @@ let Enemy = function(state,data) {
   this.health = data.health;
   this.maxHealth = data.maxHealth;
   this.inputEnabled = true;
+  this.state = state;
   // this.input.pixelPerfectOver = true;
   this.animated = data.animated || false;
   if(this.animated) {
@@ -15,23 +16,23 @@ let Enemy = function(state,data) {
     this.animations.add("normalState", [0,1,2,3], this.howManyAnimationsPerSec, true);
     this.animations.add("hoverState", [4,5,6,7], this.howManyAnimationsPerSec, true);
     this.events.destroy();
-    this.addOnInputOverFunction(function(){
-      if(!this.disabled){
+    this.addOnInputOverFunction(function() {
+      if(!this.disabled) {
         this.animations.play("hoverState");
       };
     },this);
-    this.addOnInputOutFunction(function(){
-      if(!this.disabled){
+    this.addOnInputOutFunction(function() {
+      if(!this.disabled) {
         this.animations.play("normalState");
       };
     },this);
-    this.addOnInputDownFunction(function(){
-      if(!this.disabled){
+    this.addOnInputDownFunction(function() {
+      if(!this.disabled) {
         this.animations.play("hoverState");
       };
     },this);
-    this.addOnInputUpFunction(function(){
-      if(!this.disabled){
+    this.addOnInputUpFunction(function() {
+      if(!this.disabled) {
         this.animations.play("normalState");
       };
     },this);
@@ -40,6 +41,19 @@ let Enemy = function(state,data) {
 
   this.addOnInputDownFunction(function() {
     this.state.playerMoveManager.eraseXses();
+  }, this);
+
+
+  this.events.onInputOver.add(function() {
+    this.state.game.canvas.style.cursor = "url('assets/shortestPath/xSword.png'), auto";
+  }, this);
+
+  this.events.onInputOut.add(function() {
+    this.state.game.canvas.style.cursor = "default";
+  }, this);
+
+  this.events.onInputUp.add(function() {
+    this.state.game.canvas.style.cursor = "default";
   }, this);
 }
 

@@ -1,6 +1,6 @@
 class TradeManager extends UIFrameManager {
-  constructor(state,uiManager){
-    super(state,uiManager,null,null,'tradeFrame');
+  constructor(state,uiManager) {
+    super(state,uiManager,null,null,'tradeFrame', false);
     this.eqToSellLength = 4;
     this.eqToSellHeight = 5;
     this.currentTrader = null;
@@ -8,7 +8,7 @@ class TradeManager extends UIFrameManager {
 
   initialize() {
     let state = this.state;
-    state.tradeManager = this.frameGroup;
+    this.uiManager.addToGroup(this.frameGroup);
     this.itemDescription = new ItemDescription(this);
     this.itemMenu = new ItemMenuTrade(this, this.posX, this.posY);
     this.eqToSell = [];

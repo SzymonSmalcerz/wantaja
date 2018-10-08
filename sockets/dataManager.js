@@ -1,5 +1,11 @@
 const { Greengrove, Northpool } = require("./maps/Maps");
 const skills = require("./skills/skill");
+const { Mission,
+        Stage_goto,
+        Stage_getitem,
+        Stage_kill,
+        HighLight,
+        Dialog } = require("./missions/missions");
 
 let dm = { // data manager, created to hold values for game purpose
   allLoggedPlayersData : {},
@@ -18,6 +24,25 @@ let dm = { // data manager, created to hold values for game purpose
     "ignite" : new skills.Ignite,
     "entangle" : new skills.Entangle,
     "health" : new skills.Health
+  },
+  missions : {
+    'newcomers' : new Mission([
+      new Stage_goto(
+        [new HighLight('greengrove_john', 'Greengrove')], 'goto',
+        new Dialog("Hello wanderer!\n" +
+                    "I haven't expect you that early ! Anyway I\n" +
+                    "have small quest for you, recently many spiders\n" +
+                    "came to our village, destroy 10 of them or they\n" +
+                    "will destroy us !", "ok")
+      ),
+      new Stage_kill([], 'kill', 'spider', 10, 10),
+      new Stage_goto(
+        [new HighLight('greengrove_john', 'Greengrove')], 'return',
+        new Dialog('Oh my.. You have done it!\nhere is your reward', 'ok')
+      )
+    ], 0, {
+      money : 100
+    }, "newcomers", 1)
   },
   playerFunctions : {
     calculateMaxHp : function(player) {

@@ -7,7 +7,9 @@ class UIManager {
     this.characterDataManager = new CharacterDataManager(state,this);
     this.settingsManager = new SettingsManager(state,this);
     this.equipmentManager = new EquipmentManager(state,this);
+
     this.tradeManager = new TradeManager(state,this);
+    this.teleportManager = new TeleportManager(state,this);
 
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.alertManager = new AlertManager(this);
@@ -44,8 +46,9 @@ class UIManager {
     this.framesManagers.push(this.statusPointsManager);
     this.framesManagers.push(this.characterDataManager);
     this.framesManagers.push(this.settingsManager);
-    this.framesManagers.push(this.equipmentManager);
     this.framesManagers.push(this.tradeManager);
+    this.framesManagers.push(this.teleportManager);
+    this.framesManagers.push(this.equipmentManager);
     let state = this.state;
     // uiTileSprite
     this.uiGroupTile_normal = state.add.tileSprite(40,state.game.height-70,state.game.width - 80,70,"normalTile");
@@ -94,6 +97,8 @@ class UIManager {
     // state.uiGroup = state.add.group();
     // this.uiGroup = state.uiGroup;
     this.uiGroup = state.add.group();
+    state.uiGroup = this.uiGroup;
+
     // state.game.add.existing(this.uiGroup);
 
     this.uiGroup.add(this.uiGroupTile_normal);
@@ -165,6 +170,10 @@ class UIManager {
 
   showTradeWindow(trader) {
     this.tradeManager.showWindow(trader);
+  }
+
+  showTeleportWindow(teleporter) {
+    this.teleportManager.showWindow(teleporter);
   }
 
   toggleStatusPointWindow() {

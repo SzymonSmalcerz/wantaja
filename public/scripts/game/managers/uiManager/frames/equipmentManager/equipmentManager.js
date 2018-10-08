@@ -7,44 +7,49 @@ class EquipmentManager extends UIFrameManager {
 
   initialize() {
     let state = this.state;
-    state.equipmentManager = this.frameGroup;
+    // this.uiManager.addToGroup(this.frameGroup);
+    state.addd = this.frameGroup;
     this.itemDescription = new ItemDescription(this);
     this.itemMenu = new ItemMenu(this, this.posX, this.posY);
     this.itemDiscardFrame = new ItemDiscardFrame(this, this.posX, this.posY);
-    this.dressedUpEq = {};
-    let arr = ["weapon","helmet","gloves","armor","shield","boots","special"];
-    arr.forEach(type => {
-      console.log(this.state.player.equipmentCurrentlyDressed);
-      if(this.state.player.equipmentCurrentlyDressed[type]){
+
+      this.dressedUpEq = {};
+      let arr = ["weapon","helmet","gloves","armor","shield","boots","special"];
+      arr.forEach(type => {
         let itemData = this.state.player.equipmentCurrentlyDressed[type].item;
         if(itemData) {
           this.dressedUpEq[type] = new Item(this, -500 , -500 , itemData, true);
           this.frameGroup.add(this.dressedUpEq[type]);
+        } else {
+          this.dressedUpEq[type] = new Item(this, -500 , -500 , {}, true);
+          this.frameGroup.add(this.dressedUpEq[type]);
+          this.dressedUpEq[type].visible = false;
         }
-      }
+      });
 
-    });
-
-    this.notDressedUpEq = [];
-    for(let i = 0;i<this.notDressedUpEqHeight;i++) {
-      for(let j = 0;j<this.notDressedUpEqLength;j++) {
-        this.notDressedUpEq[i] = this.notDressedUpEq[i] || [];
-        this.notDressedUpEq[i][j] = new Item(this, this.posX - 75 + i * 50 , this.posY - 25 + j * 50);
-        this.notDressedUpEq[i][j].equipmentPositionX = j;
-        this.notDressedUpEq[i][j].equipmentPositionY = i;
-        this.notDressedUpEq[i][j].visible = false;
-        this.frameGroup.add(this.notDressedUpEq[i][j]);
-      }
-    };
-
-    this.state.player.equipment.forEach(row => {
-      row.forEach(itemData => {
-        if(itemData.placeTaken) {
-          this.notDressedUpEq[itemData.item.y][itemData.item.x].changeView(itemData.item);
-          this.notDressedUpEq[itemData.item.y][itemData.item.x].visible = true;
+      this.notDressedUpEq = [];
+      for(let i = 0;i<this.notDressedUpEqHeight;i++) {
+        for(let j = 0;j<this.notDressedUpEqLength;j++) {
+          this.notDressedUpEq[i] = this.notDressedUpEq[i] || [];
+          this.notDressedUpEq[i][j] = new Item(this, this.posX - 75 + i * 50 , this.posY - 25 + j * 50, );
+          this.notDressedUpEq[i][j].equipmentPositionX = j;
+          this.notDressedUpEq[i][j].equipmentPositionY = i;
+          this.notDressedUpEq[i][j].visible = false;
+          this.frameGroup.add(this.notDressedUpEq[i][j]);
         }
-      })
-    });
+      };
+
+      this.state.player.equipment.forEach(row => {
+        row.forEach(itemData => {
+          if(itemData.placeTaken) {
+            console.log(itemData);
+            this.notDressedUpEq[itemData.item.y][itemData.item.x].changeView(itemData.item);
+            this.notDressedUpEq[itemData.item.y][itemData.item.x].visible = true;
+          }
+        })
+      });
+
+
 
     this.frameGroup.add(this.itemDescription);
     this.frameGroup.add(this.itemMenu);

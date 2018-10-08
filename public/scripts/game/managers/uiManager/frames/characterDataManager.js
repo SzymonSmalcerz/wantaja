@@ -8,6 +8,7 @@ class CharacterDataManager extends UIFrameManager{
     this.dataNames.forEach(dataName => {
       this[dataName + "_text"] = this.state.add.text();
       this[dataName + "_questionMark"] = this.state.game.add.sprite(0,0, "questionMark");
+      this[dataName + "_questionMark"].smoothed = true;
       this[dataName + "_description"] = this.state.game.add.sprite(0,0, "characterData_" + dataName + "_description");
       this[dataName + "_description"].visible = false;
       this.addListenersToQuestionMatk(this[dataName + "_questionMark"], this[dataName + "_description"]);

@@ -47,7 +47,7 @@ let addItemToEquipment = function(data, socket, item) {
   }
   plData.equipment[itemEqPosition.y][itemEqPosition.x].placeTaken = true;
   socket.emit("addItemToEquipment", plData.equipment[itemEqPosition.y][itemEqPosition.x]);
-  
+
   return true;
 
 }
@@ -73,6 +73,8 @@ let takeOffItem = function(plData, item) {
         plData.additionalVitality -= plData.equipmentCurrentlyDressed[type].item.vitality;
 
         plData.equipment[yPos][xPos].item = plData.equipmentCurrentlyDressed[type].item;
+        plData.equipment[yPos][xPos].item.x = position.x;
+        plData.equipment[yPos][xPos].item.y = position.y;
         plData.equipment[yPos][xPos].placeTaken = true;
 
         plData.equipmentCurrentlyDressed[type].placeTaken = false;

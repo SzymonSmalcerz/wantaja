@@ -6,8 +6,7 @@ class MapManager {
 
   onMapChange() {
     this.preChangeMapMenu.onMapChange();
-    this.state.backgrounds.removeAll(true);
-    // this.state.allEntities.removeAll(true);
+    this.state.allEntities.removeAll(true);
     // this.state.map.removeAll(true);
   }
 
@@ -15,11 +14,8 @@ class MapManager {
 
     this.mapName = handler.playerData.currentMapName;
 
-    this.state.backgrounds = this.state.add.group();
-    this.state.backgrounds.smoothed = false;
-    handler.backgroundsData.forEach(backgroundKey => {
-      this.state.background = this.state.game.add.sprite(0, 0,backgroundKey);
-    });
+    // this.state.backgrounds = this.state.add.group();
+    // this.state.backgrounds.smoothed = false;
 
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
@@ -28,15 +24,23 @@ class MapManager {
     this.state.allEntities.enemies = {};
     this.state.allEntities.items = {};
     this.state.allEntities.traders = {};
+    this.state.allEntities.teleporters = {};
     this.state.allEntities.npcs = {};
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
-    this.state.colliders = this.state.add.group();
+
+    handler.backgroundsData.forEach((backgroundKey, index) => {
+      this.state['background' + "_" + index] = this.state.game.add.sprite(0, 0,backgroundKey);
+      this.state['background' + "_" + index].inputEnabled = true;
+      this.state['background' + "_" + index].events.onInputDown.add(function() {
+        this.state.unblockPlayerMovement()
+      }, this);
+    });
 
     this.preChangeMapMenu.initialize();
     this.state.entities = [];
     for(let i=0;i<this.state.map.objects["Doors"].length;i++) {
-      let doorToMap = new Button(this.state,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3)
+      let doorToMap = new Button(this.state,this.state.map.objects["Doors"][i].x,this.state.map.objects["Doors"][i].y, "door_to_map",0,1,2,3,false,false)
       this.state.allEntities.add(doorToMap);
       this.state.game.physics.enable(doorToMap);
       doorToMap.body.immovable = true;
@@ -52,11 +56,13 @@ class MapManager {
         if(getDistanceBetweenEntityAndPlayer(doorToMap, this.state.player) <= 100) {
           this.state.blockPlayerMovement();
           this.preChangeMapMenu.showOptionsMenu(doorToMap);
+        } else {
+          this.state.playerMoveManager.eraseXses();
         }
       },this);
     }
 
-    for(let i=0;i<this.state.map.objects["Entities"].length;i++){
+    for(let i=0;i<this.state.map.objects["Entities"].length;i++) {
       let newObjData = {};
       this.state.map.objects["Entities"][i].properties.forEach(property => {
         newObjData[property.name] = property.value;
@@ -102,14 +108,13 @@ class MapManager {
       mobsData.height = this.state.map.objects["Mobs"][i].height;
       mobsData.quantity = mobsData.quantity || 1;
       mobsData.key = mobsData.key || this.state.map.objects["Mobs"][i].name;
-      while(mobsData.quantity > 0){
+      while(mobsData.quantity > 0) {
         let mob = new Mob(this.state,mobsData);
         this.state.allEntities.add(mob);
         this.state.allEntities.mobs.push(mob);
         mobsData.quantity -= 1;
       }
     };
-
 
     this.createPlayer();
   };
@@ -119,12 +124,12 @@ class MapManager {
   };
 
   createPlayer() {
-    if(!handler.player) {
-      this.state.player = new Player(this.state.game,handler.playerData);
-      handler.player = this.state.player;
-    } else {
-      this.state.player = handler.player;
-    };
+    // if(!handler.player) {
+    this.state.player = new Player(this.state.game,handler.playerData);
+    handler.player = this.state.player;
+    // } else {
+    //   this.state.player = handler.player;
+    // };
 
     this.state.allEntities.add(this.state.player);
   };
@@ -132,7 +137,7 @@ class MapManager {
   addNewPlayer(data) {
     let self = this.state;
     let newPlayer = null;
-    if(!newPlayer){
+    if(!newPlayer) {
       newPlayer = new OtherPlayer(self.game,data);
       self.allEntities.add(newPlayer);
       self.allEntities.objects[data.id] = newPlayer;
@@ -161,15 +166,15 @@ class MapManager {
     delete this.state.allEntities.objects[data.id];
   }
 
-  addNewEnemy(data){
+  addNewEnemy(data) {
     let self = this.state;
     let newEnemy = null;
-    if(!newEnemy){
+    if(!newEnemy) {
       newEnemy = new Enemy(self,data);
       self.allEntities.add(newEnemy);
       self.allEntities.enemies[data.id] = newEnemy;
-      newEnemy.addOnInputDownFunction(function(){
-        if(getDistanceBetweenEntityAndPlayer(newEnemy, this.state.player) <= 50) {
+      newEnemy.addOnInputDownFunction(function() {
+        if(getDistanceBetweenEntityAndPlayer(newEnemy, this.state.player) <= 75) {
           this.state.blockPlayerMovement();
           self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
         };
@@ -185,7 +190,7 @@ class MapManager {
   addNewTrader(data) {
     let self = this.state;
     let newTrader = null;
-    if(!newTrader){
+    if(!newTrader) {
       newTrader = new Trader(self,data);
       self.allEntities.add(newTrader);
       self.allEntities.traders[data.id] = newTrader;
@@ -195,10 +200,23 @@ class MapManager {
     }
   };
 
+  addNewTeleporter(data) {
+    let self = this.state;
+    let newTeleporter = null;
+    if(!newTeleporter) {
+      newTeleporter = new Teleporter(self,data);
+      self.allEntities.add(newTeleporter);
+      self.allEntities.teleporters[data.id] = newTeleporter;
+      self.setRenderOrder(newTeleporter);
+    } else {
+      newTeleporter.reset(data.x,data.y);
+    }
+  };
+
   addNewNpc(data) {
     let self = this.state;
     let newNpc = null;
-    if(!newNpc){
+    if(!newNpc) {
       newNpc = new Npc(self,data);
       self.allEntities.add(newNpc);
       self.allEntities.npcs[data.id] = newNpc;
@@ -206,17 +224,15 @@ class MapManager {
     } else {
       newNpc.reset(data.x,data.y);
     }
-    console.log(data);
   };
 
   addNewItem(data) {
     let self = this.state;
     let newItem = null;
-    if(!newItem){
+    if(!newItem) {
       newItem = new Button(this.state,data.x, data.y,data.key,0,1,2,3);
       newItem.scale.setTo(0.7);
       self.allEntities.add(newItem);
-      console.log(data);
       self.allEntities.items[data.id] = newItem;
       newItem.addOnInputDownFunction(function() {
         if(getDistanceBetweenEntityAndPlayer(newItem, this.state.player) <= 50) {
@@ -233,7 +249,6 @@ class MapManager {
   };
 
   removeItem (data) {
-    console.log(data.id);
     let itemToRemove = this.state.allEntities.items[data.id];
     itemToRemove.kill();
     delete this.state.allEntities.items[data.id];
