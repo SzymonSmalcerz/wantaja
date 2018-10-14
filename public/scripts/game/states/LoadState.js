@@ -87,12 +87,17 @@ let LoadState = {
 
     this.load.tilemap("Greengrove","assets/maps/Greengrove.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.tilemap("Northpool","assets/maps/Northpool.json",null,Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap("Southpool","assets/maps/Southpool.json",null,Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap("Frozendefile","assets/maps/Frozendefile.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("tileset16", "assets/maps/tileset16.png");
     this.load.spritesheet("door_to_map", "assets/maps/door_to_map.png",30,46);
     this.load.spritesheet("changeMapButton","assets/maps/changeMapButton.png",50,50);
     this.load.image("grass", "assets/maps/grass.png");
+    this.load.image("grass-snow", "assets/maps/grass-snow.png");
     this.load.image("GreengroveBackground", "assets/maps/GreengroveBackground.png");
     this.load.image("NorthpoolBackground", "assets/maps/NorthpoolBackground.png");
+    this.load.image("SouthpoolBackground", "assets/maps/SouthpoolBackground.png");
+    this.load.image("FrozendefileBackground", "assets/maps/FrozendefileBackground.png");
     this.load.image("house1", "assets/house1.png");
     this.load.image("collisionSquare", "assets/collisionSquare.png");
 
@@ -191,6 +196,29 @@ let LoadState = {
     this.load.image("tree2", "assets/trees/tree2.png");
     this.load.image("tree3", "assets/trees/tree3.png");
     this.load.image("tree4", "assets/trees/tree4.png");
+    // show trees
+    this.load.image("tree_christmas_norm_120", "assets/trees/snow/tree_christmas_norm_120.png");
+    this.load.image("tree_christmas_semisnow_1_65", "assets/trees/snow/tree_christmas_semisnow_1_65.png");
+    this.load.image("tree_christmas_semisnow_1_90", "assets/trees/snow/tree_christmas_semisnow_1_90.png");
+    this.load.image("tree_christmas_semisnow_2_65", "assets/trees/snow/tree_christmas_semisnow_2_65.png");
+    this.load.image("tree_christmas_semisnow_2_90", "assets/trees/snow/tree_christmas_semisnow_2_90.png");
+    this.load.image("tree_christmas_semisnow_2_120", "assets/trees/snow/tree_christmas_semisnow_2_120.png");
+    this.load.image("tree_christmas_semisnow_3_65", "assets/trees/snow/tree_christmas_semisnow_3_65.png");
+    this.load.image("tree_christmas_semisnow_3_120", "assets/trees/snow/tree_christmas_semisnow_3_120.png");
+    this.load.image("tree_christmas_semisnow_4_65", "assets/trees/snow/tree_christmas_semisnow_4_65.png");
+    this.load.image("tree_christmas_semisnow_5_65", "assets/trees/snow/tree_christmas_semisnow_5_65.png");
+    this.load.image("tree_christmas_semisnow_120", "assets/trees/snow/tree_christmas_semisnow_120.png");
+    this.load.image("tree_christmas_snow_1_90", "assets/trees/snow/tree_christmas_snow_1_90.png");
+    this.load.image("tree_christmas_snow_2_90", "assets/trees/snow/tree_christmas_snow_2_90.png");
+    this.load.image("tree_christmas_snow_3_90", "assets/trees/snow/tree_christmas_snow_3_90.png");
+    this.load.image("tree_christmas_snow_4_90", "assets/trees/snow/tree_christmas_snow_4_90.png");
+    this.load.image("tree_christmas_snow_120", "assets/trees/snow/tree_christmas_snow_120.png");
+    this.load.image("tree_semisnow_1_norm_95", "assets/trees/snow/tree_semisnow_1_norm_95.png");
+    this.load.image("tree_semisnow_2_norm_95", "assets/trees/snow/tree_semisnow_2_norm_95.png");
+    this.load.image("tree_semisnow_2_norm_120", "assets/trees/snow/tree_semisnow_2_norm_120.png");
+    this.load.image("tree_semisnow_3_norm_95", "assets/trees/snow/tree_semisnow_3_norm_95.png");
+    this.load.image("tree_semisnow_norm_120", "assets/trees/snow/tree_semisnow_norm_120.png");
+    this.load.image("tree_snow_norm_120", "assets/trees/snow/tree_snow_norm_120.png");
     // others
     this.load.image("barell", "assets/entities/barell.png");
     this.load.image("wood", "assets/entities/wood.png");

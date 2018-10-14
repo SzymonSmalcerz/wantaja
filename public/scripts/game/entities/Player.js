@@ -42,7 +42,7 @@ let Player = function(game,data) {
   this.id = data.id || 10;
   this.leftStatusPoints = data.leftStatusPoints || 0;
   if(this.nick == "admin") {
-    this.speed = 500;
+    this.speed = 120;
   } else {
     this.speed = 120;
   }

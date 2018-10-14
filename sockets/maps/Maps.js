@@ -235,6 +235,13 @@ class Northpool extends Map {
         playerX : 133,
         playerY : 1512,
         requiredLevel : 1
+      },
+      'Southpool' : {
+        doorX : 1490,
+        doorY : 1552,
+        playerX : 1521,
+        playerY : 100,
+        requiredLevel : 1
       }
     };
 
@@ -278,8 +285,58 @@ class Northpool extends Map {
   }
 };
 
+class Southpool extends Map {
+  constructor() {
+    super("Southpool", "fightingBackgroundNorthpool", ['grass-snow','SouthpoolBackground']);
+    this.nextMaps = {
+      'Frozendefile' : {
+        doorX : 1570,
+        doorY : 631,
+        playerX : 100,
+        playerY : 631,
+        requiredLevel : 1
+      },
+      'Northpool' : {
+        doorX : 1488,
+        doorY : 0,
+        playerX : 1490,
+        playerY : 1482,
+        requiredLevel : 1
+      }
+    };
+  }
+
+  respMobs() {
+    setTimeout(() => {
+      this.respMobs();
+    }, this.respTime);
+  }
+};
+
+class Frozendefile extends Map {
+  constructor() {
+    super("Frozendefile", "fightingBackgroundNorthpool", ['grass-snow','FrozendefileBackground']);
+    this.nextMaps = {
+      'Southpool' : {
+        doorX : 0,
+        doorY : 631,
+        playerX : 1470,
+        playerY : 631,
+        requiredLevel : 1
+      }
+    };
+  }
+
+  respMobs() {
+    setTimeout(() => {
+      this.respMobs();
+    }, this.respTime);
+  }
+};
 
 module.exports = {
   Greengrove,
-  Northpool
+  Northpool,
+  Southpool,
+  Frozendefile
 };

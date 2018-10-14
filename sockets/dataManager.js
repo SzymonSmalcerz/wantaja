@@ -1,4 +1,4 @@
-const { Greengrove, Northpool } = require("./maps/Maps");
+const { Greengrove, Northpool, Southpool, Frozendefile } = require("./maps/Maps");
 const skills = require("./skills/skill");
 const { Mission,
         Stage_goto,
@@ -109,5 +109,7 @@ dm.removePlayer = function(playerID) {
 };
 dm.allMaps["Greengrove"] = new Greengrove();
 dm.allMaps["Northpool"] = new Northpool();
+dm.allMaps["Southpool"] = new Southpool();
+dm.allMaps["Frozendefile"] = new Frozendefile();
 
 module.exports = dm;
