@@ -171,7 +171,7 @@ let LoadState = {
     this.load.spritesheet("settingsButton", "assets/UI/settings/settingsButton.png",50,50);
 
     /* Fight sprites */
-    this.load.image("enemylogo", "assets/fight/enemylogo.png");
+    // this.load.image("enemylogo", "assets/fight/enemylogo.png");
 
     this.load.image("fightingBackgroundGreengrove", "assets/fight/fightingBackgroundGreengrove.png");
     this.load.image("fightingBackgroundNorthpool", "assets/fight/fightingBackgroundNorthpool.png");
