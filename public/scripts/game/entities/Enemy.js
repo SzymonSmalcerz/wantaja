@@ -12,9 +12,9 @@ let Enemy = function(state,data) {
   // this.input.pixelPerfectOver = true;
   this.animated = data.animated || false;
   if(this.animated) {
-    this.howManyAnimationsPerSec = 10;
-    this.animations.add("normalState", [0,1,2,3], this.howManyAnimationsPerSec, true);
-    this.animations.add("hoverState", [4,5,6,7], this.howManyAnimationsPerSec, true);
+    this.howManyAnimationsPerSec = this.animated.pop();
+    this.animations.add("normalState", this.animated, this.howManyAnimationsPerSec, true);
+    this.animations.add("hoverState", this.animated.map(val => val + this.animated.length), this.howManyAnimationsPerSec, true);
     this.events.destroy();
     this.addOnInputOverFunction(function() {
       if(!this.disabled) {

@@ -253,6 +253,10 @@ let LoadState = {
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");
     this.load.spritesheet("bee", "assets/enemies/bee.png",32 ,32);
     this.load.image("beelogo", "assets/enemies/spiderlogo.png");
+    this.load.spritesheet("iceGolem", "assets/enemies/ice_golem.png",50 ,80);
+    this.load.spritesheet("snake", "assets/enemies/snake.png",32 ,32);
+    this.load.spritesheet("young worm", "assets/enemies/worm_small.png",32 ,32);
+    this.load.spritesheet("worm", "assets/enemies/worm_big.png",35 ,50);
 
     // mobs
     this.load.spritesheet("chicken", "assets/entities/mobs/chicken.png",32 ,32);

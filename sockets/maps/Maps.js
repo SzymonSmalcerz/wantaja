@@ -1,4 +1,4 @@
-const { Spider, Bee } = require("../enemies/enemy");
+const { Spider, Bee, IceGolem, Snake, WormSmall, Worm } = require("../enemies/enemy");
 const { Trader_Greengrove, traders_utils } = require("../traders/traders");
 const Item = require("../equipment/itemOnTheGround");
 const Npc = require("../npcs/npcs");
@@ -7,7 +7,7 @@ const Teleporter = require("../teleporters/teleporters");
 class Map {
   constructor(name, fightingStageBackground ,backgrounds = ['grass'], traders, teleporter, npcs, width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 3000){
     this.name = name;
-    this.maxNumberOfMobs = maxNumberOfMobs;
+    this.maxNumberOfMobs = 100 || maxNumberOfMobs;
     this.fightingStageBackground = fightingStageBackground;
     this.currentNumberOfMobs = 0;
     this.respTime = respTime;
@@ -30,9 +30,9 @@ class Map {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
       let newEnemy;
       if(Math.random() > 0.5) {
-        newEnemy = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+        newEnemy = new Snake(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
       } else {
-        newEnemy = new Bee(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+        newEnemy = new Worm(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
       }
       this.currentNumberOfMobs += 1;
       this.mobs[newEnemy.id] = newEnemy;
