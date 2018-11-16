@@ -52,6 +52,9 @@ let LoadState = {
     this.load.spritesheet("checkbox_avatars","assets/homeState/checkbox_avatars.png",40,40);
     /* end of assets for home state */
 
+    this.load.image("background_death","assets/deathState/deathBackground.png");
+    this.load.image("grave","assets/deathState/grave.png");
+
     // player avatars //
     //player
     this.load.spritesheet("player", "assets/player/player.png",64 ,64);
@@ -63,8 +66,12 @@ let LoadState = {
     this.load.image("normalTileMission", "assets/npc/missions/tiles/normalTileMission.png");
     this.load.image("middleTileMission", "assets/npc/missions/tiles/middleTileMission.png");
     this.load.spritesheet("questionMarkNpc", "assets/npc/missions/questionMarkNpc.png", 35, 35);
-    this.load.spritesheet("greengroveTrader", "assets/npc/trade/greengroveTrader.png", 32, 50);
+    this.load.spritesheet("exclamationMark", "assets/missions/exclamationMark.png", 32, 32);
+    this.load.spritesheet("missionIcon", "assets/missions/missionIcon.png", 64, 64);
+    this.load.image("missionDetailFrame", "assets/missions/missionDetailFrame.png");
+    this.load.spritesheet("Trader", "assets/npc/trade/greengroveTrader.png", 32, 50);
     this.load.spritesheet("greengrove_john", "assets/npc/missions/greengrove_john.png", 32, 50);
+    this.load.spritesheet("Serena", "assets/npc/missions/greengrove_john.png", 32, 50);
     this.load.image("tradeFrame", "assets/npc/trade/tradeFrame.png");
     this.load.spritesheet("buyButton", "assets/npc/trade/buyButton.png", 75, 50);
 
@@ -139,6 +146,7 @@ let LoadState = {
 
     this.load.image("questionMark","assets/infoTables/questionMark.png");
     this.load.spritesheet("plusButton","assets/UI/plusButton.png",50,50);
+    this.load.spritesheet("goBackButton","assets/UI/goBackButton.png",50,50);
     this.load.spritesheet("closeButton","assets/UI/closeButton.png",50,50);
     this.load.spritesheet("yesButton","assets/UI/yesButton.png",100,50);
     this.load.spritesheet("noButton","assets/UI/noButton.png",100,50);

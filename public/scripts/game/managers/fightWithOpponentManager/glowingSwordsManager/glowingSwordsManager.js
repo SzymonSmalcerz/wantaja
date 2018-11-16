@@ -12,7 +12,7 @@ class GlowingSwordsManager extends Phaser.Group {
   }
 
   addNewSword(entity) {
-    let glowingSword = this.getFirstExists(false);
+    let glowingSword = this.getFirstDead();
     if(!glowingSword) {
       glowingSword = this.state.game.add.sprite(entity.x, entity.y - 20, "fightSwords");
       glowingSword.animations.add("glow", [0,1,2], 5, true);

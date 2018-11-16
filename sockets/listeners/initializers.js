@@ -9,6 +9,7 @@ let initializers = function(socket) {
       socket.emit("alreadyLoggedIn", {
         message : "user already logged in"
       });
+      console.log("ALLLLREADY LOGGGED IN !!!!");
       return;
     }
     try {
@@ -101,12 +102,12 @@ let initializers = function(socket) {
 
         if(characterData.nick == "admin") {
           characterData.key = "gm";
-          characterData.strength = 100;
-          characterData.vitality = 100;
-          characterData.intelligence = 100;
-          characterData.agility = 100;
-          characterData.money = 999999999;
-          characterData.level = 99;
+          // characterData.strength = 100;
+          // characterData.vitality = 100;
+          // characterData.intelligence = 100;
+          // characterData.agility = 100;
+          // characterData.money = 999999999;
+          characterData.level = 6;
         } else {
           characterData.key = user.key;
         }
@@ -114,6 +115,9 @@ let initializers = function(socket) {
 
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;
+
+        characterData.revivalTime = user.revivalTime;
+
         dm.socketsOfPlayers[object.id] = socket;
         dm.allLoggedPlayersData[characterData.id] = characterData;
         dm.allLoggedPlayersData[characterData.id].active = true;
@@ -134,6 +138,18 @@ let initializers = function(socket) {
             }
           }
         });
+
+        // this object below is cache (key valu pairs, where key is enemey key and pair is array of missions linked to this enemey),
+        // where we keep the enemies keys, which player wants to kill and has missions linked to this mob,
+        // for example there is 'spider' in this dictionary and this spider has in ints array 2 missions, then after each kill
+        // of this spider by player, server reduce number of spiders to kill in this mission and checks, if mission is done
+        dm.allLoggedPlayersData[characterData.id].missionsKillEnemiesDictionary = {};
+        user.missions.forEach(mission => {
+          if(characterData.missions[mission.missionName].currentStage.type == 'kill') {
+            dm.allLoggedPlayersData[characterData.id].missionsKillEnemiesDictionary[characterData.missions[mission.missionName].currentStage.enemyKey] = dm.allLoggedPlayersData[characterData.id].missionsKillEnemiesDictionary[characterData.missions[mission.missionName].currentStage.enemyKey] || [];
+            dm.allLoggedPlayersData[characterData.id].missionsKillEnemiesDictionary[characterData.missions[mission.missionName].currentStage.enemyKey].push(characterData.missions[mission.missionName]);
+          }
+        });
       }
 
     } catch(error) {
@@ -145,7 +161,19 @@ let initializers = function(socket) {
   socket.on("initialized", function() {
     let data = socket.characterData;
     dm.allLoggedPlayersData[socket.playerID].key = data.key;
-    dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].addPlayer(dm.allLoggedPlayersData[socket.playerID], socket);
+    if(dm.allLoggedPlayersData[socket.playerID].revivalTime) {
+      if(dm.allLoggedPlayersData[socket.playerID].revivalTime > Date.now()) {
+        socket.emit("playerDied", {
+          revivalTime : dm.allLoggedPlayersData[socket.playerID].revivalTime,
+          deathTime : Date.now()
+        });
+      } else {
+        dm.addPlayerToFirstMap(socket);
+      }
+    } else {
+      dm.allLoggedPlayersData[socket.playerID].revivalTime = null;
+      dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].addPlayer(dm.allLoggedPlayersData[socket.playerID], socket);
+    }
     // dm.allLoggedPlayersData[socket.playerID].socket = dm.socketsOfPlayers[socket.playerID];
     dm.allLoggedPlayersData[socket.playerID].active = true;
   });

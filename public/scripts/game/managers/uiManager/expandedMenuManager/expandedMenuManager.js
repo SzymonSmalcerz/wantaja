@@ -6,8 +6,8 @@ class ExpandedMenuManager {
 
   initialize() {
     let state = this.state;
-    this.expandArrow = new CheckBox(state,0,0,false,0,1,2,3,4,5,6,7,false,"expandArrow");
 
+    this.expandArrow = new CheckBox(state,0,0,false,0,1,2,3,4,5,6,7,false,"expandArrow");
     this.expandArrow.anchor.setTo(0);
     this.expandArrow.addOnUncheckFunction(function() {
       this.closeExpandedMenu();
@@ -16,6 +16,11 @@ class ExpandedMenuManager {
       this.showExpandedMenu();
     },this);
     this.uiManager.blockPlayerMovementsWhenOver(this.expandArrow);
+
+    this.exclamationMark_expandArrow = this.state.game.add.sprite(0,0, "exclamationMark");
+    this.exclamationMark_expandArrow.animations.add("glow", [0,1,2,3,2,1], 3, true);
+    this.exclamationMark_expandArrow.animations.play("glow");
+    // this.exclamationMark.visible = true;
 
     this.characterDataIcon = new Button(state,state.game.width-260,state.game.height-147,"characterDataIcon",0,1,2,3);
     this.characterDataIcon.addOnInputDownFunction(function() {
@@ -35,8 +40,18 @@ class ExpandedMenuManager {
       this.closeExpandedMenu();
     },this);
     this.uiManager.blockPlayerMovementsWhenOver(this.statusIcon,true);
+
     this.missionsIcon = new Button(state,state.game.width-95,state.game.height-147,"missionsIcon",0,1,2,3);
+    this.missionsIcon.addOnInputDownFunction(function() {
+      this.uiManager.toggleMissionsWindow();
+      this.closeExpandedMenu();
+    },this);
     this.uiManager.blockPlayerMovementsWhenOver(this.missionsIcon,true);
+
+    this.exclamationMark_missionIcon = this.state.game.add.sprite(0,0, "exclamationMark");
+    this.exclamationMark_missionIcon.animations.add("glow", [0,1,2,3,2,1], 3, true);
+    this.exclamationMark_missionIcon.animations.play("glow");
+
     this.backgroundIcons = state.game.add.sprite(state.game.width-300,state.game.height-170,"backgroundIcons");
     this.uiManager.blockPlayerMovementsWhenOver(this.backgroundIcons);
 
@@ -46,13 +61,16 @@ class ExpandedMenuManager {
     this.expandedMenu.add(this.eqIcon);
     this.expandedMenu.add(this.statusIcon);
     this.expandedMenu.add(this.missionsIcon);
+    this.expandedMenu.add(this.exclamationMark_missionIcon);
     this.expandedMenu.setAll("anchor",{
       x : 0,
       y : 0
-    })
+    });
+
     //adding everything to one group
     this.uiManager.addToGroup(this.expandedMenu);
     this.uiManager.addToGroup(this.expandArrow);
+    this.uiManager.addToGroup(this.exclamationMark_expandArrow);
 
     this.onResize();
   }
@@ -78,13 +96,26 @@ class ExpandedMenuManager {
   onResize() {
     let state = this.state;
     this.expandArrow.reset(state.game.width-60,state.game.height-60);
+    this.exclamationMark_expandArrow.reset(state.game.width-51,state.game.height-51);
     this.characterDataIcon.reset(state.game.width-260,state.game.height-147);
     this.eqIcon.reset(state.game.width-205,state.game.height-147);
     this.statusIcon.reset(state.game.width-150,state.game.height-147);
     this.missionsIcon.reset(state.game.width-95,state.game.height-147);
+    this.exclamationMark_missionIcon.reset(state.game.width-86,state.game.height-138);
     this.backgroundIcons.reset(state.game.width-300,state.game.height-170);
     this.bringToTop();
     this.closeExpandedMenu();
+    this.updateExclamationMarks();
+  }
+
+  updateExclamationMarks() {
+    if(handler.notOpenedMissions.length == 0) {
+      this.exclamationMark_expandArrow.visible = false;
+      this.exclamationMark_missionIcon.visible = false;
+    } else {
+      this.exclamationMark_expandArrow.visible = true;
+      this.exclamationMark_missionIcon.visible = true;
+    }
   }
 
   update() {}

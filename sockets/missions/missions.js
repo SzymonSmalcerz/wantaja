@@ -62,6 +62,7 @@ class Mission {
   }
 
   getStageIndex(stageName) {
+    stageName = stageName.name ? stageName.name : stageName;
     return this.stages.reduce((total,stage,i) => {
       if(stageName == stage.name) {
         return i;
@@ -84,13 +85,6 @@ class Mission {
   }
 }
 
-// let mission_killSpiders = new Mission([
-//   new Stage_goto([new HighLight('greengrove_john', 'Greengrove')]),
-//   new Stage_kill([], 'spider', 10, 10),
-//   new Stage_goto([new HighLight('greengrove_john', 'Greengrove')])
-// ], 0, {
-//   money : 100
-// });
 module.exports = {
   Mission,
   Stage_goto,

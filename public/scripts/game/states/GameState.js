@@ -1,8 +1,10 @@
 let GameState = {
   create : function() {
     this.smoothed = false;
+    console.log("HEEERRRRRE");
     handler.currentState = this;
     this.missionManager = new MissionManager(this);
+    this.initDeathManager();
     this.initializeMap();
     this.initUI();
     this.initFightWithOpponentManager();
@@ -23,6 +25,7 @@ let GameState = {
     }
     this.game.world.removeAll();
     handler.game.state.restart(true);
+    this.playerBlocked = false;
   },
   update : function() {
     this.physics.arcade.collide(this.colliders, this.player);
@@ -100,6 +103,10 @@ let GameState = {
     this.mapManager = new MapManager(this);
     this.mapManager.initialize();
   },
+  initDeathManager() {
+    this.deathManager = new DeathManager(this);
+    this.deathManager.initialize();
+  },
   initMissionManager() {
     this.missionManager.initialize();
   },
@@ -132,5 +139,18 @@ let GameState = {
   },
   unblockPlayerMovement() {
     this.playerMoveManager.unblockPlayerMovement();
+  },
+  handleDeath(data) {
+    this.deathManager.handleDeath(data);
+  },
+  revive(data) {
+    console.log("WHATTTTTTTTTTTT WHEN THIS IS USED ?!");
+    this.deathManager.revive(data);
+  },
+  updateExclamationMarks() {
+    this.uiManager.updateExclamationMarks();
+  },
+  removeExclamationMark(stageCrypto) {
+    this.missionManager.removeExclamationMark(stageCrypto);
   }
 };

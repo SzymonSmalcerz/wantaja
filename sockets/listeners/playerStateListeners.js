@@ -37,7 +37,7 @@ function playerStateListeners(socket, io) {
           });
         } else {
           dm.allLoggedPlayersData[socket.playerID].money -= teleportData.price;
-          changeMap(dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]], {
+          dm.changeMap(socket, {
             mapName : teleportData.mapName,
             newPlayerX : teleportData.x,
             newPlayerY : teleportData.y
@@ -70,7 +70,7 @@ function playerStateListeners(socket, io) {
 
       //check if player is in range of the door
       if(Math.abs(xDifference) < 100 && Math.abs(yDifference) < 100) {
-        changeMap(map, data);
+        dm.changeMap(socket, data);
       }
 
     } else {
@@ -86,24 +86,24 @@ function playerStateListeners(socket, io) {
     dm.allLoggedPlayersData[socket.playerID].frame = data.frame;
   })
 
-  var changeMap = (map, data) => {
-    map.removePlayer(socket.playerID);
-    dm.allLoggedPlayersData[socket.playerID].currentMapName = data.mapName;
-    dm.findMapNameByPlayerId[socket.playerID] = data.mapName;
-    dm.allLoggedPlayersData[socket.playerID].active = true;
-    socket.emit('changedMap', {
-      mapName : dm.findMapNameByPlayerId[socket.playerID],
-      mapBackgrounds : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].backgrounds : [],
-      fightingStageBackground : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].fightingStageBackground : [],
-      playerX : data.newPlayerX || map.nextMaps[data.mapName].playerX,
-      playerY : data.newPlayerY || map.nextMaps[data.mapName].playerY,
-      money : dm.allLoggedPlayersData[socket.playerID].money,
-      equipmentCurrentlyDressed : dm.allLoggedPlayersData[socket.playerID].equipmentCurrentlyDressed,
-      equipment : dm.allLoggedPlayersData[socket.playerID].equipment
-    });
-    dm.allLoggedPlayersData[socket.playerID].x = data.newPlayerX || map.nextMaps[data.mapName].playerX;
-    dm.allLoggedPlayersData[socket.playerID].y = data.newPlayerY || map.nextMaps[data.mapName].playerY;
-  }
+  // var changeMap = (map, data) => {
+  //   map.removePlayer(socket.playerID);
+  //   dm.allLoggedPlayersData[socket.playerID].currentMapName = data.mapName;
+  //   dm.findMapNameByPlayerId[socket.playerID] = data.mapName;
+  //   dm.allLoggedPlayersData[socket.playerID].active = true;
+  //   socket.emit('changedMap', {
+  //     mapName : dm.findMapNameByPlayerId[socket.playerID],
+  //     mapBackgrounds : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].backgrounds : [],
+  //     fightingStageBackground : dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]] ? dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].fightingStageBackground : [],
+  //     playerX : data.newPlayerX || map.nextMaps[data.mapName].playerX,
+  //     playerY : data.newPlayerY || map.nextMaps[data.mapName].playerY,
+  //     money : dm.allLoggedPlayersData[socket.playerID].money,
+  //     equipmentCurrentlyDressed : dm.allLoggedPlayersData[socket.playerID].equipmentCurrentlyDressed,
+  //     equipment : dm.allLoggedPlayersData[socket.playerID].equipment
+  //   });
+  //   dm.allLoggedPlayersData[socket.playerID].x = data.newPlayerX || map.nextMaps[data.mapName].playerX;
+  //   dm.allLoggedPlayersData[socket.playerID].y = data.newPlayerY || map.nextMaps[data.mapName].playerY;
+  // }
 
 
   var sendToUserData = (time) => {
@@ -174,22 +174,25 @@ function playerStateListeners(socket, io) {
                 user.key = player.key;
                 user.money = player.money;
 
+                user.revivalTime = player.revivalTime || null;
+
                 let missionsToSave = [];
                 for (var missionName in player.missions) {
                   if (player.missions.hasOwnProperty(missionName)) {
+                    if(player.missions[missionName]) {
                       missionsToSave.push({
                         missionName : missionName,
                         currentStage : dm.missions[missionName].getStageIndex(player.missions[missionName].currentStage.name)
                       })
+                    }
                   }
                 }
 
                 user.missions = missionsToSave;
 
                 await user.save();
-
                 console.log("saved statis of :", user._id);
-              }catch(e) {
+              } catch(e) {
                 console.log(e);
               };
 

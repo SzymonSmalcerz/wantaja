@@ -168,10 +168,11 @@ let iceGolemDropData = new DropData(100,500,[
   new ItemToDrop("shield_2","shield",10),
   new ItemToDrop("special_2","special",10)
 ]);
+// x,y,map,id,lvl,key,hp,damage,exp,skillName,dropData,animated,mana
 class IceGolem extends Enemy {
   constructor(x,y,map) {
     let id = Math.floor(Math.random() * 100000) + "iceGolem";
-    super(x,y,map,id,5,"iceGolem",500,null,null,"punch",iceGolemDropData,[0,1,2,3,4,5,6,5]);
+    super(x,y,map,id,5,"iceGolem",500,50000,null,"punch",iceGolemDropData,[0,1,2,3,4,5,6,5]);
   }
 };
 

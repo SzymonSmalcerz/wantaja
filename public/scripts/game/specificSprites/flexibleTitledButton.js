@@ -26,6 +26,33 @@ let FlexibleTitledButton = function(state,x,y,title,style,fixedToCamera = false)
   // }
 
   this.buttons.forEach(buttonPart => {
+    this.add(buttonPart);
+  });
+
+  this.addBasicEvents();
+
+  this.title = state.add.text(x,y);
+  this.title.smoothed = false;
+  // this.title.anchor.setTo(0.5);
+  this.title.text = title;
+
+  this.disabled = false;
+
+  if(style) {
+    this.title.fontSize = style.fontSize ? style.fontSize : this.title.fontSize;
+  }
+  handler.styleText(this.title);
+
+  this.add(this.title);
+};
+
+
+FlexibleTitledButton.prototype = Object.create(Phaser.Group.prototype);
+FlexibleTitledButton.prototype.constructor = FlexibleTitledButton;
+
+FlexibleTitledButton.prototype.addBasicEvents = function() {
+
+  this.buttons.forEach(buttonPart => {
     buttonPart.events.onInputOver.add(function() {
       this.state.game.canvas.style.cursor = "pointer";
     }, this);
@@ -33,8 +60,6 @@ let FlexibleTitledButton = function(state,x,y,title,style,fixedToCamera = false)
     buttonPart.events.onInputOut.add(function() {
       this.state.game.canvas.style.cursor = "default";
     }, this);
-
-    this.add(buttonPart);
   });
 
   this.addOnInputOverFunction(function() {
@@ -57,25 +82,7 @@ let FlexibleTitledButton = function(state,x,y,title,style,fixedToCamera = false)
       this.setNormalFrame();
     }
   }, this);
-
-  this.title = state.add.text(x,y);
-  this.title.smoothed = false;
-  // this.title.anchor.setTo(0.5);
-  this.title.text = title;
-
-  this.disabled = false;
-
-  if(style) {
-    this.title.fontSize = style.fontSize ? style.fontSize : this.title.fontSize;
-  }
-  handler.styleText(this.title);
-
-  this.add(this.title);
 };
-
-
-FlexibleTitledButton.prototype = Object.create(Phaser.Group.prototype);
-FlexibleTitledButton.prototype.constructor = FlexibleTitledButton;
 
 FlexibleTitledButton.prototype.reset = function(x,y) {
   this.resize(x,y);
@@ -92,6 +99,17 @@ FlexibleTitledButton.prototype.resize = function(x,y) {
 
 FlexibleTitledButton.prototype.getWidth = function() {
   return this.uiGroupTile_left.width + this.uiGroupTile_normal.width + this.uiGroupTile_right.width;
+};
+
+FlexibleTitledButton.prototype.removeAllEvents = function() {
+  this.buttons.forEach(buttonPart => {
+    buttonPart.events.onInputOver.removeAll();
+    buttonPart.events.onInputUp.removeAll();
+    buttonPart.events.onInputDown.removeAll();
+    buttonPart.events.onInputOut.removeAll();
+  });
+
+  this.addBasicEvents();
 };
 
 FlexibleTitledButton.prototype.changeTitle = function(text) {

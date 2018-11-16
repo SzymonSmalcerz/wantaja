@@ -5,6 +5,8 @@ let OtherPlayer = function(game,data){
   this.anchor.setTo(0.5);
   game.physics.enable(this);
   this.id = data.id;
+  this.nick = data.nick;
+  this.lvl = data.lvl;
   this.smoothed = false;
 }
 

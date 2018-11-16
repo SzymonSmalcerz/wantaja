@@ -1,5 +1,6 @@
 const dm = require("../dataManager");
 const equipment = require("../equipment/equipment");
+const User = require("../../database/models/userModel");
 
 function fightListeners(socket) {
   socket.on("initFight", function(data) {
@@ -50,7 +51,7 @@ function fightListeners(socket) {
       });
       player.experience += enemy.exp;
       if(player.experience > player.requiredExperience) {
-        dm.playerFunctions.levelUp(player);
+        dm.playerFunctions.levelUp(player, socket);
       };
 
       // TODO
@@ -61,18 +62,44 @@ function fightListeners(socket) {
         player.claimedItem = drop.droppedItem;
       }
       player.money += drop.droppedMoney;
-      socket.emit("handleWinFight",{
-        playerExperience : player.experience,
-        playerMoveResult,
-        drop
-      });
+      if(dm.allLoggedPlayersData[socket.playerID].missionsKillEnemiesDictionary[enemy.key] && dm.allLoggedPlayersData[socket.playerID].missionsKillEnemiesDictionary[enemy.key].length > 0) {
+
+        let missionToReduceNumOfMobs = [];
+        dm.allLoggedPlayersData[socket.playerID].missionsKillEnemiesDictionary[enemy.key].forEach(mission => {
+          mission.currentStage.numberLeft -= 1;
+          if(mission.currentStage.numberLeft <= 0) {
+            dm.changeMissionStage(socket, mission.missionName);
+          } else {
+            missionToReduceNumOfMobs.push({
+              missionName : mission.missionName
+            })
+          }
+        });
+        socket.emit("handleWinFight",{
+          playerExperience : player.experience,
+          playerMoveResult,
+          drop,
+          missionToReduceNumOfMobs
+        });
+
+      } else {
+        socket.emit("handleWinFight",{
+          playerExperience : player.experience,
+          playerMoveResult,
+          drop
+        });
+      }
+
       dm.allMaps[dm.findMapNameByPlayerId[socket.playerID]].removeEnemy(enemy.id);
       player.fightData = {};
       // TODO
+
+
     } else {
       enemy.fightData.fightTick = Date.now();
       enemySkill = dm.skills[enemy.skillName];
       enemyMoveResult = enemySkill.getDamage(enemy,player);
+
       if(player.health <=0) {
         enemy.isFighting = false;
         enemy.fightData = {};
@@ -81,17 +108,18 @@ function fightListeners(socket) {
           playerID : player.id
         });
         player.fightData = {};
-        // inform other s on map that player papa
-        // and handle his death TODO
-      };
-      socket.emit("fightMove", {
-        enemyHealth : enemy.health,
-        enemySkillName : enemy.skillName,
-        playerHealth : player.health,
-        playerMana : player.mana,
-        enemyMoveResult,
-        playerMoveResult
-      });
+        dm.handlePlayerDeath(socket);
+      } else {
+        socket.emit("fightMove", {
+          enemyHealth : enemy.health,
+          enemySkillName : enemy.skillName,
+          playerHealth : player.health,
+          playerMana : player.mana,
+          enemyMoveResult,
+          playerMoveResult
+        });
+      }
+
     };
   });
 }

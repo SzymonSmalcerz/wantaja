@@ -36,7 +36,7 @@ class Trader_Greengrove extends Trader {
       new Item(1, 1, 'special_1', 'special', 100)
     ]
 
-    super(x, y, 'greengroveTrader', items);
+    super(x, y, 'Trader', items);
   }
 }
 

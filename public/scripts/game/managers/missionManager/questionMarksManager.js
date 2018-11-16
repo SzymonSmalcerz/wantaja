@@ -12,7 +12,7 @@ class QuestionMarksManager extends Phaser.Group {
   }
 
   addNewQuestionMark(npc) {
-    let glowingQuestionMark = this.getFirstExists(false);
+    let glowingQuestionMark = this.getFirstDead();
     if(!glowingQuestionMark) {
       glowingQuestionMark = this.state.game.add.sprite(npc.x, npc.y - 20, "questionMarkNpc");
       glowingQuestionMark.animations.add("glow", [0,1,2,1], 3, true);

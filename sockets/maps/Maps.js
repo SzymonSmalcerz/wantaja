@@ -5,9 +5,9 @@ const Npc = require("../npcs/npcs");
 const Teleporter = require("../teleporters/teleporters");
 
 class Map {
-  constructor(name, fightingStageBackground ,backgrounds = ['grass'], traders, teleporter, npcs, width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 3000){
+  constructor(name, fightingStageBackground ,backgrounds = ['grass'], traders, teleporter, npcs, width = 1600, height = 1600, maxNumberOfMobs = 10, respTime = 100) {
     this.name = name;
-    this.maxNumberOfMobs = 100 || maxNumberOfMobs;
+    this.maxNumberOfMobs = 10 || maxNumberOfMobs;
     this.fightingStageBackground = fightingStageBackground;
     this.currentNumberOfMobs = 0;
     this.respTime = respTime;
@@ -16,6 +16,7 @@ class Map {
     this.mobs = {};
     this.mobsDataToSend = {};
     this.items = {};
+    this.graves = {};
     this.traders = traders || {};
     this.teleporter = teleporter || {};
     this.npcs = npcs || {};
@@ -29,10 +30,10 @@ class Map {
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
       let newEnemy;
-      if(Math.random() > 0.5) {
-        newEnemy = new Snake(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+      if(Math.random() > 0.2) {
+        newEnemy = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
       } else {
-        newEnemy = new Worm(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+        newEnemy = new IceGolem(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
       }
       this.currentNumberOfMobs += 1;
       this.mobs[newEnemy.id] = newEnemy;
@@ -47,7 +48,7 @@ class Map {
         lvl : newEnemy.lvl
       };
       for(let playerID in this.players) {
-        if(this.players.hasOwnProperty(playerID)){
+        if(this.players.hasOwnProperty(playerID)) {
           this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
         }
       };
@@ -59,14 +60,15 @@ class Map {
   }
 
   addPlayer(playerData, playerSocket) {
-
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
+      if(this.players.hasOwnProperty(playerID)) {
         this.players[playerID].socket.emit("addPlayer", {
           x : playerData.x,
           y : playerData.y,
           id : playerData.id,
-          key : playerData.key
+          key : playerData.key,
+          nick : playerData.nick,
+          lvl : playerData.level
         });
       }
     };
@@ -77,16 +79,19 @@ class Map {
       mobs : self.mobsDataToSend,
       traders : self.traders,
       teleporter : self.teleporter,
-      npcs : self.npcs
+      npcs : self.npcs,
+      graves : self.graves
     };
 
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
+      if(this.players.hasOwnProperty(playerID)) {
         data.players[playerID] = {
           x : this.players[playerID].data.x,
           y : this.players[playerID].data.y,
           key : this.players[playerID].data.key,
-          id : playerID
+          id : playerID,
+          nick : this.players[playerID].data.nick,
+          lvl : this.players[playerID].data.level
         }
       }
     };
@@ -107,23 +112,27 @@ class Map {
   }
 
   removePlayer(idOfRemovedPlayer) {
-    delete this.dataToSend[idOfRemovedPlayer];
-    delete this.players[idOfRemovedPlayer];
 
-    for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
-        this.players[playerID].socket.emit("removePlayer", {
-          id : idOfRemovedPlayer
-        });
-      }
-    };
+    if(this.players[idOfRemovedPlayer]) {
+      delete this.dataToSend[idOfRemovedPlayer];
+      delete this.players[idOfRemovedPlayer];
+
+      for(let playerID in this.players) {
+        if(this.players.hasOwnProperty(playerID)) {
+          this.players[playerID].socket.emit("removePlayer", {
+            id : idOfRemovedPlayer
+          });
+        }
+      };
+    }
+
   };
 
   removeEnemy(idOfRemovedMob) {
 
-    if(!this.mobs[idOfRemovedMob]){return};
+    if(!this.mobs[idOfRemovedMob]) {return};
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
+      if(this.players.hasOwnProperty(playerID)) {
         this.players[playerID].socket.emit("removeEnemy", {
           id : idOfRemovedMob
         });
@@ -134,9 +143,9 @@ class Map {
   };
 
   removeItem(idOfRemovedItem) {
-    if(!this.items[idOfRemovedItem]){return};
+    if(!this.items[idOfRemovedItem]) {return};
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
+      if(this.players.hasOwnProperty(playerID)) {
         this.players[playerID].socket.emit("removeItem", {
           id : idOfRemovedItem
         });
@@ -149,7 +158,7 @@ class Map {
     let item = new Item(itemData.x,itemData.y,this,itemData.key,itemData.type)
     this.items[item.id] = item;
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
+      if(this.players.hasOwnProperty(playerID)) {
         this.players[playerID].socket.emit("addItem", {
           x : item.x,
           y : item.y,
@@ -160,11 +169,31 @@ class Map {
     };
   }
 
+  removeGrave(idOfRemovedGrave) {
+    if(!this.graves[idOfRemovedGrave]) {return};
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)) {
+        this.players[playerID].socket.emit("removeGrave", {
+          id : idOfRemovedGrave
+        });
+      }
+    };
+    delete this.graves[idOfRemovedGrave];
+  };
+
+  addGrave(graveData) {
+    this.graves[graveData.id] = graveData;
+    for(let playerID in this.players) {
+      if(this.players.hasOwnProperty(playerID)) {
+        this.players[playerID].socket.emit("addGrave", graveData);
+      }
+    };
+  }
+
   tick() {
     let newDataToSend = {};
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
-        // console.log(this.players[playerID].data.x);
+      if(this.players.hasOwnProperty(playerID)) {
         if(this.dataToSend[playerID].x != this.players[playerID].data.x || this.dataToSend[playerID].y != this.players[playerID].data.y) {
           newDataToSend[playerID] = {
             x : this.players[playerID].data.x,
@@ -178,7 +207,7 @@ class Map {
     };
 
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
+      if(this.players.hasOwnProperty(playerID)) {
         this.players[playerID].socket.emit("gameData", {
           otherPlayersData : newDataToSend
         });
@@ -188,7 +217,7 @@ class Map {
 
   emitDataToPlayers(messageName, messageObj) {
     for(let playerID in this.players) {
-      if(this.players.hasOwnProperty(playerID)){
+      if(this.players.hasOwnProperty(playerID)) {
         this.players[playerID].socket.emit(messageName, messageObj);
       }
     };
@@ -208,7 +237,7 @@ class Greengrove extends Map {
       }
     };
     this.traders = {
-      'greengroveTrader' : new Trader_Greengrove(1260, 312)
+      'Trader' : new Trader_Greengrove(1260, 312)
     }
     this.teleporter = new Teleporter(150, 300, [
       {
@@ -245,6 +274,10 @@ class Northpool extends Map {
       }
     };
 
+    this.npcs = {
+      'Serena' : new Npc(900, 180, 'Serena')
+    }
+
     this.teleporter = new Teleporter(913, 1250, [
       {
         mapName : 'Greengrove',
@@ -273,7 +306,7 @@ class Northpool extends Map {
       lvl : newEnemy.lvl
     };
       for(let playerID in this.players) {
-        if(this.players.hasOwnProperty(playerID)){
+        if(this.players.hasOwnProperty(playerID)) {
           this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
         }
       };

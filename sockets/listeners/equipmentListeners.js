@@ -151,7 +151,7 @@ function equipmentListeners(socket) {
   });
 
   socket.on("claimItem", function(data) {
-    if(!dm.allLoggedPlayersData[socket.playerID].claimedItem){return};
+    if(!dm.allLoggedPlayersData[socket.playerID].claimedItem){ return };
     addItemToEquipment(data, socket, dm.allLoggedPlayersData[socket.playerID].claimedItem);
   });
 }

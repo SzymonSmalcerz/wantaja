@@ -9,17 +9,30 @@ class MissionManager extends Phaser.Group {
   }
 
   initialize() {
-    for (var missonName in handler.missions) {
-      if(handler.missions.hasOwnProperty(missonName)) {
-          handler.missions[missonName].currentStage.highLights.forEach(highLight => {
-            if(highLight.mapKey == handler.playerData.currentMapName) {
-              if(this.state.allEntities.npcs[highLight.npcKey]) {
-                this.state.allEntities.npcs[highLight.npcKey].highLight(handler.missions[missonName]);
-              }
-            }
-          })
+    console.log("IIIINITIALIZEEEEED");
+    for (var missionName in handler.missions) {
+      if(handler.missions.hasOwnProperty(missionName)) {
+          this.addNewMission(handler.missions[missionName]);
       }
     }
+  }
+
+  addNewMission(data) {
+    console.log(data);
+    handler.missions[data.missionName] = data;
+    handler.missions[data.missionName].currentStage.highLights.forEach(highLight => {
+      console.log(highLight.mapKey);
+      console.log(handler.playerData.currentMapName);
+      console.log(highLight.mapKey == handler.playerData.currentMapName);
+      if(highLight.mapKey == handler.playerData.currentMapName) {
+        console.log(":)");
+        if(this.state.allEntities.npcs[highLight.npcKey]) {
+          this.state.allEntities.npcs[highLight.npcKey].highLight(handler.missions[data.missionName]);
+        }
+      }
+    });
+
+    this.addExclamationMark(data.missionName + '_' + handler.missions[data.missionName].currentStage.name);
   }
 
   onResize() {
@@ -43,6 +56,78 @@ class MissionManager extends Phaser.Group {
   onMapChange() {
     this.questionMarksManager.onMapChange();
     this.removeAll(true);
+  }
+
+  removeMission(data) {
+    if(!handler.missions[data.missionName]) {
+      alert('? changeMissionStage when mission is not present ?!');
+      return;
+    }
+    this.removeHighLightFromMission(data.missionName);
+    this.removeExclamationMark(data.missionName + '_' + handler.missions[data.missionName].currentStage.name);
+    delete handler.missions[data.missionName];
+  }
+
+  changeMissionStage(data) {
+    if(!handler.missions[data.missionName]) {
+      alert('? changeMissionStage when mission is not present ?!');
+      return;
+    }
+
+    this.changeHighLights(data);
+    this.removeExclamationMark(data.missionName + '_' + handler.missions[data.missionName].currentStage.name);
+    handler.missions[data.missionName].currentStage = data.newStage;
+    this.addExclamationMark(data.missionName + '_' + data.newStage.name);
+  }
+
+  /*
+    stageCrypto == stage cryptonim created by adding mission name and stage name
+  */
+  removeExclamationMark(stageCrypto) {
+    handler.notOpenedMissions = handler.notOpenedMissions.filter(name => {
+      return name != stageCrypto;
+    });
+    this.state.updateExclamationMarks();
+  }
+
+  removeAllExclamationMarks() {
+    handler.notOpenedMissions = [];
+    this.state.updateExclamationMarks();
+  }
+
+  /*
+    stageCrypto == stage cryptonim created by adding mission name and stage name
+  */
+  addExclamationMark(stageCrypto) {
+    handler.notOpenedMissions.push(stageCrypto);
+    this.state.updateExclamationMarks();
+  }
+
+  changeStageInfo(missionData) {
+    if(handler.missions[missionData.missionName]) {
+      handler.missions[missionData.missionName].currentStage.numberLeft -= 1;
+    }
+  }
+
+  changeHighLights(data) {
+    data.newStage.highLights.forEach(highLight => {
+      if(highLight.mapKey == handler.playerData.currentMapName) {
+        if(this.state.allEntities.npcs[highLight.npcKey]) {
+          this.state.allEntities.npcs[highLight.npcKey].highLight(handler.missions[data.missionName]);
+        }
+      }
+    })
+    this.removeHighLightFromMission(data.missionName);
+  }
+
+  removeHighLightFromMission(missionName) {
+    handler.missions[missionName].currentStage.highLights.forEach(highLight => {
+      if(highLight.mapKey == handler.playerData.currentMapName) {
+        if(this.state.allEntities.npcs[highLight.npcKey]) {
+          this.state.allEntities.npcs[highLight.npcKey].removeHighLight(missionName);
+        }
+      }
+    });
   }
 
   bringToTop(item) {

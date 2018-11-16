@@ -3,6 +3,7 @@ const equipmentListeners = require("./listeners/equipmentListeners");
 const fightListeners = require("./listeners/fightListeners");
 const playerStateListeners = require("./listeners/playerStateListeners");
 const tradeListeners = require("./listeners/tradeListeners");
+const missionsListeners = require("./listeners/missionsListeners");
 
 let socketHandler = (socket, io) => {
 
@@ -20,6 +21,9 @@ let socketHandler = (socket, io) => {
 
   // trade handlers
   tradeListeners(socket);
+
+  // missions handlers
+  missionsListeners(socket);
 
 };
 

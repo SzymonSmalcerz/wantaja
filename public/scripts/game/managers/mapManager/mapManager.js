@@ -26,6 +26,7 @@ class MapManager {
     this.state.allEntities.traders = {};
     this.state.allEntities.teleporters = {};
     this.state.allEntities.npcs = {};
+    this.state.allEntities.graves = {};
     this.state.map = this.state.add.tilemap(this.mapName,16,16);
     this.state.map.addTilesetImage("tileset16");
 
@@ -135,6 +136,7 @@ class MapManager {
   };
 
   addNewPlayer(data) {
+    console.log(data);
     let self = this.state;
     let newPlayer = null;
     if(!newPlayer) {
@@ -145,6 +147,8 @@ class MapManager {
     } else {
       newPlayer.reset(data.x,data.y);
     }
+
+    this.state.uiManager.addPlayerDescription(newPlayer);
   };
 
   removeEnemy (data) {
@@ -159,6 +163,7 @@ class MapManager {
 
   removePlayer (data) {
     let playerToRemove = this.state.allEntities.objects[data.id];
+    this.state.uiManager.removePlayerDescription(playerToRemove);
     this.state.fightWithOpponentManager.removeSwords({
       playerID : data.id
     });
@@ -198,6 +203,8 @@ class MapManager {
     } else {
       newTrader.reset(data.x,data.y);
     }
+
+    this.state.uiManager.addNpcDescription(newTrader);
   };
 
   addNewTeleporter(data) {
@@ -211,6 +218,8 @@ class MapManager {
     } else {
       newTeleporter.reset(data.x,data.y);
     }
+
+    this.state.uiManager.addNpcDescription(newTeleporter);
   };
 
   addNewNpc(data) {
@@ -224,6 +233,8 @@ class MapManager {
     } else {
       newNpc.reset(data.x,data.y);
     }
+
+    this.state.uiManager.addNpcDescription(newNpc);
   };
 
   addNewItem(data) {
@@ -250,8 +261,28 @@ class MapManager {
 
   removeItem (data) {
     let itemToRemove = this.state.allEntities.items[data.id];
-    itemToRemove.kill();
-    delete this.state.allEntities.items[data.id];
+    if(itemToRemove) {
+      itemToRemove.kill();
+      delete this.state.allEntities.items[data.id];
+    }
+  }
+
+  addNewGrave(data) {
+    let self = this.state;
+    console.log(data);
+    let newGrave = this.state.game.add.sprite(data.x, data.y, 'grave');
+    self.allEntities.add(newGrave);
+    self.allEntities.graves[data.id] = newGrave;
+    self.setRenderOrder(newGrave);
+  };
+
+  removeGrave (data) {
+    console.log(data);
+    let graveToRemove = this.state.allEntities.graves[data.id];
+    if(graveToRemove) {
+      graveToRemove.kill();
+      delete this.state.allEntities.graves[data.id];
+    }
   }
 
   update() {

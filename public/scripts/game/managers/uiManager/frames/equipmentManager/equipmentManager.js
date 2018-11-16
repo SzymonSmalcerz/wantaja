@@ -42,7 +42,6 @@ class EquipmentManager extends UIFrameManager {
       this.state.player.equipment.forEach(row => {
         row.forEach(itemData => {
           if(itemData.placeTaken) {
-            console.log(itemData);
             this.notDressedUpEq[itemData.item.y][itemData.item.x].changeView(itemData.item);
             this.notDressedUpEq[itemData.item.y][itemData.item.x].visible = true;
           }

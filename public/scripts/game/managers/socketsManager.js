@@ -73,7 +73,30 @@ class SocketsManager {
           };
         }
       };
+
+      for(let graveID in data.graves) {
+        if(data.graves.hasOwnProperty(graveID)) {
+          if(!self.handler.currentState.allEntities[graveID]) {
+            self.handler.currentState.mapManager.addNewGrave(data.graves[graveID]);
+          };
+        }
+      };
+
+      console.log(":)XADREWFSDSFFDSSSSSSSSSSSSSS");
       handler.currentState.initMissionManager();
+    });
+
+    this.handler.socket.on("changeMissionStage", function(data) {
+      self.handler.currentState.missionManager.changeMissionStage(data);
+    });
+
+    this.handler.socket.on("missionDone", function(data) {
+      self.handler.currentState.missionManager.removeMission(data);
+      self.handler.currentState.uiManager.showReward(data);
+    });
+
+    this.handler.socket.on("addNewMission", function(data) {
+      self.handler.currentState.missionManager.addNewMission(data);
     });
 
     this.handler.socket.on("statusUpdate", function(data) {
@@ -154,6 +177,11 @@ class SocketsManager {
       if(data.playerMoveResult.takenHealth) {
         self.handler.currentState.uiManager.showDamageEnemyAlert("you damaged enemy with\n" + data.playerMoveResult.takenHealth + " health points");
       }
+      if(data.missionToReduceNumOfMobs && data.missionToReduceNumOfMobs.length) {
+        data.missionToReduceNumOfMobs.forEach(missionData => {
+          self.handler.currentState.missionManager.changeStageInfo(missionData);
+        })
+      }
     });
 
     this.handler.socket.on('checkForConnection', function () {
@@ -196,6 +224,14 @@ class SocketsManager {
       self.handler.currentState.mapManager.removeItem(data);
     });
 
+    this.handler.socket.on("addGrave", function(data) {
+      self.handler.currentState.mapManager.addNewGrave(data);
+    });
+
+    this.handler.socket.on("removeGrave", function(data) {
+      self.handler.currentState.mapManager.removeGrave(data);
+    });
+
     this.handler.socket.on("addItemToEquipment", function(data) {
       self.handler.currentState.player.addNewItem(data);
     });
@@ -205,6 +241,14 @@ class SocketsManager {
       if(handler.currentState.uiManager) {
         handler.currentState.uiManager.updateMoneyText();
       }
+    });
+
+    this.handler.socket.on("playerDied", function(data) {
+      handler.currentState.handleDeath(data);
+    });
+
+    this.handler.socket.on("revive", function(data) {
+      handler.currentState.revive(data);
     });
   }
 

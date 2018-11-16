@@ -26,6 +26,7 @@ class GameHandler {
     this.startPlayerData = data;
     this.money = data.characterData.money;
     this.missions = data.characterData.missions;
+    this.notOpenedMissions = []; // array for not opened missions, if this array has not opened mission it means that there is a stage that was not opened by this player at this session
     this.playerData = data.characterData;
     this.backgroundsData = data.mapData.backgrounds;
     this.fightingStageBackground = data.mapData.fightingStageBackground;
@@ -73,8 +74,8 @@ class GameHandler {
       //  } else {
       //    console.log("normal height")
       //  }
-      this.game.scale.setGameSize(width, height); // this fucking method resize world to width and height XD you must change it to its original :OOO
-      this.game.world.resize(this.mapDimensions.width, this.mapDimensions.height); // FUCK ME WHAT A BUG XDDDDDDDDDDDDDDD
+      this.game.scale.setGameSize(width, height);
+      this.game.world.resize(this.mapDimensions.width, this.mapDimensions.height);
       this.game.camera.setBoundsToWorld();
       this.game.camera.setSize(width, height);
       this.game.scale.setShowAll();

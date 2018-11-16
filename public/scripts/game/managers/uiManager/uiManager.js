@@ -7,6 +7,7 @@ class UIManager {
     this.characterDataManager = new CharacterDataManager(state,this);
     this.settingsManager = new SettingsManager(state,this);
     this.equipmentManager = new EquipmentManager(state,this);
+    this.missionsListFrame = new MissionsListFrame(state,this);
 
     this.tradeManager = new TradeManager(state,this);
     this.teleportManager = new TeleportManager(state,this);
@@ -14,6 +15,18 @@ class UIManager {
     this.expandedMenuManager = new ExpandedMenuManager(state,this);
     this.alertManager = new AlertManager(this);
     this.fightMode = false;
+  }
+
+  showReward(data) {
+    this.missionsListFrame.showReward(data);
+  }
+
+  // addExclamationMark() {
+  //   this.expandedMenuManager.addExclamationMark();
+  // }
+
+  updateExclamationMarks() {
+    this.expandedMenuManager.updateExclamationMarks();
   }
 
   showTownAlert(text) {
@@ -49,6 +62,7 @@ class UIManager {
     this.framesManagers.push(this.tradeManager);
     this.framesManagers.push(this.teleportManager);
     this.framesManagers.push(this.equipmentManager);
+    this.framesManagers.push(this.missionsListFrame);
     let state = this.state;
     // uiTileSprite
     this.uiGroupTile_normal = state.add.tileSprite(40,state.game.height-70,state.game.width - 80,70,"normalTile");
@@ -152,6 +166,38 @@ class UIManager {
     this.entityDescriptionsManager.removeEnemyDescription(enemy);
   }
 
+  hideNpcsDescriptions() {
+    this.entityDescriptionsManager.hideNpcsDescriptions();
+  }
+
+  showNpcsDescriptions() {
+    this.entityDescriptionsManager.showNpcsDescriptions();
+  }
+
+  addNpcDescription(npc) {
+    this.entityDescriptionsManager.addNpcDescription(npc);
+  }
+
+  removeNpcDescription(npc) {
+    this.entityDescriptionsManager.removeNpcDescription(npc);
+  }
+
+  hidePlayersDescriptions() {
+    this.entityDescriptionsManager.hidePlayersDescriptions();
+  }
+
+  showPlayersDescriptions() {
+    this.entityDescriptionsManager.showPlayersDescriptions();
+  }
+
+  addPlayerDescription(player) {
+    this.entityDescriptionsManager.addPlayerDescription(player);
+  }
+
+  removePlayerDescription(player) {
+    this.entityDescriptionsManager.removePlayerDescription(player);
+  }
+
   blockPlayerMovementsWhenOver(sprite) {
     sprite.inputEnabled = true;
     sprite.events.onInputOver.add(function() {
@@ -182,6 +228,10 @@ class UIManager {
 
   toggleEquipmentWindow() {
     this.equipmentManager.toggleWindow();
+  }
+
+  toggleMissionsWindow() {
+    this.missionsListFrame.toggleWindow();
   }
 
   toggleCharacterDataWindow() {
@@ -252,6 +302,7 @@ class UIManager {
     this.framesManagers.forEach(frameManager => {
       frameManager.update();
     });
+    this.entityDescriptionsManager.update();
   }
 
   onResize() {

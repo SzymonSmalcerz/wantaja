@@ -45,7 +45,7 @@ class DialogWindow extends Phaser.Group {
   }
 
   showWindow(data) {
-    console.log(data);
+    this.responseButton.removeAllEvents();
     this.missionDescription.text = data.currentStage.dialogs.missionDescription;
     this.visible = true;
     this.missionManager.bringToTop(this);
@@ -53,7 +53,10 @@ class DialogWindow extends Phaser.Group {
     this.responseButton.changeTitle(data.currentStage.dialogs.response);
     this.responseButton.addOnInputDownFunction(function() {
       this.hideWindow();
-      // handler.socket.emit()
+      console.log("clickeddd");
+      handler.socket.emit('changeMissionStage', {
+        missionName : data.missionName
+      })
     }, this, true);
     this.onResize();
   }
