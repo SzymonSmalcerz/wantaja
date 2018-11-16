@@ -41,6 +41,7 @@ let LoadState = {
     this.loadText.anchor.setTo(0.5);
     this.loadText.text = 'Game is loading';
     this.loadText.fontSize = 25;
+    this.fixText(this.loadText);
 
     /* assets for home state */
     this.load.spritesheet("button","assets/homeState/button.png",200,100);
@@ -71,7 +72,7 @@ let LoadState = {
     this.load.image("missionDetailFrame", "assets/missions/missionDetailFrame.png");
     this.load.spritesheet("Trader", "assets/npc/trade/greengroveTrader.png", 32, 50);
     this.load.spritesheet("greengrove_john", "assets/npc/missions/greengrove_john.png", 32, 50);
-    this.load.spritesheet("Serena", "assets/npc/missions/greengrove_john.png", 32, 50);
+    this.load.spritesheet("Serena", "assets/npc/Serena.png", 32, 50);
     this.load.image("tradeFrame", "assets/npc/trade/tradeFrame.png");
     this.load.spritesheet("buyButton", "assets/npc/trade/buyButton.png", 75, 50);
 
@@ -315,8 +316,15 @@ let LoadState = {
     this.progressBarFull.reset(this.posX, this.posY + 100);
     this.progressBarEmpty.reset(this.posX, this.posY + 100);
     this.loadText.reset(this.posX, this.posY - 100);
+    this.fixText(this.loadText);
   },
   create() {
     this.game.state.start("HomeState");
+  },
+  styleText(text) {
+    handler.styleText(text);
+  },
+  fixText(text) {
+    handler.fixText(text);
   }
 }

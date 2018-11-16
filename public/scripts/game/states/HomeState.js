@@ -110,9 +110,9 @@ let HomeState = {
         if(!avatarText) {
           avatarText = this.add.text();
           this.playerAvatarsTexts.add(avatarText);
+          handler.styleText(avatarText);
         };
         avatarText.reset(Math.floor(this.posX - this.scrollbar_top.width/2),y-70);
-        handler.styleText(avatarText);
         avatarText.anchor.setTo(0.5);
         avatarText.alpha = 1.0;
 
@@ -123,6 +123,7 @@ let HomeState = {
         while(avatarText.width > this.game.width - this.scrollbar_top.width) {
           avatarText.fontSize -= 1;
         }
+        this.fixText(avatarText);
 
         if(level == 1) {
           let avatarSprite = this.playerAvatarsSprites.getFirstExists(false);
@@ -248,5 +249,11 @@ let HomeState = {
     }
 
 
+  },
+  styleText(text) {
+    handler.styleText(text);
+  },
+  fixText(text) {
+    handler.fixText(text);
   }
 }

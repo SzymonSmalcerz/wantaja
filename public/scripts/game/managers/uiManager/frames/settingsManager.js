@@ -116,5 +116,9 @@ class SettingsManager extends UIFrameManager {
     this.checkBoxNpcsDescriptions.reset(this.positions.npcsCheckBox.x,this.positions.npcsCheckBox.y);
     this.checkBoxPlayersDescriptions.reset(this.positions.playersCheckBox.x,this.positions.playersCheckBox.y);
     super.onResize();
+
+    this.state.fixText(this.enemiesDescriptionsText);
+    this.state.fixText(this.npcsDescriptionsText);
+    this.state.fixText(this.playersDescriptionsText);
   }
 }

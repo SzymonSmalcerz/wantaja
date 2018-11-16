@@ -110,6 +110,10 @@ ItemMenu.prototype.show = function(item) {
   this.description.text += item.minAttack ? `attack: ${item.minAttack} - ${item.maxAttack}\n` : '';
 
   this.visible = true;
+
+  this.equipmentManager.state.fixText(this.title);
+  this.equipmentManager.state.fixText(this.bonuses);
+  this.equipmentManager.state.fixText(this.description);
 }
 
 ItemMenu.prototype.hide = function() {

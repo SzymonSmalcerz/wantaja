@@ -91,9 +91,10 @@ class MissionRewardFrame extends Phaser.Group {
       this.itemCheckBox.visible = false;
       this.itemDescription.hide();
     }
-    console.log("XD");
-    console.log(this);
     this.visible = true;
+
+    this.state.fixText(this.dropText);
+    this.state.fixText(this.moneyText);
   }
 
   hideWindow() {
@@ -113,6 +114,9 @@ class MissionRewardFrame extends Phaser.Group {
     this.claimButton.reset(this.posX ,this.posY + 93);
     this.item.reset(this.posX - 65 ,this.posY - 60);
     this.itemCheckBox.reset(this.posX + 12,this.posY - 57);
+    
+    this.state.fixText(this.dropText);
+    this.state.fixText(this.moneyText);
   }
 
   getPositionsCoords() {

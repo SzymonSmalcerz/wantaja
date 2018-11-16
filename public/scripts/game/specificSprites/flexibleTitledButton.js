@@ -41,8 +41,8 @@ let FlexibleTitledButton = function(state,x,y,title,style,fixedToCamera = false)
   if(style) {
     this.title.fontSize = style.fontSize ? style.fontSize : this.title.fontSize;
   }
-  handler.styleText(this.title);
-
+  this.state.styleText(this.title);
+  this.state.fixText(this.title);
   this.add(this.title);
 };
 
@@ -115,6 +115,7 @@ FlexibleTitledButton.prototype.removeAllEvents = function() {
 FlexibleTitledButton.prototype.changeTitle = function(text) {
   this.title.text = text;
   this.resize(this.uiGroupTile_left.position.x, this.uiGroupTile_left.position.y);
+  this.state.fixText(this.title);
 };
 
 FlexibleTitledButton.prototype.setNormalFrame = function() {

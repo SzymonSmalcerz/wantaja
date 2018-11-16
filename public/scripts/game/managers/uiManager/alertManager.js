@@ -69,13 +69,15 @@ class AlertManager {
     let self = this;
     setTimeout(function(){
       self.hideWindow(alertFrame,alertText);
-    }, 3000);
+    }, 10000);
 
     alertFrame.visible = true;
     alertText.visible = true;
 
     this.uiManager.bringItemToTop(this.alertFrames);
     this.uiManager.bringItemToTop(this.texts);
+    this.state.fixText(alertText);
+    asd = alertText;
   }
 
   showTownAlert(text) {

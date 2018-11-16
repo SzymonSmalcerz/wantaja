@@ -116,24 +116,33 @@ class StatusPointsManager extends UIFrameManager {
     state.strengthText.text = "pts: " + this.state.player.strength;
     state.strengthText_2.reset(this.positions.questionMark.x-10,this.positions.questionMark.y - 40);
     state.strengthText_2.text = 'strength';
+    state.fixText(state.strengthText);
+    state.fixText(state.strengthText_2);
 
     state.vitalityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference);
     state.vitalityText.text = "pts: " + this.state.player.vitality;
     state.vitalityText_2.reset(this.positions.questionMark.x+-10,this.positions.questionMark.y - 40 + this.positions.questionMark.difference);
     state.vitalityText_2.text = 'vitality';
+    state.fixText(state.vitalityText);
+    state.fixText(state.vitalityText_2);
 
     state.itelligenceText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 2);
     state.itelligenceText.text = "pts: " + this.state.player.intelligence;
     state.itelligenceText_2.reset(this.positions.questionMark.x-10,this.positions.questionMark.y - 40 + this.positions.questionMark.difference * 2);
     state.itelligenceText_2.text = 'intelligence';
+    state.fixText(state.itelligenceText);
+    state.fixText(state.itelligenceText_2);
 
     state.agilityText.reset(this.positions.questionMark.x+15,this.positions.questionMark.y - 10 + this.positions.questionMark.difference * 3);
     state.agilityText.text = "pts: " + this.state.player.agility;
     state.agilityText_2.reset(this.positions.questionMark.x-10,this.positions.questionMark.y - 40 + this.positions.questionMark.difference * 3);
     state.agilityText_2.text = 'agility';
+    state.fixText(state.agilityText);
+    state.fixText(state.agilityText_2);
 
     state.leftStatusPointsText.reset(Math.round(this.frameTitle.x - this.frameTitle.width/2),this.posY - 105);
     state.leftStatusPointsText.text = "left points: " + this.state.player.leftStatusPoints;
+    state.fixText(state.leftStatusPointsText);
 
   }
 

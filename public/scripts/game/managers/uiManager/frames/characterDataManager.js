@@ -101,6 +101,8 @@ class CharacterDataManager extends UIFrameManager{
       this[dataName + "_questionMark"].reset(this.positions[dataName].x - 40,this.positions[dataName].y + 25);
       this[dataName + "_description"].reset(this.positions[dataName].x - 12,this.positions[dataName].y - 25);
       this[dataName + "_description"].visible = false;
+      this.state.fixText(this[dataName + "_text"]);
+      this.state.fixText(this[dataName + "_description"]);
     });
 
     this.mana_text.text = "mana points: \n" + this.state.player.maxMana;
@@ -108,6 +110,13 @@ class CharacterDataManager extends UIFrameManager{
     this.level_text.text = "lvl: " + this.state.player.level +"\nexp: " + this.state.player.experience + "/" + this.state.player.requiredExperience;
     this.health_text.text = "health points: \n" + this.state.player.maxHealth;
     this.attack_text.text = "attack points: \n" + this.roundTo2Decimals(this.state.player.attack * 0.9) + " - " + this.roundTo2Decimals(this.state.player.attack * 1.1);
+
+
+    this.state.fixText(this.mana_text);
+    this.state.fixText(this.dodge_text);
+    this.state.fixText(this.level_text);
+    this.state.fixText(this.health_text);
+    this.state.fixText(this.attack_text);
   }
 
   roundTo2Decimals(num){

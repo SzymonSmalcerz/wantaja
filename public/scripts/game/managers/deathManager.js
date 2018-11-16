@@ -85,6 +85,10 @@ class DeathManager {
     this.state.timeToRevival.reset(this.state.game.width/2,this.state.game.height/2 + 150);
     this.state.youDied.reset(this.state.game.width/2,this.state.game.height/2 + 50);
     this.state.revivalText.reset(this.state.game.width/2,this.state.game.height/2 + 100);
+
+    this.state.fixText(this.state.timeToRevival);
+    this.state.fixText(this.state.youDied);
+    this.state.fixText(this.state.revivalText);
   };
 
 }

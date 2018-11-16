@@ -64,6 +64,10 @@ class Skill {
 
     this.manaCostText.reset(this.positions.manaCostText.x,this.positions.manaCostText.y);
     this.manaCostText.text = this.getManaCost();
+
+    this.state.fixText(this.effectText);
+    this.state.fixText(this.manaCostText);
+    this.state.fixText(this.blockedText);
   }
 
   getPositionsCoords() {
@@ -100,8 +104,8 @@ class Skill {
 
   show() {
     this.bringToTop();
-    this.updateStatusText();
     this.chooseFrame();
+    this.updateStatusText();
     this.state[this.groupName].visible = true;
   }
 

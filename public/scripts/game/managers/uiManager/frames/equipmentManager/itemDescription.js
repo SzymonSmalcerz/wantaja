@@ -44,6 +44,8 @@ ItemDescription.prototype.show = function(item) {
   this.description.text += `agility: ${item.agility}\n`;
   this.description.text += `strength: ${item.strength}\n`;
   this.visible = true;
+  this.commanderManager.state.fixText(this.title);
+  this.commanderManager.state.fixText(this.description);
 }
 
 ItemDescription.prototype.hide = function() {

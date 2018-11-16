@@ -1,6 +1,7 @@
 let TitledButton = function(state,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,title,style,fixedToCamera = true) {
   Phaser.Group.call(this,state.game);
   this.button = new Button(state,x,y,key,normalFrame,downFrame,overFrame,disabledFrame,fixedToCamera);
+  this.state = state;
   this.title = state.add.text(x,y);
   this.title.smoothed = false;
   this.title.anchor.setTo(0.5);
@@ -20,6 +21,8 @@ let TitledButton = function(state,x,y,key,normalFrame,downFrame,overFrame,disabl
 
   this.add(this.button);
   this.add(this.title);
+
+  this.state.fixText(this.title);
 };
 
 TitledButton.prototype = Object.create(Phaser.Group.prototype);
@@ -28,10 +31,12 @@ TitledButton.prototype.constructor = TitledButton;
 TitledButton.prototype.reset = function(x,y,key) {
   this.button.reset(x,y,key);
   this.title.reset(Math.round(this.button.x + (0.5-this.button.anchor.x) * this.button.width),Math.round(this.button.y + (0.5-this.button.anchor.y) * this.button.height));
+  this.state.fixText(this.title);
 };
 
 TitledButton.prototype.changeTitle = function(text) {
   this.title.text = text;
+  this.state.fixText(this.title);
 };
 
 TitledButton.prototype.setNormalFrame = function() {

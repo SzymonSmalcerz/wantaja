@@ -92,6 +92,11 @@ ItemMenuTrade.prototype.show = function(item) {
   this.description.text += item.minAttack ? `attack: ${item.minAttack} - ${item.maxAttack}\n` : '';
 
   this.visible = true;
+
+  this.tradeManager.state.fixText(this.title);
+  this.tradeManager.state.fixText(this.bonuses);
+  this.tradeManager.state.fixText(this.description);
+  this.tradeManager.state.fixText(this.priceText);
 }
 
 ItemMenuTrade.prototype.hide = function() {

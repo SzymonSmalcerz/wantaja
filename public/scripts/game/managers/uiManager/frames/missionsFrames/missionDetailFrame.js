@@ -57,6 +57,9 @@ class MissionDetailFrame extends UIFrameManager {
     this.frameTitle.text = missionName;
     super.setTitleWidth();
     super.showWindow();
+
+    this.state.fixText(this.missionDescription);
+    this.state.fixText(this.frameTitle);
   }
 
 }

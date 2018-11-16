@@ -128,6 +128,9 @@ let GameState = {
   styleText(text) {
     handler.styleText(text);
   },
+  fixText(text) {
+    handler.fixText(text);
+  },
   blockPlayer() {
     this.playerBlocked = true;
   },

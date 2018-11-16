@@ -16,6 +16,7 @@ let ItemDiscardFrame = function(equipmentManager, x, y) {
   this.title.smoothed = false;
   handler.styleText(this.title);
   this.title.anchor.setTo(0.5,0);
+  this.equipmentManager.state.fixText(this.title);
   this.add(this.title);
 
   this.info = equipmentManager.state.add.text(0,0);
@@ -25,6 +26,7 @@ let ItemDiscardFrame = function(equipmentManager, x, y) {
   this.info.fontSize = 16;
   this.info.fill = '#F22';;
   this.info.anchor.setTo(0.5,0);
+  this.equipmentManager.state.fixText(this.info);
   this.add(this.info);
 
   this.yesButton = new Button(this.state,-52, 50,"yesButton",0,1,2,3);
@@ -62,6 +64,8 @@ ItemDiscardFrame.prototype.show = function(item) {
   this.currentItem = item;
   this.title.text = `Do you really want\nto discard ${item.key} ?`;
   this.title.fontSize = 22;
+  this.equipmentManager.state.fixText(this.title);
+  this.equipmentManager.state.fixText(this.info);
   // while(this.title.width > 110) {
   //   this.title.fontSize -= 1;
   // }

@@ -79,6 +79,7 @@ class MissionsListFrame extends UIFrameManager {
         }
         missionTitleText.text = missionName;
         missionTitleText.reset(this.posX - 70 + (i%3) * 70, this.posY - 50 + Math.floor(i/3) * 70 - 40);
+        this.state.fixText(missionTitleText);
         if(handler.notOpenedMissions.indexOf(missionName + '_' + handler.missions[missionName].currentStage.name) > -1) {
           let exMark = this.missionsExclamationMarks.getFirstDead();
           if(!exMark) {

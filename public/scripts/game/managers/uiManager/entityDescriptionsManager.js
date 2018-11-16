@@ -54,6 +54,7 @@ class EntityDescriptionsManager {
     }
     enemyDescription.ownerID = enemy.id;
     enemyDescription.anchor.setTo(0.5,1);
+    this.uiManager.state.fixText(enemyDescription);
   }
 
   removeEnemyDescription(enemy) {
@@ -78,6 +79,7 @@ class EntityDescriptionsManager {
     }
     npcDescription.ownerID = npc.id;
     npcDescription.anchor.setTo(0.5,1);
+    this.uiManager.state.fixText(npcDescription);
   }
 
   removeNpcDescription(npc) {
@@ -103,6 +105,7 @@ class EntityDescriptionsManager {
     playerDescription.ownerID = player.id;
     this.playerDescriptionsDictionary[player.id] = playerDescription;
     playerDescription.anchor.setTo(0.5,1);
+    this.uiManager.state.fixText(playerDescription);
   }
 
   removePlayerDescription(player) {

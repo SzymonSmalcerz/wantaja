@@ -62,6 +62,8 @@ ItemDiscardFrame.prototype.show = function(item) {
   this.currentItem = item;
   this.title.text = `Do you really want\nto discard ${item.key} ?`;
   this.title.fontSize = 22;
+  this.equipmentManager.state.fixText(this.title);
+  this.equipmentManager.state.fixText(this.info);
   // while(this.title.width > 110) {
   //   this.title.fontSize -= 1;
   // }

@@ -84,11 +84,13 @@ class FightingStageUIManager extends Phaser.Group {
     this.state.player.opponent.health = enemyHealthText;
     this.fullHpBarEnemy.width = this.enemy.health/this.enemy.maxHealth * this.emptyHpBarEnemy.width;
     this.enemyHealthText.text = `hp: ${this.enemy.health}/${this.enemy.maxHealth}`;
+    this.state.fixText(this.enemyHealthText);
   };
 
   initEnemyHealth() {
     this.fullHpBarEnemy.width = this.emptyHpBarEnemy.width;
     this.enemyHealthText.text = `hp: ${this.enemy.health}/${this.enemy.maxHealth}`;
+    this.state.fixText(this.enemyHealthText);
   }
 
   updateStageUI() {
@@ -165,6 +167,7 @@ class FightingStageUIManager extends Phaser.Group {
   initializeFight(player, enemy) {
     this.enemy = enemy;
     this.enemyDescription.text = this.enemy.key + " lvl." + this.enemy.lvl;
+    this.state.fixText(this.enemyDescription);
     this.player = player;
     this.setCoords();
     this.changeenemyLogoTexture(enemy);
@@ -237,7 +240,8 @@ class FightingStageUIManager extends Phaser.Group {
       this.enemyDescription.anchor.setTo(0.5);
     }
 
-
+    this.state.fixText(this.enemyDescription);
+    this.state.fixText(this.enemyHealthText);
     this.setAll("smoothed", false);
   };
 }

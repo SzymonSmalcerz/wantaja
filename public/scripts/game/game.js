@@ -99,11 +99,22 @@ class GameHandler {
     text.setStyle(textCss);
     text.lineSpacing = -5;
     text.smoothed = false;
+    this.fixText(text);
     // if(text.width % 2 == 1) {
     //   console.log("XD");
     //   console.log(text._text);
     //   text.width += 1;
     // }
+  }
+
+  fixText(text) {
+    if(Math.floor(text.left) != text.left) {
+      text.left -= 0.5;
+    }
+
+    if(Math.floor(text.bottom) != text.bottom) {
+      text.bottom -= 0.5;
+    }
   }
 };
 

@@ -1,3 +1,4 @@
+let asd = {};
 class DialogWindow extends Phaser.Group {
   constructor(missionManager) {
     super(missionManager.state.game);
@@ -83,5 +84,6 @@ class DialogWindow extends Phaser.Group {
     this.missionDescription.reset(this.posX,state.game.height - 190);
     this.responseButton.reset(this.posX - this.responseButton.getWidth()/2,this.missionDescription.position.y + this.missionDescription.height + 10 - 25);
     // this.responseButton.reset(100,100);
+    this.state.fixText(this.missionDescription);
   }
 };

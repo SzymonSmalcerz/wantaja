@@ -34,5 +34,11 @@ let PreState = {
   },
   onResize() {
     console.log("preState TODO onResize");
+  },
+  styleText(text) {
+    handler.styleText(text);
+  },
+  fixText(text) {
+    handler.fixText(text);
   }
 }

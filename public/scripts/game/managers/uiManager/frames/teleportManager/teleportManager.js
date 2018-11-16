@@ -37,6 +37,8 @@ class TeleportManager extends UIFrameManager {
       menu.button.reset(this.posX + 75, this.posY - 70 - 3 + index * 30);
     })
     super.onResize();
+
+    this.state.fixText(this.basicDescription);
   }
 
   emitTeleportSignal(teleport) {
@@ -80,6 +82,8 @@ class TeleportManager extends UIFrameManager {
 
       this.teleportsMenu[index].mapName.reset(this.posX - 100, this.posY - 130 + index * 30);
       this.teleportsMenu[index].price.reset(this.posX - 40, this.posY - 130 + index * 30);
+      this.state.fixText(this.teleportsMenu[index].mapName);
+      this.state.fixText(this.teleportsMenu[index].price);
       this.teleportsMenu[index].button.reset(this.posX + 40, this.posY - 130 + index * 30);
     });
     this.onResize();

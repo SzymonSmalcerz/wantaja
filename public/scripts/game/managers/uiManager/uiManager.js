@@ -144,6 +144,7 @@ class UIManager {
 
   updateMoneyText() {
     this.moneyText.text = `${handler.money}$`;
+    this.state.fixText(this.moneyText);
   }
 
   addToGroup(sprite) {
@@ -250,6 +251,7 @@ class UIManager {
     if(this.state.game.width < 380) {
       this.moneyIcon.reset(15, this.state.game.height - 110 - 100);
       this.moneyText.reset(65, this.state.game.height - 89 - 100);
+      this.state.fixText(this.moneyText);
     }
     this.showManaBar();
     this.showHealthBar();
@@ -263,6 +265,7 @@ class UIManager {
     if(this.state.game.width < 380) {
       this.moneyIcon.reset(15, this.state.game.height - 103);
       this.moneyText.reset(65, this.state.game.height - 76);
+      this.state.fixText(this.moneyText);
     }
   }
 
@@ -320,6 +323,7 @@ class UIManager {
       this.moneyIcon.reset(15, state.game.height - 103);
       this.moneyText.reset(65, state.game.height - 76);
     }
+    this.state.fixText(this.moneyText);
     if(!this.fightMode) {
       this.fightModeOff();
     }

@@ -76,6 +76,9 @@ class UIFrameManager {
       this.frameTitle.reset(Math.round(this.state.game.width/2 + this.closeButton.width/2),Math.round(this.state.game.height/2 - 132));
     }
 
+    this.setTitleWidth();
+    this.state.fixText(this.frameTitle);
+
     this.frameGroup.bringToTop(this.closeButton);
     if(!this.subFrame) {
       this.closeButton.reset(this.posX + this.frameBackground.width/2 - this.closeButton.width/2, this.posY - this.frameBackground.height/2 + this.closeButton.height/2 + 2);
