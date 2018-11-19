@@ -102,12 +102,12 @@ let initializers = function(socket) {
 
         if(characterData.nick == "admin") {
           characterData.key = "gm";
-          // characterData.strength = 100;
+          characterData.strength = 100;
           // characterData.vitality = 100;
           // characterData.intelligence = 100;
           // characterData.agility = 100;
-          // characterData.money = 999999999;
-          characterData.level = 6;
+          characterData.money = 9999999;
+          characterData.level = 10;
         } else {
           characterData.key = user.key;
         }

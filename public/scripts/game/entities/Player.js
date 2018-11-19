@@ -44,7 +44,7 @@ let Player = function(game,data) {
   if(this.nick == "admin") {
     this.speed = 450;
   } else {
-    this.speed = 350;
+    this.speed = 150;
   }
   this.realSpeed = this.speed/game.time.desiredFps;
 
