@@ -69,7 +69,7 @@ class AlertManager {
     let self = this;
     setTimeout(function(){
       self.hideWindow(alertFrame,alertText);
-    }, 10000);
+    }, 3500);
 
     alertFrame.visible = true;
     alertText.visible = true;
