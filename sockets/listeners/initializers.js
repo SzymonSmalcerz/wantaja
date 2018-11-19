@@ -127,6 +127,7 @@ let initializers = function(socket) {
 
         socket.characterData = characterData;
         socket.playerID = characterData.id;
+        console.log("HERE");
         socket.emit("initialData",{
           characterData,
           mapData : {

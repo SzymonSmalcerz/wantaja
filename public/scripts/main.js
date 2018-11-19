@@ -4,12 +4,15 @@ initializeConnection();
 function initializeConnection() {
   var socket = socket || io();
   window.onload = function(){
-
-    socket.on('connect', function () {
-      socket.emit("getGameData",{
-        id : playerID
-      });
-    });
+    console.log("LOADED");
+    socket.emit("getGameData", {
+      id: playerID
+    })
+    // socket.on('connect', function () {
+    //   socket.emit("getGameData",{
+    //     id : playerID
+    //   });
+    // });
 
     socket.on('initialData',function(data) {
       handler.startGame(data,socket);
