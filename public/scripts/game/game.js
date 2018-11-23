@@ -100,14 +100,20 @@ class GameHandler {
     text.lineSpacing = -5;
     text.smoothed = false;
     this.fixText(text);
-    // if(text.width % 2 == 1) {
-    //   console.log("XD");
-    //   console.log(text._text);
-    //   text.width += 1;
-    // }
   }
 
-  fixText(text) {
+  fixText(text, maxWidth, defaultFontSize) {
+
+    if(defaultFontSize) {
+      text.fontSize = defaultFontSize;
+    }
+
+    if(maxWidth) {
+      while(text.text.length > 2 && text.width >= maxWidth) {
+        text.fontSize -= 1;
+      }
+    }
+
     if(Math.floor(text.left) != text.left) {
       text.left -= 0.5;
     }

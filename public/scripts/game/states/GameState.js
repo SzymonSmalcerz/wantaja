@@ -128,8 +128,8 @@ let GameState = {
   styleText(text) {
     handler.styleText(text);
   },
-  fixText(text) {
-    handler.fixText(text);
+  fixText(text, maxWidth, defaultFontSize) {
+    handler.fixText(text, maxWidth, defaultFontSize);
   },
   blockPlayer() {
     this.playerBlocked = true;

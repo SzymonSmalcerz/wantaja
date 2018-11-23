@@ -106,8 +106,8 @@ let initializers = function(socket) {
           // characterData.vitality = 100;
           // characterData.intelligence = 100;
           // characterData.agility = 100;
-          characterData.money = 9999999;
-          characterData.level = 10;
+          // characterData.money = 999999999;
+          // characterData.level = 6;
         } else {
           characterData.key = user.key;
         }
@@ -127,7 +127,6 @@ let initializers = function(socket) {
 
         socket.characterData = characterData;
         socket.playerID = characterData.id;
-        console.log("HERE");
         socket.emit("initialData",{
           characterData,
           mapData : {

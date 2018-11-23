@@ -42,13 +42,13 @@ Npc.prototype.removeHighLight = function(missionName) {
   delete this.invovledMissionsDictionary[missionName];
   this.events.onInputDown.removeAll();
 
+  this.state.missionManager.removeQuestionMark(this);
   this.addBasicListener();
   for (var missionName in this.invovledMissionsDictionary) {
     if (this.invovledMissionsDictionary.hasOwnProperty(missionName)) {
         this.highLight(handler.missions[missionName]);
     }
   }
-  this.state.missionManager.removeQuestionMark(this);
 }
 
 Npc.prototype.kill = function() {

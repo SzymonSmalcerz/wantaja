@@ -1,11 +1,12 @@
-let FlexibleTitledButton = function(state,x,y,title,style,fixedToCamera = false) {
+let FlexibleTitledButton = function(state,x,y,title,style,fixedToCamera = false, slim = false) {
   Phaser.Group.call(this,state.game);
 
   this.state = state;
 
-  this.uiGroupTile_normal = state.add.tileSprite(0,0,0,80,"flexibleButtonNorm");
-  this.uiGroupTile_left = state.add.sprite(0,0,"flexibleButtonLeft");
-  this.uiGroupTile_right = state.add.sprite(0,0,"flexibleButtonRight");
+  this.buttonsHeight = slim ? 50 : 80;
+  this.uiGroupTile_normal = state.add.tileSprite(0,0,0,this.buttonsHeight,slim ? "flexibleButtonNorm_slim" : "flexibleButtonNorm");
+  this.uiGroupTile_left = state.add.sprite(0,0,slim ? "flexibleButtonLeft_slim" : "flexibleButtonLeft");
+  this.uiGroupTile_right = state.add.sprite(0,0,slim ? "flexibleButtonRight_slim" : "flexibleButtonRight");
 
   this.uiGroupTile_normal.inputEnabled = true;
   this.uiGroupTile_left.inputEnabled = true;
@@ -91,10 +92,10 @@ FlexibleTitledButton.prototype.reset = function(x,y) {
 
 FlexibleTitledButton.prototype.resize = function(x,y) {
   this.uiGroupTile_left.reset(x,y);
-  this.uiGroupTile_normal.reset(x + this.uiGroupTile_left.width,y);
-  this.uiGroupTile_normal.width = this.title.width + 20;
-  this.uiGroupTile_normal.height = 80;
-  this.uiGroupTile_right.reset(x + this.uiGroupTile_left.width + this.uiGroupTile_normal.width,y);
+  this.uiGroupTile_normal.reset(x + this.uiGroupTile_left.width - 1,y);
+  this.uiGroupTile_normal.width = this.title.width + 20 + 2;
+  this.uiGroupTile_normal.height = this.buttonsHeight;
+  this.uiGroupTile_right.reset(x + this.uiGroupTile_left.width + this.uiGroupTile_normal.width - 1,y);
 };
 
 FlexibleTitledButton.prototype.getWidth = function() {

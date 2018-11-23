@@ -9,7 +9,6 @@ class MissionManager extends Phaser.Group {
   }
 
   initialize() {
-    console.log("IIIINITIALIZEEEEED");
     for (var missionName in handler.missions) {
       if(handler.missions.hasOwnProperty(missionName)) {
           this.addNewMission(handler.missions[missionName]);
@@ -18,14 +17,9 @@ class MissionManager extends Phaser.Group {
   }
 
   addNewMission(data) {
-    console.log(data);
     handler.missions[data.missionName] = data;
     handler.missions[data.missionName].currentStage.highLights.forEach(highLight => {
-      console.log(highLight.mapKey);
-      console.log(handler.playerData.currentMapName);
-      console.log(highLight.mapKey == handler.playerData.currentMapName);
       if(highLight.mapKey == handler.playerData.currentMapName) {
-        console.log(":)");
         if(this.state.allEntities.npcs[highLight.npcKey]) {
           this.state.allEntities.npcs[highLight.npcKey].highLight(handler.missions[data.missionName]);
         }

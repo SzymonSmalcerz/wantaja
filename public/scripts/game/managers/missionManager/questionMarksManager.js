@@ -12,6 +12,10 @@ class QuestionMarksManager extends Phaser.Group {
   }
 
   addNewQuestionMark(npc) {
+    if(this.checkIfQuestionMarkAlreadyExists(npc)) {
+      // not adding second question mark because one already exists !
+      return;
+    }
     let glowingQuestionMark = this.getFirstDead();
     if(!glowingQuestionMark) {
       glowingQuestionMark = this.state.game.add.sprite(npc.x, npc.y - 20, "questionMarkNpc");
@@ -27,12 +31,22 @@ class QuestionMarksManager extends Phaser.Group {
   }
 
   removeQuestionMark(npc) {
-    this.children.forEach(children => {
-      if( children.ownerID == npc.id ) {
-        children.ownerID = null;
-        children.kill();
+    this.children.forEach(child => {
+      if( child.ownerID == npc.id ) {
+        child.ownerID = null;
+        child.kill();
       }
     });
+  }
+
+  // this function checks if question mark is already registered for some npc
+  checkIfQuestionMarkAlreadyExists(npc) {
+    for(let i=0; i<=this.children.length;i++) {
+      if( this.children[i] && this.children[i].ownerID == npc.id ) {
+        return true;
+      }
+    };
+    return false;
   }
 
   onResize() {}

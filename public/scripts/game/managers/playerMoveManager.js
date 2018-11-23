@@ -74,8 +74,6 @@ class PlayerMoveManager {
           this.renderX("red", goal);
           return;
         } else {
-          console.log("found !");
-
           goal = {
             x : goalPoint.x,
             y : goalPoint.y,
@@ -85,7 +83,7 @@ class PlayerMoveManager {
       } else {
         this.renderX("green", goalPoint);
       };
-      console.log("here");
+
       let openList = new ASearchList();
       let closedList = new ASearchList();
       let playerSpeed = this.state.player.realSpeed;

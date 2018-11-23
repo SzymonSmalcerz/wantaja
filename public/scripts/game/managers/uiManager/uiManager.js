@@ -8,6 +8,8 @@ class UIManager {
     this.settingsManager = new SettingsManager(state,this);
     this.equipmentManager = new EquipmentManager(state,this);
     this.missionsListFrame = new MissionsListFrame(state,this);
+    this.miniMapManager = new MiniMapManager(state,this);
+    this.wholeWorldMapManager = new WholeWorldMapManager(state,this);
 
     this.tradeManager = new TradeManager(state,this);
     this.teleportManager = new TeleportManager(state,this);
@@ -60,6 +62,8 @@ class UIManager {
     this.framesManagers.push(this.characterDataManager);
     this.framesManagers.push(this.settingsManager);
     this.framesManagers.push(this.tradeManager);
+    this.framesManagers.push(this.miniMapManager);
+    this.framesManagers.push(this.wholeWorldMapManager);
     this.framesManagers.push(this.teleportManager);
     this.framesManagers.push(this.equipmentManager);
     this.framesManagers.push(this.missionsListFrame);
@@ -219,6 +223,10 @@ class UIManager {
     this.tradeManager.showWindow(trader);
   }
 
+  showWholeWorldMapWindow() {
+    this.wholeWorldMapManager.showWindow();
+  }
+
   showTeleportWindow(teleporter) {
     this.teleportManager.showWindow(teleporter);
   }
@@ -237,6 +245,10 @@ class UIManager {
 
   toggleCharacterDataWindow() {
     this.characterDataManager.toggleWindow();
+  }
+
+  toggleMiniMapWindow() {
+    this.miniMapManager.toggleWindow();
   }
 
   blockPlayerMovement(num) {
@@ -345,6 +357,9 @@ class UIManager {
 
   onMapChange() {
     this.uiGroup.removeAll(true);
+    this.framesManagers.forEach(frame => {
+      frame.frameGroup.removeAll(true);
+    })
   }
 
   bringToTop(item) {

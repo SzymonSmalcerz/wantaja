@@ -94,6 +94,9 @@ let LoadState = {
 
 
     this.load.tilemap("Greengrove","assets/maps/Greengrove.json",null,Phaser.Tilemap.TILED_JSON);
+    this.load.image("Greengrove_mini", "assets/maps/miniMaps/Greengrove.png");
+    this.load.spritesheet("pointer", "assets/maps/miniMaps/pointer.png",5,5);
+    this.load.spritesheet("model_map_world", "assets/maps/miniMaps/model_map_world.png",50,50);
     this.load.tilemap("Northpool","assets/maps/Northpool.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.tilemap("Southpool","assets/maps/Southpool.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.tilemap("Frozendefile","assets/maps/Frozendefile.json",null,Phaser.Tilemap.TILED_JSON);
@@ -156,6 +159,9 @@ let LoadState = {
     this.load.spritesheet("flexibleButtonLeft","assets/UI/fexibleButton/flexibleButtonLeft.png",30,80);
     this.load.spritesheet("flexibleButtonRight","assets/UI/fexibleButton/flexibleButtonRight.png",30,80);
     this.load.spritesheet("flexibleButtonNorm","assets/UI/fexibleButton/flexibleButtonNorm.png",30,80);
+    this.load.spritesheet("flexibleButtonLeft_slim","assets/UI/fexibleButton/flexibleButtonLeft_slim.png",30,50);
+    this.load.spritesheet("flexibleButtonRight_slim","assets/UI/fexibleButton/flexibleButtonRight_slim.png",30,50);
+    this.load.spritesheet("flexibleButtonNorm_slim","assets/UI/fexibleButton/flexibleButtonNorm_slim.png",30,50);
 
     /* frames */
     this.load.image("frame", "assets/UI/frame.png");
@@ -303,6 +309,7 @@ let LoadState = {
     this.load.spritesheet("missionsIcon","assets/UI/bottomUI/expansionMenu/missionsIcon.png",50,50);
     this.load.spritesheet("statusIcon","assets/UI/bottomUI/expansionMenu/statusIcon.png",50,50);
     this.load.spritesheet("characterDataIcon","assets/UI/bottomUI/expansionMenu/characterDataIcon.png",50,50);
+    this.load.spritesheet("miniMapIcon","assets/UI/bottomUI/expansionMenu/miniMapIcon.png",50,50);
     this.load.image("backgroundIcons","assets/UI/bottomUI/expansionMenu/background.png");
     this.load.spritesheet("checkBox","assets/UI/checkbox.png",50,50);
   },

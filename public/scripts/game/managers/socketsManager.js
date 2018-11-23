@@ -18,7 +18,7 @@ class SocketsManager {
       self.handler.currentState.fightWithOpponentManager.removeSwords(data)
     });
 
-    this.handler.socket.on("dodge", function(){
+    this.handler.socket.on("dodge", function() {
       self.handler.currentState.uiManager.showDodgeAlert();
     });
     this.handler.socket.on("removePlayer", function(data) {
@@ -30,7 +30,6 @@ class SocketsManager {
     });
 
     this.handler.socket.on("fightEnemyAlreadyFighting", function(data) {
-      console.log("enemy is already fighting with someone else :C");
       self.handler.currentState.uiManager.showSomeoneElseFightingAlert();
       self.handler.currentState.player.quitFightingMode();
     })
@@ -82,7 +81,6 @@ class SocketsManager {
         }
       };
 
-      console.log(":)XADREWFSDSFFDSSSSSSSSSSSSSS");
       handler.currentState.initMissionManager();
     });
 
@@ -108,7 +106,7 @@ class SocketsManager {
     this.handler.socket.on("gameData", function(data) {
       let otherPlayersData = data.otherPlayersData;
       for(let playerID in otherPlayersData) {
-        if(otherPlayersData.hasOwnProperty(playerID) && self.handler.currentState.allEntities.objects[playerID] && playerID != self.handler.playerID){
+        if(otherPlayersData.hasOwnProperty(playerID) && self.handler.currentState.allEntities.objects[playerID] && playerID != self.handler.playerID) {
           self.handler.currentState.allEntities.objects[playerID].x = otherPlayersData[playerID].x;
           self.handler.currentState.allEntities.objects[playerID].y = otherPlayersData[playerID].y;
           self.handler.currentState.allEntities.objects[playerID].frame = otherPlayersData[playerID].frame || 1;
@@ -258,7 +256,7 @@ class SocketsManager {
   };
 
 
-  emit(messageName,messageData){
+  emit(messageName,messageData) {
     this.handler.socket.emit(messageName,messageData);
   }
 }

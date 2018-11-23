@@ -1,6 +1,6 @@
 class UIFrameManager {
   constructor(state,uiManager,keyboardButtonTriger,frameTitle,frameBackgroundKey,fixedToCamera = true, subFrame = false) {
-    if(!state || !uiManager){
+    if(!state || !uiManager) {
       throw new Error("inherited class MUST provide state/uiManager/frameTitle");
     }
     if(subFrame && !subFrame.previousFrame) {
@@ -16,7 +16,6 @@ class UIFrameManager {
     this.frameGroup = this.state.add.group();
     this.frameGroup.fixedToCamera = fixedToCamera;
 
-
     this.frameTitle = state.add.text();
     this.frameTitle.anchor.setTo(0.5,0.5);
     this.frameTitle.text = frameTitle || '';
@@ -29,14 +28,14 @@ class UIFrameManager {
       this.closeButton = new Button(this.state,this.posX + 83, this.posY - 128,"closeButton",0,1,2,3);
       this.frameGroup.add(this.closeButton);
       this.uiManager.blockPlayerMovementsWhenOver(this.closeButton,true);
-      this.closeButton.addOnInputDownFunction(function(){
+      this.closeButton.addOnInputDownFunction(function() {
         this.hideWindow();
       },this);
     } else {
       this.closeButton = new Button(this.state,this.posX - 83, this.posY - 128,"goBackButton",0,1,2,3);
       this.frameGroup.add(this.closeButton);
       this.uiManager.blockPlayerMovementsWhenOver(this.closeButton,true);
-      this.closeButton.addOnInputDownFunction(function(){
+      this.closeButton.addOnInputDownFunction(function() {
         this.hideWindow();
         subFrame.previousFrame.showWindow();
       },this);
@@ -91,7 +90,7 @@ class UIFrameManager {
   }
 
   update() {
-    if(this.keyboardButtonTriger && this.state.game.input.keyboard.isDown(this.keyboardButtonTriger) && Date.now() - this.lastTime > 200){
+    if(this.keyboardButtonTriger && this.state.game.input.keyboard.isDown(this.keyboardButtonTriger) && Date.now() - this.lastTime > 200) {
       this.lastTime = Date.now();
       this.toggleWindow();
     }
@@ -103,16 +102,16 @@ class UIFrameManager {
     this.bringToTop();
   }
 
-  bringToTop(){
+  bringToTop() {
     this.state.game.world.bringToTop(this.frameGroup);
   }
 
-  hideWindow(){
+  hideWindow() {
     this.frameGroup.visible = false;
   }
 
-  toggleWindow(){
-    if(this.frameGroup.visible){
+  toggleWindow() {
+    if(this.frameGroup.visible) {
       this.hideWindow();
     } else {
       this.showWindow();
