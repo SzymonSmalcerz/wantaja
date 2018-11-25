@@ -50,9 +50,9 @@ app.get("/game", authenticationMiddleware, (req,res) => {
 })
 
 
-app.get("/dashboard",authenticationMiddleware,(req,res) => {
-  res.render("dashboard");
-})
+// app.get("/dashboard",authenticationMiddleware,(req,res) => {
+//   res.render("dashboard");
+// })
 
 app.get("/logout",authenticationMiddleware,(req,res) => {
   req.session.reset();
