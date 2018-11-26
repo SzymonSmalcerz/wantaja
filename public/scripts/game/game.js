@@ -69,7 +69,7 @@ class GameHandler {
       };
     }
 
-    this.onResize();
+    // this.onResize();
   }
 
   styleText(text) {
