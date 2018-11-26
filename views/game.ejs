@@ -3,15 +3,39 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DB GAME</title>
+    <meta name="theme-color" content="#aa9144"/>
+    <title>Wantaja</title>
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/normalize.css">
     <!-- <style type="text/css">
 
   	</style> -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/style_new.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/game.css">
   </head>
 <body>
+  <picture>
+    <img id="background_img" src="assets/page/background_game_2000.png" alt="Flowers">
+  </picture>
+
+  <div id="borderdDiv"></div>
+  
+  <picture>
+    <source media="(min-width: 2001px)" srcset="assets/page/druid_700x1000.png">
+    <source media="(min-width: 1501px)" srcset="assets/page/druid_500x740.png">
+    <source media="(min-width: 1025px)" srcset="assets/page/druid_430x650.png">
+    <source media="(min-width: 501px)" srcset="assets/page/druid_350x550.png">
+    <img id="druid_img" src="assets/page/druid_250x400.png" alt="Flowers">
+  </picture>
+
+  <picture>
+    <source media="(min-width: 2001px)" srcset="assets/page/druid2_1000.png">
+    <source media="(min-width: 1501px)" srcset="assets/page/druid2_740.png">
+    <source media="(min-width: 1025px)" srcset="assets/page/druid2_650.png">
+    <source media="(min-width: 501px)" srcset="assets/page/druid2_550.png">
+    <img id="druid2_img" src="assets/page/druid2_400.png" alt="Flowers">
+  </picture>
+
     <script src="/socket.io/socket.io.js"></script>
       <script>
         var socket = io(); //socket and Game our global objects
@@ -105,3 +129,5 @@
 
       <script src="scripts/game/game.js" type="text/javascript"></script>
       <script src="scripts/main.js" type="text/javascript"></script>
+    </body>
+</html>

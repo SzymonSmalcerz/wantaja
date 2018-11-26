@@ -35,13 +35,7 @@ class GameHandler {
       height : data.mapData.dimensions.height + 65 || 1665
     };
     let gameWidth = Math.min(window.innerWidth, 500);
-    let gameHeight = Math.min(window.innerHeight, 700);
-    // if(gameWidth%2 == 1) {
-    //   gameWidth-=1
-    // };
-    // if(gameHeight%2 == 1) {
-    //   gameHeight-=1
-    //  };
+    let gameHeight = Math.min(window.innerHeight, 690);
     this.playerID = data.characterData.id;
     this.game = new Phaser.Game(gameWidth,gameHeight, Phaser.CANVAS);
     this.game.state.add("PreState", PreState);
@@ -49,7 +43,6 @@ class GameHandler {
     this.game.state.add("HomeState", HomeState);
     this.game.state.add("GameState", GameState);
     this.game.state.start("PreState");
-
 
     this.socketsManager = new SocketsManager(this);
     this.socketsManager.initialize();
@@ -60,21 +53,10 @@ class GameHandler {
 
     this.onResize = () => {
       let width = Math.min(window.innerWidth, 500);
-      let height = Math.min(window.innerHeight, 700);
-      // console.log("_______________");
-      // if(width%2 == 1) {
-      //   console.log("decreased width");
-      //   width-=1
-      // } else {
-      //   console.log("normal width")
-      // }
-      // if(height%2 == 1) {
-      //   console.log("decreased height");
-      //   height-=1
-      //  } else {
-      //    console.log("normal height")
-      //  }
-      this.game.scale.setGameSize(width, height);
+      let height = Math.min(window.innerHeight, 690);
+
+      // height -= 200;
+      this.game.scale.setGameSize(width , height);
       this.game.world.resize(this.mapDimensions.width, this.mapDimensions.height);
       this.game.camera.setBoundsToWorld();
       this.game.camera.setSize(width, height);
@@ -86,6 +68,8 @@ class GameHandler {
         this.game.state.getCurrentState().onResize(width,height);
       };
     }
+
+    this.onResize();
   }
 
   styleText(text) {

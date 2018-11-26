@@ -1,0 +1,69 @@
+@import 'variables';
+
+body {
+  background-color: $backgroundColor;
+}
+
+#druid_img {
+  position: fixed;
+  left : 0;
+  bottom : 0;
+  max-width: none;
+  z-index: -1000;
+}
+
+#druid2_img {
+  position: fixed;
+  right : 0;
+  bottom : 0;
+  max-width: none;
+  z-index: -1000;
+}
+
+#background_img {
+  position: fixed;
+  left: 50%;
+  top : 50%;
+  transform: translate(-50%, -50%);
+  max-width: none;
+  z-index: -1000;
+}
+
+// canvas {
+//   border: 14px solid transparent;
+//   border-image: url("../assets/page/custom_border.png") 14 round;
+//   box-sizing: border-box;
+// }
+
+#borderdDiv {
+  border: 14px solid transparent;
+  border-image: url("../assets/page/custom_border.png") 14 round;
+  // transform : translate(-14px, 14px);
+  // box-sizing: border-box;
+  width: 500px;
+  height: 690px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+canvas {
+  // border: 14px solid transparent;
+  // border-image: url("../assets/page/custom_border.png") 14 round;
+  // transform : translate(-14px, 14px);
+  // box-sizing: border-box;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// @media screen and (min-width:500px) and (min-height:500px) {
+//   canvas {
+//     border: 14px solid transparent;
+//     border-image: url("../assets/page/custom_border.png") 14 round;
+//     transform : translate(-14px, 14px);
+//     // box-sizing: border-box;
+//   }
+// }

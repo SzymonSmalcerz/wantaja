@@ -1,0 +1,48 @@
+body {
+  background-color: #aa9144; }
+
+#druid_img {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  max-width: none;
+  z-index: -1000; }
+
+#druid2_img {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  max-width: none;
+  z-index: -1000; }
+
+#background_img {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  max-width: none;
+  z-index: -1000; }
+
+#borderdDiv {
+  border: 14px solid transparent;
+  -webkit-border-image: url("../assets/page/custom_border.png") 14 round;
+  -o-border-image: url("../assets/page/custom_border.png") 14 round;
+  border-image: url("../assets/page/custom_border.png") 14 round;
+  width: 500px;
+  height: 690px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
+canvas {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }

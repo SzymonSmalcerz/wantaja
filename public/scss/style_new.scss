@@ -1,10 +1,5 @@
-$backgroundColor : #aa9144;
-$backgroundColor_lighter : rgba(210,175,98,0.6);
-// $backgroundColor : rgba(170, 145, 68, 0.6);
-$backgroundColor_darker : #ccb366;
-// $backgroundColor_darker : rgba(140, 115, 38, 0.6);
-$saddleBrown : rgba(170, 145, 68, 0.6);
-$textColor : #000;
+@import 'variables';
+
 * {
     margin:0;
     padding: 0;
