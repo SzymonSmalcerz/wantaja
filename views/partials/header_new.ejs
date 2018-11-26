@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#aa9144"/>
+    <title>Wantaja</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/style_new.css">
+
+  </head>
+<body>
+  <!-- <div id="background-image-container"> -->
+  <script>
+    var loggedIn = <%= loggedIn %>;
+  </script>
+
+  <img id="close_img" class="none" src="assets/page/close.png" alt="Flowers">
+
+    <picture>
+      <source media="(min-width: 4001px)" srcset="assets/page/header/header_5000.png">
+      <source media="(min-width: 3001px)" srcset="assets/page/header/header_4000.png">
+      <source media="(min-width: 2001px)" srcset="assets/page/header/header_3000.png">
+      <source media="(min-width: 1501px)" srcset="assets/page/header/header_2000.png">
+      <source media="(min-width: 1025px)" srcset="assets/page/header/header_1500.png">
+      <source media="(min-width: 501px)" srcset="assets/page/header/header_1024.png">
+      <img id="header_img" src="assets/page/header/header_500.png" alt="Flowers">
+    </picture>
+
+    <picture>
+      <source media="(min-width: 2001px)" srcset="assets/page/druid_700x1000.png">
+      <source media="(min-width: 1501px)" srcset="assets/page/druid_500x740.png">
+      <source media="(min-width: 1025px)" srcset="assets/page/druid_430x650.png">
+      <source media="(min-width: 501px)" srcset="assets/page/druid_350x550.png">
+      <img id="druid_img" src="assets/page/druid_250x400.png" alt="Flowers">
+    </picture>
+
+    <img id="hamburger_img" src="assets/page/hamburgerIcon.png" alt="Flowers">
+
+    <picture>
+      <source media="(min-width: 720px)" srcset="assets/page/header/logo100.png">
+      <img id="logoImg" src="assets/page/header/logo52.png" alt="Flowers">
+    </picture>
+  <!-- </div> -->
+
+  <div class="wrapper">
+    <nav id="navigator">
+
+      <ul id="menu">
+        <!-- <li>
+        </li> -->
+        <li> <a href="#">About</a> </li>
+        <li> <a href="#">Contact</a> </li>
+        <li> <a href="#" id="registerButton">Register</a> </li>
+        <li> <a href="#" id="loginButton">Login</a> </li>
+      </ul>
+    </nav>
+
+    <div class="middle_item" id="main_popup">
+      <div class="middle_item-text">
+        <h1>History is written</h1>
+        <h1>by the victors,</h1>
+        <h1>be one one of them.</h1>
+      </div>
+      <form action="" method="get">
+        <button type="submit" name="button" class="button-primary">
+          JOIN THE GAME
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="formsContainer" class="none">
+    <div class="form none" id="loginForm">
+      <picture>
+        <source media="(min-width: 1501px)" srcset="assets/page/logo/logoBig.png">
+        <source media="(min-width: 720px)" srcset="assets/page/logo/logoMiddle.png">
+        <img id="formLogo" src="assets/page/logo/logoSmall.png" alt="Flowers">
+      </picture>
+      <form action="/login" method="post">
+        <h4>Login:</h4>
+        <input type="text" name="nick"><br>
+        <h4>Password:</h4>
+        <input type="password" name="password"><br>
+        <button class="button-primary button-smaller"> log in </button>
+      </form>
+    </div>
+
+    <div class="form none" id="registerForm">
+      <picture>
+        <source media="(min-width: 1501px)" srcset="assets/page/logo/logoBig.png">
+        <source media="(min-width: 720px)" srcset="assets/page/logo/logoMiddle.png">
+        <img id="formLogo" src="assets/page/logo/logoSmall.png" alt="Flowers">
+      </picture>
+      <form action="/register" method="post" class="form-high">
+        <h4>Email:</h4>
+        <input type="text" name="email">
+        <h4>Login:</h4>
+        <input type="text" name="nick">
+        <h4>Password:</h4>
+        <input type="password" name="password">
+        <button class="button-primary button-smaller"> register </button>
+      </form>
+    </div>
+
+  </div>
+
+
+
+ <script src="scripts/page/index.js"></script>

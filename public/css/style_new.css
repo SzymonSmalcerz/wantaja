@@ -1,0 +1,282 @@
+* {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  text-shadow: 2px 2px 5px #000;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s; }
+
+html {
+  width: 100%;
+  height: 100%; }
+
+body {
+  background-color: #aa9144;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  text-align: center;
+  position: relative; }
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); }
+
+#header_img {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  max-width: none;
+  z-index: -1000; }
+
+#close_img {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(110px, -160px);
+  -ms-transform: translate(110px, -160px);
+  transform: translate(110px, -160px);
+  z-index: 30;
+  cursor: pointer; }
+
+#druid_img {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  max-width: none;
+  z-index: -1000; }
+
+#hamburger_img {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+  z-index: 2; }
+  #hamburger_img:hover {
+    cursor: pointer; }
+
+ul {
+  list-style-type: none; }
+
+.wrapper {
+  width: 100%;
+  width: 100%;
+  margin: 0 auto; }
+
+@media screen and (max-width: 719px) {
+  .unwrapped {
+    height: auto;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    padding-top: 52px;
+    z-index: 1;
+    position: relative; }
+  .block_sm {
+    display: block;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s; }
+  nav ul li {
+    border-top: 1px solid #ccb366; } }
+
+nav {
+  width: 100%;
+  background-color: rgba(170, 145, 68, 0.6);
+  height: 52px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s; }
+  nav ul {
+    display: none; }
+    nav ul li a {
+      text-decoration: none;
+      text-align: center;
+      color: #fff;
+      display: block;
+      padding: 10px 20px;
+      font-size: 20px;
+      -webkit-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s; }
+      nav ul li a:hover {
+        background-color: #fff;
+        color: #aa9144;
+        cursor: pointer; }
+
+#logoImg {
+  position: fixed;
+  z-index: 2;
+  left: 10px; }
+
+.middle_item {
+  position: absolute;
+  display: block;
+  width: 300px;
+  height: 300px;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5); }
+  .middle_item .middle_item-text {
+    padding-top: 50px;
+    height: 150px;
+    text-shadow: 2px 2px 5px #000;
+    color: #fff;
+    font-weight: 900;
+    font-size: 12px; }
+
+.button-primary {
+  display: block;
+  height: 70px;
+  width: 150px;
+  background-color: #aa9144;
+  color: #fff;
+  border-radius: 0%;
+  font-weight: 900;
+  border: none;
+  outline: inherit;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  -webkit-box-shadow: 0 0 15px black;
+  box-shadow: 0 0 15px black;
+  margin: 0 auto; }
+  .button-primary:hover {
+    background-color: #ccb366;
+    cursor: pointer; }
+
+.button-smaller {
+  height: 55px; }
+
+#formsContainer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10; }
+
+.form {
+  width: 300px;
+  height: 300px;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  position: fixed;
+  z-index: 20;
+  background-color: rgba(210, 175, 98, 0.6);
+  -webkit-box-shadow: 0 0 2px 4px #000;
+  box-shadow: 0 0 2px 4px #000;
+  border-radius: 1%; }
+  .form form {
+    height: 110%;
+    -webkit-transform: translateY(-20%);
+    -ms-transform: translateY(-20%);
+    transform: translateY(-20%); }
+
+.form-high {
+  -webkit-transform: translateY(-10%);
+  -ms-transform: translateY(-10%);
+  transform: translateY(-10%);
+  height: 120%; }
+  .form-high button {
+    -webkit-transform: translateY(10%);
+    -ms-transform: translateY(10%);
+    transform: translateY(10%); }
+
+form input {
+  display: block;
+  margin: auto;
+  height: 30px;
+  width: 80%;
+  outline: none;
+  border: none;
+  background-color: white;
+  border-radius: 5px;
+  padding: 1px 5px; }
+
+.none {
+  display: none; }
+
+@media screen and (min-width: 720px) {
+  #close_img {
+    -webkit-transform: translate(160px, -210px);
+    -ms-transform: translate(160px, -210px);
+    transform: translate(160px, -210px); }
+  .middle_item {
+    width: 400px;
+    height: 400px; }
+    .middle_item .middle_item-text {
+      padding-top: 30px;
+      height: 220px;
+      font-size: 16px; }
+  .form form {
+    height: 110%;
+    -webkit-transform: translateY(-5%);
+    -ms-transform: translateY(-5%);
+    transform: translateY(-5%); }
+  .form-high {
+    -webkit-transform: translateY(-10%);
+    -ms-transform: translateY(-10%);
+    transform: translateY(-10%);
+    height: 120%; }
+    .form-high button {
+      -webkit-transform: translateY(10%);
+      -ms-transform: translateY(10%);
+      transform: translateY(10%); }
+  .button-primary {
+    height: 100px;
+    width: 250px;
+    font-size: 25px; }
+  .button-smaller {
+    height: 70px; }
+  .form {
+    width: 400px;
+    height: 400px; }
+  #logoImg {
+    left: 10%;
+    top: 0; }
+  #hamburger_img {
+    display: none; }
+  nav {
+    width: 90%;
+    margin: 26px auto;
+    border-radius: 20px;
+    height: auto; }
+    nav ul {
+      z-index: 2;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center; } }
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  height: 20px;
+  padding: 5px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  width: 100%; }
+
+.block {
+  display: block;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s; }

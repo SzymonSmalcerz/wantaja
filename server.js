@@ -56,16 +56,7 @@ app.get("/game", authenticationMiddleware, (req,res) => {
 
 app.get("/logout",authenticationMiddleware,(req,res) => {
   req.session.reset();
-  res.render("home",{message:"you have logged out"});
-})
-
-
-app.get("/home",(req,res) => {
-  if(!(req.session && req.session.user)){
-    res.render("home",{message:"Welcome to dbgame, you must log in to start your jouner!"});
-  }else{
-    res.render("home",{message:"hello " + req.session.user.nick, logged: true});
-  }
+  res.render("newhome",{loggedIn:false, message:"you have successfully logged out!"});
 })
 
 app.get("/register",(req,res) => {
@@ -73,8 +64,7 @@ app.get("/register",(req,res) => {
 })
 
 app.post("/register",registrationMiddleware,(req,res) => {
-  // console.log(req.body.nick);
-  res.redirect("home");
+  res.render("newhome", { loggedIn: false,  message : "Registration succesfull ! Now you can log into the game !" });
 })
 
 app.get("/login",(req,res) => {
@@ -82,7 +72,15 @@ app.get("/login",(req,res) => {
 })
 
 app.post("/login",loginAuthentication,(req,res) => {
-  res.redirect("home");
+  res.redirect("/newhome");
+})
+
+app.get("/home",(req,res) => {
+  if(!(req.session && req.session.user)){
+    res.render("newhome",{ loggedIn : false, message : false });
+  } else{
+    res.render("newhome",{ loggedIn : true, nick : req.session.user.nick.toString(), message : false });
+  }
 })
 
 app.get("*", (req,res) => {
