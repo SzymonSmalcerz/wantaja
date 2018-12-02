@@ -31,6 +31,56 @@ hr {
   background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
 };
 
+.popup-container {
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  padding: 20px 0;
+  text-align: left;
+  margin-top: 64px;
+  font-size: 20px;
+  color: white;
+  display: flex;
+  &:hover {
+    cursor: pointer;
+  }
+
+
+  p {
+    vertical-align: middle;
+    line-height: normal;
+    margin: 0 15px 0 5px;
+    transform: translateY(0.25em);
+    text-shadow: none;
+  }
+
+  div {
+    min-width: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 10px;
+  }
+
+}
+
+.success {
+  background-color: $succesMessageColor;
+  &:hover {
+    transition: 0.4s;
+    background-color: $succesMessageColor_hover;
+  }
+}
+
+.error {
+  background-color: $errorMessageColor;
+  &:hover {
+    transition: 0.4s;
+    background-color: $errorMessageColor_hover;
+  }
+}
+
+
 #header_img {
   position: fixed;
   left: 50%;
@@ -78,6 +128,7 @@ ul {
   margin: 0 auto;
 }
 @media screen and (max-width: 719px) {
+
   .unwrapped {
     height: auto;
     transition: 0.3s;
@@ -189,6 +240,7 @@ nav {
   height: 100%;
   background: rgba(0,0,0,0.7);
   z-index: 10;
+  // color: #fff;
 }
 
 .form {
@@ -206,6 +258,10 @@ nav {
   form {
     height: 110%;
     transform: translateY(-20%);
+
+    h4 {
+      text-shadow: 2px 2px 5px #fff;
+    }
   }
 }
 
@@ -231,18 +287,15 @@ form {
   }
 }
 
-#formLogo {
-  // position: fixed;
-  // left: 50%;
-  // top: 40%;
-  // transform: translate(-50%, -50%);
-}
-
 .none {
   display: none;
 }
 
 @media screen and (min-width: 720px) {
+
+  .popup-container {
+    margin-top: 100px;
+  }
 
   #close_img {
     transform: translate(160px, -210px);
@@ -261,6 +314,8 @@ form {
   }
 
   .form {
+    width: 400px;
+    height: 400px;
     form {
       height: 110%;
       transform: translateY(-5%);
@@ -284,13 +339,6 @@ form {
   .button-smaller {
     height: 70px;
   }
-
-  .form {
-    width: 400px;
-    height: 400px;
-  }
-
-
 
   #logoImg {
     left: 10%;
@@ -335,4 +383,26 @@ form {
 .block {
   display: block;
   transition: 0.3s;
+}
+
+
+@media screen and (min-width: 1501px) {
+
+  #close_img {
+    transform: translate(265px, -310px);
+  }
+
+  .form {
+    width: 600px;
+    height: 600px;
+    font-size: 26px;
+    input {
+      margin: 5px auto;
+      height: 40px;
+    }
+  }
+
+  .form-high {
+    // transform: translateY(20%);
+  }
 }

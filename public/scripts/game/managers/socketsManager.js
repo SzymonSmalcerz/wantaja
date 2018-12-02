@@ -1,6 +1,7 @@
 class SocketsManager {
   constructor(handler) {
     this.handler = handler;
+    this.lastTimeConnectionChecked = Date.now();
   }
 
   initialize() {
@@ -183,7 +184,7 @@ class SocketsManager {
     });
 
     this.handler.socket.on('checkForConnection', function () {
-      console.log("tick");
+      self.lastTimeConnectionChecked = Date.now();
       self.handler.socket.emit("checkedConnection");
     });
 
@@ -248,6 +249,8 @@ class SocketsManager {
     this.handler.socket.on("revive", function(data) {
       handler.currentState.revive(data);
     });
+
+    this.checkConnection();
   }
 
   sendToServerInitializedInfo() {
@@ -255,8 +258,19 @@ class SocketsManager {
     this.handler.socket.emit("initialized");
   };
 
-
   emit(messageName,messageData) {
     this.handler.socket.emit(messageName,messageData);
+  }
+
+  checkConnection() {
+    if(this.lastTimeConnectionChecked + 20000 < Date.now()) {
+      let message = 'session has expired';
+      window.location.replace(window.location.origin  + '/home?message=' + 'Error occured: session has expired, check your internet connection.');
+    } else {
+      let that = this;
+      setTimeout(function() {
+        that.checkConnection();
+      }, 20000);
+    }
   }
 }

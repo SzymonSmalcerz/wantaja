@@ -107,11 +107,11 @@ let initializers = function(socket) {
           // characterData.intelligence = 100;
           // characterData.agility = 100;
           // characterData.money = 999999999;
-          // characterData.level = 6;
+          characterData.level = 50;
         } else {
           characterData.key = user.key;
         }
-        characterData.gender = "male";
+        // characterData.gender = "male";
 
         characterData.id = object.id;
         characterData.currentMapName = user.currentMapName;

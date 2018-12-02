@@ -1483,8 +1483,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":659,
-                 "y":1037
+                 "x":555.5,
+                 "y":1050
                 }, 
                 {
                  "height":128,
@@ -2965,6 +2965,80 @@
                  "width":25,
                  "x":1482.5,
                  "y":438
+                }, 
+                {
+                 "height":128,
+                 "id":196,
+                 "name":"tree1",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree1"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":667,
+                 "y":1009.5
+                }, 
+                {
+                 "height":128,
+                 "id":197,
+                 "name":"tree1",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree1"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":636.5,
+                 "y":1138.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3464,10 +3538,10 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":196,
+ "nextobjectid":198,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"2018.06.01",
+ "tiledversion":"2018.11.13",
  "tileheight":16,
  "tilesets":[
         {

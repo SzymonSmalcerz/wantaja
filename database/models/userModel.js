@@ -200,14 +200,14 @@ userSchema.statics.getUserByNickAndPassword = async function(nickOfUser,password
     var user = await User.findOne({nick:nickOfUser});
 
     if(!user){
-      return Promise.reject("wrong username");
+      return Promise.reject("wrong username or password.");
     }
 
     if(bcrypt.compareSync(password, user.password)){
       return Promise.resolve(user);
     }
 
-    return Promise.reject("wrong password");
+    return Promise.reject("wrong username or password.");
 
   }catch (err){
 

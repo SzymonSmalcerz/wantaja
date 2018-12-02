@@ -56,8 +56,12 @@ app.get("/game", authenticationMiddleware, (req,res) => {
 
 app.get("/logout",authenticationMiddleware,(req,res) => {
   req.session.reset();
-  res.render("newhome",{loggedIn:false, message:"you have successfully logged out!"});
+  res.render("newhome",{ loggedIn: false, message:"you have successfully logged out!"} );
 })
+
+// app.get("/timeout",authenticationMiddleware,(req,res) => {
+//   res.render("newhome",{ loggedIn: false, message:"you have successfully logged out!"} );
+// })
 
 app.get("/register",(req,res) => {
   res.render("registrationPage");
@@ -72,14 +76,18 @@ app.get("/login",(req,res) => {
 })
 
 app.post("/login",loginAuthentication,(req,res) => {
-  res.redirect("/newhome");
+  let loginString = `You are now logged in !`;
+  res.redirect(`/home?message=${loginString}`);
 })
 
 app.get("/home",(req,res) => {
+
   if(!(req.session && req.session.user)){
-    res.render("newhome",{ loggedIn : false, message : false });
+    res.render("newhome",{ loggedIn : false, message : req.query.message || '' });
   } else{
-    res.render("newhome",{ loggedIn : true, nick : req.session.user.nick.toString(), message : false });
+    // nick : req.session.user.nick.toString(),
+    console.log(req.query);
+    res.render("newhome",{ loggedIn : true,  message : req.query.message || '' });
   }
 })
 

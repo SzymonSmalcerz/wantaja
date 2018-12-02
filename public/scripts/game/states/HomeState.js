@@ -101,45 +101,52 @@ let HomeState = {
     // this.showAvatarsDisplay();
     let y = 120;
     let x = 0;
-    let width;
-    if(handler.playerData.gender == "male") {
-      width = Math.round(( ( this.game,this.game.width - this.scrollbar_top.width ) / handler.playerAvatarDictionary.male.names.length ));
-      handler.playerAvatarDictionary.male.levels.forEach(level => {
+    let width = Math.round(( ( this.game,this.game.width - this.scrollbar_top.width ) / handler.playerAvatarDictionary.male.names.length ));
+    handler.playerAvatarDictionary.male.levels.forEach(level => {
 
-        let avatarText = this.playerAvatarsTexts.getFirstExists(false);
-        if(!avatarText) {
-          avatarText = this.add.text();
-          this.playerAvatarsTexts.add(avatarText);
-          handler.styleText(avatarText);
-        };
-        avatarText.reset(Math.floor(this.posX - this.scrollbar_top.width/2),y-70);
-        avatarText.anchor.setTo(0.5);
-        avatarText.alpha = 1.0;
+      let avatarText = this.playerAvatarsTexts.getFirstExists(false);
+      if(!avatarText) {
+        avatarText = this.add.text();
+        this.playerAvatarsTexts.add(avatarText);
+        handler.styleText(avatarText);
+      };
+      avatarText.reset(Math.floor(this.posX - this.scrollbar_top.width/2),y-70);
+      avatarText.anchor.setTo(0.5);
+      avatarText.alpha = 1.0;
 
-        avatarText.text = 'sprites avaliable from ' + level + ' level:';
-        while(avatarText.width < this.game.width - this.scrollbar_top.width * 3) {
-          avatarText.fontSize += 1;
-        }
-        while(avatarText.width > this.game.width - this.scrollbar_top.width) {
-          avatarText.fontSize -= 1;
-        }
-        this.fixText(avatarText);
+      avatarText.text = 'sprites avaliable from ' + level + ' level:';
+      while(avatarText.width < this.game.width - this.scrollbar_top.width * 3) {
+        avatarText.fontSize += 1;
+      }
+      while(avatarText.width > this.game.width - this.scrollbar_top.width) {
+        avatarText.fontSize -= 1;
+      }
+      this.fixText(avatarText);
 
-        if(level == 1) {
+      if(level == 1) {
+
+        let possibilities = [{
+          gender : 'male',
+          x : Math.floor(this.posX - this.scrollbar_top.width/2 - 70)
+        },{
+          gender : 'female',
+          x : Math.floor(this.posX - this.scrollbar_top.width/2 + 70)
+        }]
+
+        possibilities.forEach(posibility => {
           let avatarSprite = this.playerAvatarsSprites.getFirstExists(false);
           if(!avatarSprite) {
             avatarSprite = this.game.add.sprite();
             this.playerAvatarsSprites.add(avatarSprite);
           };
-          x = Math.floor(this.posX - this.scrollbar_top.width/2);
-          avatarSprite.reset(x,y - 20);
+          avatarSprite.reset(posibility.x,y - 20);
           avatarSprite.anchor.setTo(0.5);
-          avatarSprite.loadTexture('male_' + level);
+          avatarSprite.loadTexture(posibility.gender + '_' + level);
           avatarSprite.frame = 18;
 
           let checkBox = this.playerAvatarsCheckboxes.getFirstExists(false);
           if(!checkBox) {
-            checkBox = new CheckBox(this,x,y+30,false,0,1,2,3,4,5,6,7,false,"checkbox_avatars");
+            checkBox = new CheckBox(this,posibility.x,y+30,false,0,1,2,3,4,5,6,7,false,"checkbox_avatars");
             this.playerAvatarsCheckboxes.add(checkBox);
             checkBox.addOnCheckFunction(function() {
               if(this.currentCheckBox) {
@@ -154,9 +161,9 @@ let HomeState = {
               }
             }, this);
           }
-          checkBox.reset(x,y+30);
+          checkBox.reset(posibility.x,y+30);
           checkBox.anchor.setTo(0.5);
-          checkBox.avatarKey = 'male_' + level;
+          checkBox.avatarKey = posibility.gender + '_' + level;
 
           if(handler.playerData.key == checkBox.avatarKey) {
             checkBox.check();
@@ -164,9 +171,13 @@ let HomeState = {
           } else {
             checkBox.uncheck();
           }
-        } else {
+        })
+        y+=100;
+      } else {
+        let possibilities = ['male', 'female'];
+        possibilities.forEach(gender => {
           x += Math.floor(width/2);
-          handler.playerAvatarDictionary.male.names.forEach(name => {
+          handler.playerAvatarDictionary[gender].names.forEach(name => {
             let avatarSprite = this.playerAvatarsSprites.getFirstExists(false);
             if(!avatarSprite) {
               avatarSprite = this.game.add.sprite();
@@ -174,7 +185,7 @@ let HomeState = {
             };
             avatarSprite.reset(x,y - 20);
             avatarSprite.anchor.setTo(0.5);
-            avatarSprite.loadTexture('male_' + level + '_' + name);
+            avatarSprite.loadTexture(gender + '_' + level + '_' + name);
             avatarSprite.frame = 18;
 
             let checkBox = this.playerAvatarsCheckboxes.getFirstExists(false);
@@ -197,7 +208,7 @@ let HomeState = {
               checkBox.reset(x,y+30);
             }
             checkBox.anchor.setTo(0.5);
-            checkBox.avatarKey = 'male_' + level + '_' + name;
+            checkBox.avatarKey = gender + '_' + level + '_' + name;
 
             if(handler.playerData.key == checkBox.avatarKey) {
               checkBox.check();
@@ -213,14 +224,16 @@ let HomeState = {
 
             x+= width;
           });
-        }
 
-        y += 150;
-        x = 0;
-      });
-    } else {
-      console.log("showing female options");
-    }
+          y += 100;
+          x = 0;
+
+        });
+      }
+
+      y += 70;
+      x = 0;
+    });
     this.game.kineticScrolling.start();
     this.game.world.setBounds(0, 0, this.game.width, y + 100);
     this.playerAvatars.bringToTop(this.goBackButton);

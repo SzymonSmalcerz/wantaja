@@ -13,9 +13,16 @@
 <body>
   <!-- <div id="background-image-container"> -->
   <script>
-    var loggedIn = <%= loggedIn %>;
+    var loggedIn = <%= loggedIn %> || false;
   </script>
 
+    <h1 id="hiddenMessage" class="none"><%= message %></h1>
+    <div id="popupMessagge_container" class="popup-container none">
+      <div class="popupMessagge_img-container">
+        <img src="assets/page/checked.png" id="popupMessagge_img" alt="Flowers">
+      </div>
+      <p id="popupMessagge_text"></p>
+    </div>
   <img id="close_img" class="none" src="assets/page/close.png" alt="Flowers">
 
     <picture>

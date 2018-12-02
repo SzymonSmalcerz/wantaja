@@ -14,8 +14,9 @@ hamburger.addEventListener('click', function() {
   nav.classList.toggle('unwrapped');
 });
 
+var loggedIn = loggedIn || false;
+
 if(loggedIn) {
-  console.log("logged in !!!!");
   let main_popup_text = document.querySelector('#main_popup .middle_item-text');
   main_popup_text.innerHTML = '<br><br><br><h1>Start game !</h1>';
 
@@ -66,4 +67,22 @@ close_img.addEventListener('click', function() {
     close_img.classList.toggle('none');
     formsContainer.classList.toggle('block');
   }
-})
+});
+
+let hiddenMessage = document.getElementById('hiddenMessage').innerHTML;
+if(hiddenMessage) {
+  let popupMessagge_container = document.getElementById('popupMessagge_container');
+  if(hiddenMessage.toLowerCase().indexOf('error') != -1) {
+    popupMessagge_container.classList.add('error');
+    let popupMessagge_img = document.getElementById('popupMessagge_img');
+    popupMessagge_img.setAttribute('src', 'assets/page/warning.png')
+  } else {
+    popupMessagge_container.classList.add('success');
+  }
+  let popupMessagge_text = document.getElementById('popupMessagge_text');
+  popupMessagge_text.innerHTML = hiddenMessage;
+  popupMessagge_container.addEventListener('click', function() {
+    popupMessagge_container.classList.toggle('none');
+  });
+  popupMessagge_container.classList.toggle('none');
+}
