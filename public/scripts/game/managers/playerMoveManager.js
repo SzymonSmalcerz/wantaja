@@ -24,6 +24,8 @@ class PlayerMoveManager {
     this.counter = 0;
     this.blockedMovement = 0;
     this.notVisibleXsesCount = 0;
+
+    this.stepsLimit = 40;
   }
 
   blockPlayerMovement(num) {
@@ -87,7 +89,7 @@ class PlayerMoveManager {
       let closedList = new ASearchList();
       let playerSpeed = this.state.player.realSpeed;
       this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
-      openList.push(new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y})));
+      openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
 
 
       while(openList.length > 0) {
@@ -97,6 +99,7 @@ class PlayerMoveManager {
           this.lastTimeInputRead = Date.now();
           return;
         };
+        // console.log(firstElement.stepsFromStartPosition);
 
         let rightSuccessor = this.handleSuccesor(firstElement,"right",playerSpeed,openList,closedList,goal);
         let leftSuccessor = this.handleSuccesor(firstElement,"left",playerSpeed,openList,closedList,goal);
@@ -247,6 +250,13 @@ class PlayerMoveManager {
 
   handleSuccesor(firstElement,direction,playerSpeed,openList,closedList,goal) {
 
+    if(firstElement.stepsFromStartPosition + 1 > this.stepsLimit) {
+      // console.log("_____________");
+      // console.log("stFrStPos: " + firstElement.stepsFromStartPosition);
+      // console.log("stLimit: " + this.stepsLimit);
+      return;
+    }
+
     let successor;
     if(direction == "right") {
       successor = new ASearchPoint(firstElement.x + playerSpeed,firstElement.y,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x + playerSpeed, y:firstElement.y}),firstElement);
@@ -287,13 +297,19 @@ class PlayerMoveManager {
 };
 
 class ASearchPoint {
-  constructor(x,y,g,h,parent) {
+  constructor(x,y,g,h,parent, stepsFromStartPosition) {
     this.x = x;
     this.y = y;
     this.g = g;
     this.h = h;
     this.f = g + h;
+    // console.log(this.parent);
     this.parent = parent;
+    this.stepsFromStartPosition = stepsFromStartPosition || ( this.parent ? this.parent.stepsFromStartPosition + 1 : 1600 );
+    // if(this.parent) {
+    //   console.log(this.parent.stepsFromStartPosition);
+    //   console.log(this.parent);
+    // }
   }
 };
 
