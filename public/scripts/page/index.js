@@ -86,3 +86,12 @@ if(hiddenMessage) {
   });
   popupMessagge_container.classList.toggle('none');
 }
+
+
+let menu = document.getElementById('menu');
+Array.from(menu.children).forEach(element => {
+  element.addEventListener('click', function() {
+    ul.classList.toggle('block_sm');
+    nav.classList.toggle('unwrapped');
+  });
+});
