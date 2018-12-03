@@ -34,7 +34,7 @@ let dm = { // data manager, created to hold values for game purpose
   missions : {
     'newcomers' : new Mission([
       new Stage_goto(
-        [new HighLight('greengrove_john', 'Greengrove')], 'goto',
+        [new HighLight('John', 'Greengrove')], 'goto',
         new Dialog("Hello wanderer!\n" +
                     "I haven't expect you that early ! Anyway I\n" +
                     "have small quest for you, recently many spiders\n" +
@@ -43,7 +43,7 @@ let dm = { // data manager, created to hold values for game purpose
       ),
       new Stage_kill([], 'kill', 'spider', 2, 2),
       new Stage_goto(
-        [new HighLight('greengrove_john', 'Greengrove')], 'return',
+        [new HighLight('John', 'Greengrove')], 'return',
         new Dialog('Oh my.. You have done it!\nhere is your reward', 'Yes sir!')
       )
     ], 0, {
@@ -56,7 +56,7 @@ let dm = { // data manager, created to hold values for game purpose
 
     'milk' : new Mission([
       new Stage_goto(
-        [new HighLight('greengrove_john', 'Greengrove')], 'first',
+        [new HighLight('John', 'Greengrove')], 'first',
         new Dialog("Hello again!\n" +
                     "Could you go to my beloved daughter Serena,\n" +
                     "who lives at the south, and get her some milk\n" +
@@ -70,7 +70,7 @@ let dm = { // data manager, created to hold values for game purpose
                     "Maybe he will get you some milk too :)\n", "Got it!")
       ),
       new Stage_goto(
-        [new HighLight('greengrove_john', 'Greengrove')], 'third',
+        [new HighLight('John', 'Greengrove')], 'third',
         new Dialog("You are back!\n" +
                     "You did it in no time !\n" +
                     "Thank you again, your are a true hero !\n" +

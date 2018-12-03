@@ -46,12 +46,12 @@ class EntityDescriptionsManager {
     if(!enemyDescription){
       enemyDescription = this.state.add.text(enemy.x,enemy.y - 10);
       this.state.styleText(enemyDescription);
-      enemyDescription.text = enemy.key + " lvl." + enemy.lvl;
       enemyDescription.fontSize = 16;
       this.enemiesDescriptions.add(enemyDescription);
     } else {
       enemyDescription.reset(enemy.x, enemy.y - 10);
     }
+    enemyDescription.text = enemy.key + " lvl." + enemy.lvl;
     enemyDescription.ownerID = enemy.id;
     enemyDescription.anchor.setTo(0.5,1);
     this.uiManager.state.fixText(enemyDescription);

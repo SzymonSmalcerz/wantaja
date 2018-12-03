@@ -249,7 +249,7 @@ class Greengrove extends Map {
       }
     ]);
     this.npcs = {
-      'greengrove_john' : new Npc(900, 180, 'greengrove_john')
+      'John' : new Npc(900, 180, 'John')
     }
   }
 };

@@ -22,7 +22,7 @@ let Player = function(game,data) {
   this.equipmentCurrentlyDressed = data.equipmentCurrentlyDressed;
   this.equipment = data.equipment;
 
-  this.nick = data.nick;
+  this.nick = data.nick || 'test';
   this.currentMapName = data.currentMapName;
   this.health = data.health || 10;
   this.maxHealth = data.maxHealth || 19;
@@ -41,7 +41,9 @@ let Player = function(game,data) {
   this.level = data.level || 1;
   this.id = data.id || 10;
   this.leftStatusPoints = data.leftStatusPoints || 0;
-  if(this.nick == "admin") {
+  console.log(this.nick);
+  console.log(data);
+  if(this.nick.indexOf("admin") > -1) {
     this.speed = 450;
   } else {
     this.speed = 350;

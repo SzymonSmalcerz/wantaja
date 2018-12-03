@@ -100,14 +100,14 @@ let initializers = function(socket) {
 
         characterData.nick = user.nick;
 
-        if(characterData.nick == "admin") {
+        if(characterData.nick.indexOf("admin") > -1) {
           characterData.key = "gm";
           characterData.strength = 100;
           // characterData.vitality = 100;
-          // characterData.intelligence = 100;
-          // characterData.agility = 100;
-          // characterData.money = 999999999;
-          characterData.level = 50;
+          characterData.intelligence = 100;
+          characterData.agility = 100;
+          characterData.money = 999999;
+          // characterData.level = 50;
         } else {
           characterData.key = user.key;
         }

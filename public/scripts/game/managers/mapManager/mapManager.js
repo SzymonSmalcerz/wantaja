@@ -125,28 +125,18 @@ class MapManager {
   };
 
   createPlayer() {
-    // if(!handler.player) {
     this.state.player = new Player(this.state.game,handler.playerData);
     handler.player = this.state.player;
-    // } else {
-    //   this.state.player = handler.player;
-    // };
-
     this.state.allEntities.add(this.state.player);
   };
 
   addNewPlayer(data) {
-    console.log(data);
     let self = this.state;
-    let newPlayer = null;
-    if(!newPlayer) {
-      newPlayer = new OtherPlayer(self.game,data);
-      self.allEntities.add(newPlayer);
-      self.allEntities.objects[data.id] = newPlayer;
-      self.setRenderOrder(newPlayer);
-    } else {
-      newPlayer.reset(data.x,data.y);
-    }
+
+    let newPlayer = newPlayer = new OtherPlayer(self.game,data);
+    self.allEntities.add(newPlayer);
+    self.allEntities.objects[data.id] = newPlayer;
+    self.setRenderOrder(newPlayer);
 
     this.state.uiManager.addPlayerDescription(newPlayer);
   };
@@ -173,90 +163,65 @@ class MapManager {
 
   addNewEnemy(data) {
     let self = this.state;
-    let newEnemy = null;
-    if(!newEnemy) {
-      newEnemy = new Enemy(self,data);
-      self.allEntities.add(newEnemy);
-      self.allEntities.enemies[data.id] = newEnemy;
-      newEnemy.addOnInputDownFunction(function() {
-        if(getDistanceBetweenEntityAndPlayer(newEnemy, this.state.player) <= 75) {
-          this.state.blockPlayerMovement();
-          self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
-        };
-      }, this);
-      self.setRenderOrder(newEnemy);
-    } else {
-      newEnemy.reset(data.x,data.y);
-    }
-
+    let newEnemy = new Enemy(self,data);
+    self.allEntities.add(newEnemy);
+    self.allEntities.enemies[data.id] = newEnemy;
+    newEnemy.addOnInputDownFunction(function() {
+      if(getDistanceBetweenEntityAndPlayer(newEnemy, this.state.player) <= 75) {
+        this.state.blockPlayerMovement();
+        self.fightWithOpponentManager.showFightOptionsMenu(newEnemy);
+      };
+    }, this);
+    self.setRenderOrder(newEnemy);
     this.state.uiManager.addEnemyDescription(newEnemy);
   };
 
   addNewTrader(data) {
     let self = this.state;
-    let newTrader = null;
-    if(!newTrader) {
-      newTrader = new Trader(self,data);
-      self.allEntities.add(newTrader);
-      self.allEntities.traders[data.id] = newTrader;
-      self.setRenderOrder(newTrader);
-    } else {
-      newTrader.reset(data.x,data.y);
-    }
-
+    let newTrader = new Trader(self,data);
+    self.allEntities.add(newTrader);
+    self.allEntities.traders[data.id] = newTrader;
+    self.setRenderOrder(newTrader);
     this.state.uiManager.addNpcDescription(newTrader);
   };
 
   addNewTeleporter(data) {
     let self = this.state;
-    let newTeleporter = null;
-    if(!newTeleporter) {
-      newTeleporter = new Teleporter(self,data);
-      self.allEntities.add(newTeleporter);
-      self.allEntities.teleporters[data.id] = newTeleporter;
-      self.setRenderOrder(newTeleporter);
-    } else {
-      newTeleporter.reset(data.x,data.y);
-    }
+
+    let newTeleporter = new Teleporter(self,data);
+    self.allEntities.add(newTeleporter);
+    self.allEntities.teleporters[data.id] = newTeleporter;
+    self.setRenderOrder(newTeleporter);
 
     this.state.uiManager.addNpcDescription(newTeleporter);
   };
 
   addNewNpc(data) {
     let self = this.state;
-    let newNpc = null;
-    if(!newNpc) {
-      newNpc = new Npc(self,data);
-      self.allEntities.add(newNpc);
-      self.allEntities.npcs[data.id] = newNpc;
-      self.setRenderOrder(newNpc);
-    } else {
-      newNpc.reset(data.x,data.y);
-    }
+
+    let newNpc = new Npc(self,data);
+    self.allEntities.add(newNpc);
+    self.allEntities.npcs[data.id] = newNpc;
+    self.setRenderOrder(newNpc);
 
     this.state.uiManager.addNpcDescription(newNpc);
   };
 
   addNewItem(data) {
     let self = this.state;
-    let newItem = null;
-    if(!newItem) {
-      newItem = new Button(this.state,data.x, data.y,data.key,0,1,2,3);
-      newItem.scale.setTo(0.7);
-      self.allEntities.add(newItem);
-      self.allEntities.items[data.id] = newItem;
-      newItem.addOnInputDownFunction(function() {
-        if(getDistanceBetweenEntityAndPlayer(newItem, this.state.player) <= 50) {
-          this.state.blockPlayerMovement();
-          handler.socketsManager.emit('pickUpItem', {
-            itemID : data.id
-          })
-        };
-      }, this);
-      self.setRenderOrder(newItem);
-    } else {
-      newItem.reset(data.x,data.y);
-    }
+    let newItem = new Button(this.state,data.x, data.y,data.key,0,1,2,3);
+    newItem.scale.setTo(0.7);
+    self.allEntities.add(newItem);
+    self.allEntities.items[data.id] = newItem;
+    newItem.addOnInputDownFunction(function() {
+      if(getDistanceBetweenEntityAndPlayer(newItem, this.state.player) <= 50) {
+        this.state.blockPlayerMovement();
+        handler.socketsManager.emit('pickUpItem', {
+          itemID : data.id
+        })
+      };
+    }, this);
+    self.setRenderOrder(newItem);
   };
 
   removeItem (data) {

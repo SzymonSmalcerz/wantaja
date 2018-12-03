@@ -71,7 +71,7 @@ let LoadState = {
     this.load.spritesheet("missionIcon", "assets/missions/missionIcon.png", 64, 64);
     this.load.image("missionDetailFrame", "assets/missions/missionDetailFrame.png");
     this.load.spritesheet("Trader", "assets/npc/trade/greengroveTrader.png", 32, 50);
-    this.load.spritesheet("greengrove_john", "assets/npc/missions/greengrove_john.png", 32, 50);
+    this.load.spritesheet("John", "assets/npc/missions/greengrove_john.png", 32, 50);
     this.load.spritesheet("Serena", "assets/npc/Serena.png", 32, 50);
     this.load.image("tradeFrame", "assets/npc/trade/tradeFrame.png");
     this.load.spritesheet("buyButton", "assets/npc/trade/buyButton.png", 75, 50);
