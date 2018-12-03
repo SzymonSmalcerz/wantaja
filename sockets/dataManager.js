@@ -7,6 +7,7 @@ const { Mission,
         HighLight,
         Dialog } = require("./missions/missions");
 const User = require("../database/models/userModel");
+const equipment = require("./equipment/equipment");
 
 let dm = { // data manager, created to hold values for game purpose
   allLoggedPlayersData : {},
@@ -250,7 +251,6 @@ dm.changeMissionStage = function(socket, missionName, onlyWhenGotoStage) {
 
   let mission = dm.missions[missionName];
   let currentStageIndex = mission.getStageIndex(playerMissionData.currentStage);
-  console.log(currentStageIndex);
   if(playerMissionData.currentStage.type == 'kill') {
     // if type == kill remove this mission from dcitionary of missions where there are enemies to kill
     dm.allLoggedPlayersData[socket.playerID].missionsKillEnemiesDictionary[playerMissionData.currentStage.enemyKey] = dm.allLoggedPlayersData[socket.playerID].missionsKillEnemiesDictionary[playerMissionData.currentStage.enemyKey].filter(m => m.missionName != missionName);
@@ -259,11 +259,12 @@ dm.changeMissionStage = function(socket, missionName, onlyWhenGotoStage) {
 
   if(mission.isDone(currentStageIndex + 1)) {
     dm.allLoggedPlayersData[socket.playerID].claimedItem = mission.reward.item ? mission.reward.item : null;
+    let droppedItem = equipment[dm.allLoggedPlayersData[socket.playerID].claimedItem.type][dm.allLoggedPlayersData[socket.playerID].claimedItem.key];
     socket.emit("missionDone", {
       missionName : missionName,
       reward : {
         droppedMoney : mission.reward.money ? mission.reward.money : 0,
-        droppedItem : dm.allLoggedPlayersData[socket.playerID].claimedItem
+        droppedItem
       }
     });
     dm.allLoggedPlayersData[socket.playerID].missions[missionName] = null;

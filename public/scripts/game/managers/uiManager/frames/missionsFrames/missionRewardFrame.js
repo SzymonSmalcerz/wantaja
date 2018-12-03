@@ -46,6 +46,7 @@ class MissionRewardFrame extends Phaser.Group {
         ...this.item.position,
         height : this.item.height
       });
+      console.log(this.data);
       this.bringToTop(this.itemDescription);
     }, this);
     this.item.addOnInputOutFunction(function() {
@@ -76,6 +77,7 @@ class MissionRewardFrame extends Phaser.Group {
   };
 
   showWindow(data) {
+    console.log(data);
     this.data = data.reward;
     this.itemDescription.visible = false;
     this.takeItem = true;
