@@ -43,6 +43,7 @@ body {
   width: 500px;
   height: 690px;
   position: fixed;
+  z-index: -1;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -53,10 +54,10 @@ canvas {
   // border-image: url("../assets/page/custom_border.png") 14 round;
   // transform : translate(-14px, 14px);
   // box-sizing: border-box;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  // position: fixed;
+  // left: 50%;
+  // top: 50%;
+  // transform: translate(-50%, -50%);
 }
 
 // @media screen and (min-width:500px) and (min-height:500px) {

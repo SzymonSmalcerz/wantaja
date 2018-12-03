@@ -7,15 +7,11 @@ class MapManager {
   onMapChange() {
     this.preChangeMapMenu.onMapChange();
     this.state.allEntities.removeAll(true);
-    // this.state.map.removeAll(true);
   }
 
   initialize() {
 
     this.mapName = handler.playerData.currentMapName;
-
-    // this.state.backgrounds = this.state.add.group();
-    // this.state.backgrounds.smoothed = false;
 
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;

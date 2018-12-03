@@ -54,8 +54,6 @@ class GameHandler {
     this.onResize = () => {
       let width = Math.min(window.innerWidth, 500);
       let height = Math.min(window.innerHeight, 690);
-
-      // height -= 200;
       this.game.scale.setGameSize(width , height);
       this.game.world.resize(this.mapDimensions.width, this.mapDimensions.height);
       this.game.camera.setBoundsToWorld();
@@ -68,8 +66,6 @@ class GameHandler {
         this.game.state.getCurrentState().onResize(width,height);
       };
     }
-
-    // this.onResize();
   }
 
   styleText(text) {

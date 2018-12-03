@@ -11,7 +11,7 @@ let LoadState = {
     this.progressBarEmpty = this.add.sprite(this.posX, this.posY + 100, "progressBarEmpty");
     this.progressBarEmpty.anchor.setTo(0.5);
     this.load.setPreloadSprite(this.progressBarFull);
-    this.loadText = this.add.text(this.posX, this.posY - 100);
+    this.loadText = this.add.text(this.posX, this.posY);
 
     // testowy kwadrat sluzacy do testowania .. :D
     this.load.image("test_50","assets/test_50.png");
@@ -39,7 +39,7 @@ let LoadState = {
     this.loadText.setStyle(textCss);
     this.loadText.smoothed = false;
     this.loadText.anchor.setTo(0.5);
-    this.loadText.text = 'Game is loading';
+    this.loadText.text = 'Game is loading...';
     this.loadText.fontSize = 25;
     this.fixText(this.loadText);
 
@@ -322,7 +322,7 @@ let LoadState = {
     this.loadScreenBackground.reset(this.posX, this.posY);
     this.progressBarFull.reset(this.posX, this.posY + 100);
     this.progressBarEmpty.reset(this.posX, this.posY + 100);
-    this.loadText.reset(this.posX, this.posY - 100);
+    this.loadText.reset(this.posX, this.posY);
     this.fixText(this.loadText);
   },
   create() {
