@@ -51,7 +51,7 @@ class EntityDescriptionsManager {
     } else {
       enemyDescription.reset(enemy.x, enemy.y - 10);
     }
-    enemyDescription.text = enemy.key + " lvl." + enemy.lvl;
+    enemyDescription.text = enemy.key + " lvl." + enemy.level;
     enemyDescription.ownerID = enemy.id;
     enemyDescription.anchor.setTo(0.5,1);
     this.uiManager.state.fixText(enemyDescription);
@@ -96,7 +96,7 @@ class EntityDescriptionsManager {
     if(!playerDescription){
       playerDescription = this.state.add.text(player.x,player.y - 15);
       this.state.styleText(playerDescription);
-      playerDescription.text = player.nick + " lvl." + player.lvl;
+      playerDescription.text = player.nick + " lvl." + player.level;
       playerDescription.fontSize = 16;
       this.enemiesDescriptions.add(playerDescription);
     } else {

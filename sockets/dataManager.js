@@ -270,7 +270,6 @@ dm.changeMissionStage = function(socket, missionName, onlyWhenGotoStage) {
     dm.allLoggedPlayersData[socket.playerID].missions[missionName] = null;
   } else {
     playerMissionData.currentStage = mission.getStage(currentStageIndex + 1);
-    console.log(playerMissionData.currentStage);
     socket.emit("changeMissionStage", {
       missionName : missionName,
       newStage : playerMissionData.currentStage

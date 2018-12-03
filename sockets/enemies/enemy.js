@@ -43,13 +43,13 @@ class DropData {
 
 
 class Enemy {
-  constructor(x,y,map,id,lvl,key,hp,damage,exp,skillName,dropData,animated,mana) {
+  constructor(x,y,map,id,level,key,hp,damage,exp,skillName,dropData,animated,mana) {
     this.map = map;
     this.dropData = dropData;
     this.x = x;
     this.y = y;
     this.id = id;
-    this.lvl = lvl || 0;
+    this.level = level || 0;
     this.key = key;
     this.health = hp || 100;
     this.mana = mana || 100;
@@ -168,7 +168,7 @@ let iceGolemDropData = new DropData(100,500,[
   new ItemToDrop("shield_2","shield",10),
   new ItemToDrop("special_2","special",10)
 ]);
-// x,y,map,id,lvl,key,hp,damage,exp,skillName,dropData,animated,mana
+// x,y,map,id,level,key,hp,damage,exp,skillName,dropData,animated,mana
 class IceGolem extends Enemy {
   constructor(x,y,map) {
     let id = Math.floor(Math.random() * 100000) + "iceGolem";

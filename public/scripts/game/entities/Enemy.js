@@ -4,7 +4,7 @@ let Enemy = function(state,data) {
   this.anchor.setTo(0.5);
   state.game.physics.enable(this);
   this.id = data.id;
-  this.lvl = data.lvl;
+  this.level = data.level;
   this.health = data.health;
   this.maxHealth = data.maxHealth;
   this.inputEnabled = true;

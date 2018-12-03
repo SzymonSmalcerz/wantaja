@@ -38,7 +38,6 @@ class MissionRewardFrame extends Phaser.Group {
     this.moneyText.setStyle(textCss);
     this.moneyIcon = state.add.sprite(-500 - 50,state.game.height-100,"moneyIcon");
 
-    // this.item = state.game.add.sprite(-500, -500);
     this.item = new Button(this.state,0,0,'boots_1');
     this.item.addOnInputOverFunction(function() {
       this.itemDescription.show({
@@ -46,7 +45,6 @@ class MissionRewardFrame extends Phaser.Group {
         ...this.item.position,
         height : this.item.height
       });
-      console.log(this.data);
       this.bringToTop(this.itemDescription);
     }, this);
     this.item.addOnInputOutFunction(function() {
@@ -72,12 +70,10 @@ class MissionRewardFrame extends Phaser.Group {
     this.add(this.itemCheckBox);
     this.add(this.itemDescription);
 
-    // this.fixedToCamera = true;
     this.renderable = true;
   };
 
   showWindow(data) {
-    console.log(data);
     this.data = data.reward;
     this.itemDescription.visible = false;
     this.takeItem = true;

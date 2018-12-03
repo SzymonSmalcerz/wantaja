@@ -166,7 +166,7 @@ class FightingStageUIManager extends Phaser.Group {
 
   initializeFight(player, enemy) {
     this.enemy = enemy;
-    this.enemyDescription.text = this.enemy.key + " lvl." + this.enemy.lvl;
+    this.enemyDescription.text = this.enemy.key + " lvl." + this.enemy.level;
     this.state.fixText(this.enemyDescription);
     this.player = player;
     this.setCoords();

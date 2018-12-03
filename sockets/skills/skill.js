@@ -12,7 +12,7 @@ class Skill {
         dodge : true
       }
     };
-    enemy.health -= this.baseDamage;
+    enemy.health -= this.baseDamage * (1 - ( enemy.defence ? enemy.defence : 0 )/( enemy.level * 5 ));
     return {
       takenHealth : this.baseDamage
     }
@@ -20,7 +20,7 @@ class Skill {
 
   isSkillDodged(player,enemy) {
     if(enemy.dodge){
-      if(Math.random() * 100 <= enemy.dodge){
+      if(Math.random() * 100 <= (enemy.dodge - ( Math.max((enemy.level - player.level) * 2, 0) )) * 10/enemy.level){
         return true;
       }
     }
@@ -40,9 +40,10 @@ class Punch extends Skill {
         dodge : true
       }
     };
-    enemy.health -= player.attack;
+    let takenHealth = player.attack * (1 - ( enemy.defence ? enemy.defence : 0 )/( enemy.level * 5 ));
+    enemy.health -= takenHealth;
     return {
-      takenHealth : player.attack
+      takenHealth
     }
   };
 };
@@ -63,10 +64,11 @@ class Poison extends Skill {
         return;
       }
     }
-    enemy.health -= player.attack * 2;
+    let takenHealth = player.attack * 2 * (1 - ( enemy.defence ? enemy.defence : 0 )/( enemy.level * 5 ));
+    enemy.health -= takenHealth;
     player.mana -= this.manaCost;
     return {
-      takenHealth : player.attack * 2
+      takenHealth
     }
   };
 };
@@ -87,10 +89,11 @@ class Ignite extends Skill {
         return;
       }
     }
-    enemy.health -= player.attack * 4;
+    let takenHealth = player.attack * 3 * (1 - ( enemy.defence ? enemy.defence : 0 )/( enemy.level * 5 ));
+    enemy.health -= takenHealth;
     player.mana -= this.manaCost;
     return {
-      takenHealth : player.attack * 4
+      takenHealth
     }
   };
 };
@@ -101,18 +104,21 @@ class Entangle extends Skill {
   };
 
   getDamage(player,enemy) {
-    return {
-      dodge : true
-    }
+    if(this.isSkillDodged(player,enemy)){
+      return {
+        dodge : true
+      }
+    };
     if(player.level){
       if(player.level < this.requiredLevel){
         return;
       }
     }
-    enemy.health -= player.attack * 5;
+    let takenHealth = player.attack * 4 * (1 - ( enemy.defence ? enemy.defence : 0 )/( enemy.level * 5 ));
+    enemy.health -= takenHealth;
     player.mana -= this.manaCost;
     return {
-      takenHealth : player.attack * 5
+      takenHealth
     }
   };
 };

@@ -78,7 +78,6 @@ class WinUIManager extends Phaser.Group {
   };
 
   showWonWindow(data) {
-    console.log(data);
     this.data = data;
     this.itemDescription.visible = false;
     this.takeItem = true;

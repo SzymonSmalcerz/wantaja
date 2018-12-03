@@ -45,7 +45,7 @@ class Map {
         health : newEnemy.health,
         maxHealth : newEnemy.maxHealth,
         animated : newEnemy.animated,
-        lvl : newEnemy.lvl
+        level : newEnemy.level
       };
       for(let playerID in this.players) {
         if(this.players.hasOwnProperty(playerID)) {
@@ -68,7 +68,7 @@ class Map {
           id : playerData.id,
           key : playerData.key,
           nick : playerData.nick,
-          lvl : playerData.level
+          level : playerData.level
         });
       }
     };
@@ -91,7 +91,7 @@ class Map {
           key : this.players[playerID].data.key,
           id : playerID,
           nick : this.players[playerID].data.nick,
-          lvl : this.players[playerID].data.level
+          level : this.players[playerID].data.level
         }
       }
     };
@@ -303,7 +303,7 @@ class Northpool extends Map {
       health : newEnemy.health,
       maxHealth : newEnemy.maxHealth,
       animated : newEnemy.animated,
-      lvl : newEnemy.lvl
+      level : newEnemy.level
     };
       for(let playerID in this.players) {
         if(this.players.hasOwnProperty(playerID)) {
