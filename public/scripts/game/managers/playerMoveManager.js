@@ -43,7 +43,6 @@ class PlayerMoveManager {
 
   update() {
 
-
     if((Date.now() - this.lastTimeInputRead > this.xTimeout)) {
       this.state.xGreen.visible = false;
       this.state.xRed.visible = false;
@@ -121,6 +120,8 @@ class PlayerMoveManager {
 
       };
 
+      this.renderX("red", goal);
+
     } else {
       if(this.blockedMovement > 0) {
         this.blockedMovement -= 1;
@@ -157,8 +158,6 @@ class PlayerMoveManager {
           this.state.player.goLeft();
         };
 
-
-        // this.state.changeRenderOrder(this.state.player);
       } else {
         this.state.player.frame = 19;
         this.state.player.animations.stop();
