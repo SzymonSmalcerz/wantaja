@@ -50,7 +50,6 @@ class TradeManager extends UIFrameManager {
   }
 
   emitBuyItemSignal(item) {
-    console.log(item);
     if(handler.money < item.price) {
       this.uiManager.showAlert("you don't have enough\nmoney to buy this item!");
     } else {

@@ -1,7 +1,6 @@
 let GameState = {
   create : function() {
     this.smoothed = false;
-    console.log("HEEERRRRRE");
     handler.currentState = this;
     this.missionManager = new MissionManager(this);
     this.initDeathManager();
@@ -63,16 +62,10 @@ let GameState = {
     this.game.world.bringToTop(this.map);
     this.game.world.bringToTop(this.allEntities);
     this.game.world.bringToTop(this.descriptions);
-    // this.game.world.bringToTop(this.glowingSwords);
-    // this.game.world.bringToTop(this.fightingStage);
     this.fightWithOpponentManager.bringToTop();
-    // this.game.world.bringToTop(this.fightingOptionsMenu);
     this.game.world.bringToTop(this.changeMapOptionsMenu);
-    // this.game.world.bringToTop(this.uiManager.uiGroup);
     this.uiManager.bringToTop();
     this.missionManager.bringToTop();
-    // console.log(this.wonAlert);
-    // console.log(":)");
   },
   initUI() {
     delete this.uiManager;
@@ -145,10 +138,6 @@ let GameState = {
   },
   handleDeath(data) {
     this.deathManager.handleDeath(data);
-  },
-  revive(data) {
-    console.log("WHATTTTTTTTTTTT WHEN THIS IS USED ?!");
-    this.deathManager.revive(data);
   },
   updateExclamationMarks() {
     this.uiManager.updateExclamationMarks();

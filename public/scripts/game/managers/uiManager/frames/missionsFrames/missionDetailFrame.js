@@ -46,13 +46,10 @@ class MissionDetailFrame extends UIFrameManager {
       this.missionDescription.text += `go to ${currentStage.highLights[0].npcKey.split('_').join(' ')}!\n`;
       this.missionDescription.text += `(waiting in ${currentStage.highLights[0].mapKey})\n`;
       this.missionImage.loadTexture(currentStage.highLights[0].npcKey);
-      // this.missionImage.visible = true;
     } else if(currentStage.type == 'kill') {
-      console.log(handler.missions[missionName]);
       this.missionDescription.text += `kill ${currentStage.enemyKey.split('_').join(' ')}!\n`;
       this.missionDescription.text += `( killed ${(currentStage.numberOryginal - currentStage.numberLeft)}/${currentStage.numberOryginal} )`;
       this.missionImage.loadTexture(currentStage.enemyKey);
-      // this.missionImage.visible = true;
     }
     this.frameTitle.text = missionName;
     super.setTitleWidth();

@@ -230,7 +230,6 @@ class MapManager {
 
   addNewGrave(data) {
     let self = this.state;
-    console.log(data);
     let newGrave = this.state.game.add.sprite(data.x, data.y, 'grave');
     self.allEntities.add(newGrave);
     self.allEntities.graves[data.id] = newGrave;
@@ -238,7 +237,6 @@ class MapManager {
   };
 
   removeGrave (data) {
-    console.log(data);
     let graveToRemove = this.state.allEntities.graves[data.id];
     if(graveToRemove) {
       graveToRemove.kill();

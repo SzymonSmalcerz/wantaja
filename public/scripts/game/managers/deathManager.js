@@ -11,9 +11,6 @@ class DeathManager {
     this.state.deathImage.anchor.setTo(0.5);
     this.state.deathImage.visible = false;
     this.state.deathImage.inputEnabled = true;
-    this.state.deathImage.events.onInputOver.add(function() {
-      console.log(":)");
-    });
 
     this.state.timeToRevival = this.state.add.text();
     this.state.timeToRevival.anchor.setTo(0.5);

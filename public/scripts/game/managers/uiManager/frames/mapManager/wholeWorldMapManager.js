@@ -60,7 +60,6 @@ class WholeWorldMapManager extends UIFrameManager {
 
 
     this.frameGroup.add(this.mapName);
-    console.log(this.frameGroup.children);
     this.hideWindow();
     this.onResize();
   }
@@ -70,7 +69,6 @@ class WholeWorldMapManager extends UIFrameManager {
   }
 
   onResize() {
-    console.log(":)");
     this.getPositionsCoords();
     this.mapsDictionary.forEach(data => {
       data.mapImage.reset(this.posX + data.x * 50, this.posY + data.y * 50);

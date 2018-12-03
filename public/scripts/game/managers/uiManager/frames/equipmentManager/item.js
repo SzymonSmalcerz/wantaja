@@ -23,8 +23,6 @@ let Item = function(equipmentManager,x,y,data,isCurrentlyWear,normalFrame,downFr
   this.sprite = new Button(equipmentManager.state,0,0,data.key || "boots_1",normalFrame || 0,downFrame || 1,overFrame || 2,disabledFrame || 3,fixedToCamera);
   this.equipmentManager.uiManager.blockPlayerMovementsWhenOver(this.sprite);
   this.sprite.addOnInputOverFunction(function() {
-    // console.log(this.equipmentPositionX);
-    // console.log(this.equipmentPositionY);
     this.equipmentManager.itemDescription.show(this);
   }, this);
   this.sprite.addOnInputOutFunction(function() {

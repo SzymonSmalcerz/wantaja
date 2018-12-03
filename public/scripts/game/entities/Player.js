@@ -1,7 +1,7 @@
 let Player = function(game,data) {
 
   Phaser.Sprite.call(this,game,data.x,data.y,data.key || "player");
-  // console.log(data);
+  
   this.game = game;
   this.skillsDictionary = data.skillsDictionary || [{
     skillName : "punch",
@@ -41,12 +41,10 @@ let Player = function(game,data) {
   this.level = data.level || 1;
   this.id = data.id || 10;
   this.leftStatusPoints = data.leftStatusPoints || 0;
-  console.log(this.nick);
-  console.log(data);
   if(this.nick.indexOf("admin") > -1) {
-    this.speed = 450;
+    this.speed = 150;
   } else {
-    this.speed = 350;
+    this.speed = 150;
   }
   this.realSpeed = this.speed/game.time.desiredFps;
 
@@ -107,7 +105,6 @@ Player.prototype.goLeft = function(){
 Player.prototype.updateData = function(data) {
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
-        console.log(key + " -> " + data[key]);
         this[key] = data[key];
     }
   }
@@ -147,13 +144,6 @@ Player.prototype.emitData = function(handler){
 
   this.previousFrame = this.frame;
 };
-
-Player.prototype.damage = function(way) {
-  // if(way == "punch"){
-  //   console.log("punching");
-  // };
-  throw new Error("wtf ?");
-}
 
 Player.prototype.addNewItem = function(data) {
   this.equipment[data.item.y][data.item.x] = data;

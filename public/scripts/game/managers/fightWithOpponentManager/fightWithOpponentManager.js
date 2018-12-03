@@ -37,11 +37,6 @@ class FightWithOpponentManager extends Phaser.Group {
     this.fightingStageUIManager.updateEnemyHealth(enemyHealth);
   };
 
-  initEnemyHealth() {
-    console.log("JAKIS BLAD :)");
-    this.fightingStageUIManager.initEnemyHealth();
-  }
-
   setEnemy(enemy) {
     this.enemy = enemy;
   };

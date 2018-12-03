@@ -20,7 +20,6 @@ class FightAnimationsManager {
   playAnimation(skillName,animationOnPlayer,isThisEnemySkillAnimation,playerDataToChange, moveResult) {
 
     if(!this.state.player.opponent) {
-      console.log("opponent not found ! :C");
       return;
     };
 

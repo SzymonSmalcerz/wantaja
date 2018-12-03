@@ -25,7 +25,7 @@ class PlayerMoveManager {
     this.blockedMovement = 0;
     this.notVisibleXsesCount = 0;
 
-    this.stepsLimit = 40;
+    this.stepsLimit = 80;
   }
 
   blockPlayerMovement(num) {
@@ -99,7 +99,6 @@ class PlayerMoveManager {
           this.lastTimeInputRead = Date.now();
           return;
         };
-        // console.log(firstElement.stepsFromStartPosition);
 
         let rightSuccessor = this.handleSuccesor(firstElement,"right",playerSpeed,openList,closedList,goal);
         let leftSuccessor = this.handleSuccesor(firstElement,"left",playerSpeed,openList,closedList,goal);
@@ -250,12 +249,7 @@ class PlayerMoveManager {
 
   handleSuccesor(firstElement,direction,playerSpeed,openList,closedList,goal) {
 
-    if(firstElement.stepsFromStartPosition + 1 > this.stepsLimit) {
-      // console.log("_____________");
-      // console.log("stFrStPos: " + firstElement.stepsFromStartPosition);
-      // console.log("stLimit: " + this.stepsLimit);
-      return;
-    }
+    if(firstElement.stepsFromStartPosition + 1 > this.stepsLimit) { return; }
 
     let successor;
     if(direction == "right") {
@@ -303,13 +297,8 @@ class ASearchPoint {
     this.g = g;
     this.h = h;
     this.f = g + h;
-    // console.log(this.parent);
     this.parent = parent;
     this.stepsFromStartPosition = stepsFromStartPosition || ( this.parent ? this.parent.stepsFromStartPosition + 1 : 1600 );
-    // if(this.parent) {
-    //   console.log(this.parent.stepsFromStartPosition);
-    //   console.log(this.parent);
-    // }
   }
 };
 
