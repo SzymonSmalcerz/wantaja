@@ -145,6 +145,8 @@ class SocketsManager {
 
     this.handler.socket.on("changedMap", function(data) {
       // handler.playerData = handler.currentState.player;
+      handler.money = data.money;
+      
       handler.playerData.experience = handler.currentState.player.experience || 10;
       handler.playerData.requiredExperience = handler.currentState.player.requiredExperience || 10;
 
