@@ -266,15 +266,13 @@ class PlayerMoveManager {
       return;
     } else if(this.nearGoal(successor,playerSpeed)) {
       return successor;
-    } else if(openList.contains(successor) && openList.getConcreteEl(successor).f <= successor.f) {
+    } else if(openList.contains(successor)) {
       return;
-    } else if(closedList.contains(successor) && closedList.getConcreteEl(successor).f <= successor.f) {
+    } else if(closedList.contains(successor)) {
       return;
     } else if(!openList.contains(successor)) {
       openList.push(successor);
-    } else {
-      openList.swap(successor);
-    };
+    }
   };
 
   nearGoal(point,playerSpeed) {
@@ -321,10 +319,6 @@ class ASearchList {
   getConcreteEl(aSearchPoint) {
     return this.list[aSearchPoint.x + "A" + aSearchPoint.y];
   };
-
-  swap(aSearchPoint) {
-    this.list[aSearchPoint.x + "A" + aSearchPoint.y] = aSearchPoint;
-  }
 
   getSmallestFElement() {
     if (this.length == 0) {
