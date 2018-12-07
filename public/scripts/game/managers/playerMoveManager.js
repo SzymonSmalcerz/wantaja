@@ -92,7 +92,7 @@ class PlayerMoveManager {
       openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
 
 
-      while(openList.length > 0) {
+      while(openList.getLength() > 0) {
 
         let firstElement = openList.getSmallestFElement();
         if (firstElement == null) {
@@ -307,25 +307,23 @@ class ASearchList {
   constructor() {
     this.list = {};
     this.arrayList = [];
-    this.length = 0;
   };
 
   push(aSearchPoint) {
     this.list[aSearchPoint.x + "A" + aSearchPoint.y] = aSearchPoint;
-    if(this.length) {
-      for(let index = 0;index < this.length; index++) {
-        if(this.arrayList[index].f >= aSearchPoint.f) {
-          this.arrayList.splice(index, 0, aSearchPoint);
-          this.length += 1;
-          return;
-        }
-      }
-    } else {
-      this.arrayList.unshift(aSearchPoint);
-      this.length += 1;
-    }
+    this.addElementToArray(aSearchPoint);
 
   };
+
+  addElementToArray(aSearchPoint) {
+    for(let index = 0;index < this.arrayList.length; index++) {
+      if(this.arrayList[index].f >= aSearchPoint.f) {
+        this.arrayList.splice(index, 0, aSearchPoint);
+        return;
+      }
+    }
+    this.arrayList.push(aSearchPoint);
+  }
 
   contains(aSearchPoint) {
     return this.list[aSearchPoint.x + "A" + aSearchPoint.y] != undefined;
@@ -335,39 +333,24 @@ class ASearchList {
     return this.list[aSearchPoint.x + "A" + aSearchPoint.y];
   };
 
+  getLength() {
+    return this.arrayList.length;
+  }
+
   swap(aSearchPoint) {
-    // console.log("SWAP TO BE IMPLEMENTED FOR 'this.listArray'");
+    this.arrayList = this.arrayList.filter(function(el) {
+      return el.x != aSearchPoint.x && el.y != aSearchPoint.y;
+    })
     this.list[aSearchPoint.x + "A" + aSearchPoint.y] = aSearchPoint;
+    this.addElementToArray(aSearchPoint);
   };
 
   getSmallestFElement() {
-    // if (this.length == 0) {
-    //   return null;
-    // };
-    // let smallestEl = {
-    //   f : 10000000
-    // };
-    // let currEl = null;
-    // for (var id in this.list) {
-    //   if (this.list.hasOwnProperty(id)) {
-    //      currEl = this.list[id];
-    //      if(currEl.f < smallestEl.f) {
-    //        smallestEl = currEl;
-    //      };
-    //   };
-    // };
-    //
-    // delete this.list[smallestEl.x + "A" + smallestEl.y];
-    // this.length -= 1;
-    // if(this.arrayList.length > 0) {
-    //   let newSmalles = this.arrayList.shift();
-    //   console.log(smallestEl.x + "B" + smallestEl.y + " vs " + newSmalles.x + "B" + newSmalles.y)
-    // }
-    //
-    // return smallestEl;
-    let smallestEl = this.arrayList.shift()
+    if(this.getLength() == 0) {
+      return null;
+    }
+    let smallestEl = this.arrayList.shift();
     delete this.list[smallestEl.x + "A" + smallestEl.y];
-    this.length -= 1;
     return smallestEl;
   };
 }
