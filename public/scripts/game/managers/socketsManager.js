@@ -98,12 +98,7 @@ class SocketsManager {
       self.handler.currentState.missionManager.addNewMission(data);
     });
 
-    this.handler.socket.on("statusUpdate", function(data) {
-      alert("statusUpdate in sockets called !!!!");
-      // self.handler.currentState.player.maxMana = data.maxMana;
-      // self.handler.currentState.player.maxHealth = data.maxHealth;
-      // self.handler.currentState.player.attack = data.attack;
-    });
+
     this.handler.socket.on("gameData", function(data) {
       let otherPlayersData = data.otherPlayersData;
       for(let playerID in otherPlayersData) {
@@ -146,7 +141,7 @@ class SocketsManager {
     this.handler.socket.on("changedMap", function(data) {
       // handler.playerData = handler.currentState.player;
       handler.money = data.money;
-      
+
       handler.playerData.experience = handler.currentState.player.experience || 10;
       handler.playerData.requiredExperience = handler.currentState.player.requiredExperience || 10;
 

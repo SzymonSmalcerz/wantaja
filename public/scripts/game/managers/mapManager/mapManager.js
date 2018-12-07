@@ -7,11 +7,15 @@ class MapManager {
   onMapChange() {
     this.preChangeMapMenu.onMapChange();
     this.state.allEntities.removeAll(true);
+    // this.state.map.removeAll(true);
   }
 
   initialize() {
 
     this.mapName = handler.playerData.currentMapName;
+
+    // this.state.backgrounds = this.state.add.group();
+    // this.state.backgrounds.smoothed = false;
 
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
@@ -129,7 +133,7 @@ class MapManager {
   addNewPlayer(data) {
     let self = this.state;
 
-    let newPlayer = newPlayer = new OtherPlayer(self.game,data);
+    let newPlayer = new OtherPlayer(self.game,data);
     self.allEntities.add(newPlayer);
     self.allEntities.objects[data.id] = newPlayer;
     self.setRenderOrder(newPlayer);
@@ -230,6 +234,7 @@ class MapManager {
 
   addNewGrave(data) {
     let self = this.state;
+    console.log(data);
     let newGrave = this.state.game.add.sprite(data.x, data.y, 'grave');
     self.allEntities.add(newGrave);
     self.allEntities.graves[data.id] = newGrave;
@@ -237,6 +242,7 @@ class MapManager {
   };
 
   removeGrave (data) {
+    console.log(data);
     let graveToRemove = this.state.allEntities.graves[data.id];
     if(graveToRemove) {
       graveToRemove.kill();
