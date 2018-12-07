@@ -89,7 +89,7 @@ class PlayerMoveManager {
       let closedList = new ASearchList();
       let playerSpeed = this.state.player.realSpeed;
       this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
-      openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
+      openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
 
 
       while(openList.length > 0) {
@@ -249,17 +249,17 @@ class PlayerMoveManager {
 
   handleSuccesor(firstElement,direction,playerSpeed,openList,closedList,goal) {
 
-    if(firstElement.stepsFromStartPosition + 1 > this.stepsLimit) { return; }
+    if(firstElement.stepsFromStartPosition + this.countDistance_real(goal, firstElement)/this.state.player.realSpeed > this.stepsLimit) { return; }
 
     let successor;
     if(direction == "right") {
-      successor = new ASearchPoint(firstElement.x + playerSpeed,firstElement.y,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x + playerSpeed, y:firstElement.y}),firstElement);
+      successor = new ASearchPoint(firstElement.x + playerSpeed,firstElement.y,firstElement.g + playerSpeed,this.countDistance_heuristic(goal,{x:firstElement.x + playerSpeed, y:firstElement.y}),firstElement);
     } else if(direction == "left") {
-      successor = new ASearchPoint(firstElement.x - playerSpeed,firstElement.y,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x - playerSpeed, y:firstElement.y}),firstElement);
+      successor = new ASearchPoint(firstElement.x - playerSpeed,firstElement.y,firstElement.g + playerSpeed,this.countDistance_heuristic(goal,{x:firstElement.x - playerSpeed, y:firstElement.y}),firstElement);
     } else if(direction == "up") {
-      successor = new ASearchPoint(firstElement.x,firstElement.y - playerSpeed,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x, y:firstElement.y - playerSpeed}),firstElement);
+      successor = new ASearchPoint(firstElement.x,firstElement.y - playerSpeed,firstElement.g + playerSpeed,this.countDistance_heuristic(goal,{x:firstElement.x, y:firstElement.y - playerSpeed}),firstElement);
     } else {
-      successor = new ASearchPoint(firstElement.x,firstElement.y + playerSpeed,firstElement.g + playerSpeed,this.countDistance(goal,{x:firstElement.x, y:firstElement.y + playerSpeed}),firstElement);
+      successor = new ASearchPoint(firstElement.x,firstElement.y + playerSpeed,firstElement.g + playerSpeed,this.countDistance_heuristic(goal,{x:firstElement.x, y:firstElement.y + playerSpeed}),firstElement);
     };
 
     if(this.checkCollisionAtPoint(successor)) {
@@ -283,9 +283,14 @@ class PlayerMoveManager {
     } else {
       return false;
     }
-  }
-  countDistance(goal,start) {
+  };
+
+  countDistance_heuristic(goal,start) {
     return Math.abs(goal.x - start.x) + Math.abs(goal.y - start.y);
+  };
+
+  countDistance_real(goal,start) {
+    return Math.sqrt(Math.pow(goal.x - start.x, 2) + Math.pow(goal.y - start.y, 2));
   };
 
 };
