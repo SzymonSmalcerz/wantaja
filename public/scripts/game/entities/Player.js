@@ -1,7 +1,7 @@
 let Player = function(game,data) {
 
   Phaser.Sprite.call(this,game,data.x,data.y,data.key || "player");
-  
+
   this.game = game;
   this.skillsDictionary = data.skillsDictionary || [{
     skillName : "punch",
@@ -56,10 +56,10 @@ let Player = function(game,data) {
   this.body.collideWorldBounds = true;
   game.add.existing(this);
 
-  this.body.width = 20;
-  this.body.offset.x = 22;
-  this.body.height = 20;
-  this.body.offset.y = 44;
+  this.body.width = data.body ? data.body.width : 20;
+  this.body.offset.x = data.body ? data.body.x : 22;
+  this.body.height = data.body ? data.body.height : 20;
+  this.body.offset.y = data.body ? data.body.y : 44;
   let howManyAnimationsPerSec = 10;
   this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], howManyAnimationsPerSec);
   this.animations.add("goRight", [27,28,29,30,31,32,33,34,35], howManyAnimationsPerSec);

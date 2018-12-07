@@ -3,9 +3,14 @@ class PlayerMoveManager {
     this.state = state;
     this.state.playerShadow = new Player(this.state.game,{
       x : 0,
-      y : 0
+      y : 0,
+      // body : {
+      //   width : 24,
+      //   x : 20,
+      //   height : 24,
+      //   y : 42
+      // }
     });
-    this.state.playerShadow.anchor.setTo(0.5,0.5);
     this.playerMoveList = [];
     this.state.playerShadow.alpha = 0;
     this.cursors = this.state.game.input.keyboard.createCursorKeys();
@@ -63,9 +68,11 @@ class PlayerMoveManager {
     if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.blockedMovement <= 0) {
 
       this.lastTimeInputRead = Date.now();
+      let pointerX = this.state.game.input.activePointer.worldX;
+      let pointerY = this.state.game.input.activePointer.worldY;
       let goal = {
-        x : this.state.game.input.activePointer.worldX,
-        y : this.state.game.input.activePointer.worldY - this.playerBodyOffset
+        x : pointerX < 0 ? 0 - this.state.xGreen.width/4 : (pointerX > this.state.world.width - this.state.xGreen.width/4 ? this.state.world.width - this.state.xGreen.width/4 : pointerX),
+        y : pointerY < 0 ? 0 : (pointerY > this.state.world.height - this.state.xGreen.height/2 ? this.state.world.height - this.state.xGreen.height : pointerY)
       };
 
       let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
@@ -216,14 +223,18 @@ class PlayerMoveManager {
 
   checkCollisionAtPoint(aSearchPoint) {
     this.state.playerShadow.reset(aSearchPoint.x, aSearchPoint.y);
-    if(aSearchPoint.x < 0 || aSearchPoint.y < 0 || aSearchPoint.x > this.state.world.width || aSearchPoint.y > this.state.world.height) {
+    if(this.state.playerShadow.left + this.state.playerShadow.body.offset.x <= 0) {
       return true;
-    } else if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
+    } else if(this.state.playerShadow.top + this.state.playerShadow.body.offset.y <= 0) {
       return true;
-    } else if(this.state.physics.arcade.collide(this.state.fences, this.state.playerShadow)) {
+    } else if(this.state.playerShadow.right - this.state.playerShadow.body.offset.x  >= this.state.world.width) {
       return true;
-    // } else if(this.state.physics.arcade.overlap(this.state.colliders, this.state.playerShadow)) {
-    //   return true;
+    } else if(this.state.playerShadow.bottom - (this.state.playerShadow.height - this.state.playerShadow.body.offset.y - this.state.playerShadow.body.height) >= this.state.world.height) {
+      return true;
+    } else if(this.state.physics.arcade.overlap(this.state.entities, this.state.playerShadow)) {
+      return true;
+    } else if(this.state.physics.arcade.overlap(this.state.fences, this.state.playerShadow)) {
+      return true;
     } else {
       return false;
     }
