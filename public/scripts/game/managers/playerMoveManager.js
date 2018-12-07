@@ -249,7 +249,7 @@ class PlayerMoveManager {
 
   handleSuccesor(firstElement,direction,playerSpeed,openList,closedList,goal) {
 
-    if(firstElement.stepsFromStartPosition + this.countDistance_real(goal, firstElement)/this.state.player.realSpeed > this.stepsLimit) { return; }
+    if(firstElement.stepsFromStartPosition + this.countDistance_heuristic(goal, firstElement)/this.state.player.realSpeed > this.stepsLimit) { return; }
 
     let successor;
     if(direction == "right") {
@@ -287,10 +287,6 @@ class PlayerMoveManager {
 
   countDistance_heuristic(goal,start) {
     return Math.abs(goal.x - start.x) + Math.abs(goal.y - start.y);
-  };
-
-  countDistance_real(goal,start) {
-    return Math.sqrt(Math.pow(goal.x - start.x, 2) + Math.pow(goal.y - start.y, 2));
   };
 
 };
