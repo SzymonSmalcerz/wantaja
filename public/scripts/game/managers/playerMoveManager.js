@@ -25,7 +25,7 @@ class PlayerMoveManager {
     this.blockedMovement = 0;
     this.notVisibleXsesCount = 0;
 
-    this.stepsLimit = 80;
+    this.stepsLimit = 100;
   }
 
   blockPlayerMovement(num) {
@@ -266,13 +266,15 @@ class PlayerMoveManager {
       return;
     } else if(this.nearGoal(successor,playerSpeed)) {
       return successor;
-    } else if(openList.contains(successor)) {
+    } else if(openList.contains(successor) && openList.getConcreteEl(successor).f <= successor.f) {
       return;
     } else if(closedList.contains(successor)) {
       return;
     } else if(!openList.contains(successor)) {
       openList.push(successor);
-    }
+    } else {
+      openList.swap(successor);
+    };
   };
 
   nearGoal(point,playerSpeed) {
@@ -304,12 +306,25 @@ class ASearchPoint {
 class ASearchList {
   constructor() {
     this.list = {};
+    this.arrayList = [];
     this.length = 0;
   };
 
   push(aSearchPoint) {
     this.list[aSearchPoint.x + "A" + aSearchPoint.y] = aSearchPoint;
-    this.length += 1;
+    if(this.length) {
+      for(let index = 0;index < this.length; index++) {
+        if(this.arrayList[index].f >= aSearchPoint.f) {
+          this.arrayList.splice(index, 0, aSearchPoint);
+          this.length += 1;
+          return;
+        }
+      }
+    } else {
+      this.arrayList.unshift(aSearchPoint);
+      this.length += 1;
+    }
+
   };
 
   contains(aSearchPoint) {
@@ -320,23 +335,37 @@ class ASearchList {
     return this.list[aSearchPoint.x + "A" + aSearchPoint.y];
   };
 
-  getSmallestFElement() {
-    if (this.length == 0) {
-      return null;
-    };
-    let smallestEl = {
-      f : 10000000
-    };
-    let currEl = null;
-    for (var id in this.list) {
-      if (this.list.hasOwnProperty(id)) {
-         currEl = this.list[id];
-         if(currEl.f < smallestEl.f) {
-           smallestEl = currEl;
-         };
-      };
-    };
+  swap(aSearchPoint) {
+    // console.log("SWAP TO BE IMPLEMENTED FOR 'this.listArray'");
+    this.list[aSearchPoint.x + "A" + aSearchPoint.y] = aSearchPoint;
+  };
 
+  getSmallestFElement() {
+    // if (this.length == 0) {
+    //   return null;
+    // };
+    // let smallestEl = {
+    //   f : 10000000
+    // };
+    // let currEl = null;
+    // for (var id in this.list) {
+    //   if (this.list.hasOwnProperty(id)) {
+    //      currEl = this.list[id];
+    //      if(currEl.f < smallestEl.f) {
+    //        smallestEl = currEl;
+    //      };
+    //   };
+    // };
+    //
+    // delete this.list[smallestEl.x + "A" + smallestEl.y];
+    // this.length -= 1;
+    // if(this.arrayList.length > 0) {
+    //   let newSmalles = this.arrayList.shift();
+    //   console.log(smallestEl.x + "B" + smallestEl.y + " vs " + newSmalles.x + "B" + newSmalles.y)
+    // }
+    //
+    // return smallestEl;
+    let smallestEl = this.arrayList.shift()
     delete this.list[smallestEl.x + "A" + smallestEl.y];
     this.length -= 1;
     return smallestEl;
