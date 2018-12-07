@@ -3,13 +3,7 @@ class PlayerMoveManager {
     this.state = state;
     this.state.playerShadow = new Player(this.state.game,{
       x : 0,
-      y : 0,
-      // body : {
-      //   width : 24,
-      //   x : 20,
-      //   height : 24,
-      //   y : 42
-      // }
+      y : 0
     });
     this.playerMoveList = [];
     this.state.playerShadow.alpha = 0;
@@ -49,7 +43,6 @@ class PlayerMoveManager {
   }
 
   update() {
-
     if((Date.now() - this.lastTimeInputRead > this.xTimeout)) {
       this.state.xGreen.visible = false;
       this.state.xRed.visible = false;
@@ -61,7 +54,6 @@ class PlayerMoveManager {
     // player has bloced movement <=> is doing some action
     if(!this.state.player.canMove || this.state.playerBlocked) {
       this.playerMoveList = [];
-      this.state.player.body.velocity.setTo(0);
       return;
     };
 
@@ -97,7 +89,6 @@ class PlayerMoveManager {
       let playerSpeed = this.state.player.realSpeed;
       this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
       openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
-
 
       while(openList.getLength() > 0) {
 
@@ -167,10 +158,10 @@ class PlayerMoveManager {
           this.state.player.goLeft();
         };
 
+
       } else {
         this.state.player.frame = 19;
         this.state.player.animations.stop();
-        this.state.player.body.velocity.setTo(0);
       };
     };
 

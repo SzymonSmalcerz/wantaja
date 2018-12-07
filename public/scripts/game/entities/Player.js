@@ -78,27 +78,23 @@ Player.prototype.constructor = Player;
 
 
 
-Player.prototype.goUp = function(){
-  this.body.velocity.setTo(0);
-  this.body.velocity.y = -this.speed;
+Player.prototype.goUp = function() {
+  this.position.y -= this.realSpeed;
   this.animations.play("goUp");
 };
 
-Player.prototype.goDown = function(){
-  this.body.velocity.setTo(0);
-  this.body.velocity.y = this.speed;
+Player.prototype.goDown = function() {
+  this.position.y += this.realSpeed;
   this.animations.play("goDown");
 };
 
-Player.prototype.goRight = function(){
-  this.body.velocity.setTo(0);
-  this.body.velocity.x = this.speed;
+Player.prototype.goRight = function() {
+  this.position.x += this.realSpeed;
   this.animations.play("goRight");
 };
 
-Player.prototype.goLeft = function(){
-  this.body.velocity.setTo(0);
-  this.body.velocity.x = -this.speed;
+Player.prototype.goLeft = function() {
+  this.position.x -= this.realSpeed;
   this.animations.play("goLeft");
 };
 
@@ -133,7 +129,7 @@ Player.prototype.quitFightingMode = function() {
   this.unblockMovement();
 }
 
-Player.prototype.emitData = function(handler){
+Player.prototype.emitData = function(handler) {
   if (this.canMove && (this.previousPosition.x != this.x || this.previousPosition.y != this.y || this.previousFrame != this.frame)) {
     handler.socket.emit("playerData", {
       x : this.x,
