@@ -1,5 +1,6 @@
 class PlayerMoveManager {
   constructor(state) {
+    this.playerPositionWhenClicked = false;
     this.state = state;
     this.state.playerShadow = new Player(this.state.game,{
       x : 0,
@@ -85,12 +86,33 @@ class PlayerMoveManager {
         this.renderX("green", goalPoint);
       };
 
+      this.state.player.body.velocity.setTo(0);
+
+      // console.log(`_________________________________`);
+      // console.log("CLICKKK");
+      // console.log(`players pos: ${this.state.player.position}`);
+      // this.playerPositionWhenClicked = {...this.state.player.position};
+
       let openList = new ASearchList();
       let closedList = new ASearchList();
       let playerSpeed = this.state.player.realSpeed;
+
       this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
       openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
-
+      // console.log(`starting position of player shadow1: ${this.state.playerShadow.x},${this.state.playerShadow.y}`);
+      // if(this.playerMoveList.length > 1) {
+      //   let move = this.playerMoveList[this.playerMoveList.length - 1];
+      //   // if(move == "up") {
+      //   //   this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y - playerSpeed);
+      //   // } else if(move == "down") {
+      //   //   this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y + playerSpeed);
+      //   // } else if(move == "right") {
+      //   //   this.state.playerShadow.reset(this.state.player.position.x + playerSpeed,this.state.player.position.y);
+      //   // } else if(move == "left") {
+      //   //   this.state.playerShadow.reset(this.state.player.position.x - playerSpeed,this.state.player.position.y);
+      //   // };
+      //   console.log(`starting position of player shadow2: ${this.state.playerShadow.x},${this.state.playerShadow.y}`);
+      // }
       while(openList.getLength() > 0) {
 
         let firstElement = openList.getSmallestFElement();
@@ -148,7 +170,12 @@ class PlayerMoveManager {
         // this.state.changeRenderOrder(this.state.player);
       } else if(this.playerMoveList.length > 0) {
         let move = this.playerMoveList.pop();
-
+        // if(this.playerPositionWhenClicked != false) {
+        //   console.log(`MOVING OLD\n${this.state.player.body.velocity} | ${this.state.player.position}`);
+        //   // this.state.player.reset(this.playerPositionWhenClicked.x , this.playerPositionWhenClicked.y);
+        //   console.log(`MOVING NEW\n${this.state.player.body.velocity} | ${this.playerPositionWhenClicked}`);
+        //   this.playerPositionWhenClicked = false;
+        // }
         if(move == "up") {
           this.state.player.goUp();
         } else if(move == "down") {
@@ -158,7 +185,6 @@ class PlayerMoveManager {
         } else if(move == "left") {
           this.state.player.goLeft();
         };
-
 
       } else {
         this.state.player.frame = 19;
@@ -194,6 +220,9 @@ class PlayerMoveManager {
 
 
   createPath(aSearchPoint) {
+    // let oldLengthFlag = this.playerMoveList.length;
+    console.log(`players pos2: ${this.state.player.position}`);
+    this.state.player.body.velocity.setTo(0);
     this.playerMoveList = [];
     let parent;
     let info;
@@ -208,6 +237,12 @@ class PlayerMoveManager {
       } else {
         info = "down";
       }
+      // if(oldLengthFlag != -1) {
+      //   if(oldLengthFlag > 0) {
+      //     this.playerMoveList.push(info);
+      //   }
+      //   oldLengthFlag = -1;
+      // }
       this.playerMoveList.push(info);
       aSearchPoint = parent;
     };
