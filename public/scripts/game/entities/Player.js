@@ -56,10 +56,10 @@ let Player = function(game,data) {
   this.body.collideWorldBounds = true;
   game.add.existing(this);
 
-  this.body.width = data.body ? data.body.width : 20;
-  this.body.offset.x = data.body ? data.body.x : 22;
-  this.body.height = data.body ? data.body.height : 20;
-  this.body.offset.y = data.body ? data.body.y : 44;
+  this.body.width = 20;
+  this.body.offset.x = 22;
+  this.body.height = 20;
+  this.body.offset.y = 44;
   let howManyAnimationsPerSec = 10;
   this.animations.add("goLeft", [9,10,11,12,13,14,15,16,17], howManyAnimationsPerSec);
   this.animations.add("goRight", [27,28,29,30,31,32,33,34,35], howManyAnimationsPerSec);
@@ -79,22 +79,26 @@ Player.prototype.constructor = Player;
 
 
 Player.prototype.goUp = function() {
-  this.position.y -= this.realSpeed;
+  this.body.velocity.setTo(0);
+  this.body.velocity.y = -this.speed;
   this.animations.play("goUp");
 };
 
 Player.prototype.goDown = function() {
-  this.position.y += this.realSpeed;
+  this.body.velocity.setTo(0);
+  this.body.velocity.y = this.speed;
   this.animations.play("goDown");
 };
 
 Player.prototype.goRight = function() {
-  this.position.x += this.realSpeed;
+  this.body.velocity.setTo(0);
+  this.body.velocity.x = this.speed;
   this.animations.play("goRight");
 };
 
 Player.prototype.goLeft = function() {
-  this.position.x -= this.realSpeed;
+  this.body.velocity.setTo(0);
+  this.body.velocity.x = -this.speed;
   this.animations.play("goLeft");
 };
 

@@ -1,4 +1,4 @@
-const { Greengrove, Northpool, Southpool, Frozendefile } = require("./maps/Maps");
+const { Greengrove, Northpool, Southpool, Frozendefile, Blackford } = require("./maps/Maps");
 const skills = require("./skills/skill");
 const { Mission,
         Stage_goto,
@@ -286,5 +286,6 @@ dm.allMaps["Greengrove"] = new Greengrove();
 dm.allMaps["Northpool"] = new Northpool();
 dm.allMaps["Southpool"] = new Southpool();
 dm.allMaps["Frozendefile"] = new Frozendefile();
+dm.allMaps["Blackford"] = new Blackford();
 
 module.exports = dm;

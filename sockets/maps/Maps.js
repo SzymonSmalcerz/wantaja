@@ -234,6 +234,13 @@ class Greengrove extends Map {
         playerX : 290,
         playerY : 40,
         requiredLevel : 2
+      },
+      'Blackford' : {
+        doorX : 0,
+        doorY : 616,
+        playerX : 616,
+        playerY : 1500,
+        requiredLevel : 5
       }
     };
     this.traders = {
@@ -367,9 +374,32 @@ class Frozendefile extends Map {
   }
 };
 
+
+class Blackford extends Map {
+  constructor() {
+    super("Blackford", "fightingBackgroundNorthpool", ['grass','BlackfordBackground']);
+    this.nextMaps = {
+      'Greengrove' : {
+        doorX : 1570,
+        doorY : 616,
+        playerX : 40,
+        playerY : 616,
+        requiredLevel : 0
+      }
+    };
+  }
+
+  respMobs() {
+    setTimeout(() => {
+      this.respMobs();
+    }, this.respTime);
+  }
+};
+
 module.exports = {
   Greengrove,
   Northpool,
   Southpool,
-  Frozendefile
+  Frozendefile,
+  Blackford
 };

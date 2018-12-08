@@ -3443,6 +3443,23 @@
                  "width":30,
                  "x":133,
                  "y":1552
+                }, 
+                {
+                 "height":46,
+                 "id":198,
+                 "name":"door",
+                 "properties":[
+                        {
+                         "name":"nextMapName",
+                         "type":"string",
+                         "value":"Blackford"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30,
+                 "x":0.666666666666629,
+                 "y":616.25
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3538,10 +3555,10 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":198,
+ "nextobjectid":199,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"2018.11.13",
+ "tiledversion":"2018.06.01",
  "tileheight":16,
  "tilesets":[
         {

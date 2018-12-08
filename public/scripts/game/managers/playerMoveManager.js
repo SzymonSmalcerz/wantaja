@@ -54,6 +54,7 @@ class PlayerMoveManager {
     // player has bloced movement <=> is doing some action
     if(!this.state.player.canMove || this.state.playerBlocked) {
       this.playerMoveList = [];
+      this.state.player.body.velocity.setTo(0);
       return;
     };
 
@@ -161,6 +162,7 @@ class PlayerMoveManager {
 
       } else {
         this.state.player.frame = 19;
+        this.state.player.body.velocity.setTo(0);
         this.state.player.animations.stop();
       };
     };
@@ -222,9 +224,9 @@ class PlayerMoveManager {
       return true;
     } else if(this.state.playerShadow.bottom - (this.state.playerShadow.height - this.state.playerShadow.body.offset.y - this.state.playerShadow.body.height) >= this.state.world.height) {
       return true;
-    } else if(this.state.physics.arcade.overlap(this.state.entities, this.state.playerShadow)) {
+    } else if(this.state.physics.arcade.collide(this.state.entities, this.state.playerShadow)) {
       return true;
-    } else if(this.state.physics.arcade.overlap(this.state.fences, this.state.playerShadow)) {
+    } else if(this.state.physics.arcade.collide(this.state.fences, this.state.playerShadow)) {
       return true;
     } else {
       return false;

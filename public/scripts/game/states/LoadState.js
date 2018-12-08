@@ -95,6 +95,7 @@ let LoadState = {
 
     this.load.tilemap("Greengrove","assets/maps/Greengrove.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.image("Greengrove_mini", "assets/maps/miniMaps/Greengrove.png");
+    this.load.tilemap("Blackford","assets/maps/Blackford.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.spritesheet("pointer", "assets/maps/miniMaps/pointer.png",5,5);
     this.load.spritesheet("model_map_world", "assets/maps/miniMaps/model_map_world.png",50,50);
     this.load.tilemap("Northpool","assets/maps/Northpool.json",null,Phaser.Tilemap.TILED_JSON);
@@ -109,12 +110,16 @@ let LoadState = {
     this.load.image("NorthpoolBackground", "assets/maps/NorthpoolBackground.png");
     this.load.image("SouthpoolBackground", "assets/maps/SouthpoolBackground.png");
     this.load.image("FrozendefileBackground", "assets/maps/FrozendefileBackground.png");
+    this.load.image("BlackfordBackground", "assets/maps/BlackfordBackground.png");
     this.load.image("house1", "assets/house1.png");
     this.load.image("collisionSquare", "assets/collisionSquare.png");
 
     /* Fences */
     this.load.image("fence_horizontal", "assets/fences/fence_horizontal.png");
     this.load.image("fence_vertical", "assets/fences/fence_vertical.png");
+    this.load.image("wall_horizontal", "assets/fences/wall/wall_horizontal.png");
+    this.load.image("wall_vertical", "assets/fences/wall/wall_vertical.png");
+    this.load.image("wall_vertical_finish", "assets/fences/wall/wall_vertical_finish.png");
 
     /* Shortest Path */
     this.load.image("xGreen", "assets/shortestPath/xGreen.png");
