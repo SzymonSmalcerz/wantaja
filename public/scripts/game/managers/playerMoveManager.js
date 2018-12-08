@@ -1,6 +1,5 @@
 class PlayerMoveManager {
   constructor(state) {
-    this.playerPositionWhenClicked = false;
     this.state = state;
     this.state.playerShadow = new Player(this.state.game,{
       x : 0,
@@ -60,91 +59,7 @@ class PlayerMoveManager {
     };
 
     if(this.state.game.input.activePointer.isDown && (Date.now() - this.lastTimeInputRead > 250) && this.blockedMovement <= 0) {
-
-      this.lastTimeInputRead = Date.now();
-      let pointerX = this.state.game.input.activePointer.worldX;
-      let pointerY = this.state.game.input.activePointer.worldY;
-      let goal = {
-        x : pointerX < 0 ? 0 - this.state.xGreen.width/4 : (pointerX > this.state.world.width - this.state.xGreen.width/4 ? this.state.world.width - this.state.xGreen.width/4 : pointerX),
-        y : pointerY < 0 ? 0 : (pointerY > this.state.world.height - this.state.xGreen.height/2 ? this.state.world.height - this.state.xGreen.height : pointerY)
-      };
-
-      let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
-      if(this.checkCollisionAtPoint(goalPoint)) {
-        goalPoint = this.getNearestPosition(goal);
-        if(!goalPoint) {
-          this.renderX("red", goal);
-          return;
-        } else {
-          goal = {
-            x : goalPoint.x,
-            y : goalPoint.y,
-          }
-          this.renderX("green", goalPoint);
-        }
-      } else {
-        this.renderX("green", goalPoint);
-      };
-
-      this.state.player.body.velocity.setTo(0);
-
-      // console.log(`_________________________________`);
-      // console.log("CLICKKK");
-      // console.log(`players pos: ${this.state.player.position}`);
-      // this.playerPositionWhenClicked = {...this.state.player.position};
-
-      let openList = new ASearchList();
-      let closedList = new ASearchList();
-      let playerSpeed = this.state.player.realSpeed;
-
-      this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
-      openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
-      // console.log(`starting position of player shadow1: ${this.state.playerShadow.x},${this.state.playerShadow.y}`);
-      // if(this.playerMoveList.length > 1) {
-      //   let move = this.playerMoveList[this.playerMoveList.length - 1];
-      //   // if(move == "up") {
-      //   //   this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y - playerSpeed);
-      //   // } else if(move == "down") {
-      //   //   this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y + playerSpeed);
-      //   // } else if(move == "right") {
-      //   //   this.state.playerShadow.reset(this.state.player.position.x + playerSpeed,this.state.player.position.y);
-      //   // } else if(move == "left") {
-      //   //   this.state.playerShadow.reset(this.state.player.position.x - playerSpeed,this.state.player.position.y);
-      //   // };
-      //   console.log(`starting position of player shadow2: ${this.state.playerShadow.x},${this.state.playerShadow.y}`);
-      // }
-      while(openList.getLength() > 0) {
-
-        let firstElement = openList.getSmallestFElement();
-        if (firstElement == null) {
-          this.lastTimeInputRead = Date.now();
-          return;
-        };
-
-        let rightSuccessor = this.handleSuccesor(firstElement,"right",playerSpeed,openList,closedList,goal);
-        let leftSuccessor = this.handleSuccesor(firstElement,"left",playerSpeed,openList,closedList,goal);
-        let topSuccessor = this.handleSuccesor(firstElement,"down",playerSpeed,openList,closedList,goal);
-        let bottomSuccessor = this.handleSuccesor(firstElement,"up",playerSpeed,openList,closedList,goal);
-        if(rightSuccessor) {
-          this.lastTimeInputRead = Date.now();
-          return this.createPath(rightSuccessor);
-        } else if(leftSuccessor) {
-          this.lastTimeInputRead = Date.now();
-          return this.createPath(leftSuccessor);
-        } else if(topSuccessor) {
-          this.lastTimeInputRead = Date.now();
-          return this.createPath(topSuccessor);
-        } else if(bottomSuccessor) {
-          this.lastTimeInputRead = Date.now();
-          return this.createPath(bottomSuccessor);
-        };
-
-        closedList.push(firstElement);
-
-      };
-
-      this.renderX("red", goal);
-
+      this.findPath();
     } else {
       if(this.blockedMovement > 0) {
         this.blockedMovement -= 1;
@@ -155,27 +70,19 @@ class PlayerMoveManager {
       if(this.cursors.up.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.W)) {
         this.playerMoveList = [];
         this.state.player.goUp();
-        // this.state.changeRenderOrder(this.state.player);
       } else if(this.cursors.down.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
         this.playerMoveList = [];
         this.state.player.goDown();
-        // this.state.changeRenderOrder(this.state.player);
       }  else if(this.cursors.left.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.A)) {
         this.playerMoveList = [];
         this.state.player.goLeft();
-        // this.state.changeRenderOrder(this.state.player);
       }  else if(this.cursors.right.isDown || this.state.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
         this.playerMoveList = [];
         this.state.player.goRight();
-        // this.state.changeRenderOrder(this.state.player);
       } else if(this.playerMoveList.length > 0) {
+
         let move = this.playerMoveList.pop();
-        // if(this.playerPositionWhenClicked != false) {
-        //   console.log(`MOVING OLD\n${this.state.player.body.velocity} | ${this.state.player.position}`);
-        //   // this.state.player.reset(this.playerPositionWhenClicked.x , this.playerPositionWhenClicked.y);
-        //   console.log(`MOVING NEW\n${this.state.player.body.velocity} | ${this.playerPositionWhenClicked}`);
-        //   this.playerPositionWhenClicked = false;
-        // }
+
         if(move == "up") {
           this.state.player.goUp();
         } else if(move == "down") {
@@ -186,6 +93,7 @@ class PlayerMoveManager {
           this.state.player.goLeft();
         };
 
+        this.lastMove = move;
       } else {
         this.state.player.frame = 19;
         this.state.player.body.velocity.setTo(0);
@@ -194,6 +102,89 @@ class PlayerMoveManager {
     };
 
   };
+
+  findPath() {
+    this.lastTimeInputRead = Date.now();
+    let pointerX = this.state.game.input.activePointer.worldX;
+    let pointerY = this.state.game.input.activePointer.worldY;
+    let goal = {
+      x : pointerX < 0 ? 0 - this.state.xGreen.width/4 : (pointerX > this.state.world.width - this.state.xGreen.width/4 ? this.state.world.width - this.state.xGreen.width/4 : pointerX),
+      y : pointerY < 0 ? 0 : (pointerY > this.state.world.height - this.state.xGreen.height/2 ? this.state.world.height - this.state.xGreen.height : pointerY)
+    };
+
+    let goalPoint = new ASearchPoint(goal.x,goal.y,-1,0);
+    if(this.checkCollisionAtPoint(goalPoint)) {
+      goalPoint = this.getNearestPosition(goal);
+      if(!goalPoint) {
+        this.renderX("red", goal);
+        return;
+      } else {
+        goal = {
+          x : goalPoint.x,
+          y : goalPoint.y,
+        }
+        this.renderX("green", goalPoint);
+      }
+    } else {
+      this.renderX("green", goalPoint);
+    };
+
+    let openList = new ASearchList();
+    let closedList = new ASearchList();
+    let playerSpeed = this.state.player.realSpeed;
+    this.state.player.body.velocity.setTo(0);
+
+    if(this.playerMoveList.length > 0) {
+      let move = this.lastMove;
+
+      if(move == "up") {
+        this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y - playerSpeed);
+      } else if(move == "down") {
+        this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y + playerSpeed);
+      } else if(move == "right") {
+        this.state.playerShadow.reset(this.state.player.position.x + playerSpeed,this.state.player.position.y);
+      } else if(move == "left") {
+        this.state.playerShadow.reset(this.state.player.position.x - playerSpeed,this.state.player.position.y);
+      };
+
+    } else {
+      this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
+    }
+
+    openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
+
+    while(openList.getLength() > 0) {
+
+      let firstElement = openList.getSmallestFElement();
+      if (firstElement == null) {
+        this.lastTimeInputRead = Date.now();
+        return;
+      };
+
+      let rightSuccessor = this.handleSuccesor(firstElement,"right",playerSpeed,openList,closedList,goal);
+      let leftSuccessor = this.handleSuccesor(firstElement,"left",playerSpeed,openList,closedList,goal);
+      let topSuccessor = this.handleSuccesor(firstElement,"down",playerSpeed,openList,closedList,goal);
+      let bottomSuccessor = this.handleSuccesor(firstElement,"up",playerSpeed,openList,closedList,goal);
+      if(rightSuccessor) {
+        this.lastTimeInputRead = Date.now();
+        return this.createPath(rightSuccessor);
+      } else if(leftSuccessor) {
+        this.lastTimeInputRead = Date.now();
+        return this.createPath(leftSuccessor);
+      } else if(topSuccessor) {
+        this.lastTimeInputRead = Date.now();
+        return this.createPath(topSuccessor);
+      } else if(bottomSuccessor) {
+        this.lastTimeInputRead = Date.now();
+        return this.createPath(bottomSuccessor);
+      };
+
+      closedList.push(firstElement);
+
+    };
+
+    this.renderX("red", goal);
+  }
 
   getNearestPosition(goal) {
 
@@ -213,16 +204,12 @@ class PlayerMoveManager {
         return possibilities[i];
       }
     }
-
     return false;
 
   }
 
 
   createPath(aSearchPoint) {
-    // let oldLengthFlag = this.playerMoveList.length;
-    console.log(`players pos2: ${this.state.player.position}`);
-    this.state.player.body.velocity.setTo(0);
     this.playerMoveList = [];
     let parent;
     let info;
@@ -237,12 +224,6 @@ class PlayerMoveManager {
       } else {
         info = "down";
       }
-      // if(oldLengthFlag != -1) {
-      //   if(oldLengthFlag > 0) {
-      //     this.playerMoveList.push(info);
-      //   }
-      //   oldLengthFlag = -1;
-      // }
       this.playerMoveList.push(info);
       aSearchPoint = parent;
     };
