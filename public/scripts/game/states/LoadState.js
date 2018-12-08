@@ -216,7 +216,9 @@ let LoadState = {
     this.load.image("tree2", "assets/trees/tree2.png");
     this.load.image("tree3", "assets/trees/tree3.png");
     this.load.image("tree4", "assets/trees/tree4.png");
-    // show trees
+    this.load.image("tree_pink_1", "assets/trees/tree_pink_1.png");
+    this.load.image("tree_pink_2", "assets/trees/tree_pink_2.png");
+    // snow trees
     this.load.image("tree_christmas_norm_120", "assets/trees/snow/tree_christmas_norm_120.png");
     this.load.image("tree_christmas_semisnow_1_65", "assets/trees/snow/tree_christmas_semisnow_1_65.png");
     this.load.image("tree_christmas_semisnow_1_90", "assets/trees/snow/tree_christmas_semisnow_1_90.png");
@@ -251,6 +253,7 @@ let LoadState = {
     this.load.image("bower_1", "assets/entities/bower_1.png");
     this.load.image("bower_2", "assets/entities/bower_2.png");
     this.load.image("bower_3", "assets/entities/bower_3.png");
+    this.load.image("monument_lion", "assets/entities/monument_lion.png");
     // houses
     this.load.image("house2", "assets/entities/houses/house2.png");
     this.load.image("house_cottage_1", "assets/entities/houses/house_cottage_1.png");
@@ -267,6 +270,14 @@ let LoadState = {
     this.load.image("house_semitown_small_4", "assets/entities/houses/house_semitown_small_4.png");
     this.load.image("house_semitown_small_5", "assets/entities/houses/house_semitown_small_5.png");
     this.load.image("house_semitown_small_6", "assets/entities/houses/house_semitown_small_6.png");
+
+
+    this.load.image("house_town_1", "assets/entities/houses/house_town_1.png");
+    this.load.image("house_town_2", "assets/entities/houses/house_town_2.png");
+    this.load.image("house_town_3", "assets/entities/houses/house_town_3.png");
+    this.load.image("house_town_4", "assets/entities/houses/house_town_4.png");
+    this.load.image("house_town_5", "assets/entities/houses/house_town_5.png");
+    this.load.image("house_town_6", "assets/entities/houses/house_town_6.png");
 
     // enemies
     this.load.spritesheet("spider", "assets/enemies/spider.png",45 ,40);
