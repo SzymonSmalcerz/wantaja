@@ -259,6 +259,8 @@ let LoadState = {
     this.load.image("bower_2", "assets/entities/bower_2.png");
     this.load.image("bower_3", "assets/entities/bower_3.png");
     this.load.image("monument_lion", "assets/entities/monument_lion.png");
+    this.load.image("toitoi", "assets/entities/toitoi.png");
+    this.load.image("tent", "assets/entities/tent.png");
     // houses
     this.load.image("house2", "assets/entities/houses/house2.png");
     this.load.image("house_cottage_1", "assets/entities/houses/house_cottage_1.png");
@@ -288,6 +290,7 @@ let LoadState = {
     this.load.spritesheet("spider", "assets/enemies/spider.png",45 ,40);
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");
     this.load.spritesheet("bee", "assets/enemies/bee.png",32 ,32);
+    this.load.spritesheet("bat", "assets/enemies/bat.png",32 ,32);
     this.load.image("beelogo", "assets/enemies/spiderlogo.png");
     this.load.spritesheet("iceGolem", "assets/enemies/ice_golem.png",50 ,80);
     this.load.spritesheet("snake", "assets/enemies/snake.png",32 ,32);

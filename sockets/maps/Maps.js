@@ -1,4 +1,4 @@
-const { Spider, Bee, IceGolem, Snake, WormSmall, Worm } = require("../enemies/enemy");
+const { Spider, Bee, IceGolem, Snake, WormSmall, Worm, Bat } = require("../enemies/enemy");
 const { Trader_Greengrove, traders_utils } = require("../traders/traders");
 const Item = require("../equipment/itemOnTheGround");
 const Npc = require("../npcs/npcs");
@@ -28,32 +28,6 @@ class Map {
   }
 
   respMobs() {
-    if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
-      let newEnemy;
-      if(Math.random() > 0.2) {
-        newEnemy = new Spider(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
-      } else {
-        newEnemy = new IceGolem(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
-      }
-      this.currentNumberOfMobs += 1;
-      this.mobs[newEnemy.id] = newEnemy;
-      this.mobsDataToSend[newEnemy.id] = {
-        x : newEnemy.x,
-        y : newEnemy.y,
-        id : newEnemy.id,
-        key : newEnemy.key,
-        health : newEnemy.health,
-        maxHealth : newEnemy.maxHealth,
-        animated : newEnemy.animated,
-        level : newEnemy.level
-      };
-      for(let playerID in this.players) {
-        if(this.players.hasOwnProperty(playerID)) {
-          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
-        }
-      };
-    }
-
     setTimeout(() => {
       this.respMobs();
     }, this.respTime);
@@ -259,6 +233,36 @@ class Greengrove extends Map {
       'John' : new Npc(900, 180, 'John')
     }
   }
+
+  respMobs() {
+    if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
+      let newEnemy;
+      if(Math.random() > 0.3) {
+        newEnemy = new Bee(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+      } else {
+        newEnemy = new Snake(Math.floor(Math.random() * 500) + 100,Math.floor(Math.random() * 500) + 400, this);
+      }
+      this.currentNumberOfMobs += 1;
+      this.mobs[newEnemy.id] = newEnemy;
+      this.mobsDataToSend[newEnemy.id] = {
+        x : newEnemy.x,
+        y : newEnemy.y,
+        id : newEnemy.id,
+        key : newEnemy.key,
+        health : newEnemy.health,
+        maxHealth : newEnemy.maxHealth,
+        animated : newEnemy.animated,
+        level : newEnemy.level
+      };
+      for(let playerID in this.players) {
+        if(this.players.hasOwnProperty(playerID)) {
+          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
+        }
+      };
+    }
+
+    super.respMobs();
+  }
 };
 
 class Northpool extends Map {
@@ -298,8 +302,12 @@ class Northpool extends Map {
 
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
-
-    let newEnemy = new Bee(Math.floor(Math.random() * 100) + 100,Math.floor(Math.random() * 100) + 400, this);
+    let newEnemy;
+    if(Math.random() > 0.5) {
+      newEnemy = new Spider(Math.floor(Math.random() * 1000) + 100,Math.floor(Math.random() * 400) + 250, this);
+    } else {
+      newEnemy = new Bat(Math.floor(Math.random() * 1000) + 100,Math.floor(Math.random() * 400) + 250, this);
+    }
     this.currentNumberOfMobs += 1;
     this.mobs[newEnemy.id] = newEnemy;
     this.mobsDataToSend[newEnemy.id] = {

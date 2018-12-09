@@ -111,7 +111,7 @@ class Bee extends Enemy {
   }
 };
 
-let snakeDropData = new DropData(0,50,[
+let basicDropData = new DropData(0,50,[
   new ItemToDrop("boots_1","boots",10),
   new ItemToDrop("armor_1","armor",10),
   new ItemToDrop("weapon_1","weapon",10),
@@ -120,10 +120,19 @@ let snakeDropData = new DropData(0,50,[
   new ItemToDrop("shield_1","shield",10),
   new ItemToDrop("special_1","special",10)
 ]);
+
 class Snake extends Enemy {
   constructor(x,y,map) {
     let id = Math.floor(Math.random() * 100000) + "snake";
-    super(x,y,map,id,3,"snake",100,null,null,"poison",snakeDropData,[0,1,2,3,5]);
+    super(x,y,map,id,1,"snake",100,null,null,"poison",basicDropData,[0,1,2,3,5]);
+  }
+};
+
+
+class Bat extends Enemy {
+  constructor(x,y,map) {
+    let id = Math.floor(Math.random() * 100000) + "snake";
+    super(x,y,map,id,2,"bat",100,null,null,"punch",basicDropData,[0,1,2,3,5]);
   }
 };
 
@@ -182,5 +191,6 @@ module.exports = {
   IceGolem,
   Snake,
   WormSmall,
-  Worm
+  Worm,
+  Bat
 }

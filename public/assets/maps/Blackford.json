@@ -1349,6 +1349,43 @@
                  "width":96,
                  "x":56.3333333333333,
                  "y":1157.71212121212
+                }, 
+                {
+                 "height":109,
+                 "id":334,
+                 "name":"well",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"50"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"well"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"5"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"50"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"67"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":77,
+                 "x":580.166666666667,
+                 "y":562.833333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1362,7 +1399,7 @@
          "name":"Mobs",
          "objects":[
                 {
-                 "height":359,
+                 "height":397,
                  "id":267,
                  "name":"cat",
                  "properties":[
@@ -1444,6 +1481,40 @@
                  "width":634.333333333333,
                  "x":222.166666666667,
                  "y":737.5
+                }, 
+                {
+                 "height":1598.66666666667,
+                 "id":332,
+                 "name":"chicken",
+                 "properties":[
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"15"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":429.333333333333,
+                 "x":1168.66666666667,
+                 "y":-0.5
+                }, 
+                {
+                 "height":439.336666666667,
+                 "id":333,
+                 "name":"chicken",
+                 "properties":[
+                        {
+                         "name":"quantity",
+                         "type":"string",
+                         "value":"15"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1598.66633333333,
+                 "x":1.33349999999996,
+                 "y":1160.665
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1614,7 +1685,7 @@
          "y":0
         }],
  "nextlayerid":18,
- "nextobjectid":331,
+ "nextobjectid":335,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2018.06.01",

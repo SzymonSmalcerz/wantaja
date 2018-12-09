@@ -89,8 +89,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":1469.67,
-                 "y":552.667
+                 "x":861.67,
+                 "y":140.667
                 }, 
                 {
                  "height":128,
@@ -200,8 +200,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1476,
-                 "y":662.667
+                 "x":1226,
+                 "y":628.667
                 }, 
                 {
                  "height":128,
@@ -237,8 +237,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1496,
-                 "y":-32
+                 "x":1454,
+                 "y":222
                 }, 
                 {
                  "height":128,
@@ -274,8 +274,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":78.6667,
-                 "y":76
+                 "x":60.6667,
+                 "y":610
                 }, 
                 {
                  "height":128,
@@ -311,8 +311,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":-4.26326e-14,
-                 "y":25.3333
+                 "x":156,
+                 "y":341.3333
                 }, 
                 {
                  "height":128,
@@ -348,8 +348,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":69.3333,
-                 "y":-50.6667
+                 "x":521.3333,
+                 "y":87.3333
                 }, 
                 {
                  "height":128,
@@ -385,8 +385,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":161.333,
-                 "y":140
+                 "x":85.333,
+                 "y":48
                 }, 
                 {
                  "height":128,
@@ -459,8 +459,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":25.3333,
-                 "y":213.333
+                 "x":79.3333,
+                 "y":197.333
                 }, 
                 {
                  "height":192,
@@ -1421,8 +1421,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":884.333333333333,
-                 "y":44.3333333333333
+                 "x":919.666666666666,
+                 "y":58.3333333333333
                 }, 
                 {
                  "height":40,
@@ -1458,8 +1458,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":917,
-                 "y":20
+                 "x":907.666666666667,
+                 "y":31.3333333333333
                 }, 
                 {
                  "height":40,
@@ -1495,8 +1495,452 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":912,
-                 "y":55
+                 "x":896.666666666667,
+                 "y":74.3333333333333
+                }, 
+                {
+                 "height":160,
+                 "id":240,
+                 "name":"tent",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"95"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tent"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"0"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"65"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"130"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":130,
+                 "x":767.666666666667,
+                 "y":4.66666666666664
+                }, 
+                {
+                 "height":128,
+                 "id":241,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":670,
+                 "y":354
+                }, 
+                {
+                 "height":128,
+                 "id":242,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":696,
+                 "y":310
+                }, 
+                {
+                 "height":128,
+                 "id":243,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":1058,
+                 "y":502
+                }, 
+                {
+                 "height":128,
+                 "id":244,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":1220,
+                 "y":180
+                }, 
+                {
+                 "height":128,
+                 "id":245,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":676,
+                 "y":-42
+                }, 
+                {
+                 "height":128,
+                 "id":246,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":504,
+                 "y":640
+                }, 
+                {
+                 "height":128,
+                 "id":247,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":292,
+                 "y":558
+                }, 
+                {
+                 "height":128,
+                 "id":248,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":1350,
+                 "y":64
+                }, 
+                {
+                 "height":128,
+                 "id":249,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":1316,
+                 "y":422
+                }, 
+                {
+                 "height":128,
+                 "id":250,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":902,
+                 "y":274
+                }, 
+                {
+                 "height":128,
+                 "id":251,
+                 "name":"tree4",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"tree3"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"25"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"100"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"46"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":1526,
+                 "y":1278
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1701,8 +2145,8 @@
                  "type":"",
                  "visible":true,
                  "width":1094.03,
-                 "x":492.985,
-                 "y":250.7121
+                 "x":494.985,
+                 "y":248.7121
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1985,7 +2429,7 @@
          "y":0
         }],
  "nextlayerid":18,
- "nextobjectid":239,
+ "nextobjectid":252,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2018.06.01",

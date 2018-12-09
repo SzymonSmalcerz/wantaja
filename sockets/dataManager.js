@@ -42,7 +42,7 @@ let dm = { // data manager, created to hold values for game purpose
                     "came to our village, destroy 10 of them or they\n" +
                     "will destroy us !", "ok")
       ),
-      new Stage_kill([], 'kill', 'spider', 2, 2),
+      new Stage_kill([], 'kill', 'bee', 10, 10),
       new Stage_goto(
         [new HighLight('John', 'Greengrove')], 'return',
         new Dialog('Oh my.. You have done it!\nhere is your reward', 'Yes sir!')
