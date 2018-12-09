@@ -387,6 +387,10 @@ class Blackford extends Map {
         requiredLevel : 0
       }
     };
+
+    this.npcs = {
+      'Chris' : new Npc(500, 500, 'Chris', [0,1,2,3,4,5,6,7,4])
+    }
   }
 
   respMobs() {

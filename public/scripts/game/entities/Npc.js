@@ -9,6 +9,43 @@ let Npc = function(state, data) {
 
   this.invovledMissionsDictionary = {};
 
+  this.animated = data.animated || false;
+  if(this.animated) {
+    this.howManyAnimationsPerSec = this.animated.pop();
+    this.animations.add("normalState", this.animated, this.howManyAnimationsPerSec, true);
+    this.animations.add("hoverState", this.animated.map(val => val + this.animated.length), this.howManyAnimationsPerSec, true);
+    this.events.destroy();
+    this.addOnInputOverFunction(function() {
+      if(!this.disabled) {
+        this.animations.play("hoverState");
+      };
+    },this);
+    this.addOnInputOutFunction(function() {
+      if(!this.disabled) {
+        this.animations.play("normalState");
+      };
+    },this);
+    this.addOnInputDownFunction(function() {
+      if(!this.disabled) {
+        this.animations.play("hoverState");
+      };
+    },this);
+    this.addOnInputUpFunction(function() {
+      if(!this.disabled) {
+        this.animations.play("normalState");
+      };
+    },this);
+    this.animations.play("normalState");
+  }
+
+  this.events.onInputOver.add(function() {
+    this.state.game.canvas.style.cursor = "pointer";
+  }, this);
+
+  this.events.onInputOut.add(function() {
+    this.state.game.canvas.style.cursor = "default";
+  }, this);
+
   this.addBasicListener();
 }
 
