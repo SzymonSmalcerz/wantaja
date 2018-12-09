@@ -151,7 +151,7 @@ class PlayerMoveManager {
       this.state.playerShadow.reset(this.state.player.position.x,this.state.player.position.y);
     }
 
-    openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y}), null, 0.1) );
+    openList.push( new ASearchPoint(this.state.playerShadow.x, this.state.playerShadow.y, 0, this.countDistance_heuristic(goal,{x:this.state.playerShadow.x, y:this.state.playerShadow.y})) );
 
     while(openList.getLength() > 0) {
 
@@ -269,7 +269,7 @@ class PlayerMoveManager {
 
   handleSuccesor(firstElement,direction,playerSpeed,openList,closedList,goal) {
 
-    if(firstElement.stepsFromStartPosition + this.countDistance_heuristic(goal, firstElement)/this.state.player.realSpeed > this.stepsLimit) { return; }
+    if(firstElement.g/playerSpeed + 1 + this.countDistance_heuristic(goal, firstElement)/this.state.player.realSpeed > this.stepsLimit) { return; }
 
     let successor;
     if(direction == "right") {
@@ -312,14 +312,13 @@ class PlayerMoveManager {
 };
 
 class ASearchPoint {
-  constructor(x,y,g,h,parent, stepsFromStartPosition) {
+  constructor(x,y,g,h,parent) {
     this.x = x;
     this.y = y;
     this.g = g;
     this.h = h;
     this.f = g + h;
     this.parent = parent;
-    this.stepsFromStartPosition = stepsFromStartPosition || ( this.parent ? this.parent.stepsFromStartPosition + 1 : 1600 );
   }
 };
 
