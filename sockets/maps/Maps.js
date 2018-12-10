@@ -341,7 +341,7 @@ class Northpool extends Map {
 class Southpool extends Map {
   constructor() {
     super("Southpool", "fightingBackgroundNorthpool", ['grass-snow','SouthpoolBackground']);
-    this.maxNumberOfMobs = 50;
+    this.maxNumberOfMobs = 5;
     this.nextMaps = {
       'Frozendefile' : {
         doorX : 1570,
@@ -370,7 +370,7 @@ class Southpool extends Map {
 
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
-      let newEnemy = new IceGolem(Math.floor(Math.random() * 1600),Math.floor(Math.random() * 900) + 600, this);
+      let newEnemy = new Wolf(Math.floor(Math.random() * 1600),Math.floor(Math.random() * 900) + 600, this);
       this.currentNumberOfMobs += 1;
       this.mobs[newEnemy.id] = newEnemy;
       this.mobsDataToSend[newEnemy.id] = {
