@@ -212,8 +212,8 @@ class Greengrove extends Map {
       'Blackford' : {
         doorX : 0,
         doorY : 616,
-        playerX : 616,
-        playerY : 1500,
+        playerX : 1500,
+        playerY : 616,
         requiredLevel : 5
       }
     };
@@ -397,7 +397,10 @@ class Blackford extends Map {
     };
 
     this.npcs = {
-      'Chris' : new Npc(500, 500, 'Chris', [0,1,2,3,4,5,6,7,4])
+      'Chris' : new Npc(384, 666, 'Chris', [0,1,2,3,4,5,6,7,4]),
+      'Nilus' : new Npc(226, 945, 'Nilus'),
+      'Anlow' : new Npc(969, 405, 'Anlow'),
+      'Tegan' : new Npc(699, 202, 'Tegan')
     }
   }
 

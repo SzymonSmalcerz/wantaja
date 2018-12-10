@@ -7,16 +7,11 @@ class MapManager {
   onMapChange() {
     this.preChangeMapMenu.onMapChange();
     this.state.allEntities.removeAll(true);
-    // this.state.map.removeAll(true);
   }
 
   initialize() {
 
     this.mapName = handler.playerData.currentMapName;
-
-    // this.state.backgrounds = this.state.add.group();
-    // this.state.backgrounds.smoothed = false;
-
     this.state.allEntities = this.state.add.group();
     this.state.allEntities.smoothed = false;
     this.state.allEntities.enableBody = true;
@@ -64,19 +59,12 @@ class MapManager {
     }
 
     for(let i=0;i<this.state.map.objects["Entities"].length;i++) {
-      let newObjData = {};
+      let newObjData = {...this.state.map.objects["Entities"][i]};
       this.state.map.objects["Entities"][i].properties.forEach(property => {
         newObjData[property.name] = property.value;
       });
-      let newObj = this.state.game.add.sprite(this.state.map.objects["Entities"][i].x, this.state.map.objects["Entities"][i].y,newObjData["name"]);
-      newObj.anchor.setTo(0,1);
-      newObj.y += newObj.height;
-      this.state.game.physics.enable(newObj);
-      newObj.body.immovable = true;
-      newObj.body.offset.x = parseInt(newObjData["offsetX"]);
-      newObj.body.offset.y = parseInt(newObjData["offsetY"]);
-      newObj.body.width = parseInt(newObjData["width"]);
-      newObj.body.height = parseInt(newObjData["height"]);
+      let newObj = new Entity(this.state.game, newObjData);
+
 
       this.state.allEntities.add(newObj);
       this.state.entities.push(newObj);

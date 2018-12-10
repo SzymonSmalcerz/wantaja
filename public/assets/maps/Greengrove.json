@@ -3039,6 +3039,80 @@
                  "width":96,
                  "x":636.5,
                  "y":1138.5
+                }, 
+                {
+                 "height":48,
+                 "id":201,
+                 "name":"roman_right",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"roman_right"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"17"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"33"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"20"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":54,
+                 "x":25,
+                 "y":568
+                }, 
+                {
+                 "height":48,
+                 "id":202,
+                 "name":"roman_right",
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"string",
+                         "value":"15"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"roman_right"
+                        }, 
+                        {
+                         "name":"offsetX",
+                         "type":"string",
+                         "value":"17"
+                        }, 
+                        {
+                         "name":"offsetY",
+                         "type":"string",
+                         "value":"33"
+                        }, 
+                        {
+                         "name":"width",
+                         "type":"string",
+                         "value":"20"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":54,
+                 "x":25,
+                 "y":640
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3555,7 +3629,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":199,
+ "nextobjectid":203,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2018.06.01",

@@ -76,6 +76,9 @@ let LoadState = {
     this.load.spritesheet("Firbolg", "assets/npc/normal/Firbolg.png", 32, 50);
     this.load.spritesheet("Machmud", "assets/npc/normal/Machmud.png", 32, 50);
     this.load.spritesheet("Uchizo", "assets/npc/normal/Uchizo.png", 32, 56);
+    this.load.spritesheet("Tegan", "assets/npc/normal/Tegan.png", 32, 56);
+    this.load.spritesheet("Nilus", "assets/npc/normal/Nilus.png", 32, 56);
+    this.load.spritesheet("Anlow", "assets/npc/normal/Anlow.png", 32, 56);
     this.load.spritesheet("Chris", "assets/npc/animated/Chris.png", 64, 64);
     this.load.spritesheet("Machmud", "assets/npc/animated/Machmud.png", 64, 64);
     this.load.image("tradeFrame", "assets/npc/trade/tradeFrame.png");
@@ -251,6 +254,8 @@ let LoadState = {
     this.load.image("wood", "assets/entities/wood.png");
     this.load.image("wheat", "assets/entities/wheat.png");
     this.load.image("well", "assets/entities/well.png");
+    this.load.spritesheet("waterFountain", "assets/entities/waterFountain.png",64,76);
+    this.load.spritesheet("lamp", "assets/entities/lamp.png",28,78);
     this.load.image("cart_full", "assets/entities/cart_full.png");
     this.load.image("bucket_full", "assets/entities/bucket_full.png");
     this.load.image("bucket_empty", "assets/entities/bucket_empty.png");
@@ -301,6 +306,8 @@ let LoadState = {
     // mobs
     this.load.spritesheet("chicken", "assets/entities/mobs/chicken.png",32 ,32);
     this.load.spritesheet("roman1", "assets/entities/mobs/humans/roman1.png",64 ,64);
+    this.load.image("roman_right", "assets/entities/mobs/humans/roman_right.png");
+    this.load.image("roman_front", "assets/entities/mobs/humans/roman_front.png");
     this.load.spritesheet("cow", "assets/entities/mobs/cow.png",80 ,80);
     this.load.spritesheet("pig", "assets/entities/mobs/pig.png",60 ,60);
     this.load.spritesheet("cat", "assets/entities/mobs/cat.png",30 ,30);
