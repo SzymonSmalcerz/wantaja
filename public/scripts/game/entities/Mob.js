@@ -20,11 +20,17 @@ let Mob = function(state,data) {
   if(data.specialActionArray) {
     data.specialActionArray = data.specialActionArray.toString().split(",").map(value => Number(value));
   }
+
+  if(data.goLeft) { data.goLeft = data.goLeft.toString().split(",").map(value => Number(value));}
+  if(data.goRight) { data.goRight = data.goRight.toString().split(",").map(value => Number(value));}
+  if(data.goUp) { data.goUp = data.goUp.toString().split(",").map(value => Number(value));}
+  if(data.goDown) { data.goDown = data.goDown.toString().split(",").map(value => Number(value));}
+  
   this.specialActionArray = data.specialActionArray || [16,17,18,19];
-  this.animations.add("goLeft", [0,1,2,3], this.howManyAnimationsPerSec);
-  this.animations.add("goRight", [4,5,6,7], this.howManyAnimationsPerSec);
-  this.animations.add("goUp", [8,9,10,11], this.howManyAnimationsPerSec);
-  this.animations.add("goDown", [12,13,14,15], this.howManyAnimationsPerSec);
+  this.animations.add("goLeft", data.goLeft || [0,1,2,3], this.howManyAnimationsPerSec);
+  this.animations.add("goRight", data.goRight || [4,5,6,7], this.howManyAnimationsPerSec);
+  this.animations.add("goUp", data.goUp || [8,9,10,11], this.howManyAnimationsPerSec);
+  this.animations.add("goDown", data.goDown || [12,13,14,15], this.howManyAnimationsPerSec);
   this.animations.add("specialAction", this.specialActionArray, this.howManyAnimationsPerSec);
   this.smoothed = false;
   this.changeAction();

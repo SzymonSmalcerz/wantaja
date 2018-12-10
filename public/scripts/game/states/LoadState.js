@@ -296,9 +296,11 @@ let LoadState = {
     this.load.spritesheet("snake", "assets/enemies/snake.png",32 ,32);
     this.load.spritesheet("young worm", "assets/enemies/worm_small.png",32 ,32);
     this.load.spritesheet("worm", "assets/enemies/worm_big.png",35 ,50);
+    this.load.spritesheet("pterodactyl", "assets/enemies/pterodactyl.png",80 ,70);
 
     // mobs
     this.load.spritesheet("chicken", "assets/entities/mobs/chicken.png",32 ,32);
+    this.load.spritesheet("roman1", "assets/entities/mobs/humans/roman1.png",64 ,64);
     this.load.spritesheet("cow", "assets/entities/mobs/cow.png",80 ,80);
     this.load.spritesheet("pig", "assets/entities/mobs/pig.png",60 ,60);
     this.load.spritesheet("cat", "assets/entities/mobs/cat.png",30 ,30);
