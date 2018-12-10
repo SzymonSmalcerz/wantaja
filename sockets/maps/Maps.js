@@ -1,4 +1,4 @@
-const { Spider, Bee, IceGolem, Snake, WormSmall, Worm, Bat } = require("../enemies/enemy");
+const { Spider, Bee, IceGolem, Snake, WormSmall, Worm, Bat, Wolf } = require("../enemies/enemy");
 const { Trader_Greengrove, traders_utils } = require("../traders/traders");
 const Item = require("../equipment/itemOnTheGround");
 const Npc = require("../npcs/npcs");
@@ -10,7 +10,7 @@ class Map {
     this.maxNumberOfMobs = 10 || maxNumberOfMobs;
     this.fightingStageBackground = fightingStageBackground;
     this.currentNumberOfMobs = 0;
-    this.respTime = respTime;
+    this.respTime = respTime || 3000;
     this.players = {};
     this.dataToSend = {};
     this.mobs = {};
@@ -230,9 +230,8 @@ class Greengrove extends Map {
       }
     ]);
     this.npcs = {
-      'John' : new Npc(900, 180, 'John'),
-      'Dolmena' : new Npc(900, 280, 'Dolmena')
-    }
+      'John' : new Npc(900, 180, 'John')
+    };
   }
 
   respMobs() {
@@ -262,7 +261,9 @@ class Greengrove extends Map {
       };
     }
 
-    super.respMobs();
+    setTimeout(() => {
+      this.respMobs();
+    }, this.respTime);
   }
 };
 
@@ -287,8 +288,11 @@ class Northpool extends Map {
     };
 
     this.npcs = {
-      'Serena' : new Npc(900, 180, 'Serena')
-    }
+      'Serena' : new Npc(900, 180, 'Serena'),
+      'Sara' : new Npc(552, 1307, 'Sara'),
+      'Shura' : new Npc(1114, 1195, 'Shura'),
+      'Krim' : new Npc(727, 1142, 'Krim')
+    };
 
     this.teleporter = new Teleporter(913, 1250, [
       {
@@ -303,30 +307,30 @@ class Northpool extends Map {
 
   respMobs() {
     if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
-    let newEnemy;
-    if(Math.random() > 0.5) {
-      newEnemy = new Spider(Math.floor(Math.random() * 1000) + 100,Math.floor(Math.random() * 400) + 250, this);
-    } else {
-      newEnemy = new Bat(Math.floor(Math.random() * 1000) + 100,Math.floor(Math.random() * 400) + 250, this);
-    }
-    this.currentNumberOfMobs += 1;
-    this.mobs[newEnemy.id] = newEnemy;
-    this.mobsDataToSend[newEnemy.id] = {
-      x : newEnemy.x,
-      y : newEnemy.y,
-      id : newEnemy.id,
-      key : newEnemy.key,
-      health : newEnemy.health,
-      maxHealth : newEnemy.maxHealth,
-      animated : newEnemy.animated,
-      level : newEnemy.level
-    };
+      let newEnemy;
+      if(Math.random() > 0.5) {
+        newEnemy = new Spider(Math.floor(Math.random() * 1000) + 100,Math.floor(Math.random() * 400) + 250, this);
+      } else {
+        newEnemy = new Bat(Math.floor(Math.random() * 1000) + 100,Math.floor(Math.random() * 400) + 250, this);
+      }
+      this.currentNumberOfMobs += 1;
+      this.mobs[newEnemy.id] = newEnemy;
+      this.mobsDataToSend[newEnemy.id] = {
+        x : newEnemy.x,
+        y : newEnemy.y,
+        id : newEnemy.id,
+        key : newEnemy.key,
+        health : newEnemy.health,
+        maxHealth : newEnemy.maxHealth,
+        animated : newEnemy.animated,
+        level : newEnemy.level
+      };
       for(let playerID in this.players) {
         if(this.players.hasOwnProperty(playerID)) {
           this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
         }
       };
-    }
+    };
 
     setTimeout(() => {
       this.respMobs();
@@ -337,6 +341,7 @@ class Northpool extends Map {
 class Southpool extends Map {
   constructor() {
     super("Southpool", "fightingBackgroundNorthpool", ['grass-snow','SouthpoolBackground']);
+    this.maxNumberOfMobs = 5;
     this.nextMaps = {
       'Frozendefile' : {
         doorX : 1570,
@@ -353,9 +358,38 @@ class Southpool extends Map {
         requiredLevel : 1
       }
     };
+
+    this.npcs = {
+      'Serena' : new Npc(1183, 497, 'Lidia'),
+      'Fenryl' : new Npc(687, 580, 'Fenryl'),
+      'Inzul' : new Npc(342, 565, 'Inzul'),
+      'Praxana' : new Npc(1122, 1307, 'Praxana'),
+      'Farliena' : new Npc(657, 153, 'Farliena')
+    };
   }
 
   respMobs() {
+    if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
+      let newEnemy = new Wolf(Math.floor(Math.random() * 1600),Math.floor(Math.random() * 900) + 600, this);
+      this.currentNumberOfMobs += 1;
+      this.mobs[newEnemy.id] = newEnemy;
+      this.mobsDataToSend[newEnemy.id] = {
+        x : newEnemy.x,
+        y : newEnemy.y,
+        id : newEnemy.id,
+        key : newEnemy.key,
+        health : newEnemy.health,
+        maxHealth : newEnemy.maxHealth,
+        animated : newEnemy.animated,
+        level : newEnemy.level
+      };
+      for(let playerID in this.players) {
+        if(this.players.hasOwnProperty(playerID)) {
+          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
+        }
+      };
+    };
+
     setTimeout(() => {
       this.respMobs();
     }, this.respTime);

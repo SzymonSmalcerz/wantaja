@@ -85,6 +85,7 @@ let LoadState = {
     this.load.spritesheet("Dolmena", "assets/npc/normal/Dolmena.png", 32, 56);
     this.load.spritesheet("Krim", "assets/npc/normal/Krim.png", 32, 56);
     this.load.spritesheet("Fenryl", "assets/npc/normal/Fenryl.png", 32, 56);
+    this.load.spritesheet("Sara", "assets/npc/normal/Sara.png", 32, 56);
     this.load.spritesheet("Alathar", "assets/npc/normal/Alathar.png", 32, 56);
     this.load.spritesheet("Atalya", "assets/npc/normal/Atalya.png", 32, 56);
     this.load.spritesheet("Archidius", "assets/npc/normal/Archidius.png", 32, 56);
@@ -92,10 +93,11 @@ let LoadState = {
     this.load.spritesheet("Halius", "assets/npc/normal/Halius.png", 32, 56);
     this.load.spritesheet("Marchion", "assets/npc/normal/Marchion.png", 32, 56);
     this.load.spritesheet("Praxana", "assets/npc/normal/Praxana.png", 32, 56);
+    this.load.spritesheet("Inzul", "assets/npc/normal/Inzul.png", 32, 56);
     this.load.spritesheet("Farliena", "assets/npc/normal/Farliena.png", 32, 56);
     this.load.spritesheet("Rivenel", "assets/npc/normal/Rivenel.png", 32, 56);
     this.load.spritesheet("Chris", "assets/npc/animated/Chris.png", 64, 64);
-    this.load.spritesheet("Machmud", "assets/npc/animated/Machmud.png", 64, 64);
+    this.load.spritesheet("Mahmud", "assets/npc/animated/Mahmud.png", 64, 64);
     this.load.image("tradeFrame", "assets/npc/trade/tradeFrame.png");
     this.load.spritesheet("buyButton", "assets/npc/trade/buyButton.png", 75, 50);
 
@@ -311,6 +313,7 @@ let LoadState = {
     this.load.image("spiderlogo", "assets/enemies/spiderlogo.png");
     this.load.spritesheet("bee", "assets/enemies/bee.png",32 ,32);
     this.load.spritesheet("bat", "assets/enemies/bat.png",32 ,32);
+    this.load.spritesheet("wolf", "assets/enemies/wolf.png",65 ,41);
     this.load.image("beelogo", "assets/enemies/spiderlogo.png");
     this.load.spritesheet("iceGolem", "assets/enemies/ice_golem.png",50 ,80);
     this.load.spritesheet("snake", "assets/enemies/snake.png",32 ,32);

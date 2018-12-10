@@ -131,8 +131,15 @@ class Snake extends Enemy {
 
 class Bat extends Enemy {
   constructor(x,y,map) {
-    let id = Math.floor(Math.random() * 100000) + "snake";
+    let id = Math.floor(Math.random() * 100000) + "Bat";
     super(x,y,map,id,2,"bat",100,null,null,"punch",basicDropData,[0,1,2,3,5]);
+  }
+};
+
+class Wolf extends Enemy {
+  constructor(x,y,map) {
+    let id = Math.floor(Math.random() * 100000) + "wolf";
+    super(x,y,map,id,3,"wolf",100,null,null,"punch",basicDropData,[0,1,2,3,2,1,5]);
   }
 };
 
@@ -192,5 +199,6 @@ module.exports = {
   Snake,
   WormSmall,
   Worm,
-  Bat
+  Bat,
+  Wolf
 }
