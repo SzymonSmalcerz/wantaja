@@ -399,6 +399,7 @@ class Southpool extends Map {
 class Frozendefile extends Map {
   constructor() {
     super("Frozendefile", "fightingBackgroundNorthpool", ['grass-snow','FrozendefileBackground']);
+    this.maxNumberOfMobs = 20;
     this.nextMaps = {
       'Southpool' : {
         doorX : 0,
@@ -411,6 +412,27 @@ class Frozendefile extends Map {
   }
 
   respMobs() {
+    if(this.currentNumberOfMobs < this.maxNumberOfMobs) {
+      let newEnemy = new IceGolem(Math.floor(Math.random() * 1600),Math.floor(Math.random() * 1600), this);
+      this.currentNumberOfMobs += 1;
+      this.mobs[newEnemy.id] = newEnemy;
+      this.mobsDataToSend[newEnemy.id] = {
+        x : newEnemy.x,
+        y : newEnemy.y,
+        id : newEnemy.id,
+        key : newEnemy.key,
+        health : newEnemy.health,
+        maxHealth : newEnemy.maxHealth,
+        animated : newEnemy.animated,
+        level : newEnemy.level
+      };
+      for(let playerID in this.players) {
+        if(this.players.hasOwnProperty(playerID)) {
+          this.players[playerID].socket.emit("addEnemy", this.mobsDataToSend[newEnemy.id]);
+        }
+      };
+    };
+
     setTimeout(() => {
       this.respMobs();
     }, this.respTime);
