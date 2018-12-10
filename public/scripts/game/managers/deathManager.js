@@ -49,8 +49,6 @@ class DeathManager {
   }
 
   show() {
-    this.onResize();
-
     this.game.world.bringToTop(this.state.deathImage);
     this.state.deathImage.visible = true;
     this.game.world.bringToTop(this.state.timeToRevival);
@@ -60,6 +58,7 @@ class DeathManager {
     this.game.world.bringToTop(this.state.revivalText);
     this.state.revivalText.visible = true;
     this.updateTime();
+    this.onResize();
   }
 
   updateTime() {
@@ -78,14 +77,27 @@ class DeathManager {
   }
 
   onResize() {
-    this.state.deathImage.reset(this.state.game.width/2,this.state.game.height/2);
-    this.state.timeToRevival.reset(this.state.game.width/2,this.state.game.height/2 + 150);
-    this.state.youDied.reset(this.state.game.width/2,this.state.game.height/2 + 50);
-    this.state.revivalText.reset(this.state.game.width/2,this.state.game.height/2 + 100);
+    if(this.state.deathImage.visible) {
+      this.state.deathImage.reset(this.state.game.width/2,this.state.game.height/2);
+      this.state.timeToRevival.reset(this.state.game.width/2,this.state.game.height/2 + 150);
+      this.state.youDied.reset(this.state.game.width/2,this.state.game.height/2 + 50);
+      this.state.revivalText.reset(this.state.game.width/2,this.state.game.height/2 + 100);
 
-    this.state.fixText(this.state.timeToRevival);
-    this.state.fixText(this.state.youDied);
-    this.state.fixText(this.state.revivalText);
+      this.state.fixText(this.state.timeToRevival);
+      this.state.fixText(this.state.youDied);
+      this.state.fixText(this.state.revivalText);
+
+      this.game.world.bringToTop(this.state.deathImage);
+      this.game.world.bringToTop(this.state.timeToRevival);
+      this.game.world.bringToTop(this.state.youDied);
+      this.game.world.bringToTop(this.state.revivalText);
+    }
+
+
+    // let that = this;
+    // setTimeout(function(){
+
+    // }, 0);
   };
 
 }

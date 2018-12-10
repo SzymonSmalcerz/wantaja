@@ -110,6 +110,7 @@ let GameState = {
     this.missionManager.onResize();
     this.setRenderingOrder();
     this.player.unblockMovement();
+    this.deathManager.onResize();
   },
   setFightingModeOn() {
     this.playerMoveManager.eraseXses();
