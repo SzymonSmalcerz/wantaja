@@ -107,7 +107,8 @@ let initializers = function(socket) {
           characterData.intelligence = 100;
           characterData.agility = 100;
           characterData.money = 999999;
-          // characterData.level = 50;
+          characterData.level = 3;
+          characterData.experience = 99999999999999;
         } else {
           characterData.key = user.key;
         }

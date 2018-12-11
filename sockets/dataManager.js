@@ -30,7 +30,9 @@ let dm = { // data manager, created to hold values for game purpose
   // missions dictionary is a cache which is mapping level of player to mission wchich is given at this level
   missionsDictionary : {
     '1' : ['newcomers'],
-    '2' : ['milk']
+    '2' : ['milk'],
+    '3' : ['south'],
+    '4' : ['revenge'],
   },
   missions : {
     'newcomers' : new Mission([
@@ -83,7 +85,74 @@ let dm = { // data manager, created to hold values for game purpose
         key : 'helmet_1',
         type : 'helmet'
       }
-    }, "milk", 2)
+    }, "milk", 2),
+    'south' : new Mission([
+      new Stage_goto(
+        [new HighLight('Shura', 'Northpool')], 'first',
+        new Dialog("Hello wanderer!\n" +
+                    "So the stories that I hear are true! You look like\n" +
+                    "a true warrior. Could you go to my sister and help her\n" +
+                    "in finding her daughter? It seems you are our last hope!\n", "Got it!")
+      ),
+      new Stage_goto(
+        [new HighLight('Lidia', 'Southpool')], 'second',
+        new Dialog("Oh my.. The story is short, my sweet daughter Praxana\n" +
+                    "went to find her teddy bear somewhere south yesterday\n" +
+                    "and I haven't heard from her from that point...\n" +
+                    "I really miss her...\n", "I will find her!")
+      ),
+      new Stage_goto(
+        [new HighLight('Praxana', 'Southpool')], 'third',
+        new Dialog("Hlip hlip...\n" +
+                    "I want to come back to my mommy...\n" +
+                    "But this bad wolf took my teddy bear and ran away!\n" +
+                    "Could you help me in finding my teddy bear?\n", "I will!")
+      ),
+      new Stage_kill([], 'kill', 'wolf', 1, 1),
+      new Stage_goto(
+        [new HighLight('Praxana', 'Southpool')], 'fourth',
+        new Dialog("My teddy bear!\n" +
+                    "Now I can come back home!\n" +
+                    "Can You go to my mommy and tell her that I'm fine?\n" +
+                    "I will play here a little bit longer and I will return!\n", "Oki!")
+      ),
+      new Stage_goto(
+        [new HighLight('Lidia', 'Southpool')], 'fifth',
+        new Dialog("Oh my!\n" +
+                    "Thank you very much! You really are a true hero!\n" +
+                    "I'm so relieved right now..\n" +
+                    "Here is your reward!\n", "No problem!")
+      ),
+    ], 0, {
+      money : 1000,
+      item : {
+        key : 'helmet_2',
+        type : 'helmet'
+      }
+    }, "south", 3),
+    'revenge' : new Mission([
+      new Stage_goto(
+        [new HighLight('Fenryl', 'Southpool')], 'first',
+        new Dialog("Hello!\n" +
+                    "Are you interested in helping old fellow?\n" +
+                    "Ice golems from Frozendefile destroyed my cartload which\n" +
+                    "was full of food! It's time for revenge!\n", "Revenge it is!")
+      ),
+      new Stage_kill([], 'kill', 'iceGolem', 1, 1),
+      new Stage_goto(
+        [new HighLight('Fenryl', 'Southpool')], 'second',
+        new Dialog("Hello again!\n" +
+                    "It seems that you have done it! You showed golems who\n" +
+                    "is the boss! Few years ago i would do it myself, but\n" +
+                    "time is merciless.. Anyway, here is your reward!\n", "Thank you!")
+      )
+    ], 0, {
+      money : 1500,
+      item : {
+        key : 'helmet_2',
+        type : 'helmet'
+      }
+    }, "revenge", 4),
   },
   playerFunctions : {
     calculateMaxHp : function(player) {
