@@ -116,13 +116,25 @@ let LoadState = {
         this.load.spritesheet(key + '_1', "assets/player/" + key + "/1lvl.png",64,64);
       }
     }
+    this.load.image("Greengrove_mini", "assets/maps/miniMaps/Greengrove.png");
+    this.load.image("Winterfall_mini", "assets/maps/miniMaps/Winterfall.png");
+    this.load.image("Southpool_mini", "assets/maps/miniMaps/Southpool.png");
+    this.load.image("Northpool_mini", "assets/maps/miniMaps/Northpool.png");
+    this.load.image("Frozendefile_mini", "assets/maps/miniMaps/Frozendefile.png");
+    this.load.image("Blackford_mini", "assets/maps/miniMaps/Blackford.png");
+
+    this.load.spritesheet("Greengrove_tiny", "assets/maps/miniMaps/Greengrove_tiny.png",50,50);
+    this.load.spritesheet("Winterfall_tiny", "assets/maps/miniMaps/Winterfall_tiny.png",50,50);
+    this.load.spritesheet("Southpool_tiny", "assets/maps/miniMaps/Southpool_tiny.png",50,50);
+    this.load.spritesheet("Northpool_tiny", "assets/maps/miniMaps/Northpool_tiny.png",50,50);
+    this.load.spritesheet("Frozendefile_tiny", "assets/maps/miniMaps/Frozendefile_tiny.png",50,50);
+    this.load.spritesheet("Blackford_tiny", "assets/maps/miniMaps/Blackford_tiny.png",50,50);
+    this.load.spritesheet("model_map_world", "assets/maps/miniMaps/model_map_world.png",50,50);
 
 
     this.load.tilemap("Greengrove","assets/maps/Greengrove.json",null,Phaser.Tilemap.TILED_JSON);
-    this.load.image("Greengrove_mini", "assets/maps/miniMaps/Greengrove.png");
     this.load.tilemap("Blackford","assets/maps/Blackford.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.spritesheet("pointer", "assets/maps/miniMaps/pointer.png",5,5);
-    this.load.spritesheet("model_map_world", "assets/maps/miniMaps/model_map_world.png",50,50);
     this.load.tilemap("Northpool","assets/maps/Northpool.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.tilemap("Southpool","assets/maps/Southpool.json",null,Phaser.Tilemap.TILED_JSON);
     this.load.tilemap("Frozendefile","assets/maps/Frozendefile.json",null,Phaser.Tilemap.TILED_JSON);

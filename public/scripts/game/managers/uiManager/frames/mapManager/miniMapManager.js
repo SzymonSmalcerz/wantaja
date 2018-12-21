@@ -43,7 +43,7 @@ class MiniMapManager extends UIFrameManager {
   }
 
   showWindow() {
-    this.miniMapImage.loadTexture('Greengrove_mini');
+    this.miniMapImage.loadTexture(this.state.mapManager.mapName + '_mini');
     super.showWindow();
     this.updatePlayerPosition();
   }

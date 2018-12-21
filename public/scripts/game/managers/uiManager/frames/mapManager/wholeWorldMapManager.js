@@ -9,6 +9,11 @@ class WholeWorldMapManager extends UIFrameManager {
 
     this.mapsDictionary = [
       {
+        name : 'Blackford',
+        x : -1,
+        y : -1
+      },
+      {
         name : 'Greengrove',
         x : 0,
         y : -1
@@ -27,6 +32,11 @@ class WholeWorldMapManager extends UIFrameManager {
         name : 'Frozendefile',
         x : 1,
         y : 1
+      },
+      {
+        name : 'Winterfall',
+        x : 1,
+        y : 2
       }
     ];
 
@@ -37,7 +47,7 @@ class WholeWorldMapManager extends UIFrameManager {
     this.uiManager.blockPlayerMovementsWhenOver(this.mapName,true);
 
     this.mapsDictionary.forEach(data => {
-      data.mapImage = new Button(state,0,0,"model_map_world",0,1,2,3);
+      data.mapImage = new Button(state,0,0,data.name + "_tiny",0,1,2,3);
 
       if(data.name == handler.player.currentMapName) {
         data.mapImage.animations.add('glow', [4,5,6,7,6,5,4], 5, true);
