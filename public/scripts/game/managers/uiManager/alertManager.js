@@ -99,6 +99,6 @@ class AlertManager {
     this.showWindow(text || "dodge !","dodgeAlert");
   }
   showLevelUpAlert(text) {
-    this.showWindow(text || 'you just reached ' + this.state.player.level + " lvl !");
+    this.showWindow(text || 'you just reached ' + (this.state.player.level + 1) + " lvl !");
   }
 }

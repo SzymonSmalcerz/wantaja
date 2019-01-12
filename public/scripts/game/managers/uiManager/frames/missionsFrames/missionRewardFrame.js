@@ -9,7 +9,6 @@ class MissionRewardFrame extends Phaser.Group {
   initialize() {
     let state = this.state;
 
-
     this.wonInfo = state.game.add.sprite(-500,-500,"wonInfo");
     this.wonInfo.anchor.setTo(0.5);
 
@@ -69,6 +68,17 @@ class MissionRewardFrame extends Phaser.Group {
     this.add(this.item);
     this.add(this.itemCheckBox);
     this.add(this.itemDescription);
+
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.wonInfo);
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.claimButton);
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.moneyText);
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.moneyIcon);
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.dropText);
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.item);
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.itemCheckBox);
+
+
+    this.state.uiManager.blockPlayerMovementsWhenOver(this.wonInfo);
 
     this.renderable = true;
   };

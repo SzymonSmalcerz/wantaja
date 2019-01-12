@@ -29,6 +29,8 @@ class PreFightMenu extends Phaser.Group {
   onResize() {}
 
   showFightOptionsMenu(enemy) {
+
+    this.state.game.world.bringToTop(this);
     if(this.state.player.isFighting) {return};
     this.state.player.setFightingMode(); // player wont send any data about his position to the server while fighting
     this.fightInitButton.reset(enemy.x, enemy.y - 25);
