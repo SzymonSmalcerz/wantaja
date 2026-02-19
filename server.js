@@ -20,7 +20,7 @@ var PORT = process.env.PORT || 3000;
 app.set("view engine","ejs");
 
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, { cors: { origin: "*" } });
 io.on("connection", (socket) => {
   socketHandler(socket, io);
 });

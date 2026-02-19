@@ -1,17 +1,20 @@
 var User = require("../../database/models/userModel");
 
-var authenticationMiddleware = function(req,res,next){
+var authenticationMiddleware = async function(req,res,next){
 
   if(!(req.session && req.session.user)){
     res.render("newhome",{message:"Error: You must log in to get to this page ", loggedIn : false});
   }else{
-    User.findById(req.session.user._id, (err,user) => {
-      if(err || !user){
+    try {
+      const user = await User.findById(req.session.user._id);
+      if(!user){
         res.render("newhome",{message:"Error occured: you must log in to get to continue.", loggedIn : false});
       }else{
         next();
       }
-    });
+    } catch(err) {
+      res.render("newhome",{message:"Error occured: you must log in to get to continue.", loggedIn : false});
+    }
   }
 
 };
@@ -42,18 +45,16 @@ var registrationMiddleware = async function(req,res,next){
     return res.render("newhome",{message:`Error occured: user with email ${req.body.email} already exists.`, loggedIn : false});
   };
 
-  var newUser = await new User(req.body);
+  var newUser = new User(req.body);
 
-  newUser.save((err,user) => {
-    if(err || !user){
-      return res.render("newhome",{message:`INTERNAL ERROR: ${err}\n\nContact administration.`, loggedIn : false});
-    }else {
-      req.session.user = user;
-      req.session.user.password = {};
-      next();
-    }
-
-  });
+  try {
+    const user = await newUser.save();
+    req.session.user = user;
+    req.session.user.password = {};
+    next();
+  } catch(err) {
+    return res.render("newhome",{message:`INTERNAL ERROR: ${err}\n\nContact administration.`, loggedIn : false});
+  }
 }
 
 

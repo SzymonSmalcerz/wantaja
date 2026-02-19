@@ -47,6 +47,10 @@ var userSchema = new mongoose.Schema({
     type : String,
     default : "Greengrove"
   },
+  key : {
+    type : String,
+    default : "male_1"
+  },
   health : {
     type : Number,
     default : 100
@@ -75,36 +79,30 @@ var userSchema = new mongoose.Schema({
     type : {
       weapon : {
         type : String,
-        required : true
+        default : null
       },
       helmet : {
         type : String,
-        required : true,
         default : null
       },
       armor : {
         type : String,
-        required : true,
         default : null
       },
       special : {
         type : String,
-        required : true,
         default : null
       },
       shield : {
         type : String,
-        required : true,
         default : null
       },
       boots : {
         type : String,
-        required : true,
         default : null
       },
       gloves : {
         type : String,
-        required : true,
         default : null
       }
     },

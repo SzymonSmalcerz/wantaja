@@ -252,7 +252,7 @@ class SocketsManager {
 
   sendToServerInitializedInfo() {
     let self = this;
-    this.handler.socket.emit("initialized");
+    this.handler.socket.emit("initialized", { key: this.handler.playerData.key });
   };
 
   emit(messageName,messageData) {

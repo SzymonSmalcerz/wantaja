@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(du:*)",
+      "Bash(npm install:*)",
+      "Bash(node -e:*)",
+      "Bash(mongod --version:*)",
+      "Bash(timeout 10 node:*)",
+      "Bash(pkill:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd.exe /c \"taskkill /F /IM node.exe\")",
+      "Bash(cmd.exe /c \"taskkill /F /IM node.exe 2>&1\")",
+      "Bash(npm outdated:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(timeout 8 node server.js:*)",
+      "Bash(npm audit fix:*)",
+      "Bash(npm show:*)",
+      "Bash(npm audit:*)"
+    ]
+  }
+}

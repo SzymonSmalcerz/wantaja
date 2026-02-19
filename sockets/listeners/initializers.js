@@ -162,9 +162,8 @@ let initializers = function(socket) {
     }
   });
 
-  socket.on("initialized", function() {
-    let data = socket.characterData;
-    dm.allLoggedPlayersData[socket.playerID].key = data.key;
+  socket.on("initialized", function(data) {
+    dm.allLoggedPlayersData[socket.playerID].key = (data && data.key) ? data.key : socket.characterData.key;
     if(dm.allLoggedPlayersData[socket.playerID].revivalTime) {
       if(dm.allLoggedPlayersData[socket.playerID].revivalTime > Date.now()) {
         socket.emit("playerDied", {
